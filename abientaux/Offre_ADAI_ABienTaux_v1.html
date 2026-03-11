@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADAI × A Bien Taux — Proposition d'Automatisation IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:#FFFFFF; --off:#F7F8FA; --off2:#EFF1F5; --off3:#E4E7EE;
+  --ink:#0D1117; --ink2:#1E2533; --ink3:#3A4254;
+  --muted:#6B7280; --muted2:#9CA3AF;
+  --border:#E4E7EE; --border2:#D1D5DB;
+  --ab:#1B7FD4; --ab2:#2E9BE8; --ap:#7B5EA7; --ao:#E8852A; --ag:#D4A017;
+  --adai:linear-gradient(100deg,#1B7FD4 0%,#7B5EA7 48%,#E8852A 78%,#D4A017 100%);
+  --green:#16A34A; --green-bg:#F0FDF4; --green-b:#BBF7D0;
+  --red:#DC2626; --red-bg:#FEF2F2; --red-b:#FECACA;
+  --amber:#D97706; --amber-bg:#FFFBEB;
+  --shadow-xs:0 1px 3px rgba(13,17,23,.08),0 1px 2px rgba(13,17,23,.04);
+  --shadow-sm:0 4px 12px rgba(13,17,23,.08),0 2px 4px rgba(13,17,23,.04);
+  --shadow-md:0 8px 24px rgba(13,17,23,.10),0 4px 8px rgba(13,17,23,.04);
+  --shadow-lg:0 16px 48px rgba(13,17,23,.12),0 8px 16px rgba(13,17,23,.06);
+  --r:12px; --r2:16px; --r3:20px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Calibri','Inter',sans-serif;background:var(--white);color:var(--ink);line-height:1.6;overflow-x:hidden;font-size:15px;}
+.top-stripe{height:3px;background:var(--adai);}
+nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 48px;display:flex;align-items:center;height:60px;box-shadow:0 1px 0 var(--border);}
+.nav-brand{display:flex;align-items:center;gap:14px;margin-right:auto;}
+.nav-logo-text{font-family:'Calibri','Inter',sans-serif;font-weight:700;font-size:1.25rem;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.nav-pipe{width:1px;height:24px;background:var(--border2);}
+.nav-client-wrap{display:flex;flex-direction:column;}
+.nav-client-label{font-size:.56rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);}
+.nav-client-name{font-size:.86rem;font-weight:600;color:var(--ink);}
+.nav-link{height:60px;display:flex;align-items:center;padding:0 12px;font-size:.74rem;font-weight:500;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;border-top:none;border-left:none;border-right:none;background:none;cursor:pointer;transition:all .2s;white-space:nowrap;font-family:'Calibri','Inter',sans-serif;}
+.nav-link:hover{color:var(--ink);}
+.nav-link.active{color:var(--ab);border-bottom-color:var(--ab);}
+.wrap{max-width:1080px;margin:0 auto;padding:52px 48px;}
+.section-bg-off{background:var(--off);}
+.section-bg-white{background:var(--white);}
+.s-eye{font-size:.62rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--ab);margin-bottom:6px;display:flex;align-items:center;gap:10px;}
+.s-eye::before{content:'';width:20px;height:2px;background:var(--adai);border-radius:2px;}
+.s-h{font-family:'Calibri','Inter',sans-serif;font-weight:700;font-size:clamp(1.6rem,2.6vw,2rem);line-height:1.18;color:var(--ink);margin-bottom:8px;}
+.s-h em{font-style:italic;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.s-sub{font-size:.88rem;color:var(--muted);max-width:600px;line-height:1.7;margin-bottom:28px;}
+.divider{border:none;border-top:1px solid var(--border);}
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;}
+.pain-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:20px 22px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow-xs);transition:box-shadow .2s,transform .2s;}
+.pain-card:hover{box-shadow:var(--shadow-sm);transform:translateY(-2px);}
+.pain-icon{font-size:1.4rem;line-height:1;}
+.pain-badge{display:inline-block;font-size:.56rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 8px;border-radius:4px;background:var(--red-bg);color:var(--red);border:1px solid var(--red-b);width:fit-content;}
+.pain-title{font-weight:700;font-size:.88rem;color:var(--ink);line-height:1.3;}
+.pain-desc{font-size:.78rem;color:var(--muted);line-height:1.5;}
+.avap-toggle-wrap{border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;background:var(--white);}
+.avap-toggle{width:100%;background:none;border:none;cursor:pointer;font-family:'Calibri','Inter',sans-serif;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;transition:background .2s;}
+.avap-toggle:hover{background:var(--off);}
+.avap-toggle-label{font-size:.8rem;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:8px;}
+.avap-toggle-label::before{content:'';width:14px;height:2px;background:var(--adai);}
+.avap-toggle-icon{font-size:.72rem;color:var(--muted2);transition:transform .3s;display:inline-block;}
+.avap-toggle-icon.open{transform:rotate(180deg);}
+.avap-collapsible{display:none;padding:16px 16px 20px;}
+.avap-collapsible.open{display:block;}
+.avap-grid{display:grid;grid-template-columns:1fr 40px 1fr;gap:0;align-items:stretch;}
+.avap-col{border-radius:var(--r2);overflow:hidden;}
+.avap-col.before{background:var(--red-bg);border:1px solid var(--red-b);}
+.avap-col.after{background:var(--green-bg);border:1px solid var(--green-b);}
+.avap-head{padding:11px 18px;font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+.avap-head.before{background:rgba(220,38,38,.08);color:var(--red);}
+.avap-head.after{background:rgba(22,163,74,.08);color:var(--green);}
+.avap-body{padding:12px 16px;display:flex;flex-direction:column;gap:7px;}
+.avap-step{display:flex;align-items:flex-start;gap:8px;font-size:.79rem;color:var(--ink3);line-height:1.4;}
+.avap-dot-r{width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:5px;}
+.avap-dot-g{width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:5px;}
+.avap-arrow-col{display:flex;align-items:center;justify-content:center;}
+.avap-arrow-ico{width:34px;height:34px;border-radius:50%;background:var(--adai);display:flex;align-items:center;justify-content:center;color:white;font-size:.88rem;box-shadow:var(--shadow-sm);}
+.modules-section{background:var(--off);}
+.mod-tabs{display:flex;gap:6px;margin-bottom:28px;flex-wrap:wrap;}
+.mod-tab{padding:9px 22px;border-radius:100px;border:1.5px solid var(--border2);background:var(--white);font-family:'Calibri','Inter',sans-serif;font-size:.82rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all .22s;white-space:nowrap;}
+.mod-tab:hover{border-color:var(--ab);color:var(--ab);}
+.mod-tab.active{background:var(--adai);border-color:transparent;color:white;box-shadow:var(--shadow-sm);}
+.mod-panel{display:none;}
+.mod-panel.active{display:block;animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.mod-left{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:32px 36px;box-shadow:var(--shadow-xs);}
+.mod-num{font-size:3.2rem;font-weight:800;line-height:1;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:.18;margin-bottom:2px;font-family:'Calibri','Inter',sans-serif;}
+.mod-name{font-family:'Calibri','Inter',sans-serif;font-size:1.55rem;font-weight:700;color:var(--ink);margin-bottom:5px;}
+.mod-name em{font-style:italic;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.mod-tagline{font-size:.87rem;color:var(--muted);margin-bottom:26px;max-width:640px;}
+.feat-group{margin-bottom:22px;}
+.fg-head{font-size:.6rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--ab);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.fg-head::after{content:'';flex:1;height:1px;background:var(--border);}
+.feat{display:flex;gap:13px;padding:13px 0;border-bottom:1px solid var(--border);}
+.feat:last-child{border-bottom:none;padding-bottom:0;}
+.feat-icon{width:30px;height:30px;border-radius:8px;background:rgba(27,127,212,.08);border:1px solid rgba(27,127,212,.14);display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;margin-top:2px;}
+.feat-title{font-weight:700;font-size:.85rem;color:var(--ink);margin-bottom:3px;}
+.feat-desc{font-size:.77rem;color:var(--muted);line-height:1.55;}
+.feat-detail{margin-top:5px;padding:5px 10px;background:var(--off);border-radius:5px;font-size:.72rem;color:var(--muted);border-left:2px solid rgba(27,127,212,.28);line-height:1.5;}
+.roi-table{width:100%;border-collapse:collapse;border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);}
+.roi-table th{font-size:.64rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:11px 16px;border-bottom:2px solid var(--border);text-align:left;background:var(--off);}
+.roi-table th:last-child{text-align:right;}
+.roi-table td{font-size:.82rem;padding:13px 16px;border-bottom:1px solid var(--border);color:var(--ink3);vertical-align:top;}
+.roi-table td:last-child{color:var(--green);font-weight:700;text-align:right;white-space:nowrap;}
+.roi-table tr:last-child td{border-bottom:none;}
+.roi-table tr:hover td{background:rgba(27,127,212,.02);}
+.roi-table tfoot tr:first-child td{border-top:2px solid var(--border2);}
+.roi-table tfoot td{font-weight:700;color:var(--ink);border-bottom:none;background:var(--off);padding:13px 16px;}
+.roi-table tfoot td:last-child{color:var(--green);font-size:.9rem;}
+.dashboard-section{background:var(--off);}
+.db-frame{background:var(--white);border:1px solid var(--border);border-radius:var(--r3);overflow:hidden;box-shadow:var(--shadow-lg);}
+.db-bar{background:var(--off2);border-bottom:1px solid var(--border);padding:10px 18px;display:flex;align-items:center;gap:7px;}
+.db-btn{width:11px;height:11px;border-radius:50%;}
+.db-bar-title{font-size:.68rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-left:6px;}
+.db-live{display:flex;align-items:center;gap:5px;font-size:.63rem;font-weight:700;color:var(--green);}
+.db-live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.db-badge{background:rgba(27,127,212,.1);color:var(--ab);font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:100px;border:1px solid rgba(27,127,212,.2);}
+.db-body{padding:16px;}
+.db-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px;}
+.dkpi{background:var(--off);border:1px solid var(--border);border-radius:var(--r);padding:13px;position:relative;overflow:hidden;}
+.dkpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--adai);}
+.dkpi-label{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.dkpi-val{font-family:'Calibri','Inter',sans-serif;font-size:1.5rem;font-weight:700;color:var(--ink);line-height:1;margin-bottom:3px;}
+.dkpi-delta{font-size:.65rem;font-weight:600;color:var(--green);}
+.db-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.db-module{background:var(--off);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.dbm-head{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.dbm-title{font-size:.65rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink);}
+.dbm-badge{font-size:.58rem;font-weight:700;padding:2px 7px;border-radius:4px;}
+.dbm-badge.blue{background:rgba(27,127,212,.1);color:var(--ab);}
+.dbm-badge.green{background:var(--green-bg);color:var(--green);}
+.dbm-badge.purple{background:rgba(123,94,167,.1);color:var(--ap);}
+.dbm-body{padding:12px 14px;}
+.row{display:grid;grid-template-columns:1fr auto;gap:6px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:.75rem;}
+.row:last-child{border-bottom:none;}
+.row-name{font-weight:600;color:var(--ink);}
+.row-detail{font-size:.64rem;color:var(--muted);}
+.tag{font-size:.59rem;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;}
+.tag.s{background:var(--green-bg);color:var(--green);}
+.tag.e{background:rgba(27,127,212,.1);color:var(--ab);}
+.tag.p{background:var(--off3);color:var(--muted);}
+.tag.r{background:var(--amber-bg);color:var(--amber);}
+.frow{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:.75rem;}
+.frow:last-child{border-bottom:none;}
+.fdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.fdot.ok{background:var(--green);}
+.fdot.sync{background:var(--ab);}
+.fdot.warn{background:var(--ao);}
+.fname{flex:1;color:var(--ink3);}
+.fmeta{font-size:.64rem;color:var(--muted);}
+.ftag{font-size:.58rem;font-weight:700;padding:2px 6px;border-radius:4px;}
+.ftag.ok{background:var(--green-bg);color:var(--green);}
+.ftag.sync{background:rgba(27,127,212,.1);color:var(--ab);}
+.ftag.warn{background:var(--amber-bg);color:var(--amber);}
+.mrow{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:.75rem;}
+.mrow:last-child{border-bottom:none;}
+.mico{width:24px;height:24px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;}
+.mico.b{background:rgba(27,127,212,.1);border:1px solid rgba(27,127,212,.2);}
+.mico.g{background:var(--green-bg);border:1px solid var(--green-b);}
+.mico.o{background:var(--amber-bg);border:1px solid #FDE68A;}
+.mcont{flex:1;}
+.mtitle{font-weight:600;color:var(--ink);line-height:1.3;}
+.msub{font-size:.63rem;color:var(--muted);}
+.mtime{font-size:.6rem;color:var(--muted2);white-space:nowrap;margin-top:1px;}
+.dbm-footer{border-top:1px solid var(--border);padding:10px 14px;display:flex;align-items:center;gap:8px;}
+.dbm-stat{flex:1;text-align:center;}
+.dbms-val{font-family:'Calibri','Inter',sans-serif;font-size:1.15rem;font-weight:700;color:var(--ink);line-height:1;}
+.dbms-lab{font-size:.58rem;color:var(--muted);}
+.mchart{display:flex;align-items:flex-end;gap:3px;height:32px;flex:2;}
+.mc-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;}
+.mc-b{width:100%;border-radius:2px 2px 0 0;background:var(--off3);}
+.mc-b.now{background:linear-gradient(180deg,var(--ab2),var(--ap));}
+.mc-l{font-size:.52rem;color:var(--muted);}
+.audit-banner{background:linear-gradient(100deg,rgba(22,163,74,.06),rgba(22,163,74,.03));border:1px solid var(--green-b);border-radius:var(--r2);padding:18px 22px;display:flex;align-items:center;gap:16px;margin-bottom:20px;}
+.ab-icon{font-size:1.6rem;}
+.ab-text-title{font-weight:700;font-size:.95rem;color:var(--ink);margin-bottom:2px;}
+.ab-text-desc{font-size:.8rem;color:var(--muted);}
+.ab-badge{margin-left:auto;background:var(--green);color:white;font-family:'Calibri','Inter',sans-serif;font-size:.85rem;font-weight:700;padding:6px 14px;border-radius:8px;white-space:nowrap;}
+.offre-modules{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;}
+.om-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);transition:box-shadow .2s;}
+.om-card:hover{box-shadow:var(--shadow-sm);}
+.om-card.featured{border-color:rgba(27,127,212,.28);}
+.om-inner{display:grid;grid-template-columns:1fr auto;align-items:start;padding:20px 24px;gap:20px;}
+.om-stripe{height:2px;background:var(--adai);}
+.om-num{font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ab);margin-bottom:4px;}
+.om-name{font-family:'Calibri','Inter',sans-serif;font-size:1.25rem;color:var(--ink);margin-bottom:4px;}
+.om-desc{font-size:.8rem;color:var(--muted);line-height:1.5;margin-bottom:10px;}
+.om-items{display:flex;flex-direction:column;gap:5px;}
+.oi{display:flex;align-items:flex-start;gap:7px;font-size:.79rem;}
+.oi-check{color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px;}
+.oi-text{color:var(--ink3);line-height:1.35;}
+.om-price-box{text-align:right;flex-shrink:0;}
+.om-price-val{font-family:'Calibri','Inter',sans-serif;font-size:2rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;letter-spacing:-1px;}
+.om-price-unit{font-size:.72rem;color:var(--muted);margin-top:2px;}
+.bonus-card{background:linear-gradient(100deg,rgba(215,119,6,.05),rgba(212,160,23,.04));border:1.5px dashed var(--amber);border-radius:var(--r2);padding:18px 22px;margin-bottom:20px;}
+.bonus-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.bonus-badge{background:var(--amber-bg);color:var(--amber);font-size:.6rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:4px;border:1px solid #FDE68A;}
+.bonus-title{font-weight:700;font-size:.9rem;color:var(--ink);}
+.bonus-items{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.bonus-item{display:flex;align-items:flex-start;gap:7px;font-size:.79rem;color:var(--ink3);}
+.bonus-check{color:var(--amber);font-weight:700;flex-shrink:0;margin-top:1px;}
+.mensuel-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);}
+.mc-stripe{height:2px;background:var(--adai);}
+.mc-inner{padding:20px 24px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;}
+.mc-price-val{font-family:'Calibri','Inter',sans-serif;font-size:2rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;letter-spacing:-1px;text-align:right;}
+.mc-price-unit{font-size:.72rem;color:var(--muted);text-align:right;margin-top:2px;}
+.mc-items{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.garanties-section{background:var(--white);}
+.g-row{counter-reset:g-counter;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);}
+.g-card{background:var(--white);padding:16px 18px;display:flex;align-items:flex-start;gap:12px;transition:background .2s;counter-increment:g-counter;}
+.g-card:hover{background:var(--off);}
+.g-card::before{content:counter(g-counter,decimal-leading-zero);font-family:'Calibri','Inter',sans-serif;font-size:.7rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;flex-shrink:0;margin-top:2px;min-width:18px;}
+.g-title{font-family:'Calibri','Inter',sans-serif;font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:2px;}
+.g-text{font-size:.73rem;color:var(--muted);line-height:1.45;}
+.onboarding-section{background:var(--off);}
+.onb-steps-simple{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;}
+.onb-steps-simple::before{content:'';position:absolute;top:22px;left:calc(12.5% + 10px);right:calc(12.5% + 10px);height:1px;background:var(--border2);z-index:0;}
+.onb-s{text-align:center;padding:0 12px;position:relative;z-index:1;}
+.onb-n{width:44px;height:44px;border-radius:50%;background:var(--white);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:'Calibri','Inter',sans-serif;font-size:.95rem;font-weight:700;color:var(--muted);margin:0 auto 12px;box-shadow:var(--shadow-xs);}
+.onb-n.a{background:var(--adai);border:none;color:white;}
+.onb-phase{font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ab);margin-bottom:4px;}
+.onb-title{font-weight:600;font-size:.82rem;color:var(--ink);margin-bottom:4px;}
+.onb-desc{font-size:.73rem;color:var(--muted);line-height:1.5;}
+footer{background:var(--ink);padding:24px 48px;display:flex;align-items:center;justify-content:space-between;font-size:.7rem;color:rgba(255,255,255,.4);}
+.footer-brand{background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;font-size:.82rem;}
+@media(max-width:1024px){
+  nav{padding:0 18px;}
+  .wrap{padding:36px 20px;}
+  .pain-grid,.avap-grid,.db-kpis,.db-grid,.mc-items,.bonus-items,.onb-steps-simple{grid-template-columns:1fr 1fr;}
+  .avap-grid{grid-template-columns:1fr;}
+  .g-row{grid-template-columns:1fr 1fr;}
+  .om-inner,.mc-inner{grid-template-columns:1fr;}
+  footer{flex-direction:column;gap:6px;}
+}
+</style>
+</head>
+<body>
+<div class="top-stripe"></div>
+
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo-text">ADAI</div>
+    <div class="nav-pipe"></div>
+    <div class="nav-client-wrap">
+      <span class="nav-client-label">Proposition commerciale pour</span>
+      <span class="nav-client-name">A Bien Taux — Olivier Dupont</span>
+    </div>
+  </div>
+  <button class="nav-link active" onclick="navTo(this,'s2')">Douleurs</button>
+  <button class="nav-link" onclick="navTo(this,'s4')">Modules</button>
+  <button class="nav-link" onclick="navTo(this,'s5')">ROI détaillé</button>
+  <button class="nav-link" onclick="navTo(this,'s6')">Dashboard</button>
+  <button class="nav-link" onclick="navTo(this,'s7')">Offre</button>
+  <button class="nav-link" onclick="navTo(this,'s8')">Engagements</button>
+  <button class="nav-link" onclick="navTo(this,'s9')">Démarrage</button>
+</nav>
+
+<!-- 1 · HERO -->
+<section id="s1" style="background:var(--white);">
+  <div style="max-width:1080px;margin:0 auto;padding:56px 48px 44px;text-align:center;">
+    <div style="display:inline-flex;align-items:center;gap:8px;font-size:.68rem;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--ab);margin-bottom:14px;">
+      <span style="width:18px;height:2px;background:var(--adai);display:inline-block;"></span>
+      Audit IA · A Bien Taux · Fév 2026
+    </div>
+    <h1 style="font-family:'Calibri','Inter',sans-serif;font-weight:700;font-size:clamp(2.2rem,4vw,3.2rem);line-height:1.1;color:var(--ink);margin-bottom:12px;">
+      Libérez votre expertise du <em style="font-style:italic;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">poids documentaire</em><br>pour développer A Bien Taux
+    </h1>
+    <p style="font-size:.95rem;color:var(--muted);line-height:1.65;max-width:620px;margin:0 auto 28px;">
+      Vous pilotez 3 agences et traitez ~200 dossiers par an avec des outils artisanaux. Chaque heure passée à classer et ressaisir est une heure de moins pour le <strong style="color:var(--ink);font-weight:600;">conseil client et le développement commercial</strong>.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;max-width:540px;margin:0 auto;">
+      <div style="padding:16px 20px;text-align:center;border-right:1px solid var(--border);">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.7rem;font-weight:700;line-height:1;margin-bottom:4px;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">−70%</div>
+        <div style="font-size:.68rem;color:var(--muted);line-height:1.3;">d'administratif<br>supprimé</div>
+      </div>
+      <div style="padding:16px 20px;text-align:center;border-right:1px solid var(--border);">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.7rem;font-weight:700;line-height:1;margin-bottom:4px;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">15 min</div>
+        <div style="font-size:.68rem;color:var(--muted);line-height:1.3;">économisées<br>par dossier</div>
+      </div>
+      <div style="padding:16px 20px;text-align:center;">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.7rem;font-weight:700;line-height:1;margin-bottom:4px;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">&lt; 3 mois</div>
+        <div style="font-size:.68rem;color:var(--muted);line-height:1.3;">retour sur<br>investissement</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 2 · DOULEURS -->
+<section id="s2" class="section-bg-off">
+  <div class="wrap">
+    <div class="s-eye">Diagnostic terrain · Audit 30 janvier 2026</div>
+    <h2 class="s-h">Ce qui freine <em>votre croissance</em> aujourd'hui</h2>
+    <p class="s-sub">Vous pilotez 3 agences, 4 producteurs indépendants et ~200 dossiers par an — avec des outils artisanaux qui absorbent du temps à valeur ajoutée sur chaque dossier.</p>
+
+    <div class="pain-grid">
+      <div class="pain-card">
+        <span class="pain-icon">📂</span>
+        <div>
+          <span class="pain-badge">#1 PRIORITÉ IMMÉDIATE</span>
+          <div class="pain-title">Gestion documentaire : 10–15 min perdues par dossier</div>
+          <div class="pain-desc">Documents mal nommés, formats disparates (JPEG, Word, PDF), classement Drive manuel et prétraitement chronophage. Source majeure d'erreurs et de charge mentale.</div>
+        </div>
+      </div>
+      <div class="pain-card">
+        <span class="pain-icon">🧠</span>
+        <div>
+          <span class="pain-badge">#2 RAPPROCHÉ</span>
+          <div class="pain-title">Suivi client sur Excel et mémoire : charge mentale permanente</div>
+          <div class="pain-desc">Relances manuelles avec risque d'oubli, aucune logique systémique de fidélisation. Votre base client existante n'est pas exploitée commercialement.</div>
+        </div>
+      </div>
+      <div class="pain-card">
+        <span class="pain-icon">⏱️</span>
+        <div>
+          <span class="pain-badge">#3 COURT TERME</span>
+          <div class="pain-title">Analyse des pièces : saisie visuelle chronophage</div>
+          <div class="pain-desc">Bulletins, avis d'impôts, relevés analysés à la main dans Excel. Préparation "carcasse" en copier/coller. Temps volé à votre expertise conseil et à la prospection.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="avap-toggle-wrap">
+      <button class="avap-toggle" onclick="toggleAvap(this)" aria-expanded="false">
+        <span class="avap-toggle-label">Voir le détail — Avant / Après votre journée type</span>
+        <span class="avap-toggle-icon">▼</span>
+      </button>
+      <div class="avap-collapsible">
+        <div class="avap-grid">
+          <div class="avap-col before">
+            <div class="avap-head before">⚠ Aujourd'hui — Sans ADAI</div>
+            <div class="avap-body">
+              <div class="avap-step"><span class="avap-dot-r"></span><span>Client envoie les docs par mail, WhatsApp, scan — canaux multiples, formats hétérogènes</span></div>
+              <div class="avap-step"><span class="avap-dot-r"></span><span>Classement et renommage manuel dans Drive — <strong>10–15 min/dossier perdues</strong></span></div>
+              <div class="avap-step"><span class="avap-dot-r"></span><span>Analyse visuelle des pièces dans Excel — saisie chronophage, risque d'erreur</span></div>
+              <div class="avap-step"><span class="avap-dot-r"></span><span>Préparation "carcasse" en copier/coller Word/Excel — <strong>40 min de rédaction</strong></span></div>
+              <div class="avap-step"><span class="avap-dot-r"></span><span>Relances clients sur Excel — risque d'oubli, aucune automatisation</span></div>
+              <div class="avap-step"><span class="avap-dot-r"></span><span>Outils siloïsés (Drive, Mail, Alto) sans workflow — <strong>0 min disponible pour la stratégie</strong></span></div>
+            </div>
+          </div>
+          <div class="avap-arrow-col"><div class="avap-arrow-ico">→</div></div>
+          <div class="avap-col after">
+            <div class="avap-head after">✓ Demain — Avec ADAI</div>
+            <div class="avap-body">
+              <div class="avap-step"><span class="avap-dot-g"></span><span>Client dépose ses docs via lien sécurisé unique → réception centralisée, un seul canal</span></div>
+              <div class="avap-step"><span class="avap-dot-g"></span><span>Classification et renommage automatiques — <strong>zéro intervention, 0 erreur</strong></span></div>
+              <div class="avap-step"><span class="avap-dot-g"></span><span>L'IA lit et extrait revenus, charges, endettement → données pré-calculées instantanément</span></div>
+              <div class="avap-step"><span class="avap-dot-g"></span><span>Synthèse "carcasse" générée automatiquement → vous validez en <strong>5 minutes</strong></span></div>
+              <div class="avap-step"><span class="avap-dot-g"></span><span>Anniversaires, parrainage, avis Google — automatisés sans charge supplémentaire</span></div>
+              <div class="avap-step"><span class="avap-dot-g"></span><span>Cockpit unifié — <strong>+50h/an disponibles pour le conseil et la prospection</strong></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 4 · MODULES -->
+<section id="s4" class="modules-section">
+  <div class="wrap">
+    <div class="s-eye">Détail des automatisations</div>
+    <h2 class="s-h">Les 3 modules <em>de votre cockpit IA</em></h2>
+    <p class="s-sub">Chaque module conçu sur mesure pour les processus identifiés lors de l'audit. Connexion Drive et Alto native sur l'ensemble.</p>
+
+    <div class="mod-tabs">
+      <button class="mod-tab active" onclick="showMod(0,this)">01 · DocBot IA — Classement & Renommage</button>
+      <button class="mod-tab" onclick="showMod(1,this)">02 · Analyse IA "Carcasse"</button>
+      <button class="mod-tab" onclick="showMod(2,this)">03 · CRM & Relances Auto</button>
+    </div>
+
+    <!-- MODULE 01 -->
+    <div class="mod-panel active">
+      <div class="mod-left">
+        <div class="mod-num">01</div>
+        <div class="mod-name">DocBot IA <em>— Classement & Renommage automatique</em></div>
+        <div class="mod-tagline">Le client dépose ses documents une seule fois via un lien sécurisé. L'IA classe, renomme et archive automatiquement dans Drive. Zéro manipulation manuelle — 10–15 min économisées par dossier dès la première semaine.</div>
+        <div class="feat-group">
+          <div class="fg-head">Collecte & Organisation automatique</div>
+          <div class="feat">
+            <div class="feat-icon">🔗</div>
+            <div><div class="feat-title">Espace de dépôt client sécurisé (lien unique)</div><div class="feat-desc">Chaque client reçoit un lien de dépôt unique et sécurisé. Il dépose ses pièces en quelques secondes — quel que soit le canal d'origine. Fin de la dispersion mail / WhatsApp / scan.</div><div class="feat-detail">Compatible RGPD strict. Hébergement UE. Accès limité à votre équipe autorisée.</div></div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">🏷️</div>
+            <div><div class="feat-title">Reconnaissance & Renommage standardisé automatique</div><div class="feat-desc">L'IA identifie le type de document (bulletin, avis d'impôt, relevé bancaire, pièce d'identité...) et renomme selon votre convention : Nom_Prénom_Type_Mois_Année.pdf. Immédiatement retrouvable.</div><div class="feat-detail">Gain immédiat : 10–15 min par dossier supprimées. Priorité #1 identifiée à l'audit.</div></div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">🔄</div>
+            <div><div class="feat-title">Conversion automatique & archivage Drive structuré</div><div class="feat-desc">JPEG, PNG, Word convertis automatiquement en PDF. Classement dans le bon répertoire Drive selon votre arborescence. Dossier prêt avant même que vous l'ouvriez.</div></div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">🔔</div>
+            <div><div class="feat-title">Alerte instantanée & rappel automatique client J+2</div><div class="feat-desc">L'IA détecte immédiatement les pièces manquantes, illisibles ou non conformes. Si non déposées à J+2, le client reçoit automatiquement un rappel email dans votre ton. Vous n'y pensez plus.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 02 -->
+    <div class="mod-panel">
+      <div class="mod-left">
+        <div class="mod-num">02</div>
+        <div class="mod-name">Analyse IA <em>— Synthèse "Carcasse" automatisée</em></div>
+        <div class="mod-tagline">L'IA lit les pièces, extrait les données clés et génère votre synthèse dossier dans votre modèle. Vous validez en 5 minutes au lieu de 40. Votre expertise reste au centre — l'IA prépare le terrain.</div>
+        <div class="feat-group">
+          <div class="fg-head">Extraction & Analyse automatique des pièces</div>
+          <div class="feat">
+            <div class="feat-icon">🤖</div>
+            <div><div class="feat-title">Analyse instantanée & classification des documents</div><div class="feat-desc">L'IA lit et classe automatiquement les bulletins de salaire, avis d'imposition, relevés bancaires. Extraction des champs structurants : revenus, situation familiale, charges, crédits en cours.</div><div class="feat-detail">Gain estimé : 40–50% du temps de lecture et d'analyse par dossier.</div></div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">✅</div>
+            <div><div class="feat-title">Contrôle qualité — détection pièces manquantes ou invalides</div><div class="feat-desc">L'IA contrôle la cohérence et la complétude du dossier en temps réel. Vous savez immédiatement ce qui manque — avant même d'ouvrir un fichier. Fini les surprises en cours d'instruction.</div></div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">📊</div>
+            <div><div class="feat-title">Calcul automatique pré-mâché (revenus, endettement, charges)</div><div class="feat-desc">Calcul automatique du taux d'endettement, des revenus nets, des charges déclarées. Les données clés sont prêtes à valider, pas à saisir. Vous gagnez du temps sur chaque dossier présenté en banque.</div></div>
+          </div>
+        </div>
+        <div class="feat-group">
+          <div class="fg-head">Génération de la synthèse & communication client</div>
+          <div class="feat">
+            <div class="feat-icon">📄</div>
+            <div><div class="feat-title">Rapport synthétique personnalisable dans votre modèle</div><div class="feat-desc">Génération automatique de la "carcasse" dans votre template. Suggestions de conseils personnalisés selon le profil client. Vous validez et personnalisez — l'IA a déjà fait 80% du travail.</div><div class="feat-detail">Gain : 40% du temps de rédaction estimé par dossier — immédiat dès le déploiement.</div></div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">📧</div>
+            <div><div class="feat-title">Emails client pré-rédigés — vous validez avant envoi</div><div class="feat-desc">Emails pré-rédigés dans votre ton pour réclamer les pièces manquantes, informer le client de l'avancement ou transmettre la synthèse. Contrôle total garanti — l'IA ne part jamais sans votre validation.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 03 -->
+    <div class="mod-panel">
+      <div class="mod-left">
+        <div class="mod-num">03</div>
+        <div class="mod-name">CRM & Relances <em>— Fidélisation automatisée</em></div>
+        <div class="mod-tagline">Votre base client existante réactivée sans effort. Anniversaires de financement, parrainage, avis Google — automatisés dans votre ton. Zéro charge supplémentaire. Plus de recommandations, moins d'oublis.</div>
+        <div class="feat-group">
+          <div class="fg-head">Suivi & Relances automatisées post-financement</div>
+          <div class="feat">
+            <div class="feat-icon">🔁</div>
+            <div><div class="feat-title">Workflow anniversaires, parrainage et fidélisation</div><div class="feat-desc">À chaque anniversaire de financement, votre client reçoit un message personnalisé. Déclencheurs configurables : anniversaire, renégociation possible, bilan annuel. Aucune action de votre part.</div><div class="feat-detail">Basé sur votre base contacts existante. Réactivation immédiate sans charge supplémentaire.</div></div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">⭐</div>
+            <div><div class="feat-title">Automatisation des demandes d'avis Google</div><div class="feat-desc">À la signature du dossier, une demande d'avis Google est envoyée automatiquement au client. Amélioration continue de votre image de marque et de votre référencement local — sans effort.</div></div>
+          </div>
+        </div>
+        <div class="feat-group">
+          <div class="fg-head">Brique CRM consolidée — vision 3 agences</div>
+          <div class="feat">
+            <div class="feat-icon">🗂️</div>
+            <div><div class="feat-title">Vue unifiée contacts & historique dossiers</div><div class="feat-desc">Centralisez l'historique de chaque client : dossiers traités, statuts, relances, communications. Fini le suivi sur Excel. Un seul endroit pour piloter toute la relation client sur vos 3 agences.</div><div class="feat-detail">Compatible avec Alto et votre organisation multi-agences / 4 producteurs.</div></div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">📈</div>
+            <div><div class="feat-title">Tableau de bord suivi commercial synchronisé</div><div class="feat-desc">Suivez les ouvertures, réponses, dossiers en cours, relances actives. Tableau de bord synchronisé en temps réel. Vous pilotez — l'IA exécute et trace tout.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 5 · ROI -->
+<section id="s5" class="section-bg-white">
+  <div class="wrap">
+    <div class="s-eye">Retour sur investissement · Calcul détaillé</div>
+    <h2 class="s-h">Le ROI <em>chiffré</em> d'A Bien Taux</h2>
+    <p class="s-sub">En tant que dirigeant de 3 agences, chaque heure libérée est une heure disponible pour le conseil à valeur ajoutée, la prospection et le développement commercial.</p>
+
+    <div style="overflow-x:auto;">
+      <table class="roi-table" style="margin-bottom:20px;">
+        <thead><tr><th>Source de gain</th><th>Impact opérationnel</th><th>Valeur estimée</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Classement & Renommage automatisé</strong><br><span style="font-size:.72rem;color:var(--muted2);">15 min × 200 dossiers/an = 50h économisées</span></td>
+            <td style="font-size:.78rem;">50h/an restituées au dirigeant et à l'assistante — 30% du temps admin supprimé immédiatement</td>
+            <td>+50h/an</td>
+          </tr>
+          <tr>
+            <td><strong>Analyse IA & rédaction "Carcasse"</strong><br><span style="font-size:.72rem;color:var(--muted2);">40% gain temps analyse/rédaction × 200 dossiers</span></td>
+            <td style="font-size:.78rem;">Dossiers instruits plus vite → capacité d'absorption +20–30% de volume sans embauche</td>
+            <td>+Capacité</td>
+          </tr>
+          <tr>
+            <td><strong>Rentabilité immédiate</strong><br><span style="font-size:.72rem;color:var(--muted2);">1 seul dossier supplémentaire par mois suffit</span></td>
+            <td style="font-size:.78rem;"><span style="color:var(--green);font-weight:600;">1 dossier en plus / mois = investissement rentabilisé immédiatement</span></td>
+            <td>ROI immédiat</td>
+          </tr>
+          <tr>
+            <td><strong>Fidélisation & parrainage automatisés</strong><br><span style="font-size:.72rem;color:var(--muted2);">Base client existante réactivée — avis Google + anniversaires</span></td>
+            <td style="font-size:.78rem;">Plus de recommandations, meilleure image de marque, portefeuille réactivé passivement</td>
+            <td>+CA récurrent</td>
+          </tr>
+          <tr>
+            <td><strong>Temps libéré pour la stratégie</strong><br><span style="font-size:.72rem;color:var(--muted2);">50h+ restituées — réinvesties en conseil et prospection</span></td>
+            <td style="font-size:.78rem;">Développement des 3 agences, recrutement facilité, image de marque renforcée</td>
+            <td>Stratégique</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr><td colspan="2">Valeur libérée — <em>scénario modéré (−70% admin, +1 dossier/mois)</em></td><td>ROI &lt; 3 mois</td></tr>
+          <tr style="background:rgba(22,163,74,.06);"><td colspan="2" style="color:var(--green);">Valeur libérée — <em>scénario optimiste (structuration 3 agences + croissance volume)</em></td><td style="color:var(--green);font-size:.92rem;">+CA durable</td></tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-sm);position:relative;">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--adai);z-index:1;"></div>
+      <div style="padding:20px 16px;text-align:center;border-right:1px solid var(--border);background:var(--white);">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.55rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:5px;">−70%</div>
+        <div style="font-size:.7rem;color:var(--muted);line-height:1.4;font-weight:500;">administratif<br>supprimé</div>
+      </div>
+      <div style="padding:20px 16px;text-align:center;border-right:1px solid var(--border);background:var(--white);">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.55rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:5px;">15 min</div>
+        <div style="font-size:.7rem;color:var(--muted);line-height:1.4;font-weight:500;">économisées<br>par dossier</div>
+      </div>
+      <div style="padding:20px 16px;text-align:center;border-right:1px solid var(--border);background:var(--white);">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.55rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:5px;">&lt; 3 mois</div>
+        <div style="font-size:.7rem;color:var(--muted);line-height:1.4;font-weight:500;">retour sur<br>investissement</div>
+      </div>
+      <div style="padding:20px 16px;text-align:center;border-right:1px solid var(--border);background:rgba(22,163,74,.03);">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.55rem;font-weight:700;color:var(--green);line-height:1;margin-bottom:5px;">+50h</div>
+        <div style="font-size:.7rem;color:var(--muted);line-height:1.4;font-weight:500;">libérées / an<br><span style="color:var(--green);font-weight:600;">pour le conseil</span></div>
+      </div>
+      <div style="padding:20px 16px;text-align:center;background:rgba(22,163,74,.07);">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.55rem;font-weight:700;color:var(--green);line-height:1;margin-bottom:5px;">200</div>
+        <div style="font-size:.7rem;color:var(--muted);line-height:1.4;font-weight:500;">dossiers / an<br><span style="color:var(--green);font-weight:600;">traités plus vite</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 6 · DASHBOARD -->
+<section id="s6" class="dashboard-section">
+  <div class="wrap">
+    <div class="s-eye">Tableau de bord · Cockpit connecté Drive & Alto</div>
+    <h2 class="s-h">Votre cockpit <em>A Bien Taux</em></h2>
+    <p class="s-sub">Vue centralisée des 3 automatisations en service, synchronisée en temps réel avec Drive et Alto. Accessible depuis téléphone et ordinateur, sur vos 3 agences.</p>
+
+    <div class="db-frame">
+      <div class="db-bar">
+        <div class="db-btn" style="background:#FF5F57;"></div>
+        <div class="db-btn" style="background:#FEBC2E;"></div>
+        <div class="db-btn" style="background:#28C840;"></div>
+        <div class="db-bar-title">ADAI · Cockpit A Bien Taux</div>
+        <span class="db-badge" style="margin-left:10px;">🔗 Drive + Alto Sync</span>
+        <div class="db-live" style="margin-left:auto;">LIVE</div>
+        <div style="margin-left:10px;font-size:.65rem;color:var(--muted);">Fév 2026</div>
+      </div>
+
+      <div class="db-body">
+        <div class="db-kpis">
+          <div class="dkpi">
+            <div class="dkpi-label">Dossiers ce mois</div>
+            <div class="dkpi-val">17</div>
+            <div class="dkpi-delta">↑ +2 vs mois dernier</div>
+          </div>
+          <div class="dkpi">
+            <div class="dkpi-label">Admin supprimé</div>
+            <div class="dkpi-val">71%</div>
+            <div class="dkpi-delta">↑ vs 0% sans IA</div>
+          </div>
+          <div class="dkpi">
+            <div class="dkpi-label">Temps / dossier économisé</div>
+            <div class="dkpi-val">14 min</div>
+            <div class="dkpi-delta">↓ −14 min vs avant</div>
+          </div>
+          <div class="dkpi">
+            <div class="dkpi-label">Heures libérées / mois</div>
+            <div class="dkpi-val">4,2h</div>
+            <div class="dkpi-delta">↑ Disponible conseil</div>
+          </div>
+        </div>
+
+        <div class="db-grid">
+
+          <!-- DocBot -->
+          <div class="db-module">
+            <div class="dbm-head">
+              <div class="dbm-title">01 · DocBot IA</div>
+              <span class="dbm-badge blue">DRIVE SYNC ✓</span>
+            </div>
+            <div class="dbm-body">
+              <div class="row">
+                <div><div class="row-name">Martin Sophie</div><div class="row-detail">12 pièces · Primo-accédant</div></div>
+                <span class="tag s">✓ Complet</span>
+              </div>
+              <div class="row">
+                <div><div class="row-name">Legrand Paul</div><div class="row-detail">9/11 pièces · Investissement</div></div>
+                <span class="tag r">⚠ 2 manquantes</span>
+              </div>
+              <div class="row">
+                <div><div class="row-name">Petit Claire</div><div class="row-detail">En cours de dépôt</div></div>
+                <span class="tag e">En attente</span>
+              </div>
+              <div class="row">
+                <div><div class="row-name">Moreau Jean</div><div class="row-detail">Rappel J+2 envoyé auto</div></div>
+                <span class="tag r">Relancé</span>
+              </div>
+              <div class="row">
+                <div><div class="row-name">Dubois Marc</div><div class="row-detail">8 pièces · Renégociation</div></div>
+                <span class="tag s">✓ Classé Drive</span>
+              </div>
+            </div>
+            <div class="dbm-footer">
+              <div class="dbm-stat"><div class="dbms-val">17</div><div class="dbms-lab">Dossiers traités</div></div>
+              <div class="dbm-stat" style="border-left:1px solid var(--border);"><div class="dbms-val" style="color:var(--green);">15</div><div class="dbms-lab">Classés auto</div></div>
+              <div class="mchart">
+                <div class="mc-col"><div class="mc-b" style="height:14px;"></div><div class="mc-l">O</div></div>
+                <div class="mc-col"><div class="mc-b" style="height:18px;"></div><div class="mc-l">N</div></div>
+                <div class="mc-col"><div class="mc-b" style="height:16px;"></div><div class="mc-l">D</div></div>
+                <div class="mc-col"><div class="mc-b" style="height:21px;"></div><div class="mc-l">J</div></div>
+                <div class="mc-col"><div class="mc-b now" style="height:30px;"></div><div class="mc-l" style="color:var(--ab);font-weight:700;">F</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Analyse IA -->
+          <div class="db-module">
+            <div class="dbm-head">
+              <div class="dbm-title">02 · Analyse IA "Carcasse"</div>
+              <span class="dbm-badge green">ACTIF ✓</span>
+            </div>
+            <div class="dbm-body">
+              <div class="frow">
+                <div class="fdot ok"></div>
+                <span class="fname">Martin Sophie</span>
+                <span class="fmeta">Synthèse générée</span>
+                <span class="ftag ok">Validée</span>
+              </div>
+              <div class="frow">
+                <div class="fdot sync"></div>
+                <span class="fname">Dubois Marc</span>
+                <span class="fmeta">Analyse en cours</span>
+                <span class="ftag sync">En cours</span>
+              </div>
+              <div class="frow">
+                <div class="fdot ok"></div>
+                <span class="fname">Bernard Anne</span>
+                <span class="fmeta">Endettement : 28%</span>
+                <span class="ftag ok">Transmis banque</span>
+              </div>
+              <div class="frow">
+                <div class="fdot warn"></div>
+                <span class="fname">Legrand Paul</span>
+                <span class="fmeta">Avis impôt manquant</span>
+                <span class="ftag warn">Alerte</span>
+              </div>
+              <div class="frow">
+                <div class="fdot ok"></div>
+                <span class="fname">Rousseau Nathalie</span>
+                <span class="fmeta">Carcasse validée</span>
+                <span class="ftag ok">Prêt banque</span>
+              </div>
+            </div>
+            <div class="dbm-footer">
+              <div class="dbm-stat"><div class="dbms-val">13</div><div class="dbms-lab">Analyses faites</div></div>
+              <div class="dbm-stat" style="border-left:1px solid var(--border);"><div class="dbms-val" style="color:var(--ab);">3h</div><div class="dbms-lab">Économisées</div></div>
+              <div class="dbm-stat" style="border-left:1px solid var(--border);"><div class="dbms-val" style="color:var(--green);">1</div><div class="dbms-lab">Alerte détectée</div></div>
+            </div>
+          </div>
+
+          <!-- CRM & Relances -->
+          <div class="db-module">
+            <div class="dbm-head">
+              <div class="dbm-title">03 · CRM & Relances Auto</div>
+              <span class="dbm-badge purple">ACTIF ✓</span>
+            </div>
+            <div class="dbm-body">
+              <div class="mrow">
+                <div class="mico g">⭐</div>
+                <div class="mcont"><div class="mtitle">Avis Google · Martin Sophie</div><div class="msub">Demande envoyée auto à signature</div></div>
+                <div class="mtime">09:15</div>
+              </div>
+              <div class="mrow">
+                <div class="mico b">🎂</div>
+                <div class="mcont"><div class="mtitle">Anniversaire financement · Dupont</div><div class="msub">Message personnalisé envoyé auto</div></div>
+                <div class="mtime">10:00</div>
+              </div>
+              <div class="mrow">
+                <div class="mico o">🔔</div>
+                <div class="mcont"><div class="mtitle">Renégociation possible · Bernard</div><div class="msub">Taux en baisse — alerte auto</div></div>
+                <div class="mtime">11:30</div>
+              </div>
+              <div class="mrow">
+                <div class="mico b">👥</div>
+                <div class="mcont"><div class="mtitle">Parrainage · Rousseau Nathalie</div><div class="msub">Invitation envoyée automatiquement</div></div>
+                <div class="mtime">14:00</div>
+              </div>
+              <div class="mrow">
+                <div class="mico g">✓</div>
+                <div class="mcont"><div class="mtitle">Avis Google reçu ✓ — 5 étoiles</div><div class="msub">Legrand Paul · publié sur Google</div></div>
+                <div class="mtime">16:42</div>
+              </div>
+            </div>
+            <div class="dbm-footer">
+              <div class="dbm-stat"><div class="dbms-val">42</div><div class="dbms-lab">Actions auto</div></div>
+              <div class="dbm-stat" style="border-left:1px solid var(--border);"><div class="dbms-val" style="color:var(--green);">4</div><div class="dbms-lab">Avis Google</div></div>
+              <div class="dbm-stat" style="border-left:1px solid var(--border);"><div class="dbms-val" style="color:var(--amber);">7</div><div class="dbms-lab">Relances auto</div></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 7 · OFFRE -->
+<section id="s7" class="section-bg-white">
+  <div class="wrap">
+    <div class="s-eye">Investissement · Structure tarifaire</div>
+    <h2 class="s-h">L'offre <em>conçue pour A Bien Taux</em></h2>
+    <p class="s-sub">Trois options progressives pour démarrer au bon niveau et évoluer à votre rythme. Toutes incluent la maintenance mensuelle et le support dédié.</p>
+
+    <div class="audit-banner">
+      <div class="ab-icon">🔍</div>
+      <div>
+        <div class="ab-text-title">Audit & Cartographie des process</div>
+        <div class="ab-text-desc">Analyse complète de vos processus actuels (Drive, Alto, Mail, Excel, WhatsApp), identification des priorités et plan de déploiement personnalisé A Bien Taux — 3 agences.</div>
+      </div>
+      <div class="ab-badge">OFFERT</div>
+    </div>
+
+    <!-- Tableau 3 options -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;">
+
+      <!-- Option 1 : Standard -->
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);transition:box-shadow .2s;" onmouseover="this.style.boxShadow='var(--shadow-sm)'" onmouseout="this.style.boxShadow='var(--shadow-xs)'">
+        <div style="height:3px;background:var(--adai);"></div>
+        <div style="padding:24px 22px;">
+          <div style="font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Option 1</div>
+          <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ink);margin-bottom:4px;">Standard</div>
+          <div style="font-size:.78rem;color:var(--muted);margin-bottom:20px;line-height:1.5;">Démarrage immédiat — classement et renommage automatique. Quick win identifié #1 à l'audit.</div>
+          <!-- Prix -->
+          <div style="margin-bottom:20px;">
+            <div style="font-family:'Calibri','Inter',sans-serif;font-size:2rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;">149€</div>
+            <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">TTC / mois</div>
+            <div style="margin-top:6px;font-size:.75rem;font-weight:600;color:var(--muted2);">Aucun frais de développement</div>
+          </div>
+          <!-- Résultat -->
+          <div style="background:var(--green-bg);border:1px solid var(--green-b);border-radius:8px;padding:8px 12px;margin-bottom:16px;font-size:.76rem;color:var(--green);font-weight:600;">~50–60% d'admin supprimé</div>
+          <!-- Inclus -->
+          <div style="display:flex;flex-direction:column;gap:7px;">
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Analyse basique des documents entrants</span></div>
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Renommage automatique standardisé</span></div>
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Archivage Drive structuré + alertes pièces manquantes</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Option 2 : Sur Mesure (recommandée) -->
+      <div style="background:var(--white);border:2px solid var(--ab);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-md);position:relative;transform:translateY(-4px);">
+        <div style="height:3px;background:var(--adai);"></div>
+        <div style="position:absolute;top:16px;right:16px;background:var(--ab);color:white;font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:4px;">RECOMMANDÉE</div>
+        <div style="padding:24px 22px;">
+          <div style="font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ab);margin-bottom:8px;">Option 2</div>
+          <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ink);margin-bottom:4px;">Sur Mesure</div>
+          <div style="font-size:.78rem;color:var(--muted);margin-bottom:20px;line-height:1.5;">Classement + espace dépôt client + analyse IA automatisée. Le meilleur ratio impact / rapidité de déploiement.</div>
+          <!-- Prix -->
+          <div style="margin-bottom:20px;">
+            <div style="font-family:'Calibri','Inter',sans-serif;font-size:2rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;">149€</div>
+            <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">TTC / mois</div>
+            <div style="margin-top:6px;padding:5px 10px;background:rgba(27,127,212,.07);border-radius:6px;font-size:.75rem;font-weight:700;color:var(--ab);">
+              + 2 100€ investissement unique
+              <span style="margin-left:6px;background:var(--red-bg);color:var(--red);border:1px solid var(--red-b);border-radius:4px;padding:1px 6px;font-size:.62rem;font-weight:700;">−400€</span><br>
+              <span style="font-weight:400;color:var(--muted2);text-decoration:line-through;font-size:.7rem;">2 500€</span>
+              <span style="font-weight:400;color:var(--muted);margin-left:4px;">(1 dossier de déploiement)</span>
+            </div>
+          </div>
+          <!-- Résultat -->
+          <div style="background:var(--green-bg);border:1px solid var(--green-b);border-radius:8px;padding:8px 12px;margin-bottom:16px;font-size:.76rem;color:var(--green);font-weight:600;">~70–80% d'admin supprimé</div>
+          <!-- Inclus -->
+          <div style="display:flex;flex-direction:column;gap:7px;">
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Tout l'Option 1 (classement & renommage)</span></div>
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Espace dépôt client sécurisé (lien unique)</span></div>
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Collecte automatisée multicanal centralisée</span></div>
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Analyse IA & extraction données (revenus, charges, endettement)</span></div>
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Détection pièces manquantes ou invalides</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Option 3 : Structuration -->
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);transition:box-shadow .2s;" onmouseover="this.style.boxShadow='var(--shadow-sm)'" onmouseout="this.style.boxShadow='var(--shadow-xs)'">
+        <div style="height:3px;background:var(--adai);"></div>
+        <div style="padding:24px 22px;">
+          <div style="font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ap);margin-bottom:8px;">Option 3</div>
+          <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ink);margin-bottom:4px;">Structuration</div>
+          <div style="font-size:.78rem;color:var(--muted);margin-bottom:20px;line-height:1.5;">Solution complète — analyse IA + CRM + relances automatisées. Structuration long terme de vos 3 agences.</div>
+          <!-- Prix -->
+          <div style="margin-bottom:20px;">
+            <div style="font-family:'Calibri','Inter',sans-serif;font-size:2rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;">149€</div>
+            <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">TTC / mois</div>
+            <div style="margin-top:6px;padding:5px 10px;background:rgba(123,94,167,.07);border-radius:6px;font-size:.75rem;font-weight:700;color:var(--ap);">
+              + 5 100€ investissement unique
+              <span style="margin-left:6px;background:var(--red-bg);color:var(--red);border:1px solid var(--red-b);border-radius:4px;padding:1px 6px;font-size:.62rem;font-weight:700;">−1 400€</span><br>
+              <span style="font-weight:400;color:var(--muted2);text-decoration:line-through;font-size:.7rem;">6 500€</span>
+              <span style="font-weight:400;color:var(--muted);margin-left:4px;">(2 dossiers de déploiement)</span>
+            </div>
+          </div>
+          <!-- Résultat -->
+          <div style="background:var(--green-bg);border:1px solid var(--green-b);border-radius:8px;padding:8px 12px;margin-bottom:16px;font-size:.76rem;color:var(--green);font-weight:600;">80% admin supprimé + structuration long terme</div>
+          <!-- Inclus -->
+          <div style="display:flex;flex-direction:column;gap:7px;">
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Tout l'Option 2 (analyse IA complète)</span></div>
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Brique CRM consolidée (compatible Alto, multi-agences)</span></div>
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Suivi & relances automatisées post-financement</span></div>
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Automatisation avis Google à la signature</span></div>
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text" style="color:var(--ap);">Amortissement comptable possible sur 5 ans</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Note mensuel inclus -->
+    <div class="mensuel-card">
+      <div class="mc-stripe"></div>
+      <div class="mc-inner">
+        <div>
+          <div class="om-num" style="color:var(--green);">Abonnement mensuel — inclus dans les 3 options</div>
+          <div class="om-name">Maintenance & Évolution Continue · 149€ TTC / mois</div>
+          <div class="mc-items">
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Infrastructure IA & hébergement sécurisé UE (RGPD)</span></div>
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Mises à jour & évolutions réglementaires incluses</span></div>
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Améliorations continues sur vos automatisations</span></div>
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Support dédié — interlocuteur unique qui connaît votre dossier</span></div>
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <div style="font-size:.72rem;color:var(--muted);margin-bottom:6px;">Options 1, 2 &amp; 3</div>
+          <div class="mc-price-val">149€</div>
+          <div class="mc-price-unit">TTC / mois</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 8 · ENGAGEMENTS -->
+<section id="s8" class="garanties-section">
+  <div class="wrap">
+    <div class="s-eye">Engagements & garanties</div>
+    <h2 class="s-h">Ce sur quoi <em>nous nous engageons</em></h2>
+
+    <div class="g-row">
+      <div class="g-card"><div><div class="g-title">Opérationnel en 4 à 5 semaines</div><div class="g-text">Configuration complète prise en charge par nos équipes. Votre rôle : valider et utiliser. Aucune contrainte IT de votre côté.</div></div></div>
+      <div class="g-card"><div><div class="g-title">Formation incluse & enregistrée</div><div class="g-text">Session visio enregistrée pour vous et votre assistante. Suivi J+15 et J+30 inclus dans l'offre.</div></div></div>
+      <div class="g-card"><div><div class="g-title">RGPD strict — données sécurisées</div><div class="g-text">Hébergement UE, aucune transmission hors solutions contrôlées. Accès limité à votre équipe autorisée. Export possible à tout moment.</div></div></div>
+      <div class="g-card"><div><div class="g-title">Support dédié 24–48h ouvrées</div><div class="g-text">Un interlocuteur unique qui connaît votre organisation 3 agences et vos 4 producteurs. Pas de ticket anonyme.</div></div></div>
+      <div class="g-card"><div><div class="g-title">Contrôle total garanti</div><div class="g-text">L'IA ne part jamais sans votre validation sur les communications client. Vous gardez la main sur chaque interaction. Priorité relation préservée.</div></div></div>
+      <div class="g-card"><div><div class="g-title">Conçu pour le courtage immobilier</div><div class="g-text">Solution taillée pour un cabinet comme A Bien Taux — pas un outil générique. Expertise métier et RGPD intégrés dès la conception.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 9 · DÉMARRAGE -->
+<section id="s9" class="onboarding-section">
+  <div class="wrap">
+    <div class="s-eye">Mise en service & accompagnement</div>
+    <h2 class="s-h">De la signature <em>à la première automatisation</em></h2>
+    <p class="s-sub">4 étapes, entièrement prises en charge par notre équipe. Votre rôle : valider et utiliser.</p>
+
+    <div class="onb-steps-simple">
+      <div class="onb-s">
+        <div class="onb-n a">1</div>
+        <div class="onb-phase">Semaine 1</div>
+        <div class="onb-title">Appel de lancement</div>
+        <div class="onb-desc">Recueil de vos informations : arborescence Drive, convention de nommage souhaitée, accès Alto, emails types. 45 min en visio.</div>
+      </div>
+      <div class="onb-s">
+        <div class="onb-n">2</div>
+        <div class="onb-phase">Semaines 2–4</div>
+        <div class="onb-title">Configuration</div>
+        <div class="onb-desc">Nos équipes paramètrent les modules retenus, connectent Drive et Alto, et testent sur vos vrais dossiers. Rien à faire de votre côté.</div>
+      </div>
+      <div class="onb-s">
+        <div class="onb-n a">3</div>
+        <div class="onb-phase">Semaine 4–5</div>
+        <div class="onb-title">Formation & validation</div>
+        <div class="onb-desc">Test sur vos cas d'usage réels, ajustements en direct. Formation 2h en visio pour vous et votre assistante — session enregistrée.</div>
+      </div>
+      <div class="onb-s">
+        <div class="onb-n">4</div>
+        <div class="onb-phase">Semaine 5 →</div>
+        <div class="onb-title">Activation & suivi</div>
+        <div class="onb-desc">Go live. Point de suivi J+15 et J+30 inclus pour garantir les résultats sur vos 3 agences et valider les gains mesurés.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div>
+    <span class="footer-brand">ADAI — Création & Automation</span>
+    <span style="margin-left:12px;">· Proposition confidentielle A Bien Taux — Olivier Dupont · Février 2026</span>
+  </div>
+  <div>Document réservé · © 2026 ADAI</div>
+</footer>
+
+<script>
+function toggleAvap(btn){
+  const content = btn.nextElementSibling;
+  const icon = btn.querySelector('.avap-toggle-icon');
+  const isOpen = content.classList.contains('open');
+  content.classList.toggle('open', !isOpen);
+  icon.classList.toggle('open', !isOpen);
+  btn.setAttribute('aria-expanded', !isOpen);
+}
+function navTo(btn, id){
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function showMod(idx, btn){
+  document.querySelectorAll('.mod-tab').forEach((b,i)=>b.classList.toggle('active',i===idx));
+  document.querySelectorAll('.mod-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
+}
+</script>
+</body>
+</html>
