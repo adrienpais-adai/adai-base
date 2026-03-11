@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMB Assurances × ADAI — Flux Qualification Leads</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --adai: linear-gradient(100deg,#1B7FD4 0%,#7B5EA7 48%,#E8852A 78%,#D4A017 100%);
+  --blue: #1B7FD4;
+  --purple: #7B5EA7;
+  --orange: #E8852A;
+  --gold: #D4A017;
+  --ink: #0D1117;
+  --ink2: #1E2533;
+  --muted: #6B7280;
+  --border: #E4E7EE;
+  --off: #F7F8FA;
+  --white: #FFFFFF;
+  --green: #16A34A;
+  --green-bg: #F0FDF4;
+  --red: #DC2626;
+  --red-bg: #FEF9F9;
+  --ai-bg: rgba(27,127,212,.06);
+  --ai-border: rgba(27,127,212,.2);
+  --human-bg: rgba(22,163,74,.06);
+  --human-border: rgba(22,163,74,.2);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #F7F8FA;
+  color: var(--ink);
+  min-height: 100vh;
+  padding: 32px 20px 60px;
+}
+
+/* Header */
+.header {
+  max-width: 860px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .65rem;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 16px;
+}
+.header-badge::before, .header-badge::after {
+  content: '';
+  width: 24px;
+  height: 1.5px;
+  background: var(--adai);
+}
+.header h1 {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+.header h1 em {
+  font-style: italic;
+  background: var(--adai);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.header p {
+  font-size: .9rem;
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 520px;
+  margin: 0 auto 24px;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .78rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.legend-dot.ai { background: var(--blue); }
+.legend-dot.human { background: var(--green); }
+.legend-dot.shared { background: var(--orange); }
+
+/* Flow container */
+.flow {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+/* Step */
+.step {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 20px;
+  align-items: flex-start;
+  position: relative;
+  padding-bottom: 0;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: stepIn .45s ease forwards;
+}
+.step:nth-child(1) { animation-delay: .1s; }
+.step:nth-child(2) { animation-delay: .2s; }
+.step:nth-child(3) { animation-delay: .3s; }
+.step:nth-child(4) { animation-delay: .4s; }
+.step:nth-child(5) { animation-delay: .5s; }
+.step:nth-child(6) { animation-delay: .6s; }
+.step:nth-child(7) { animation-delay: .7s; }
+.step:nth-child(8) { animation-delay: .8s; }
+.step:nth-child(9) { animation-delay: .9s; }
+
+@keyframes stepIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Number column */
+.step-num-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.step-num {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: .8rem;
+  font-weight: 500;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+.step-num.ai {
+  background: var(--ai-bg);
+  border: 1.5px solid var(--ai-border);
+  color: var(--blue);
+}
+.step-num.human {
+  background: var(--human-bg);
+  border: 1.5px solid var(--human-border);
+  color: var(--green);
+}
+.step-num.shared {
+  background: rgba(232,133,42,.06);
+  border: 1.5px solid rgba(232,133,42,.25);
+  color: var(--orange);
+}
+.step-line {
+  width: 1.5px;
+  flex: 1;
+  min-height: 32px;
+  background: var(--border);
+  margin: 6px 0;
+}
+
+/* Card */
+.step-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(13,17,23,.05);
+  transition: box-shadow .2s, transform .2s;
+  cursor: default;
+}
+.step-card:hover {
+  box-shadow: 0 6px 20px rgba(13,17,23,.08);
+  transform: translateX(3px);
+}
+.step-card.ai { border-left: 3px solid var(--blue); }
+.step-card.human { border-left: 3px solid var(--green); }
+.step-card.shared { border-left: 3px solid var(--orange); }
+
+.step-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.step-tag {
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.step-tag.ai {
+  background: var(--ai-bg);
+  color: var(--blue);
+  border: 1px solid var(--ai-border);
+}
+.step-tag.human {
+  background: var(--human-bg);
+  color: var(--green);
+  border: 1px solid var(--human-border);
+}
+.step-tag.shared {
+  background: rgba(232,133,42,.06);
+  color: var(--orange);
+  border: 1px solid rgba(232,133,42,.25);
+}
+.step-title {
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.3;
+}
+.step-desc {
+  font-size: .82rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-top: 4px;
+}
+.step-detail {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: var(--off);
+  border-radius: 7px;
+  font-size: .76rem;
+  color: var(--ink2);
+  line-height: 1.55;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.step-detail-icon { flex-shrink: 0; font-size: .85rem; margin-top: 1px; }
+
+/* Branching */
+.branch {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 20px;
+  margin-bottom: 16px;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: stepIn .45s ease forwards;
+  animation-delay: .55s;
+}
+.branch-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.branch-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: 0 1px 4px rgba(13,17,23,.05);
+  transition: box-shadow .2s;
+}
+.branch-card:hover { box-shadow: 0 4px 16px rgba(13,17,23,.07); }
+.branch-card.pos { border-left: 3px solid var(--green); }
+.branch-card.neg { border-left: 3px solid rgba(107,114,128,.4); }
+.branch-label {
+  font-size: .6rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.branch-label.pos { color: var(--green); }
+.branch-label.neg { color: var(--muted); }
+.branch-title { font-size: .85rem; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+.branch-desc { font-size: .75rem; color: var(--muted); line-height: 1.5; }
+
+/* Gain banner */
+.gain-banner {
+  max-width: 860px;
+  margin: 8px auto 0;
+  background: white;
+  border: 1px solid rgba(27,127,212,.15);
+  border-radius: 14px;
+  padding: 20px 28px;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 0;
+  opacity: 0;
+  animation: stepIn .5s ease forwards;
+  animation-delay: 1s;
+  overflow: hidden;
+  position: relative;
+}
+.gain-banner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--adai);
+}
+.gain-item {
+  text-align: center;
+  padding: 0 16px;
+}
+.gain-item:not(:last-child) { border-right: 1px solid var(--border); }
+.gain-val {
+  font-size: 1.6rem;
+  font-weight: 700;
+  background: var(--adai);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  margin-bottom: 5px;
+}
+.gain-label { font-size: .72rem; color: var(--muted); line-height: 1.4; }
+
+/* Footer */
+.footer {
+  max-width: 860px;
+  margin: 32px auto 0;
+  text-align: center;
+  font-size: .7rem;
+  color: var(--muted);
+}
+.footer strong {
+  background: var(--adai);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@media(max-width: 600px) {
+  .branch-inner { grid-template-columns: 1fr; }
+  .gain-banner { grid-template-columns: 1fr; }
+  .gain-item:not(:last-child) { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 14px; margin-bottom: 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">BMB Assurances × ADAI · Flux Qualification Leads</div>
+  <h1>Votre process de qualification,<br><em>augmenté par l'IA</em></h1>
+  <p>Chaque étape ci-dessous correspond à votre process actuel. En bleu, l'IA prend en charge. En vert, vous gardez la main. Vous validez toujours avant que quoi que ce soit parte.</p>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><span class="legend-dot ai"></span> Géré par l'IA</div>
+  <div class="legend-item"><span class="legend-dot human"></span> Vous gardez la main</div>
+  <div class="legend-item"><span class="legend-dot shared"></span> Validation humaine</div>
+</div>
+
+<div class="flow">
+
+  <!-- Étape 1 -->
+  <div class="step">
+    <div class="step-num-col">
+      <div class="step-num human">01</div>
+      <div class="step-line"></div>
+    </div>
+    <div class="step-card human">
+      <div class="step-meta">
+        <span class="step-tag human">Vous</span>
+        <span class="step-title">Réception du lead Master Lead</span>
+      </div>
+      <div class="step-desc">Vous recevez une fiche PDF par email + le fichier Excel mis à jour dans votre espace partenaire. Actuellement : saisie manuelle dans PipeDrive.</div>
+      <div class="step-detail">
+        <span class="step-detail-icon">💡</span>
+        <span><strong>Demain :</strong> import direct du fichier Excel dans PipeDrive — vos champs personnalisés sont déjà créés, il suffit de mapper une fois. Zéro double saisie.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Étape 2 -->
+  <div class="step">
+    <div class="step-num-col">
+      <div class="step-num shared">02</div>
+      <div class="step-line"></div>
+    </div>
+    <div class="step-card shared">
+      <div class="step-meta">
+        <span class="step-tag shared">Validation</span>
+        <span class="step-title">Statut "À traiter" → séquence déclenchée</span>
+      </div>
+      <div class="step-desc">Dès qu'un lead passe en statut "À traiter" dans PipeDrive, l'agent IA détecte le changement et prépare la séquence de qualification. Vous validez avant le premier envoi.</div>
+      <div class="step-detail">
+        <span class="step-detail-icon">🔒</span>
+        <span>Rien ne part sans votre validation. Vous voyez exactement ce qui va être envoyé — message, ton, destinataire.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Étape 3 -->
+  <div class="step">
+    <div class="step-num-col">
+      <div class="step-num human">03</div>
+      <div class="step-line"></div>
+    </div>
+    <div class="step-card human">
+      <div class="step-meta">
+        <span class="step-tag human">Vous</span>
+        <span class="step-title">Premier contact téléphonique</span>
+      </div>
+      <div class="step-desc">Comme aujourd'hui avec Master Lead — le premier échange est un appel. L'IA ne fait pas d'appels. Ce point de contact humain reste entièrement entre vos mains.</div>
+      <div class="step-detail">
+        <span class="step-detail-icon">📞</span>
+        <span>Après l'appel, vous mettez à jour le statut dans PipeDrive. La séquence automatique se déclenche à partir de là.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Étape 4 -->
+  <div class="step">
+    <div class="step-num-col">
+      <div class="step-num ai">04</div>
+      <div class="step-line"></div>
+    </div>
+    <div class="step-card ai">
+      <div class="step-meta">
+        <span class="step-tag ai">IA</span>
+        <span class="step-title">Séquence de relance SMS + mail — J+2, J+4</span>
+      </div>
+      <div class="step-desc">L'agent envoie les messages dans votre ton, selon la séquence que vous avez configurée. Vous pouvez modifier les messages directement dans l'application à tout moment.</div>
+      <div class="step-detail">
+        <span class="step-detail-icon">✉️</span>
+        <span><strong>Exemple de SMS J+2 :</strong> "Bonjour [Prénom], suite à notre échange de [jour], je voulais m'assurer que vous aviez bien reçu mes informations. Avez-vous des questions ? — Clémence, BMB Assurances"</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Branche réponse / non-réponse -->
+  <div class="branch">
+    <div class="step-num-col">
+      <div class="step-num" style="background:var(--off);border:1.5px solid var(--border);color:var(--muted);font-size:.65rem;">↕</div>
+      <div class="step-line"></div>
+    </div>
+    <div class="branch-inner">
+      <div class="branch-card pos">
+        <div class="branch-label pos">✓ A répondu</div>
+        <div class="branch-title">Lead chaud signalé dans PipeDrive</div>
+        <div class="branch-desc">L'IA remonte une tâche. Vous intervenez directement sur un prospect qualifié. La séquence s'arrête automatiquement.</div>
+      </div>
+      <div class="branch-card neg">
+        <div class="branch-label neg">— N'a pas répondu</div>
+        <div class="branch-title">Séquence relance continue</div>
+        <div class="branch-desc">Relance J+4, puis 2e point de contact téléphonique suggéré. Dernier SMS si toujours sans réponse. Clôture propre du dossier.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Étape 5 -->
+  <div class="step">
+    <div class="step-num-col">
+      <div class="step-num shared">05</div>
+      <div class="step-line"></div>
+    </div>
+    <div class="step-card shared">
+      <div class="step-meta">
+        <span class="step-tag shared">Validation</span>
+        <span class="step-title">2e appel téléphonique — vous reprenez la main</span>
+      </div>
+      <div class="step-desc">Sur suggestion de l'IA, vous passez un second appel avant la dernière relance. Ce point humain augmente significativement le taux de réponse final.</div>
+    </div>
+  </div>
+
+  <!-- Étape 6 -->
+  <div class="step">
+    <div class="step-num-col">
+      <div class="step-num ai">06</div>
+      <div class="step-line"></div>
+    </div>
+    <div class="step-card ai">
+      <div class="step-meta">
+        <span class="step-tag ai">IA</span>
+        <span class="step-title">Mise à jour automatique PipeDrive</span>
+      </div>
+      <div class="step-desc">À chaque étape de la séquence, le statut du lead dans PipeDrive est mis à jour automatiquement. Vous avez une visibilité complète en temps réel sans rien saisir.</div>
+      <div class="step-detail">
+        <span class="step-detail-icon">🔄</span>
+        <span>Vos champs personnalisés PipeDrive sont remplis automatiquement à partir des informations collectées — nom, prénom, date de naissance, coordonnées.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Étape 7 -->
+  <div class="step">
+    <div class="step-num-col">
+      <div class="step-num human">07</div>
+      <div class="step-line"></div>
+    </div>
+    <div class="step-card human">
+      <div class="step-meta">
+        <span class="step-tag human">Vous</span>
+        <span class="step-title">Lead qualifié → passage à la collecte de documents</span>
+      </div>
+      <div class="step-desc">Une fois qualifié, vous envoyez le lien vers l'espace de dépôt DocSpace. C'est vous qui déclenchez cette étape — l'IA prend le relais sur les relances documents.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Gain banner -->
+<div class="gain-banner">
+  <div class="gain-item">
+    <div class="gain-val">−90%</div>
+    <div class="gain-label">du temps passé<br>à qualifier les leads</div>
+  </div>
+  <div class="gain-item">
+    <div class="gain-val">+25%</div>
+    <div class="gain-label">de taux de réponse<br>estimé avec 2 points d'appel</div>
+  </div>
+  <div class="gain-item">
+    <div class="gain-val">×2</div>
+    <div class="gain-label">de volume de leads<br>absorbable sans embauche</div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>Document confidentiel · <strong>ADAI × BMB Assurances</strong> · Mars 2026</p>
+</div>
+
+</body>
+</html>

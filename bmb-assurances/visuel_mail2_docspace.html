@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMB Assurances × ADAI — Flux Collecte Documents</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --adai: linear-gradient(100deg,#1B7FD4 0%,#7B5EA7 48%,#E8852A 78%,#D4A017 100%);
+  --blue: #1B7FD4;
+  --purple: #7B5EA7;
+  --orange: #E8852A;
+  --ink: #0D1117;
+  --ink2: #1E2533;
+  --muted: #6B7280;
+  --border: #E4E7EE;
+  --off: #F7F8FA;
+  --white: #FFFFFF;
+  --green: #16A34A;
+  --green-bg: #F0FDF4;
+  --green-b: #BBF7D0;
+  --ai-bg: rgba(27,127,212,.06);
+  --ai-border: rgba(27,127,212,.2);
+  --human-bg: rgba(22,163,74,.06);
+  --human-border: rgba(22,163,74,.2);
+  --amber: #D97706;
+  --amber-bg: #FFFBEB;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #F7F8FA;
+  color: var(--ink);
+  min-height: 100vh;
+  padding: 32px 20px 60px;
+}
+.header {
+  max-width: 900px;
+  margin: 0 auto 36px;
+  text-align: center;
+}
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .65rem;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 16px;
+}
+.header-badge::before, .header-badge::after { content:''; width:24px; height:1.5px; background:var(--adai); }
+.header h1 { font-size: clamp(1.5rem,3vw,2.1rem); font-weight:700; line-height:1.2; margin-bottom:10px; }
+.header h1 em { font-style:italic; background:var(--adai); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.header p { font-size:.88rem; color:var(--muted); line-height:1.65; max-width:520px; margin:0 auto; }
+
+.legend {
+  display:flex; align-items:center; justify-content:center; gap:24px; margin-bottom:36px; flex-wrap:wrap;
+}
+.legend-item { display:flex; align-items:center; gap:8px; font-size:.78rem; color:var(--muted); font-weight:500; }
+.legend-dot { width:10px; height:10px; border-radius:50%; }
+.legend-dot.ai { background:var(--blue); }
+.legend-dot.human { background:var(--green); }
+.legend-dot.shared { background:var(--orange); }
+.legend-dot.client { background:var(--purple); }
+
+/* Two-column layout: timeline left, doc visual right */
+.main-layout {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Flow */
+.flow { display:flex; flex-direction:column; gap:0; }
+
+.step {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 16px;
+  align-items: flex-start;
+  opacity: 0;
+  transform: translateY(14px);
+  animation: stepIn .4s ease forwards;
+}
+.step:nth-child(1){animation-delay:.1s}
+.step:nth-child(2){animation-delay:.2s}
+.step:nth-child(3){animation-delay:.3s}
+.step:nth-child(4){animation-delay:.4s}
+.step:nth-child(5){animation-delay:.5s}
+.step:nth-child(6){animation-delay:.6s}
+.step:nth-child(7){animation-delay:.7s}
+@keyframes stepIn { to{opacity:1;transform:translateY(0)} }
+
+.step-num-col { display:flex; flex-direction:column; align-items:center; }
+.step-num {
+  width:44px; height:44px; border-radius:50%; display:flex; align-items:center;
+  justify-content:center; font-family:'DM Mono',monospace; font-size:.75rem;
+  font-weight:500; flex-shrink:0; z-index:1;
+}
+.step-num.ai { background:var(--ai-bg); border:1.5px solid var(--ai-border); color:var(--blue); }
+.step-num.human { background:var(--human-bg); border:1.5px solid var(--human-border); color:var(--green); }
+.step-num.shared { background:rgba(232,133,42,.06); border:1.5px solid rgba(232,133,42,.25); color:var(--orange); }
+.step-num.client { background:rgba(123,94,167,.06); border:1.5px solid rgba(123,94,167,.2); color:var(--purple); }
+.step-line { width:1.5px; flex:1; min-height:28px; background:var(--border); margin:5px 0; }
+
+.step-card {
+  background:var(--white); border:1px solid var(--border); border-radius:12px;
+  padding:16px 20px; margin-bottom:14px; box-shadow:0 1px 4px rgba(13,17,23,.05);
+  transition:box-shadow .2s, transform .2s;
+}
+.step-card:hover { box-shadow:0 5px 18px rgba(13,17,23,.08); transform:translateX(3px); }
+.step-card.ai { border-left:3px solid var(--blue); }
+.step-card.human { border-left:3px solid var(--green); }
+.step-card.shared { border-left:3px solid var(--orange); }
+.step-card.client { border-left:3px solid var(--purple); }
+
+.step-meta { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+.step-tag {
+  font-size:.57rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+  padding:2px 7px; border-radius:4px;
+}
+.step-tag.ai { background:var(--ai-bg); color:var(--blue); border:1px solid var(--ai-border); }
+.step-tag.human { background:var(--human-bg); color:var(--green); border:1px solid var(--human-border); }
+.step-tag.shared { background:rgba(232,133,42,.06); color:var(--orange); border:1px solid rgba(232,133,42,.25); }
+.step-tag.client { background:rgba(123,94,167,.06); color:var(--purple); border:1px solid rgba(123,94,167,.2); }
+
+.step-title { font-size:.92rem; font-weight:700; color:var(--ink); line-height:1.3; }
+.step-desc { font-size:.8rem; color:var(--muted); line-height:1.6; margin-top:4px; }
+.step-detail {
+  margin-top:9px; padding:7px 11px; background:var(--off); border-radius:7px;
+  font-size:.74rem; color:var(--ink2); line-height:1.55; display:flex; gap:7px; align-items:flex-start;
+}
+.step-detail-icon { flex-shrink:0; font-size:.82rem; margin-top:1px; }
+
+/* Right panel — DocSpace mockup */
+.docspace-panel {
+  position: sticky;
+  top: 24px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(13,17,23,.09);
+  opacity: 0;
+  animation: stepIn .5s ease .8s forwards;
+}
+.dp-bar {
+  background: var(--off);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.dp-btn { width:10px; height:10px; border-radius:50%; }
+.dp-title { font-size:.62rem; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-left:6px; }
+.dp-live { margin-left:auto; display:flex; align-items:center; gap:5px; font-size:.6rem; font-weight:700; color:var(--green); }
+.dp-live::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--green); animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.3} }
+
+.dp-body { padding:14px; }
+.dp-client {
+  background: linear-gradient(100deg, rgba(27,127,212,.06), rgba(123,94,167,.04));
+  border: 1px solid rgba(27,127,212,.15);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+.dp-client-name { font-size:.82rem; font-weight:700; color:var(--ink); margin-bottom:2px; }
+.dp-client-meta { font-size:.68rem; color:var(--muted); }
+
+.dp-score-wrap { margin-bottom: 12px; }
+.dp-score-label { font-size:.62rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-bottom:6px; display:flex; justify-content:space-between; }
+.dp-score-bar { height:6px; background:var(--off); border-radius:3px; overflow:hidden; }
+.dp-score-fill { height:100%; border-radius:3px; background:var(--adai); width:0; animation:fillBar 1.2s ease 1.2s forwards; }
+@keyframes fillBar { to { width: 75%; } }
+.dp-score-pct { font-size:.7rem; font-weight:700; color:var(--green); }
+
+.dp-docs { display:flex; flex-direction:column; gap:6px; margin-bottom:12px; }
+.dp-doc {
+  display:flex; align-items:center; gap:9px; padding:8px 10px;
+  background:var(--off); border-radius:8px; border:1px solid var(--border);
+  font-size:.75rem;
+}
+.dp-doc-ico { width:26px; height:26px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:.7rem; flex-shrink:0; }
+.dp-doc-ico.ok { background:var(--green-bg); border:1px solid var(--green-b); }
+.dp-doc-ico.wait { background:var(--amber-bg); border:1px solid #FDE68A; }
+.dp-doc-ico.miss { background:#FEF2F2; border:1px solid #FECACA; }
+.dp-doc-name { flex:1; font-weight:600; color:var(--ink); }
+.dp-doc-sub { font-size:.63rem; color:var(--muted); }
+.dp-doc-status { font-size:.58rem; font-weight:700; padding:2px 6px; border-radius:4px; white-space:nowrap; }
+.dp-doc-status.ok { background:var(--green-bg); color:var(--green); }
+.dp-doc-status.wait { background:var(--amber-bg); color:var(--amber); }
+.dp-doc-status.miss { background:#FEF2F2; color:#DC2626; }
+
+.dp-relance {
+  background: rgba(232,133,42,.05);
+  border: 1px solid rgba(232,133,42,.2);
+  border-radius: 9px;
+  padding: 10px 12px;
+  font-size:.75rem;
+}
+.dp-relance-title { font-weight:700; color:var(--orange); font-size:.72rem; margin-bottom:4px; display:flex; align-items:center; gap:6px; }
+.dp-relance-desc { font-size:.7rem; color:var(--muted); line-height:1.5; }
+
+/* Gain banner */
+.gain-banner {
+  max-width:900px; margin:16px auto 0;
+  background:white; border:1px solid rgba(27,127,212,.15); border-radius:14px;
+  padding:18px 28px; display:grid; grid-template-columns:repeat(3,1fr); gap:0;
+  opacity:0; animation:stepIn .5s ease 1.1s forwards; overflow:hidden; position:relative;
+}
+.gain-banner::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:var(--adai); }
+.gain-item { text-align:center; padding:0 16px; }
+.gain-item:not(:last-child) { border-right:1px solid var(--border); }
+.gain-val { font-size:1.5rem; font-weight:700; background:var(--adai); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1; margin-bottom:4px; }
+.gain-label { font-size:.7rem; color:var(--muted); line-height:1.4; }
+
+.footer { max-width:900px; margin:28px auto 0; text-align:center; font-size:.7rem; color:var(--muted); }
+.footer strong { background:var(--adai); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+@media(max-width:700px) {
+  .main-layout { grid-template-columns:1fr; }
+  .docspace-panel { position:static; }
+  .gain-banner { grid-template-columns:1fr; }
+  .gain-item:not(:last-child) { border-right:none; border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">BMB Assurances × ADAI · Flux Collecte Documents</div>
+  <h1>DocSpace : zéro relance<br><em>manuelle sur les documents</em></h1>
+  <p>Voici comment votre process de collecte de documents se transforme. À gauche, chaque étape du flux. À droite, ce que vous voyez dans votre cockpit en temps réel.</p>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><span class="legend-dot ai"></span> Géré par l'IA</div>
+  <div class="legend-item"><span class="legend-dot human"></span> Vous gardez la main</div>
+  <div class="legend-item"><span class="legend-dot shared"></span> Validation humaine</div>
+  <div class="legend-item"><span class="legend-dot client"></span> Action client</div>
+</div>
+
+<div class="main-layout">
+
+  <div class="flow">
+
+    <div class="step">
+      <div class="step-num-col">
+        <div class="step-num human">01</div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-card human">
+        <div class="step-meta"><span class="step-tag human">Vous</span><span class="step-title">Lead qualifié → envoi du lien DocSpace</span></div>
+        <div class="step-desc">Une fois le lead qualifié, vous envoyez manuellement le lien vers l'espace de dépôt. Un mail automatique part au client avec les instructions et la liste des documents attendus.</div>
+        <div class="step-detail"><span class="step-detail-icon">📋</span><span>Le client voit exactement quoi déposer : CNI, tableau d'amortissement, offre de prêt — libellés personnalisés selon le profil (primo-accédant, renégociation, etc.).</span></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num-col">
+        <div class="step-num client">02</div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-card client">
+        <div class="step-meta"><span class="step-tag client">Client</span><span class="step-title">Dépôt des documents sur l'espace dédié</span></div>
+        <div class="step-desc">Le client dépose ses pièces directement depuis son téléphone ou ordinateur — sans créer de compte, sans PDF modifiable à réenregistrer. Une interface simple, guidée.</div>
+        <div class="step-detail"><span class="step-detail-icon">💡</span><span>Fini le PDF modifiable par email. Le client dépose, c'est stocké en sécurité sur serveur français (RGPD). Vous êtes notifiée dès qu'un document arrive.</span></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num-col">
+        <div class="step-num ai">03</div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-card ai">
+        <div class="step-meta"><span class="step-tag ai">IA</span><span class="step-title">Analyse, renommage & conversion PDF automatiques</span></div>
+        <div class="step-desc">L'IA analyse chaque document déposé, détecte son type (CNI, tableau d'amortissement, offre de prêt…), le renomme selon votre convention et le convertit en PDF si nécessaire.</div>
+        <div class="step-detail"><span class="step-detail-icon">🤖</span><span>Plus de 120 types de documents reconnus. Précision proche de 100 %. Les informations clés (nom, prénom, date de naissance) remontent automatiquement dans PipeDrive.</span></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num-col">
+        <div class="step-num ai">04</div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-card ai">
+        <div class="step-meta"><span class="step-tag ai">IA</span><span class="step-title">Détection des documents manquants + relance automatique</span></div>
+        <div class="step-desc">Si le dossier est incomplet, l'IA déclenche automatiquement une relance par SMS puis par mail — dans votre ton, avec la liste précise des pièces manquantes.</div>
+        <div class="step-detail"><span class="step-detail-icon">✉️</span><span><strong>Exemple SMS relance :</strong> "Bonjour [Prénom], votre dossier est presque complet ! Il manque encore : votre tableau d'amortissement. Vous pouvez le déposer ici : [lien]. — Clémence, BMB Assurances"</span></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num-col">
+        <div class="step-num shared">05</div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-card shared">
+        <div class="step-meta"><span class="step-tag shared">Validation</span><span class="step-title">Dossier complet → vous êtes notifiée</span></div>
+        <div class="step-desc">Dès que le scoring de complétude atteint 100 %, vous recevez une notification. Vous vérifiez en un coup d'œil depuis le cockpit et passez à l'étude.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num-col">
+        <div class="step-num ai">06</div>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-card ai">
+        <div class="step-meta"><span class="step-tag ai">IA</span><span class="step-title">PipeDrive mis à jour automatiquement</span></div>
+        <div class="step-desc">Toutes les informations collectées via les documents et le recueil des besoins sont poussées dans les champs personnalisés de votre PipeDrive. Zéro double saisie.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DocSpace mockup -->
+  <div class="docspace-panel">
+    <div class="dp-bar">
+      <div class="dp-btn" style="background:#FF5F57"></div>
+      <div class="dp-btn" style="background:#FEBC2E"></div>
+      <div class="dp-btn" style="background:#28C840"></div>
+      <div class="dp-title">DocSpace · BMB Assurances</div>
+      <div class="dp-live">LIVE</div>
+    </div>
+    <div class="dp-body">
+      <div class="dp-client">
+        <div class="dp-client-name">Martin Lefebvre</div>
+        <div class="dp-client-meta">Renégociation · Reçu le 14 mars 2026</div>
+      </div>
+
+      <div class="dp-score-wrap">
+        <div class="dp-score-label">
+          <span>Complétude du dossier</span>
+          <span class="dp-score-pct">75%</span>
+        </div>
+        <div class="dp-score-bar"><div class="dp-score-fill"></div></div>
+      </div>
+
+      <div class="dp-docs">
+        <div class="dp-doc">
+          <div class="dp-doc-ico ok">🪪</div>
+          <div><div class="dp-doc-name">CNI_Martin_Lefebvre.pdf</div><div class="dp-doc-sub">Renommé · Analysé IA</div></div>
+          <span class="dp-doc-status ok">✓ OK</span>
+        </div>
+        <div class="dp-doc">
+          <div class="dp-doc-ico ok">📄</div>
+          <div><div class="dp-doc-name">Offre_pret_BNP.pdf</div><div class="dp-doc-sub">Renommé · Analysé IA</div></div>
+          <span class="dp-doc-status ok">✓ OK</span>
+        </div>
+        <div class="dp-doc">
+          <div class="dp-doc-ico ok">📊</div>
+          <div><div class="dp-doc-name">Tableau_amort_BNP.pdf</div><div class="dp-doc-sub">Converti en PDF · OK</div></div>
+          <span class="dp-doc-status ok">✓ OK</span>
+        </div>
+        <div class="dp-doc">
+          <div class="dp-doc-ico miss">❗</div>
+          <div><div class="dp-doc-name">RIB bancaire</div><div class="dp-doc-sub">Non déposé</div></div>
+          <span class="dp-doc-status miss">Manquant</span>
+        </div>
+      </div>
+
+      <div class="dp-relance">
+        <div class="dp-relance-title">🔔 Relance automatique envoyée</div>
+        <div class="dp-relance-desc">SMS envoyé le 16 mars à 10h02 — RIB manquant signalé à Martin Lefebvre. En attente de dépôt.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="gain-banner">
+  <div class="gain-item">
+    <div class="gain-val">−100%</div>
+    <div class="gain-label">des relances<br>documents manuelles</div>
+  </div>
+  <div class="gain-item">
+    <div class="gain-val">48h</div>
+    <div class="gain-label">récupérées par an<br>sur la collecte</div>
+  </div>
+  <div class="gain-item">
+    <div class="gain-val">0</div>
+    <div class="gain-label">double saisie<br>dans PipeDrive</div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>Document confidentiel · <strong>ADAI × BMB Assurances</strong> · Mars 2026</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMB Assurances × ADAI — Récap avant RDV</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --adai: linear-gradient(100deg,#1B7FD4 0%,#7B5EA7 48%,#E8852A 78%,#D4A017 100%);
+  --blue: #1B7FD4; --purple: #7B5EA7; --orange: #E8852A; --gold: #D4A017;
+  --ink: #0D1117; --ink2: #1E2533; --ink3: #3A4254;
+  --muted: #6B7280; --border: #E4E7EE; --off: #F7F8FA; --white: #FFFFFF;
+  --green: #16A34A; --green-bg: #F0FDF4; --green-b: #BBF7D0;
+  --amber: #D97706; --amber-bg: #FFFBEB;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'DM Sans',sans-serif; background:#F7F8FA; color:var(--ink); padding:32px 20px 60px; }
+
+.header { max-width:780px; margin:0 auto 40px; text-align:center; }
+.header-badge { display:inline-flex; align-items:center; gap:8px; font-size:.65rem; font-weight:600; letter-spacing:2.5px; text-transform:uppercase; color:var(--blue); margin-bottom:16px; }
+.header-badge::before,.header-badge::after { content:''; width:24px; height:1.5px; background:var(--adai); }
+.header h1 { font-size:clamp(1.5rem,3vw,2.1rem); font-weight:700; line-height:1.2; margin-bottom:10px; }
+.header h1 em { font-style:italic; background:var(--adai); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.header p { font-size:.88rem; color:var(--muted); line-height:1.65; max-width:480px; margin:0 auto; }
+
+.wrap { max-width:780px; margin:0 auto; display:flex; flex-direction:column; gap:16px; }
+
+/* 3 key points */
+.key-point {
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:22px 26px; display:grid; grid-template-columns:52px 1fr; gap:18px;
+  align-items:flex-start; box-shadow:0 1px 5px rgba(13,17,23,.05);
+  opacity:0; transform:translateY(12px);
+  animation: up .4s ease forwards;
+  transition: box-shadow .2s, transform .2s;
+  position: relative; overflow:hidden;
+}
+.key-point:hover { box-shadow:0 6px 22px rgba(13,17,23,.08); transform:translateY(-1px); }
+.key-point:nth-child(1){animation-delay:.1s}
+.key-point:nth-child(2){animation-delay:.2s}
+.key-point:nth-child(3){animation-delay:.3s}
+@keyframes up { to{opacity:1;transform:translateY(0)} }
+
+.key-point::before { content:''; position:absolute; left:0;top:0;bottom:0; width:3px; background:var(--adai); }
+.kp-num {
+  width:52px; height:52px; border-radius:12px; display:flex; align-items:center;
+  justify-content:center; font-family:'DM Mono',monospace; font-size:.9rem; font-weight:500;
+  flex-shrink:0;
+}
+.kp-num.n1 { background:rgba(27,127,212,.08); border:1.5px solid rgba(27,127,212,.2); color:var(--blue); }
+.kp-num.n2 { background:rgba(22,163,74,.07); border:1.5px solid rgba(22,163,74,.2); color:var(--green); }
+.kp-num.n3 { background:rgba(123,94,167,.07); border:1.5px solid rgba(123,94,167,.2); color:var(--purple); }
+.kp-label { font-size:.6rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+.kp-title { font-size:1.02rem; font-weight:700; color:var(--ink); margin-bottom:6px; line-height:1.3; }
+.kp-desc { font-size:.83rem; color:var(--muted); line-height:1.65; }
+.kp-desc strong { color:var(--ink); font-weight:600; }
+
+/* Q&A — objections traitées */
+.qa-section {
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  overflow:hidden; box-shadow:0 1px 5px rgba(13,17,23,.05);
+  opacity:0; animation: up .4s ease .45s forwards;
+}
+.qa-head {
+  padding:14px 22px; border-bottom:1px solid var(--border); background:var(--off);
+  font-size:.62rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--muted);
+}
+.qa-item { padding:16px 22px; border-bottom:1px solid var(--border); }
+.qa-item:last-child { border-bottom:none; }
+.qa-q { font-size:.83rem; font-weight:700; color:var(--ink); margin-bottom:6px; display:flex; gap:10px; align-items:flex-start; }
+.qa-q::before { content:'?'; display:flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:50%; background:rgba(27,127,212,.08); color:var(--blue); font-size:.7rem; font-weight:800; flex-shrink:0; margin-top:1px; }
+.qa-a { font-size:.8rem; color:var(--muted); line-height:1.65; padding-left:30px; }
+.qa-a strong { color:var(--green); font-weight:600; }
+
+/* Next steps */
+.next {
+  background: linear-gradient(100deg, rgba(27,127,212,.05), rgba(123,94,167,.04));
+  border: 1px solid rgba(27,127,212,.18);
+  border-radius:14px; padding:22px 26px;
+  opacity:0; animation: up .4s ease .6s forwards;
+  position:relative; overflow:hidden;
+}
+.next::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:var(--adai); }
+.next-title { font-size:.62rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--blue); margin-bottom:14px; }
+.next-steps { display:flex; flex-direction:column; gap:10px; }
+.ns { display:flex; gap:12px; align-items:flex-start; }
+.ns-dot { width:22px; height:22px; border-radius:50%; background:var(--adai); display:flex; align-items:center; justify-content:center; color:white; font-size:.6rem; font-weight:700; flex-shrink:0; margin-top:1px; }
+.ns-text { font-size:.84rem; color:var(--ink2); line-height:1.55; }
+.ns-text strong { color:var(--ink); font-weight:600; }
+
+/* CTA */
+.cta-box {
+  background:var(--white); border:1px solid var(--border); border-radius:14px;
+  padding:20px 26px; display:flex; align-items:center; gap:20px;
+  opacity:0; animation: up .4s ease .75s forwards;
+  box-shadow:0 2px 12px rgba(13,17,23,.06);
+}
+.cta-text { flex:1; }
+.cta-label { font-size:.62rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--blue); margin-bottom:4px; }
+.cta-title { font-size:.95rem; font-weight:700; color:var(--ink); margin-bottom:3px; }
+.cta-sub { font-size:.78rem; color:var(--muted); }
+.cta-badge {
+  background:var(--adai); color:white; font-size:.82rem; font-weight:700;
+  padding:10px 20px; border-radius:10px; white-space:nowrap;
+  box-shadow:0 4px 14px rgba(27,127,212,.25);
+}
+
+.footer { max-width:780px; margin:28px auto 0; text-align:center; font-size:.7rem; color:var(--muted); }
+.footer strong { background:var(--adai); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+@media(max-width:600px) {
+  .key-point { grid-template-columns:1fr; }
+  .cta-box { flex-direction:column; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">BMB Assurances × ADAI · Récap avant RDV</div>
+  <h1>Ce qu'on a construit ensemble<br><em>en 3 semaines</em></h1>
+  <p>Avant notre RDV de demain, voici les 3 points essentiels à garder en tête — et les réponses aux questions que vous avez posées.</p>
+</div>
+
+<div class="wrap">
+
+  <div class="key-point">
+    <div class="kp-num n1">01</div>
+    <div>
+      <div class="kp-label">Ce que l'IA prend en charge</div>
+      <div class="kp-title">Vous supervisez. Vous ne gérez plus.</div>
+      <div class="kp-desc">Les séquences de qualification (SMS + mail), les relances documents, le renommage et l'archivage — tout ça tourne en autonomie. Vous intervenez uniquement sur les <strong>prospects chauds et les validations</strong>. Les appels restent entre vos mains.</div>
+    </div>
+  </div>
+
+  <div class="key-point">
+    <div class="kp-num n2">02</div>
+    <div>
+      <div class="kp-label">Ce que vous gardez</div>
+      <div class="kp-title">Le contrôle total, à chaque étape.</div>
+      <div class="kp-desc">Rien ne part sans votre validation. Vous modifiez vos messages directement dans l'application. En cas de bug ou besoin d'évolution, <strong>un ticket suffit</strong> — traité sous 24-48h ouvrées. Interlocuteur unique : Adrien.</div>
+    </div>
+  </div>
+
+  <div class="key-point">
+    <div class="kp-num n3">03</div>
+    <div>
+      <div class="kp-label">Ce que ça change concrètement</div>
+      <div class="kp-title">400h libérées. 100K€ HT à portée.</div>
+      <div class="kp-desc">180h sur la qualification + 48h sur la collecte + 120h sur les propositions = <strong>400h/an rendues au pilotage de BMB Assurances</strong>. De quoi doubler le volume de leads absorbé sans embaucher, et atteindre les 100K€ HT cette année.</div>
+    </div>
+  </div>
+
+  <!-- Q&A objections -->
+  <div class="qa-section">
+    <div class="qa-head">Vos questions — nos réponses claires</div>
+    <div class="qa-item">
+      <div class="qa-q">Et si ça crée des frictions avec mes clients ?</div>
+      <div class="qa-a">L'espace de dépôt DocSpace est conçu pour être plus simple qu'un PDF modifiable. Le client reçoit un lien, il dépose depuis son téléphone. <strong>Aucun compte à créer, aucune friction.</strong> Vous testez sur quelques dossiers avant la livraison finale — vous validez avant de généraliser.</div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q">Et si l'API PipeDrive ne fonctionne pas correctement ?</div>
+      <div class="qa-a">PipeDrive dispose d'une API ouverte et bien documentée — c'est un avantage majeur. Nous avons déjà intégré des CRM similaires. <strong>La phase de test avant livraison finale est précisément là pour valider cette connexion</strong> sur vos vrais champs personnalisés.</div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-q">Je n'appelle pas en premier — est-ce que la séquence s'adapte ?</div>
+      <div class="qa-a">Oui. La séquence peut démarrer directement par SMS + mail si vous le souhaitez, ou après votre premier appel. <strong>C'est vous qui définissez le déclencheur</strong> — et vous pouvez le modifier à tout moment depuis l'application.</div>
+    </div>
+  </div>
+
+  <!-- Next steps -->
+  <div class="next">
+    <div class="next-title">Ce qui se passe si on démarre ensemble</div>
+    <div class="next-steps">
+      <div class="ns"><div class="ns-dot">1</div><div class="ns-text"><strong>Semaine 1 :</strong> Appel de lancement — on récupère vos accès PipeDrive, vos messages types, vos profils de documents et votre liste de champs personnalisés.</div></div>
+      <div class="ns"><div class="ns-dot">2</div><div class="ns-text"><strong>Semaines 2–4 :</strong> Configuration des 2 modules. Vous ne faites rien — on développe, on teste en interne.</div></div>
+      <div class="ns"><div class="ns-dot">3</div><div class="ns-text"><strong>Semaine 4–5 :</strong> Vous testez sur vos vrais leads. On ajuste ensemble. Formation 2h en visio, session enregistrée.</div></div>
+      <div class="ns"><div class="ns-dot">4</div><div class="ns-text"><strong>Go live :</strong> Suivi J+15 et J+30 inclus pour s'assurer que les résultats sont au rendez-vous.</div></div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-box">
+    <div class="cta-text">
+      <div class="cta-label">RDV décision</div>
+      <div class="cta-title">Vendredi 27 mars · 14h30</div>
+      <div class="cta-sub">On se retrouve demain pour avancer ensemble. Toutes vos questions trouveront une réponse.</div>
+    </div>
+    <div class="cta-badge">À demain 👋</div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>Document confidentiel · <strong>ADAI × BMB Assurances</strong> · Mars 2026</p>
+</div>
+
+</body>
+</html>

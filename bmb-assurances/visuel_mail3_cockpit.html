@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMB Assurances × ADAI — Cockpit Complet</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --adai: linear-gradient(100deg,#1B7FD4 0%,#7B5EA7 48%,#E8852A 78%,#D4A017 100%);
+  --blue: #1B7FD4; --blue2: #2E9BE8;
+  --purple: #7B5EA7;
+  --orange: #E8852A;
+  --gold: #D4A017;
+  --ink: #0D1117; --ink2: #1E2533; --ink3: #3A4254;
+  --muted: #6B7280; --muted2: #9CA3AF;
+  --border: #E4E7EE; --border2: #D1D5DB;
+  --off: #F7F8FA; --off2: #EFF1F5;
+  --white: #FFFFFF;
+  --green: #16A34A; --green-bg: #F0FDF4; --green-b: #BBF7D0;
+  --amber: #D97706; --amber-bg: #FFFBEB;
+  --red: #DC2626; --red-bg: #FEF2F2;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'DM Sans',sans-serif; background:#F7F8FA; color:var(--ink); padding:32px 20px 60px; }
+
+.header { max-width:1000px; margin:0 auto 36px; text-align:center; }
+.header-badge { display:inline-flex; align-items:center; gap:8px; font-size:.65rem; font-weight:600; letter-spacing:2.5px; text-transform:uppercase; color:var(--blue); margin-bottom:16px; }
+.header-badge::before,.header-badge::after { content:''; width:24px; height:1.5px; background:var(--adai); }
+.header h1 { font-size:clamp(1.5rem,3vw,2.1rem); font-weight:700; line-height:1.2; margin-bottom:10px; }
+.header h1 em { font-style:italic; background:var(--adai); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.header p { font-size:.88rem; color:var(--muted); line-height:1.65; max-width:540px; margin:0 auto; }
+
+/* Pipeline horizontal */
+.pipeline {
+  max-width: 1000px;
+  margin: 0 auto 32px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(13,17,23,.07);
+  position: relative;
+}
+.pipeline::before { content:''; position:absolute; top:0;left:0;right:0; height:3px; background:var(--adai); }
+.pipe-step {
+  padding: 20px 16px;
+  border-right: 1px solid var(--border);
+  position: relative;
+  opacity: 0;
+  animation: fadeUp .4s ease forwards;
+}
+.pipe-step:last-child { border-right: none; }
+.pipe-step:nth-child(1){animation-delay:.1s}
+.pipe-step:nth-child(2){animation-delay:.2s}
+.pipe-step:nth-child(3){animation-delay:.3s}
+.pipe-step:nth-child(4){animation-delay:.4s}
+.pipe-step:nth-child(5){animation-delay:.5s}
+
+@keyframes fadeUp { to{opacity:1;transform:translateY(0)} from{opacity:0;transform:translateY(10px)} }
+
+.pipe-num { font-size:.58rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:8px; }
+.pipe-num.blue { color:var(--blue); }
+.pipe-num.green { color:var(--green); }
+.pipe-num.orange { color:var(--orange); }
+.pipe-icon { font-size:1.3rem; margin-bottom:8px; }
+.pipe-title { font-size:.85rem; font-weight:700; color:var(--ink); margin-bottom:4px; line-height:1.3; }
+.pipe-who { font-size:.68rem; font-weight:600; padding:2px 7px; border-radius:4px; display:inline-block; margin-bottom:6px; }
+.pipe-who.ai { background:rgba(27,127,212,.08); color:var(--blue); border:1px solid rgba(27,127,212,.18); }
+.pipe-who.human { background:var(--green-bg); color:var(--green); border:1px solid var(--green-b); }
+.pipe-who.shared { background:rgba(232,133,42,.06); color:var(--orange); border:1px solid rgba(232,133,42,.2); }
+.pipe-desc { font-size:.73rem; color:var(--muted); line-height:1.5; }
+.pipe-arrow {
+  position: absolute; right: -10px; top: 50%;
+  transform: translateY(-50%);
+  width: 20px; height: 20px;
+  background: var(--white);
+  border: 1px solid var(--border2);
+  border-radius: 50%;
+  display: flex; align-items:center; justify-content:center;
+  font-size: .6rem;
+  color: var(--muted);
+  z-index: 2;
+}
+.pipe-step:last-child .pipe-arrow { display: none; }
+
+/* Cockpit dashboard */
+.cockpit {
+  max-width: 1000px;
+  margin: 0 auto 24px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(13,17,23,.09);
+  opacity: 0;
+  animation: fadeUp .5s ease .7s forwards;
+}
+.cockpit-bar {
+  background: var(--off2);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.cb-btn { width:10px; height:10px; border-radius:50%; }
+.cb-title { font-size:.62rem; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-left:6px; }
+.cb-live { margin-left:auto; display:flex; align-items:center; gap:5px; font-size:.6rem; font-weight:700; color:var(--green); }
+.cb-live::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--green); animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.3} }
+.cb-badge { background:rgba(27,127,212,.1); color:var(--blue); font-size:.58rem; font-weight:700; padding:2px 7px; border-radius:100px; border:1px solid rgba(27,127,212,.2); }
+
+.cockpit-body { padding:16px; }
+
+/* KPIs */
+.kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:16px; }
+.kpi {
+  background:var(--off); border:1px solid var(--border); border-radius:10px;
+  padding:12px 14px; position:relative; overflow:hidden;
+}
+.kpi::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:var(--adai); }
+.kpi-label { font-size:.58rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+.kpi-val { font-family:'DM Mono',monospace; font-size:1.4rem; font-weight:700; color:var(--ink); line-height:1; margin-bottom:2px; }
+.kpi-delta { font-size:.62rem; font-weight:600; color:var(--green); }
+
+/* Leads table */
+.leads-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.leads-module, .docs-module {
+  background:var(--off); border:1px solid var(--border); border-radius:10px; overflow:hidden;
+}
+.mod-head {
+  padding:9px 14px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.mod-head-title { font-size:.62rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--ink); }
+.mod-badge { font-size:.56rem; font-weight:700; padding:2px 6px; border-radius:4px; }
+.mod-badge.blue { background:rgba(27,127,212,.1); color:var(--blue); }
+.mod-badge.green { background:var(--green-bg); color:var(--green); }
+.mod-body { padding:10px 12px; }
+
+.lead-row {
+  display:grid; grid-template-columns:1fr auto auto;
+  gap:8px; align-items:center;
+  padding:7px 0; border-bottom:1px solid var(--border); font-size:.75rem;
+}
+.lead-row:last-child { border-bottom:none; }
+.lead-name { font-weight:600; color:var(--ink); }
+.lead-sub { font-size:.62rem; color:var(--muted); }
+.lead-status { font-size:.57rem; font-weight:700; padding:2px 6px; border-radius:4px; white-space:nowrap; }
+.lead-status.q { background:var(--green-bg); color:var(--green); }
+.lead-status.s { background:rgba(27,127,212,.1); color:var(--blue); }
+.lead-status.r { background:var(--amber-bg); color:var(--amber); }
+.lead-status.n { background:var(--off2); color:var(--muted); }
+
+.doc-row {
+  display:flex; align-items:center; gap:8px;
+  padding:7px 0; border-bottom:1px solid var(--border); font-size:.75rem;
+}
+.doc-row:last-child { border-bottom:none; }
+.doc-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.doc-dot.ok { background:var(--green); }
+.doc-dot.wait { background:var(--amber); }
+.doc-dot.new { background:var(--blue); }
+.doc-name { flex:1; color:var(--ink3); font-weight:500; }
+.doc-pct { font-size:.65rem; font-weight:700; }
+.doc-pct.ok { color:var(--green); }
+.doc-pct.wait { color:var(--amber); }
+.doc-pct.new { color:var(--blue); }
+
+/* Time saved bar */
+.time-bar {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: var(--white);
+  border: 1px solid rgba(27,127,212,.15);
+  border-radius: 14px;
+  padding: 20px 28px;
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 0;
+  opacity: 0;
+  animation: fadeUp .5s ease .95s forwards;
+  position: relative;
+  overflow: hidden;
+}
+.time-bar::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:var(--adai); }
+.tb-item { text-align:center; padding:0 14px; }
+.tb-item:not(:last-child) { border-right:1px solid var(--border); }
+.tb-val { font-size:1.4rem; font-weight:700; background:var(--adai); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1; margin-bottom:4px; }
+.tb-label { font-size:.7rem; color:var(--muted); line-height:1.4; }
+
+.footer { max-width:1000px; margin:28px auto 0; text-align:center; font-size:.7rem; color:var(--muted); }
+.footer strong { background:var(--adai); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+@media(max-width:700px) {
+  .pipeline { grid-template-columns:1fr 1fr; }
+  .pipe-arrow { display:none; }
+  .kpis { grid-template-columns:1fr 1fr; }
+  .leads-grid { grid-template-columns:1fr; }
+  .time-bar { grid-template-columns:1fr 1fr; }
+  .tb-item:nth-child(2) { border-right:none; }
+  .tb-item:nth-child(1),.tb-item:nth-child(2) { padding-bottom:14px; margin-bottom:14px; border-bottom:1px solid var(--border); }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">BMB Assurances × ADAI · Vue d'ensemble</div>
+  <h1>Le flux de bout en bout,<br><em>piloté depuis un seul cockpit</em></h1>
+  <p>De la réception du lead à la proposition commerciale — voici comment les deux modules travaillent ensemble, et ce que vous voyez en temps réel depuis votre tableau de bord.</p>
+</div>
+
+<!-- Pipeline -->
+<div class="pipeline">
+  <div class="pipe-step">
+    <div class="pipe-num blue">Étape 1</div>
+    <div class="pipe-icon">📥</div>
+    <div class="pipe-title">Réception lead</div>
+    <div class="pipe-who human">Vous</div>
+    <div class="pipe-desc">Import Excel → PipeDrive. Statut "À traiter" déclenche la séquence.</div>
+    <div class="pipe-arrow">→</div>
+  </div>
+  <div class="pipe-step">
+    <div class="pipe-num blue">Étape 2</div>
+    <div class="pipe-icon">📞</div>
+    <div class="pipe-title">1er appel + séquence IA</div>
+    <div class="pipe-who shared">Vous + IA</div>
+    <div class="pipe-desc">Vous appelez. L'IA prend le relais sur SMS & mails de relance.</div>
+    <div class="pipe-arrow">→</div>
+  </div>
+  <div class="pipe-step">
+    <div class="pipe-num green">Étape 3</div>
+    <div class="pipe-icon">✅</div>
+    <div class="pipe-title">Lead qualifié</div>
+    <div class="pipe-who human">Vous</div>
+    <div class="pipe-desc">Lead signalé chaud dans PipeDrive. Vous envoyez le lien DocSpace.</div>
+    <div class="pipe-arrow">→</div>
+  </div>
+  <div class="pipe-step">
+    <div class="pipe-num blue">Étape 4</div>
+    <div class="pipe-icon">🗂️</div>
+    <div class="pipe-title">Collecte documents</div>
+    <div class="pipe-who ai">IA</div>
+    <div class="pipe-desc">Analyse, renommage, relances manquants. PipeDrive mis à jour.</div>
+    <div class="pipe-arrow">→</div>
+  </div>
+  <div class="pipe-step">
+    <div class="pipe-num orange">Étape 5</div>
+    <div class="pipe-icon">📊</div>
+    <div class="pipe-title">Proposition commerciale</div>
+    <div class="pipe-who shared">Vous + IA</div>
+    <div class="pipe-desc">Vous faites les devis. L'IA génère le rapport depuis PipeDrive. (Module 3 — étape suivante)</div>
+  </div>
+</div>
+
+<!-- Cockpit -->
+<div class="cockpit">
+  <div class="cockpit-bar">
+    <div class="cb-btn" style="background:#FF5F57"></div>
+    <div class="cb-btn" style="background:#FEBC2E"></div>
+    <div class="cb-btn" style="background:#28C840"></div>
+    <div class="cb-title">Cockpit ADAI · BMB Assurances</div>
+    <span class="cb-badge" style="margin-left:10px;">PipeDrive Sync ✓</span>
+    <div class="cb-live" style="margin-left:auto;">LIVE</div>
+  </div>
+  <div class="cockpit-body">
+    <div class="kpis">
+      <div class="kpi">
+        <div class="kpi-label">Leads ce mois</div>
+        <div class="kpi-val">20</div>
+        <div class="kpi-delta">↑ capacité ×2 disponible</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Taux de qualification</div>
+        <div class="kpi-val">52%</div>
+        <div class="kpi-delta">↑ +27% vs avant IA</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Temps moyen / lead</div>
+        <div class="kpi-val">8 min</div>
+        <div class="kpi-delta">↓ −112 min économisées</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Heures libérées / mois</div>
+        <div class="kpi-val">30h</div>
+        <div class="kpi-delta">↑ pilotage & stratégie</div>
+      </div>
+    </div>
+
+    <div class="leads-grid">
+      <div class="leads-module">
+        <div class="mod-head">
+          <div class="mod-head-title">Agent IA Qualification</div>
+          <span class="mod-badge blue">PipeDrive ✓</span>
+        </div>
+        <div class="mod-body">
+          <div class="lead-row">
+            <div><div class="lead-name">Sophie Bernard</div><div class="lead-sub">Master Lead · J+0</div></div>
+            <span class="lead-status q">✓ Qualifiée</span>
+          </div>
+          <div class="lead-row">
+            <div><div class="lead-name">Thomas Girard</div><div class="lead-sub">Relance J+2 envoyée</div></div>
+            <span class="lead-status s">En séquence</span>
+          </div>
+          <div class="lead-row">
+            <div><div class="lead-name">Marie Dupuis</div><div class="lead-sub">Relance J+4 — À valider</div></div>
+            <span class="lead-status r">⏳ À valider</span>
+          </div>
+          <div class="lead-row">
+            <div><div class="lead-name">Karim Benali</div><div class="lead-sub">Pas de réponse · Clôturé</div></div>
+            <span class="lead-status n">Clôturé</span>
+          </div>
+          <div class="lead-row">
+            <div><div class="lead-name">Julie Moreau</div><div class="lead-sub">Master Lead · À traiter</div></div>
+            <span class="lead-status n">À traiter</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="docs-module">
+        <div class="mod-head">
+          <div class="mod-head-title">DocSpace — Collecte docs</div>
+          <span class="mod-badge green">Archivé ✓</span>
+        </div>
+        <div class="mod-body">
+          <div class="doc-row">
+            <div class="doc-dot ok"></div>
+            <span class="doc-name">Sophie Bernard</span>
+            <span class="doc-pct ok">100% ✓</span>
+          </div>
+          <div class="doc-row">
+            <div class="doc-dot wait"></div>
+            <span class="doc-name">Thomas Girard</span>
+            <span class="doc-pct wait">75% — Relancé</span>
+          </div>
+          <div class="doc-row">
+            <div class="doc-dot new"></div>
+            <span class="doc-name">Isabelle Rousseau</span>
+            <span class="doc-pct new">50% — En cours</span>
+          </div>
+          <div class="doc-row">
+            <div class="doc-dot ok"></div>
+            <span class="doc-name">Paul Lefebvre</span>
+            <span class="doc-pct ok">100% ✓</span>
+          </div>
+          <div class="doc-row">
+            <div class="doc-dot wait"></div>
+            <span class="doc-name">Amina Chettouh</span>
+            <span class="doc-pct wait">25% — Relancée</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Time bar -->
+<div class="time-bar">
+  <div class="tb-item">
+    <div class="tb-val">+400h</div>
+    <div class="tb-label">libérées / an<br>qualification + docs + propositions</div>
+  </div>
+  <div class="tb-item">
+    <div class="tb-val">×2</div>
+    <div class="tb-label">volume de leads<br>absorbable sans embauche</div>
+  </div>
+  <div class="tb-item">
+    <div class="tb-val">&lt; 3 mois</div>
+    <div class="tb-label">retour sur<br>investissement</div>
+  </div>
+  <div class="tb-item">
+    <div class="tb-val">100 K€</div>
+    <div class="tb-label">objectif CA<br>atteignable dès cette année</div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>Document confidentiel · <strong>ADAI × BMB Assurances</strong> · Mars 2026</p>
+</div>
+
+</body>
+</html>

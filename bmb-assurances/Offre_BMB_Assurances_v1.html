@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADAI × BMB Assurances — Proposition d'Automatisation IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:#FFFFFF; --off:#F7F8FA; --off2:#EFF1F5; --off3:#E4E7EE;
+  --ink:#0D1117; --ink2:#1E2533; --ink3:#3A4254;
+  --muted:#6B7280; --muted2:#9CA3AF;
+  --border:#E4E7EE; --border2:#D1D5DB;
+  --ab:#1B7FD4; --ab2:#2E9BE8; --ap:#7B5EA7; --ao:#E8852A; --ag:#D4A017;
+  --adai:linear-gradient(100deg,#1B7FD4 0%,#7B5EA7 48%,#E8852A 78%,#D4A017 100%);
+  --green:#16A34A; --green-bg:#F0FDF4; --green-b:#BBF7D0;
+  --red:#DC2626; --red-bg:#FEF2F2; --red-b:#FECACA;
+  --amber:#D97706; --amber-bg:#FFFBEB;
+  --shadow-xs:0 1px 3px rgba(13,17,23,.08),0 1px 2px rgba(13,17,23,.04);
+  --shadow-sm:0 4px 12px rgba(13,17,23,.08),0 2px 4px rgba(13,17,23,.04);
+  --shadow-md:0 8px 24px rgba(13,17,23,.10),0 4px 8px rgba(13,17,23,.04);
+  --shadow-lg:0 16px 48px rgba(13,17,23,.12),0 8px 16px rgba(13,17,23,.06);
+  --r:12px; --r2:16px; --r3:20px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Calibri','Inter',sans-serif;background:var(--white);color:var(--ink);line-height:1.6;overflow-x:hidden;font-size:15px;}
+
+/* NAV */
+.top-stripe{height:3px;background:var(--adai);}
+nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 48px;display:flex;align-items:center;height:60px;box-shadow:0 1px 0 var(--border);}
+.nav-brand{display:flex;align-items:center;gap:14px;margin-right:auto;}
+.nav-logo{display:flex;align-items:center;gap:10px;}
+.nav-logo-text{font-family:'Calibri','Inter',sans-serif;font-weight:700;font-size:1.25rem;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.nav-logo-sub{font-size:.56rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);display:block;margin-top:-3px;}
+.nav-pipe{width:1px;height:24px;background:var(--border2);}
+.nav-client-wrap{display:flex;flex-direction:column;}
+.nav-client-label{font-size:.56rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);}
+.nav-client-name{font-family:'Calibri','Inter',sans-serif;font-size:.86rem;font-weight:600;color:var(--ink);}
+.nav-link{height:60px;display:flex;align-items:center;padding:0 12px;font-size:.74rem;font-weight:500;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;border-top:none;border-left:none;border-right:none;background:none;cursor:pointer;transition:all .2s;white-space:nowrap;font-family:'Calibri','Inter',sans-serif;}
+.nav-link:hover{color:var(--ink);}
+.nav-link.active{color:var(--ab);border-bottom-color:var(--ab);}
+
+/* COMMUNS */
+.wrap{max-width:1080px;margin:0 auto;padding:52px 48px;}
+.section-bg-off{background:var(--off);}
+.section-bg-white{background:var(--white);}
+.s-eye{font-size:.62rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--ab);margin-bottom:6px;display:flex;align-items:center;gap:10px;}
+.s-eye::before{content:'';width:20px;height:2px;background:var(--adai);border-radius:2px;}
+.s-h{font-family:'Calibri','Inter',sans-serif;font-weight:700;font-size:clamp(1.6rem,2.6vw,2rem);line-height:1.18;color:var(--ink);margin-bottom:8px;}
+.s-h em{font-style:italic;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.s-sub{font-size:.88rem;color:var(--muted);max-width:600px;line-height:1.7;margin-bottom:28px;}
+.divider{border:none;border-top:1px solid var(--border);}
+
+/* ═══ 2 · DOULEURS ═══ */
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;}
+.pain-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:20px 22px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow-xs);transition:box-shadow .2s,transform .2s;}
+.pain-card:hover{box-shadow:var(--shadow-sm);transform:translateY(-2px);}
+.pain-icon{font-size:1.4rem;line-height:1;}
+.pain-badge{display:inline-block;font-size:.56rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 8px;border-radius:4px;background:var(--red-bg);color:var(--red);border:1px solid var(--red-b);width:fit-content;}
+.pain-title{font-weight:700;font-size:.88rem;color:var(--ink);line-height:1.3;}
+.pain-desc{font-size:.78rem;color:var(--muted);line-height:1.5;}
+
+/* Accordéon Avant/Après */
+.avap-toggle-wrap{border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;background:var(--white);}
+.avap-toggle{width:100%;background:none;border:none;cursor:pointer;font-family:'Calibri','Inter',sans-serif;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;transition:background .2s;}
+.avap-toggle:hover{background:var(--off);}
+.avap-toggle-label{font-size:.8rem;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:8px;}
+.avap-toggle-label::before{content:'';width:14px;height:2px;background:var(--adai);}
+.avap-toggle-icon{font-size:.72rem;color:var(--muted2);transition:transform .3s;display:inline-block;}
+.avap-toggle-icon.open{transform:rotate(180deg);}
+.avap-collapsible{display:none;padding:16px 16px 20px;}
+.avap-collapsible.open{display:block;}
+
+/* ═══ 4 · MODULES ═══ */
+.modules-section{background:var(--off);}
+.mod-tabs{display:flex;gap:6px;margin-bottom:28px;flex-wrap:wrap;}
+.mod-tab{padding:9px 22px;border-radius:100px;border:1.5px solid var(--border2);background:var(--white);font-family:'Calibri','Inter',sans-serif;font-size:.82rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all .22s;white-space:nowrap;}
+.mod-tab:hover{border-color:var(--ab);color:var(--ab);}
+.mod-tab.active{background:var(--adai);border-color:transparent;color:white;box-shadow:var(--shadow-sm);}
+.mod-panel{display:none;}
+.mod-panel.active{display:block;animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.mod-left{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:32px 36px;box-shadow:var(--shadow-xs);}
+.mod-num{font-size:3.2rem;font-weight:800;line-height:1;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:.18;margin-bottom:2px;font-family:'Calibri','Inter',sans-serif;}
+.mod-name{font-family:'Calibri','Inter',sans-serif;font-size:1.55rem;font-weight:700;color:var(--ink);margin-bottom:5px;}
+.mod-name em{font-style:italic;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.mod-tagline{font-size:.87rem;color:var(--muted);margin-bottom:26px;max-width:640px;}
+.feat-group{margin-bottom:22px;}
+.fg-head{font-size:.6rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--ab);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.fg-head::after{content:'';flex:1;height:1px;background:var(--border);}
+.feat-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0;}
+.feat{display:flex;gap:13px;padding:13px 0;border-bottom:1px solid var(--border);}
+.feat:last-child{border-bottom:none;padding-bottom:0;}
+.feat-icon{width:30px;height:30px;border-radius:8px;background:rgba(27,127,212,.08);border:1px solid rgba(27,127,212,.14);display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;margin-top:2px;}
+.feat-title{font-weight:700;font-size:.85rem;color:var(--ink);margin-bottom:3px;}
+.feat-desc{font-size:.77rem;color:var(--muted);line-height:1.55;}
+.feat-detail{margin-top:5px;padding:5px 10px;background:var(--off);border-radius:5px;font-size:.72rem;color:var(--muted);border-left:2px solid rgba(27,127,212,.28);line-height:1.5;}
+
+/* ═══ 5 · ROI CALCUL ═══ */
+.roi-table{width:100%;border-collapse:collapse;border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);}
+.roi-table th{font-size:.64rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:11px 16px;border-bottom:2px solid var(--border);text-align:left;background:var(--off);}
+.roi-table th:last-child{text-align:right;}
+.roi-table td{font-size:.82rem;padding:13px 16px;border-bottom:1px solid var(--border);color:var(--ink3);vertical-align:top;}
+.roi-table td:last-child{color:var(--green);font-weight:700;text-align:right;white-space:nowrap;}
+.roi-table tr:last-child td{border-bottom:none;}
+.roi-table tr:hover td{background:rgba(27,127,212,.02);}
+.roi-table tfoot tr:first-child td{border-top:2px solid var(--border2);}
+.roi-table tfoot td{font-weight:700;color:var(--ink);border-bottom:none;background:var(--off);padding:13px 16px;}
+.roi-table tfoot td:last-child{color:var(--green);font-size:.9rem;}
+
+/* ═══ 6 · DASHBOARD ═══ */
+.dashboard-section{background:var(--off);}
+.db-frame{background:var(--white);border:1px solid var(--border);border-radius:var(--r3);overflow:hidden;box-shadow:var(--shadow-lg);}
+.db-bar{background:var(--off2);border-bottom:1px solid var(--border);padding:10px 18px;display:flex;align-items:center;gap:7px;}
+.db-btn{width:11px;height:11px;border-radius:50%;}
+.db-bar-title{font-size:.68rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-left:6px;}
+.db-live{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:.63rem;font-weight:700;color:var(--green);}
+.db-live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.db-pipe-badge{background:rgba(27,127,212,.1);color:var(--ab);font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:100px;border:1px solid rgba(27,127,212,.2);}
+.db-body{padding:16px;}
+.db-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px;}
+.dkpi{background:var(--off);border:1px solid var(--border);border-radius:var(--r);padding:13px;position:relative;overflow:hidden;transition:box-shadow .2s;}
+.dkpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--adai);}
+.dkpi:hover{box-shadow:var(--shadow-xs);}
+.dkpi-label{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.dkpi-val{font-family:'Calibri','Inter',sans-serif;font-size:1.5rem;font-weight:700;color:var(--ink);line-height:1;margin-bottom:3px;}
+.dkpi-delta{font-size:.65rem;font-weight:600;}
+.dkpi-delta.up{color:var(--green);}
+.dkpi-delta.dn{color:var(--red);}
+.db-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.db-module{background:var(--off);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.dbm-head{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.dbm-title{font-size:.65rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink);}
+.dbm-badge{font-size:.58rem;font-weight:700;padding:2px 7px;border-radius:4px;}
+.dbm-badge.blue{background:rgba(27,127,212,.1);color:var(--ab);}
+.dbm-badge.green{background:var(--green-bg);color:var(--green);}
+.dbm-badge.purple{background:rgba(123,94,167,.1);color:var(--ap);}
+.dbm-body{padding:12px 14px;}
+
+/* Lead rows */
+.lead-row{display:grid;grid-template-columns:1fr auto auto;gap:6px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:.75rem;}
+.lead-row:last-child{border-bottom:none;}
+.lead-name{font-weight:600;color:var(--ink);}
+.lead-detail{font-size:.64rem;color:var(--muted);}
+.lead-status{font-size:.59rem;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;}
+.lead-status.qualif{background:var(--green-bg);color:var(--green);}
+.lead-status.seq{background:rgba(27,127,212,.1);color:var(--ab);}
+.lead-status.attente{background:var(--off3);color:var(--muted);}
+.lead-status.relance{background:var(--amber-bg);color:var(--amber);}
+.lead-score{font-weight:700;font-size:.76rem;color:var(--ink);}
+
+/* Doc rows */
+.doc-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:.75rem;}
+.doc-row:last-child{border-bottom:none;}
+.doc-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.doc-dot.ok{background:var(--green);}
+.doc-dot.att{background:var(--ab);}
+.doc-dot.man{background:var(--ao);}
+.doc-name{flex:1;color:var(--ink3);}
+.doc-meta{font-size:.64rem;color:var(--muted);}
+.doc-tag{font-size:.58rem;font-weight:700;padding:2px 6px;border-radius:4px;}
+.doc-tag.ok{background:var(--green-bg);color:var(--green);}
+.doc-tag.att{background:rgba(27,127,212,.1);color:var(--ab);}
+.doc-tag.man{background:var(--amber-bg);color:var(--amber);}
+
+/* Prop rows */
+.prop-row{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:.75rem;}
+.prop-row:last-child{border-bottom:none;}
+.prop-ico{width:24px;height:24px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;}
+.prop-ico.b{background:rgba(27,127,212,.1);border:1px solid rgba(27,127,212,.2);}
+.prop-ico.g{background:var(--green-bg);border:1px solid var(--green-b);}
+.prop-ico.o{background:var(--amber-bg);border:1px solid #FDE68A;}
+.prop-content{flex:1;}
+.prop-title{font-weight:600;color:var(--ink);line-height:1.3;}
+.prop-sub{font-size:.63rem;color:var(--muted);}
+.prop-time{font-size:.6rem;color:var(--muted2);white-space:nowrap;margin-top:1px;}
+
+.dbm-footer{border-top:1px solid var(--border);padding:10px 14px;display:flex;align-items:center;gap:8px;}
+.dbm-stat{flex:1;text-align:center;}
+.dbms-val{font-family:'Calibri','Inter',sans-serif;font-size:1.15rem;font-weight:700;color:var(--ink);line-height:1;}
+.dbms-lab{font-size:.58rem;color:var(--muted);}
+.mchart{display:flex;align-items:flex-end;gap:3px;height:32px;flex:2;}
+.mc-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;}
+.mc-b{width:100%;border-radius:2px 2px 0 0;background:var(--off3);}
+.mc-b.now{background:linear-gradient(180deg,var(--ab2),var(--ap));}
+.mc-l{font-size:.52rem;color:var(--muted);}
+
+/* ═══ 7 · OFFRE ═══ */
+.audit-banner{background:linear-gradient(100deg,rgba(22,163,74,.06),rgba(22,163,74,.03));border:1px solid var(--green-b);border-radius:var(--r2);padding:18px 22px;display:flex;align-items:center;gap:16px;margin-bottom:20px;}
+.ab-icon{font-size:1.6rem;}
+.ab-text-title{font-weight:700;font-size:.95rem;color:var(--ink);margin-bottom:2px;}
+.ab-text-desc{font-size:.8rem;color:var(--muted);}
+.ab-badge{margin-left:auto;background:var(--green);color:white;font-family:'Calibri','Inter',sans-serif;font-size:.85rem;font-weight:700;padding:6px 14px;border-radius:8px;white-space:nowrap;}
+.offre-modules{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;}
+.om-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);transition:box-shadow .2s,border-color .2s;}
+.om-card:hover{box-shadow:var(--shadow-sm);}
+.om-card.featured{border-color:rgba(27,127,212,.28);}
+.om-inner{display:grid;grid-template-columns:1fr auto;align-items:start;padding:20px 24px;gap:20px;}
+.om-stripe{height:2px;background:var(--adai);}
+.om-num{font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ab);margin-bottom:4px;}
+.om-name{font-family:'Calibri','Inter',sans-serif;font-size:1.25rem;color:var(--ink);margin-bottom:4px;}
+.om-desc{font-size:.8rem;color:var(--muted);line-height:1.5;margin-bottom:10px;}
+.om-items{display:flex;flex-direction:column;gap:5px;}
+.oi{display:flex;align-items:flex-start;gap:7px;font-size:.79rem;}
+.oi-check{color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px;}
+.oi-text{color:var(--ink3);line-height:1.35;}
+.oi-text strong{color:var(--ink);font-weight:600;}
+.om-price-box{text-align:right;flex-shrink:0;}
+.om-price-val{font-family:'Calibri','Inter',sans-serif;font-size:2rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;letter-spacing:-1px;}
+.om-price-unit{font-size:.72rem;color:var(--muted);margin-top:2px;}
+.bonus-card{background:linear-gradient(100deg,rgba(215,119,6,.05),rgba(212,160,23,.04));border:1.5px dashed var(--amber);border-radius:var(--r2);padding:18px 22px;margin-bottom:20px;}
+.bonus-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.bonus-badge{background:var(--amber-bg);color:var(--amber);font-size:.6rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:4px;border:1px solid #FDE68A;}
+.bonus-title{font-weight:700;font-size:.9rem;color:var(--ink);}
+.bonus-items{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.bonus-item{display:flex;align-items:flex-start;gap:7px;font-size:.79rem;color:var(--ink3);}
+.bonus-check{color:var(--amber);font-weight:700;flex-shrink:0;margin-top:1px;}
+.mensuel-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:0;overflow:hidden;box-shadow:var(--shadow-xs);}
+.mc-stripe{height:2px;background:var(--adai);}
+.mc-inner{padding:20px 24px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;}
+.mc-price-val{font-family:'Calibri','Inter',sans-serif;font-size:2rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;letter-spacing:-1px;text-align:right;}
+.mc-price-unit{font-size:.72rem;color:var(--muted);text-align:right;margin-top:2px;}
+.mc-items{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+
+/* ═══ AVANT → APRÈS ═══ */
+.avap-section{background:var(--off);}
+.avap-grid{display:grid;grid-template-columns:1fr 40px 1fr;gap:0;align-items:stretch;}
+.avap-col{border-radius:var(--r2);overflow:hidden;}
+.avap-col.before{background:var(--red-bg);border:1px solid var(--red-b);}
+.avap-col.after{background:var(--green-bg);border:1px solid var(--green-b);}
+.avap-head{padding:11px 18px;font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+.avap-head.before{background:rgba(220,38,38,.08);color:var(--red);}
+.avap-head.after{background:rgba(22,163,74,.08);color:var(--green);}
+.avap-body{padding:12px 16px;display:flex;flex-direction:column;gap:7px;}
+.avap-step{display:flex;align-items:flex-start;gap:8px;font-size:.79rem;color:var(--ink3);line-height:1.4;}
+.avap-dot-r{width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:5px;}
+.avap-dot-g{width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:5px;}
+.avap-arrow-col{display:flex;align-items:center;justify-content:center;}
+.avap-arrow-ico{width:34px;height:34px;border-radius:50%;background:var(--adai);display:flex;align-items:center;justify-content:center;color:white;font-size:.88rem;box-shadow:var(--shadow-sm);}
+
+/* ═══ 8 · ENGAGEMENTS ═══ */
+.garanties-section{background:var(--white);}
+.g-row{counter-reset:g-counter;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);}
+.g-card{background:var(--white);padding:16px 18px;display:flex;align-items:flex-start;gap:12px;transition:background .2s;counter-increment:g-counter;}
+.g-card:hover{background:var(--off);}
+.g-card::before{content:counter(g-counter,decimal-leading-zero);font-family:'Calibri','Inter',sans-serif;font-size:.7rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;flex-shrink:0;margin-top:2px;min-width:18px;}
+.g-title{font-family:'Calibri','Inter',sans-serif;font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:2px;}
+.g-text{font-size:.73rem;color:var(--muted);line-height:1.45;}
+
+/* ═══ 9 · DÉMARRAGE ═══ */
+.onboarding-section{background:var(--off);}
+.onb-steps-simple{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;}
+.onb-steps-simple::before{content:'';position:absolute;top:22px;left:calc(12.5% + 10px);right:calc(12.5% + 10px);height:1px;background:var(--border2);z-index:0;}
+.onb-s{text-align:center;padding:0 12px;position:relative;z-index:1;}
+.onb-n{width:44px;height:44px;border-radius:50%;background:var(--white);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:'Calibri','Inter',sans-serif;font-size:.95rem;font-weight:700;color:var(--muted);margin:0 auto 12px;box-shadow:var(--shadow-xs);}
+.onb-n.a{background:var(--adai);border:none;color:white;}
+.onb-phase{font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ab);margin-bottom:4px;}
+.onb-title{font-weight:600;font-size:.82rem;color:var(--ink);margin-bottom:4px;}
+.onb-desc{font-size:.73rem;color:var(--muted);line-height:1.5;}
+
+/* FOOTER */
+footer{background:var(--ink);padding:24px 48px;display:flex;align-items:center;justify-content:space-between;font-size:.7rem;color:rgba(255,255,255,.4);}
+.footer-brand{background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;font-size:.82rem;}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  nav{padding:0 18px;}
+  .wrap{padding:36px 20px;}
+  .pain-grid{grid-template-columns:1fr;}
+  .avap-grid{grid-template-columns:1fr;}
+  .db-kpis{grid-template-columns:1fr 1fr;}
+  .db-grid{grid-template-columns:1fr;}
+  .g-row{grid-template-columns:1fr 1fr;}
+  .om-inner,.mc-inner,.mc-items,.bonus-items{grid-template-columns:1fr;}
+  .onb-steps-simple{grid-template-columns:1fr 1fr;}
+  footer{flex-direction:column;gap:6px;}
+}
+</style>
+</head>
+<body>
+<div class="top-stripe"></div>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo">
+      <div>
+        <div class="nav-logo-text">ADAI</div>
+      </div>
+    </div>
+    <div class="nav-pipe"></div>
+    <div class="nav-client-wrap">
+      <span class="nav-client-label">Proposition commerciale pour</span>
+      <span class="nav-client-name">BMB Assurances</span>
+    </div>
+  </div>
+  <button class="nav-link active" onclick="navTo(this,'s2')">Douleurs</button>
+  <button class="nav-link" onclick="navTo(this,'s4')">Modules</button>
+  <button class="nav-link" onclick="navTo(this,'s5')">ROI détaillé</button>
+  <button class="nav-link" onclick="navTo(this,'s6')">Dashboard</button>
+  <button class="nav-link" onclick="navTo(this,'s7')">Offre</button>
+  <button class="nav-link" onclick="navTo(this,'s8')">Engagements</button>
+  <button class="nav-link" onclick="navTo(this,'s9')">Démarrage</button>
+</nav>
+
+<!-- ══════════════════════════════
+  1 · HERO
+══════════════════════════════ -->
+<section id="s1" style="background:var(--white);">
+  <div style="max-width:1080px;margin:0 auto;padding:56px 48px 44px;text-align:center;">
+    <div style="display:inline-flex;align-items:center;gap:8px;font-size:.68rem;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--ab);margin-bottom:14px;">
+      <span style="width:18px;height:2px;background:var(--adai);display:inline-block;"></span>
+      Audit IA · BMB Assurances · Fév 2026
+    </div>
+    <h1 style="font-family:'Calibri','Inter',sans-serif;font-weight:700;font-size:clamp(2.2rem,4vw,3.2rem);line-height:1.1;color:var(--ink);margin-bottom:12px;">
+      Doublez votre volume de leads<br>sans <em style="font-style:italic;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">embauche supplémentaire</em>
+    </h1>
+    <p style="font-size:.95rem;color:var(--muted);line-height:1.65;max-width:620px;margin:0 auto 28px;">
+      Chaque heure passée à qualifier manuellement vos leads est une heure de moins pour la relation client à haute valeur. L'IA prend en charge la qualification, la collecte de documents et les propositions commerciales — <strong style="color:var(--ink);font-weight:600;">pour vous permettre de franchir le cap des 100 k€ HT</strong>.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;max-width:540px;margin:0 auto;">
+      <div style="padding:16px 20px;text-align:center;border-right:1px solid var(--border);">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.7rem;font-weight:700;line-height:1;margin-bottom:4px;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">+30h</div>
+        <div style="font-size:.68rem;color:var(--muted);line-height:1.3;">libérées / mois</div>
+      </div>
+      <div style="padding:16px 20px;text-align:center;border-right:1px solid var(--border);">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.7rem;font-weight:700;line-height:1;margin-bottom:4px;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">×2</div>
+        <div style="font-size:.68rem;color:var(--muted);line-height:1.3;">leads traités sans recrutement</div>
+      </div>
+      <div style="padding:16px 20px;text-align:center;">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.7rem;font-weight:700;line-height:1;margin-bottom:4px;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">&lt; 3 mois</div>
+        <div style="font-size:.68rem;color:var(--muted);line-height:1.3;">retour sur investissement</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════
+  2 · LES DOULEURS
+══════════════════════════════ -->
+<section id="s2" class="section-bg-off">
+  <div class="wrap">
+    <div class="s-eye">Diagnostic terrain · Audit 27 février 2026</div>
+    <h2 class="s-h">Ce qui freine <em>votre croissance</em> aujourd'hui</h2>
+    <p class="s-sub">Votre équipe commerciale passe l'essentiel de son temps à qualifier des leads achetés — dont 50 % ne répondront jamais. Chaque heure perdue sur ce travail est une heure de moins sur les clients à fort potentiel.</p>
+
+    <div class="pain-grid">
+      <div class="pain-card">
+        <span class="pain-icon">📞</span>
+        <div>
+          <span class="pain-badge">#1 PRIORITÉ IMMÉDIATE</span>
+          <div class="pain-title">Qualification leads : 1–2h/jour sur des prospects qui ne répondent pas</div>
+          <div class="pain-desc">~20 leads/mois qualifiés manuellement — mail, SMS, appels répétitifs. 50 % de non-réponses. Aucune séquence automatisée. Aucune intégration native avec PipeDrive à la réception.</div>
+        </div>
+      </div>
+      <div class="pain-card">
+        <span class="pain-icon">📂</span>
+        <div>
+          <span class="pain-badge">#2 RAPPROCHÉ</span>
+          <div class="pain-title">Collecte de documents : relances manuelles tri-hebdomadaires</div>
+          <div class="pain-desc">Aucun espace de dépôt sécurisé. Documents renvoyés par email. Relances SMS le lundi, appels le mercredi, mails le vendredi — entièrement manuelles, ~2h supplémentaires par semaine active.</div>
+        </div>
+      </div>
+      <div class="pain-card">
+        <span class="pain-icon">📊</span>
+        <div>
+          <span class="pain-badge">#3 COURT TERME</span>
+          <div class="pain-title">Propositions commerciales créées à la main à chaque dossier</div>
+          <div class="pain-desc">Étude comparative plateformes assureurs + PDF PowerPoint + mail de présentation — recréés manuellement pour chaque prospect. Zéro automatisation, zéro capitalisation.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accordéon Avant/Après -->
+    <div class="avap-toggle-wrap">
+      <button class="avap-toggle" onclick="toggleAvap(this)" aria-expanded="false">
+        <span class="avap-toggle-label">Voir le détail — Avant / Après votre journée type</span>
+        <span class="avap-toggle-icon">▼</span>
+      </button>
+      <div class="avap-collapsible">
+        <div class="avap-grid">
+          <div class="avap-col before">
+            <div class="avap-head before">⚠ Aujourd'hui — Sans ADAI</div>
+            <div class="avap-body">
+              <div class="avap-step"><span class="avap-dot-r"></span><span>Lead reçu → saisie manuelle dans PipeDrive → attribution commerciale à la main</span></div>
+              <div class="avap-step"><span class="avap-dot-r"></span><span>Séquence qualification : appels, SMS perso, emails rédigés un par un — <strong>1–2h/jour</strong></span></div>
+              <div class="avap-step"><span class="avap-dot-r"></span><span>50 % de non-réponses absorbées sans tri — temps gaspillé sur des prospects froids</span></div>
+              <div class="avap-step"><span class="avap-dot-r"></span><span>Relances documents : SMS lundi, appels mercredi, mails vendredi — <strong>entièrement manuelles</strong></span></div>
+              <div class="avap-step"><span class="avap-dot-r"></span><span>Proposition commerciale → étude comparative + PowerPoint + mail = <strong>45–60 min par dossier</strong></span></div>
+              <div class="avap-step"><span class="avap-dot-r"></span><span>Volume plafonné à ~20 leads/mois faute de bande passante — <strong>impossible de scaler sans recruter</strong></span></div>
+            </div>
+          </div>
+          <div class="avap-arrow-col"><div class="avap-arrow-ico">→</div></div>
+          <div class="avap-col after">
+            <div class="avap-head after">✓ Demain — Avec ADAI</div>
+            <div class="avap-body">
+              <div class="avap-step"><span class="avap-dot-g"></span><span>Lead reçu → fiche PipeDrive créée automatiquement → séquence déclenchée immédiatement</span></div>
+              <div class="avap-step"><span class="avap-dot-g"></span><span>Agent IA envoie mail, SMS, WhatsApp sur 7 jours — <strong>5 min de supervision au lieu de 2h</strong></span></div>
+              <div class="avap-step"><span class="avap-dot-g"></span><span>Leads chauds signalés automatiquement → vous intervenez uniquement sur les prospects qualifiés</span></div>
+              <div class="avap-step"><span class="avap-dot-g"></span><span>Documents : espace sécurisé + relances automatiques sur pièces manquantes — <strong>0 relance manuelle</strong></span></div>
+              <div class="avap-step"><span class="avap-dot-g"></span><span>Proposition commerciale générée par l'IA → mail + PDF prêt à valider en <strong>10 min</strong></span></div>
+              <div class="avap-step"><span class="avap-dot-g"></span><span><strong>+30h/mois libérées</strong> → capacité à doubler le volume de leads sans embauche</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════
+  4 · LES 3 MODULES
+══════════════════════════════ -->
+<section id="s4" class="modules-section">
+  <div class="wrap">
+    <div class="s-eye">Détail des automatisations</div>
+    <h2 class="s-h">Les 3 modules <em>de votre cockpit IA</em></h2>
+    <p class="s-sub">Chaque module conçu sur mesure pour les process identifiés lors de l'audit. Connexion PipeDrive native sur l'ensemble.</p>
+
+    <div class="mod-tabs">
+      <button class="mod-tab active" onclick="showMod(0,this)">01 · Agent IA Qualification</button>
+      <button class="mod-tab" onclick="showMod(1,this)">02 · DocSpace + Relances Auto</button>
+      <button class="mod-tab" onclick="showMod(2,this)">03 · PropositionBot IA</button>
+    </div>
+
+    <!-- MODULE 01 — Agent IA Qualification Leads -->
+    <div class="mod-panel active">
+      <div class="mod-left">
+        <div class="mod-num">01</div>
+        <div class="mod-name">Agent IA Qualification Leads <em>— Séquence multicanal automatisée</em></div>
+        <div class="mod-tagline">Du lead acheté au prospect qualifié prêt pour la relation commerciale — sans intervention manuelle sur les 50 % qui ne répondront pas. Connecté nativement à PipeDrive.</div>
+        <div class="feat-group">
+          <div class="fg-head">Intégration & déclenchement automatique</div>
+          <div class="feat">
+            <div class="feat-icon">🔗</div>
+            <div><div class="feat-title">Création automatique de la fiche PipeDrive</div><div class="feat-desc">À réception du lead acheté, la fiche prospect est créée dans PipeDrive (nom, téléphone, source, date). Attribution à la commerciale et déclenchement immédiat de la séquence — zéro saisie manuelle.</div><div class="feat-detail">Intégration native PipeDrive · RGPD compliant · hébergement UE</div></div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">📨</div>
+            <div><div class="feat-title">Séquence multicanal sur 7 jours (Mail · SMS · WhatsApp)</div><div class="feat-desc">L'agent IA envoie une séquence personnalisée adaptée à chaque non-réponse : mail J+0, SMS J+2, WhatsApp J+4, relance mail J+7. Le canal est ajusté selon la réactivité du prospect.</div><div class="feat-detail">SMS et WhatsApp depuis un numéro professionnel dédié — plus depuis les téléphones personnels.</div></div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">🎯</div>
+            <div><div class="feat-title">Détection d'intérêt & notification dirigeante</div><div class="feat-desc">Dès qu'un prospect répond ou clique, la commerciale est notifiée pour prendre la main. Les prospects sans réponse après 7 jours sont archivés automatiquement dans PipeDrive.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 02 — DocSpace + Relances Auto -->
+    <div class="mod-panel">
+      <div class="mod-left">
+        <div class="mod-num">02</div>
+        <div class="mod-name">DocSpace + Relances Auto <em>— Collecte documentaire sécurisée</em></div>
+        <div class="mod-tagline">Un espace de dépôt sécurisé par client, relances automatiques sur les pièces manquantes, dossier mis à jour dans PipeDrive en temps réel. Zéro relance manuelle.</div>
+        <div class="feat-group">
+          <div class="fg-head">Espace de dépôt & suivi</div>
+          <div class="feat">
+            <div class="feat-icon">🔐</div>
+            <div><div class="feat-title">Espace sécurisé dédié par prospect</div><div class="feat-desc">Chaque prospect reçoit un lien vers son espace de dépôt personnel et sécurisé. Documents téléchargés directement depuis le smartphone — sans email, sans risque de perte.</div><div class="feat-detail">Chiffrement en transit et au repos · hébergement UE · durée de conservation conforme obligations assurance emprunteur</div></div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">🔔</div>
+            <div><div class="feat-title">Relances automatiques sur pièces manquantes</div><div class="feat-desc">Le système détecte les documents manquants et envoie les relances automatiquement. Plus de calendrier manuel SMS lundi / appels mercredi / mails vendredi. Votre équipe est notifiée uniquement quand le dossier est complet.</div></div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">🔄</div>
+            <div><div class="feat-title">Mise à jour automatique du dossier PipeDrive</div><div class="feat-desc">Chaque document reçu met à jour le statut du dossier dans PipeDrive. Vue centralisée de l'avancement de chaque prospect sans saisie manuelle.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 03 — PropositionBot IA -->
+    <div class="mod-panel">
+      <div class="mod-left">
+        <div class="mod-num">03</div>
+        <div class="mod-name">PropositionBot IA <em>— Génération automatique des offres</em></div>
+        <div class="mod-tagline">Mail de présentation + PDF commercial générés automatiquement pour chaque dossier qualifié. Validation humaine avant envoi. Connecté à PipeDrive pour le suivi.</div>
+        <div class="feat-group">
+          <div class="fg-head">Génération & envoi</div>
+          <div class="feat">
+            <div class="feat-icon">🤖</div>
+            <div><div class="feat-title">Proposition commerciale générée par l'IA</div><div class="feat-desc">À partir du dossier prospect qualifié, l'IA génère la trame du mail de présentation et du PDF commercial dans votre ton et votre charte. Vous relisez et validez en 10 min — pas de PowerPoint à construire.</div><div class="feat-detail">Zéro création manuelle. Capitalisation des propositions types.</div></div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">✅</div>
+            <div><div class="feat-title">Validation humaine systématique avant envoi</div><div class="feat-desc">L'IA ne part jamais sans votre accord. Vous gardez le contrôle total sur chaque proposition envoyée à un prospect. La validation prend moins de 5 minutes.</div></div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">📈</div>
+            <div><div class="feat-title">Suivi ouverture, relance & mise à jour PipeDrive</div><div class="feat-desc">Vous êtes notifié dès que le prospect consulte la proposition. Relance automatique J+3 si pas de retour. Statut du dossier PipeDrive mis à jour automatiquement à chaque étape.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════
+  5 · LE ROI CALCULÉ
+══════════════════════════════ -->
+<section id="s5" class="section-bg-white">
+  <div class="wrap">
+    <div class="s-eye">Retour sur investissement · Calcul détaillé</div>
+    <h2 class="s-h">Le ROI <em>chiffré</em> de BMB Assurances</h2>
+    <p class="s-sub">Chaque heure libérée sur la qualification est une heure réinvestie sur les clients à forte valeur. Le levier est double : gain de temps immédiat + capacité à absorber davantage de leads.</p>
+
+    <div style="overflow-x:auto;">
+      <table class="roi-table" style="margin-bottom:20px;">
+        <thead><tr><th>Source de gain</th><th>Scénario modéré (doubler le volume de leads)</th><th>Valeur / an</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Temps qualification récupéré</strong><br><span style="font-size:.72rem;color:var(--muted2);">90 min/j × 10 jours actifs × 12 mois = 180h</span></td>
+            <td style="font-size:.78rem;">180h/an restituées à la commerciale pour les prospects chauds</td>
+            <td>+180h</td>
+          </tr>
+          <tr>
+            <td><strong>Volume de leads doublé</strong><br><span style="font-size:.72rem;color:var(--muted2);">Passage de 20 à 40 leads/mois — même taux de conversion 25 %</span><br><span style="font-size:.72rem;color:var(--green);font-weight:600;">Scénario optimiste : 40 leads × 25 % × CA moyen/client</span></td>
+            <td style="font-size:.78rem;"><span style="color:var(--ink3);">Modéré : 20 leads qualifiés en plus → <strong>+5 contrats/mois</strong></span><br><span style="color:var(--green);font-weight:600;">Optimiste : 40 leads × 25 % = 10 contrats/mois → <strong>>100 k€ HT CA annuel</strong></span></td>
+            <td><span style="display:block;font-weight:700;">×2 leads traités</span><span style="font-size:.72rem;color:var(--green);font-weight:700;">Cap 100k€ HT</span></td>
+          </tr>
+          <tr>
+            <td><strong>Temps collecte documents récupéré</strong><br><span style="font-size:.72rem;color:var(--muted2);">~2h/semaine active × 24 semaines actives = 48h/an</span></td>
+            <td style="font-size:.78rem;">48h → relation client à haute valeur</td>
+            <td>+48h</td>
+          </tr>
+          <tr>
+            <td><strong>Propositions commerciales automatisées</strong><br><span style="font-size:.72rem;color:var(--muted2);">45 min économisées × ~20 dossiers/mois × 12 mois = 180h</span></td>
+            <td style="font-size:.78rem;">180h/an restituées — plus aucun PowerPoint créé à la main</td>
+            <td>+180h</td>
+          </tr>
+          <tr>
+            <td><strong>Scalabilité sans recrutement</strong><br><span style="font-size:.72rem;color:var(--muted2);">Capacité à absorber rachats de portefeuilles et 4e recrutement dans de meilleures conditions</span></td>
+            <td style="font-size:.78rem;">Infrastructure prête pour la croissance — CA >100k€ HT atteignable</td>
+            <td>Stratégique</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr><td colspan="2">Heures libérées estimées / an — <em>tous modules confondus</em></td><td>+408h / an</td></tr>
+          <tr style="background:rgba(22,163,74,.06);"><td colspan="2" style="color:var(--green);">Objectif CA — <em>scénario optimiste (leads doublés)</em></td><td style="color:var(--green);font-size:.92rem;">>100 k€ HT</td></tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- Résumé ROI horizontal -->
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-sm);position:relative;">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--adai);z-index:1;"></div>
+      <div style="padding:20px 16px;text-align:center;border-right:1px solid var(--border);background:var(--white);">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.55rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:5px;">+30h</div>
+        <div style="font-size:.7rem;color:var(--muted);line-height:1.4;font-weight:500;">/ mois libérées<br>qualification + docs + prop.</div>
+      </div>
+      <div style="padding:20px 16px;text-align:center;border-right:1px solid var(--border);background:var(--white);">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.55rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:5px;">×2</div>
+        <div style="font-size:.7rem;color:var(--muted);line-height:1.4;font-weight:500;">leads traités<br>sans recrutement</div>
+      </div>
+      <div style="padding:20px 16px;text-align:center;border-right:1px solid var(--border);background:var(--white);">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.55rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:5px;">&lt; 3 mois</div>
+        <div style="font-size:.7rem;color:var(--muted);line-height:1.4;font-weight:500;">retour sur<br>investissement</div>
+      </div>
+      <div style="padding:20px 16px;text-align:center;border-right:1px solid var(--border);background:rgba(22,163,74,.03);">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.55rem;font-weight:700;color:var(--green);line-height:1;margin-bottom:5px;">+408h</div>
+        <div style="font-size:.7rem;color:var(--muted);line-height:1.4;font-weight:500;">restituées / an<br><span style="color:var(--green);font-weight:600;">tous modules</span></div>
+      </div>
+      <div style="padding:20px 16px;text-align:center;background:rgba(22,163,74,.07);">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.55rem;font-weight:700;color:var(--green);line-height:1;margin-bottom:5px;">>100k€</div>
+        <div style="font-size:.7rem;color:var(--muted);line-height:1.4;font-weight:500;">CA HT atteignable<br><span style="color:var(--green);font-weight:600;">scénario optimiste</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════
+  6 · DASHBOARD COCKPIT — CONNECTÉ PIPEDRIVE
+══════════════════════════════ -->
+<section id="s6" class="dashboard-section">
+  <div class="wrap">
+    <div class="s-eye">Tableau de bord · Cockpit connecté PipeDrive</div>
+    <h2 class="s-h">Votre cockpit <em>BMB Assurances</em></h2>
+    <p class="s-sub">Vue centralisée des 3 automatisations en service, synchronisée en temps réel avec PipeDrive. Accessible téléphone et ordinateur.</p>
+
+    <div class="db-frame">
+      <div class="db-bar">
+        <div class="db-btn" style="background:#FF5F57;"></div>
+        <div class="db-btn" style="background:#FEBC2E;"></div>
+        <div class="db-btn" style="background:#28C840;"></div>
+        <div class="db-bar-title">ADAI · Cockpit BMB Assurances</div>
+        <span class="db-pipe-badge" style="margin-left:10px;">🔗 PipeDrive Sync</span>
+        <div class="db-live" style="margin-left:auto;">LIVE</div>
+        <div style="margin-left:10px;font-size:.65rem;color:var(--muted);">Fév 2026</div>
+      </div>
+
+      <div class="db-body">
+        <!-- KPIs globaux -->
+        <div class="db-kpis">
+          <div class="dkpi">
+            <div class="dkpi-label">Leads ce mois · PipeDrive</div>
+            <div class="dkpi-val">38</div>
+            <div class="dkpi-delta up">↑ +18 vs mois dernier</div>
+          </div>
+          <div class="dkpi">
+            <div class="dkpi-label">Taux de qualification</div>
+            <div class="dkpi-val">26%</div>
+            <div class="dkpi-delta up">↑ +4% avec IA</div>
+          </div>
+          <div class="dkpi">
+            <div class="dkpi-label">Temps moyen / qualification</div>
+            <div class="dkpi-val">5 min</div>
+            <div class="dkpi-delta up">↓ −85 min économisées</div>
+          </div>
+          <div class="dkpi">
+            <div class="dkpi-label">Heures libérées / mois</div>
+            <div class="dkpi-val">31h</div>
+            <div class="dkpi-delta up">↑ Bande passante ×3</div>
+          </div>
+        </div>
+
+        <!-- 3 modules côte à côte -->
+        <div class="db-grid">
+
+          <!-- MODULE 01 : Agent Qualification -->
+          <div class="db-module">
+            <div class="dbm-head">
+              <div class="dbm-title">01 · Agent IA Qualification</div>
+              <span class="dbm-badge blue">PIPEDRIVE SYNC ✓</span>
+            </div>
+            <div class="dbm-body">
+              <div class="lead-row">
+                <div><div class="lead-name">Mme Rousseau S.</div><div class="lead-detail">Assurance emprunteur · Crédit immo</div></div>
+                <span class="lead-status qualif">✓ Qualifié</span>
+                <div class="lead-score">Chaud</div>
+              </div>
+              <div class="lead-row">
+                <div><div class="lead-name">M. Bernard T.</div><div class="lead-detail">Séquence J+2 · SMS envoyé</div></div>
+                <span class="lead-status seq">En séquence</span>
+                <div class="lead-score">—</div>
+              </div>
+              <div class="lead-row">
+                <div><div class="lead-name">Mme Lefèvre C.</div><div class="lead-detail">Mail ouvert · Pas de réponse</div></div>
+                <span class="lead-status relance">Relancé J+4</span>
+                <div class="lead-score">—</div>
+              </div>
+              <div class="lead-row">
+                <div><div class="lead-name">M. Moreau P.</div><div class="lead-detail">WhatsApp J+4 envoyé</div></div>
+                <span class="lead-status seq">En séquence</span>
+                <div class="lead-score">—</div>
+              </div>
+              <div class="lead-row">
+                <div><div class="lead-name">M. Girard L.</div><div class="lead-detail">Archivé · 7j sans réponse</div></div>
+                <span class="lead-status attente">Archivé</span>
+                <div class="lead-score">Froid</div>
+              </div>
+            </div>
+            <div class="dbm-footer">
+              <div class="dbm-stat"><div class="dbms-val">38</div><div class="dbms-lab">Leads ce mois</div></div>
+              <div class="dbm-stat" style="border-left:1px solid var(--border);"><div class="dbms-val" style="color:var(--green);">10</div><div class="dbms-lab">Qualifiés</div></div>
+              <div class="mchart">
+                <div class="mc-col"><div class="mc-b" style="height:12px;"></div><div class="mc-l">O</div></div>
+                <div class="mc-col"><div class="mc-b" style="height:18px;"></div><div class="mc-l">N</div></div>
+                <div class="mc-col"><div class="mc-b" style="height:14px;"></div><div class="mc-l">D</div></div>
+                <div class="mc-col"><div class="mc-b" style="height:20px;"></div><div class="mc-l">J</div></div>
+                <div class="mc-col"><div class="mc-b now" style="height:30px;"></div><div class="mc-l" style="color:var(--ab);font-weight:700;">F</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MODULE 02 : DocSpace -->
+          <div class="db-module">
+            <div class="dbm-head">
+              <div class="dbm-title">02 · DocSpace + Relances Auto</div>
+              <span class="dbm-badge green">SÉCURISÉ ✓</span>
+            </div>
+            <div class="dbm-body">
+              <div class="doc-row">
+                <div class="doc-dot ok"></div>
+                <span class="doc-name">Mme Rousseau S.</span>
+                <span class="doc-meta">Fév 20</span>
+                <span class="doc-tag ok">Dossier complet</span>
+              </div>
+              <div class="doc-row">
+                <div class="doc-dot att"></div>
+                <span class="doc-name">M. Petit R.</span>
+                <span class="doc-meta">Fév 18</span>
+                <span class="doc-tag att">2 docs manquants</span>
+              </div>
+              <div class="doc-row">
+                <div class="doc-dot ok"></div>
+                <span class="doc-name">Mme Faure A.</span>
+                <span class="doc-meta">Fév 17</span>
+                <span class="doc-tag ok">Dossier complet</span>
+              </div>
+              <div class="doc-row">
+                <div class="doc-dot man"></div>
+                <span class="doc-name">M. Simon B.</span>
+                <span class="doc-meta">Fév 22</span>
+                <span class="doc-tag man">Relance auto envoyée</span>
+              </div>
+              <div class="doc-row">
+                <div class="doc-dot att"></div>
+                <span class="doc-name">Mme Garnier L.</span>
+                <span class="doc-meta">Fév 23</span>
+                <span class="doc-tag att">En attente dépôt</span>
+              </div>
+            </div>
+            <div class="dbm-footer">
+              <div class="dbm-stat"><div class="dbms-val">18</div><div class="dbms-lab">Dossiers actifs</div></div>
+              <div class="dbm-stat" style="border-left:1px solid var(--border);"><div class="dbms-val" style="color:var(--ab);">0</div><div class="dbms-lab">Relances manuelles</div></div>
+              <div class="dbm-stat" style="border-left:1px solid var(--border);"><div class="dbms-val" style="color:var(--green);">11</div><div class="dbms-lab">Dossiers complets</div></div>
+            </div>
+          </div>
+
+          <!-- MODULE 03 : PropositionBot -->
+          <div class="db-module">
+            <div class="dbm-head">
+              <div class="dbm-title">03 · PropositionBot IA</div>
+              <span class="dbm-badge purple">ACTIF ✓</span>
+            </div>
+            <div class="dbm-body">
+              <div class="prop-row">
+                <div class="prop-ico g">✓</div>
+                <div class="prop-content"><div class="prop-title">Proposition Rousseau signée</div><div class="prop-sub">Contrat validé → PipeDrive mis à jour</div></div>
+                <div class="prop-time">09:15</div>
+              </div>
+              <div class="prop-row">
+                <div class="prop-ico b">📄</div>
+                <div class="prop-content"><div class="prop-title">2 propositions générées</div><div class="prop-sub">En attente de votre validation</div></div>
+                <div class="prop-time">10:30</div>
+              </div>
+              <div class="prop-row">
+                <div class="prop-ico b">📧</div>
+                <div class="prop-content"><div class="prop-title">Proposition Faure envoyée</div><div class="prop-sub">Client notifié · Ouverture trackée</div></div>
+                <div class="prop-time">11:45</div>
+              </div>
+              <div class="prop-row">
+                <div class="prop-ico o">🔔</div>
+                <div class="prop-content"><div class="prop-title">Relance auto — Petit J+3</div><div class="prop-sub">Envoyée automatiquement</div></div>
+                <div class="prop-time">14:00</div>
+              </div>
+              <div class="prop-row">
+                <div class="prop-ico b">📝</div>
+                <div class="prop-content"><div class="prop-title">Nouveau dossier qualifié Simon</div><div class="prop-sub">Proposition prête à valider</div></div>
+                <div class="prop-time">15:55</div>
+              </div>
+            </div>
+            <div class="dbm-footer">
+              <div class="dbm-stat"><div class="dbms-val">24</div><div class="dbms-lab">Prop. générées</div></div>
+              <div class="dbm-stat" style="border-left:1px solid var(--border);"><div class="dbms-val" style="color:var(--green);">12h</div><div class="dbms-lab">Économisées</div></div>
+              <div class="dbm-stat" style="border-left:1px solid var(--border);"><div class="dbms-val" style="color:var(--amber);">5</div><div class="dbms-lab">Relances auto</div></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════
+  7 · L'OFFRE
+══════════════════════════════ -->
+<section id="s7" class="section-bg-white">
+  <div class="wrap">
+    <div class="s-eye">Investissement · Structure tarifaire</div>
+    <h2 class="s-h">L'offre <em>conçue pour BMB Assurances</em></h2>
+    <p class="s-sub">Trois modules distincts, chacun avec son tarif, pour une transparence totale sur votre investissement.</p>
+
+    <!-- Audit offert -->
+    <div class="audit-banner">
+      <div class="ab-icon">🔍</div>
+      <div>
+        <div class="ab-text-title">Audit & Cartographie des process</div>
+        <div class="ab-text-desc">Analyse complète de vos process actuels, identification des priorités et plan de déploiement personnalisé BMB Assurances.</div>
+      </div>
+      <div class="ab-badge">OFFERT</div>
+    </div>
+
+    <!-- Pack Modules 1+2 -->
+    <div style="margin-bottom:12px;">
+      <div style="font-size:.6rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--ab);margin-bottom:10px;display:flex;align-items:center;gap:10px;"><span style="width:16px;height:2px;background:var(--adai);display:inline-block;border-radius:2px;"></span>Cœur du dispositif — Modules 1 &amp; 2</div>
+
+      <!-- Module 1 -->
+      <div class="om-card featured" style="margin-bottom:8px;">
+        <div class="om-stripe"></div>
+        <div class="om-inner">
+          <div>
+            <div class="om-num">Module 1</div>
+            <div class="om-name">Agent IA Qualification Leads</div>
+            <div class="om-desc">Séquence multicanal automatisée (mail, SMS, WhatsApp), création de fiche PipeDrive à la réception du lead, notification sur prospects chauds.</div>
+            <div class="om-items">
+              <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Création automatique de la fiche PipeDrive à réception du lead</span></div>
+              <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Séquence multicanal sur 7 jours — mail, SMS, WhatsApp depuis numéro pro dédié</span></div>
+              <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Détection d'intérêt et notification commerciale en temps réel</span></div>
+              <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Archivage automatique des non-répondants dans PipeDrive</span></div>
+            </div>
+          </div>
+          <div class="om-price-box">
+            <div class="om-price-val">3 200€</div>
+            <div class="om-price-unit">TTC · prix unitaire</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 2 -->
+      <div class="om-card featured" style="margin-bottom:12px;">
+        <div class="om-stripe"></div>
+        <div class="om-inner">
+          <div>
+            <div class="om-num">Module 2</div>
+            <div class="om-name">DocSpace + Relances Automatiques</div>
+            <div class="om-desc">Espace de dépôt sécurisé par prospect, relances automatiques sur pièces manquantes, mise à jour du dossier PipeDrive en temps réel.</div>
+            <div class="om-items">
+              <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Espace de dépôt sécurisé individuel par prospect (chiffrement UE)</span></div>
+              <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Relances automatiques sur pièces manquantes — zéro relance manuelle</span></div>
+              <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Notification automatique dossier complet + mise à jour PipeDrive</span></div>
+              <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Conformité RGPD — durée de conservation conforme obligations assurance emprunteur</span></div>
+            </div>
+          </div>
+          <div class="om-price-box">
+            <div class="om-price-val">2 400€</div>
+            <div class="om-price-unit">TTC · prix unitaire</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pack 1+2 -->
+      <div style="background:linear-gradient(100deg,rgba(27,127,212,.06),rgba(123,94,167,.05));border:2px solid rgba(27,127,212,.25);border-radius:var(--r2);padding:18px 24px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--adai);"></div>
+        <div style="display:grid;grid-template-columns:1fr auto;align-items:center;gap:24px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+              <span style="font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">⭐ Pack Modules 1 + 2</span>
+              <span style="background:var(--green-bg);color:var(--green);border:1px solid var(--green-b);font-size:.58rem;font-weight:700;padding:2px 8px;border-radius:4px;">−400€ TTC</span>
+            </div>
+            <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:4px;">Agent Qualification + DocSpace — déployés ensemble</div>
+            <div style="display:flex;gap:16px;margin-top:8px;">
+              <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--ink3);"><span style="color:var(--green);font-weight:700;">✓</span>Une seule phase de configuration</div>
+              <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--ink3);"><span style="color:var(--green);font-weight:700;">✓</span>Une seule formation</div>
+              <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--ink3);"><span style="color:var(--green);font-weight:700;">✓</span>Flux bout-en-bout cohérent</div>
+            </div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;">
+            <div style="font-size:.72rem;color:var(--muted);text-decoration:line-through;margin-bottom:2px;">5 600€ TTC</div>
+            <div style="font-family:'Calibri','Inter',sans-serif;font-size:2.4rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;letter-spacing:-1px;">5 200€</div>
+            <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">TTC · setup unique</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module 3 : étape suivante -->
+    <div style="margin-bottom:20px;">
+      <div style="font-size:.6rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--amber);margin-bottom:10px;display:flex;align-items:center;gap:10px;"><span style="width:16px;height:2px;background:var(--amber);display:inline-block;border-radius:2px;"></span>Étape suivante — Module 3</div>
+      <div class="om-card" style="border-color:rgba(217,119,6,.25);">
+        <div style="height:2px;background:linear-gradient(90deg,var(--amber),var(--ag));"></div>
+        <div class="om-inner">
+          <div>
+            <div class="om-num" style="color:var(--amber);">Module 3 · Option</div>
+            <div class="om-name">PropositionBot IA</div>
+            <div class="om-desc">Génération automatique du mail de présentation et du PDF commercial pour chaque dossier qualifié. Validation humaine avant envoi. Connecté PipeDrive. <strong style="color:var(--amber);">Activable à tout moment après déploiement des modules 1 &amp; 2.</strong></div>
+            <div class="om-items">
+              <div class="oi"><span class="oi-check" style="color:var(--amber);">✓</span><span class="oi-text">Proposition commerciale générée par l'IA dans votre ton et votre charte</span></div>
+              <div class="oi"><span class="oi-check" style="color:var(--amber);">✓</span><span class="oi-text">Validation humaine systématique avant tout envoi — contrôle total garanti</span></div>
+              <div class="oi"><span class="oi-check" style="color:var(--amber);">✓</span><span class="oi-text">Suivi ouverture + relance automatique J+3 si pas de retour</span></div>
+              <div class="oi"><span class="oi-check" style="color:var(--amber);">✓</span><span class="oi-text">Mise à jour automatique du statut PipeDrive à chaque étape</span></div>
+            </div>
+          </div>
+          <div class="om-price-box">
+            <div class="om-price-val" style="font-size:1.7rem;">1 900€</div>
+            <div class="om-price-unit">TTC · setup unique</div>
+            <div style="margin-top:8px;font-size:.68rem;color:var(--amber);font-weight:600;text-align:right;">Activable à J+60</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Option bonus -->
+    <div class="bonus-card">
+      <div class="bonus-head">
+        <span class="bonus-badge">⭐ OPTION FACULTATIVE</span>
+        <div class="bonus-title">Scoring & Reporting Automatisé</div>
+      </div>
+      <div class="bonus-items">
+        <div class="bonus-item"><span class="bonus-check">→</span><span>Scoring intelligent des leads — priorisation automatique par probabilité de conversion</span></div>
+        <div class="bonus-item"><span class="bonus-check">→</span><span>Reporting automatisé : CA, taux de conversion, coût par lead qualifié</span></div>
+        <div class="bonus-item"><span class="bonus-check">→</span><span>Numéro pro dédié centralisé avec historique SMS/WhatsApp dans PipeDrive</span></div>
+        <div class="bonus-item"><span class="bonus-check">→</span><span>Réactivation automatique des bases prospects inactives</span></div>
+      </div>
+      <div style="margin-top:10px;font-size:.75rem;color:var(--muted);font-style:italic;">Tarif à définir selon les modules activés — à discuter selon vos priorités.</div>
+    </div>
+
+    <!-- Mensuel -->
+    <div class="mensuel-card">
+      <div class="mc-stripe"></div>
+      <div class="mc-inner">
+        <div class="mc-left">
+          <div class="om-num" style="color:var(--green);">Abonnement mensuel</div>
+          <div class="om-name">Maintenance & Évolution Continue</div>
+          <div class="mc-items">
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Infrastructure IA & hébergement sécurisé UE</span></div>
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Mises à jour & évolutions réglementaires incluses</span></div>
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Améliorations continues sur vos automatisations</span></div>
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Support dédié — interlocuteur unique</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="mc-price-val">149€</div>
+          <div class="mc-price-unit">TTC / mois</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════
+  8 · ENGAGEMENTS
+══════════════════════════════ -->
+<section id="s8" class="garanties-section">
+  <div class="wrap">
+    <div class="s-eye">Engagements & garanties</div>
+    <h2 class="s-h">Ce sur quoi <em>nous nous engageons</em></h2>
+
+    <div class="g-row">
+      <div class="g-card"><div><div class="g-title">Opérationnel en 4 à 5 semaines</div><div class="g-text">Configuration complète prise en charge. Votre rôle : valider et utiliser.</div></div></div>
+      <div class="g-card"><div><div class="g-title">Formation incluse & enregistrée</div><div class="g-text">Session visio enregistrée. Suivi J+15 et J+30 inclus dans l'offre.</div></div></div>
+      <div class="g-card"><div><div class="g-title">Vos données vous appartiennent</div><div class="g-text">Hébergement UE, RGPD, PipeDrive conforme. Export possible à tout moment.</div></div></div>
+      <div class="g-card"><div><div class="g-title">Support dédié 24–48h ouvrées</div><div class="g-text">Un interlocuteur unique qui connaît votre dossier. Pas de ticket anonyme.</div></div></div>
+      <div class="g-card"><div><div class="g-title">Évolution continue incluse</div><div class="g-text">Évolutions réglementaires assurance, mises à jour tarifs — incluses dans l'abonnement.</div></div></div>
+      <div class="g-card"><div><div class="g-title">Conçu pour l'assurance de crédit</div><div class="g-text">Solution taillée pour un courtier en assurance emprunteur, pas un outil générique.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════
+  9 · DÉMARRAGE
+══════════════════════════════ -->
+<section id="s9" class="onboarding-section">
+  <div class="wrap">
+    <div class="s-eye">Mise en service & accompagnement</div>
+    <h2 class="s-h">De la signature <em>à la première automatisation</em></h2>
+    <p class="s-sub">4 étapes, entièrement prises en charge par notre équipe. Votre rôle : valider et utiliser.</p>
+
+    <div class="onb-steps-simple">
+      <div class="onb-s">
+        <div class="onb-n a">1</div>
+        <div class="onb-phase">Semaine 1</div>
+        <div class="onb-title">Appel de lancement</div>
+        <div class="onb-desc">Recueil de vos informations : accès PipeDrive, modèles de propositions, charte, canaux de communication. 45 min en visio.</div>
+      </div>
+      <div class="onb-s">
+        <div class="onb-n">2</div>
+        <div class="onb-phase">Semaines 2–4</div>
+        <div class="onb-title">Configuration</div>
+        <div class="onb-desc">Nos équipes paramètrent les 3 modules, connectent PipeDrive, configurent les séquences et testent les flux. Rien à faire de votre côté.</div>
+      </div>
+      <div class="onb-s">
+        <div class="onb-n a">3</div>
+        <div class="onb-phase">Semaine 4–5</div>
+        <div class="onb-title">Formation & validation</div>
+        <div class="onb-desc">Test sur vos vrais leads, ajustements en direct. Formation 2h en visio, session enregistrée pour votre équipe.</div>
+      </div>
+      <div class="onb-s">
+        <div class="onb-n">4</div>
+        <div class="onb-phase">Semaine 5 →</div>
+        <div class="onb-title">Activation & suivi</div>
+        <div class="onb-desc">Go live. Point de suivi J+15 et J+30 inclus pour s'assurer que les résultats sont au rendez-vous.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <span class="footer-brand">ADAI — Création & Automation</span>
+    <span style="margin-left:12px;">· Proposition confidentielle BMB Assurances · Février 2026</span>
+  </div>
+  <div>Document réservé · © 2026 ADAI</div>
+</footer>
+
+<script>
+function toggleAvap(btn){
+  const content = btn.nextElementSibling;
+  const icon = btn.querySelector('.avap-toggle-icon');
+  const isOpen = content.classList.contains('open');
+  content.classList.toggle('open', !isOpen);
+  icon.classList.toggle('open', !isOpen);
+  btn.setAttribute('aria-expanded', !isOpen);
+}
+function navTo(btn, id){
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function showMod(idx, btn){
+  document.querySelectorAll('.mod-tab').forEach((b,i)=>b.classList.toggle('active',i===idx));
+  document.querySelectorAll('.mod-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
+}
+</script>
+</body>
+</html>
