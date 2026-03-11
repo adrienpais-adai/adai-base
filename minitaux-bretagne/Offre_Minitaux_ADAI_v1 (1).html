@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADAI × Réseau Minitaux — Proposition d'Automatisation IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:#FFFFFF; --off:#F7F8FA; --off2:#EFF1F5; --off3:#E4E7EE;
+  --ink:#0D1117; --ink2:#1E2533; --ink3:#3A4254;
+  --muted:#6B7280; --muted2:#9CA3AF;
+  --border:#E4E7EE; --border2:#D1D5DB;
+  --ab:#1B7FD4; --ab2:#2E9BE8; --ap:#7B5EA7; --ao:#E8852A; --ag:#D4A017;
+  --adai:linear-gradient(100deg,#1B7FD4 0%,#7B5EA7 48%,#E8852A 78%,#D4A017 100%);
+  --green:#16A34A; --green-bg:#F0FDF4; --green-b:#BBF7D0;
+  --red:#DC2626; --red-bg:#FEF2F2; --red-b:#FECACA;
+  --amber:#D97706; --amber-bg:#FFFBEB;
+  --shadow-xs:0 1px 3px rgba(13,17,23,.08),0 1px 2px rgba(13,17,23,.04);
+  --shadow-sm:0 4px 12px rgba(13,17,23,.08),0 2px 4px rgba(13,17,23,.04);
+  --shadow-md:0 8px 24px rgba(13,17,23,.10),0 4px 8px rgba(13,17,23,.04);
+  --shadow-lg:0 16px 48px rgba(13,17,23,.12),0 8px 16px rgba(13,17,23,.06);
+  --r:12px; --r2:16px; --r3:20px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Calibri','Inter',sans-serif;background:var(--white);color:var(--ink);line-height:1.6;overflow-x:hidden;font-size:15px;}
+
+/* NAV */
+.top-stripe{height:3px;background:var(--adai);}
+nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 48px;display:flex;align-items:center;height:60px;box-shadow:0 1px 0 var(--border);}
+.nav-brand{display:flex;align-items:center;gap:14px;margin-right:auto;}
+.nav-logo{display:flex;align-items:center;gap:10px;}
+.nav-logo-svg{width:30px;height:30px;}
+.nav-logo-text{font-family:'Calibri','Inter',sans-serif;font-weight:700;font-size:1.25rem;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.nav-logo-sub{font-size:.56rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);display:block;margin-top:-3px;}
+.nav-pipe{width:1px;height:24px;background:var(--border2);}
+.nav-client-wrap{display:flex;flex-direction:column;}
+.nav-client-label{font-size:.56rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);}
+.nav-client-name{font-family:'Calibri','Inter',sans-serif;font-size:.86rem;font-weight:600;color:var(--ink);}
+.nav-link{height:60px;display:flex;align-items:center;padding:0 12px;font-size:.74rem;font-weight:500;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;border-top:none;border-left:none;border-right:none;background:none;cursor:pointer;transition:all .2s;white-space:nowrap;font-family:'Calibri','Inter',sans-serif;}
+.nav-link:hover{color:var(--ink);}
+.nav-link.active{color:var(--ab);border-bottom-color:var(--ab);}
+.nav-cta{margin-left:10px;padding:7px 16px;background:var(--adai);color:white;border:none;border-radius:8px;font-family:'Calibri','Inter',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;box-shadow:var(--shadow-sm);white-space:nowrap;transition:opacity .2s;}
+.nav-cta:hover{opacity:.9;}
+
+/* COMMUNS */
+.wrap{max-width:1080px;margin:0 auto;padding:52px 48px;}
+.section-bg-off{background:var(--off);}
+.section-bg-white{background:var(--white);}
+.s-eye{font-size:.62rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--ab);margin-bottom:6px;display:flex;align-items:center;gap:10px;}
+.s-eye::before{content:'';width:20px;height:2px;background:var(--adai);border-radius:2px;}
+.s-h{font-family:'Calibri','Inter',sans-serif;font-weight:700;font-size:clamp(1.6rem,2.6vw,2rem);line-height:1.18;color:var(--ink);margin-bottom:8px;}
+.s-h em{font-style:italic;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.s-sub{font-size:.88rem;color:var(--muted);max-width:600px;line-height:1.7;margin-bottom:28px;}
+.divider{border:none;border-top:1px solid var(--border);}
+
+/* ═══ 2 · DOULEURS ═══ */
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;}
+.pain-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:20px 22px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow-xs);transition:box-shadow .2s,transform .2s;}
+.pain-card:hover{box-shadow:var(--shadow-sm);transform:translateY(-2px);}
+.pain-icon{font-size:1.4rem;line-height:1;}
+.pain-badge{display:inline-block;font-size:.56rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 8px;border-radius:4px;background:var(--red-bg);color:var(--red);border:1px solid var(--red-b);width:fit-content;}
+.pain-title{font-weight:700;font-size:.88rem;color:var(--ink);line-height:1.3;}
+.pain-desc{font-size:.78rem;color:var(--muted);line-height:1.5;}
+
+/* Accordéon Avant/Après */
+.avap-toggle-wrap{border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;background:var(--white);}
+.avap-toggle{width:100%;background:none;border:none;cursor:pointer;font-family:'Calibri','Inter',sans-serif;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;transition:background .2s;}
+.avap-toggle:hover{background:var(--off);}
+.avap-toggle-label{font-size:.8rem;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:8px;}
+.avap-toggle-label::before{content:'';width:14px;height:2px;background:var(--adai);}
+.avap-toggle-icon{font-size:.72rem;color:var(--muted2);transition:transform .3s;display:inline-block;}
+.avap-toggle-icon.open{transform:rotate(180deg);}
+.avap-collapsible{display:none;padding:16px 16px 20px;}
+.avap-collapsible.open{display:block;}
+
+/* ═══ 4 · MODULES ═══ */
+.modules-section{background:var(--off);}
+.mod-tabs{display:flex;gap:6px;margin-bottom:28px;flex-wrap:wrap;}
+.mod-tab{padding:9px 22px;border-radius:100px;border:1.5px solid var(--border2);background:var(--white);font-family:'Calibri','Inter',sans-serif;font-size:.82rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all .22s;white-space:nowrap;}
+.mod-tab:hover{border-color:var(--ab);color:var(--ab);}
+.mod-tab.active{background:var(--adai);border-color:transparent;color:white;box-shadow:var(--shadow-sm);}
+.mod-panel{display:none;}
+.mod-panel.active{display:block;animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.mod-left{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:32px 36px;box-shadow:var(--shadow-xs);}
+.mod-num{font-size:3.2rem;font-weight:800;line-height:1;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:.18;margin-bottom:2px;font-family:'Calibri','Inter',sans-serif;}
+.mod-name{font-family:'Calibri','Inter',sans-serif;font-size:1.55rem;font-weight:700;color:var(--ink);margin-bottom:5px;}
+.mod-name em{font-style:italic;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.mod-tagline{font-size:.87rem;color:var(--muted);margin-bottom:26px;max-width:640px;}
+.feat-group{margin-bottom:22px;}
+.fg-head{font-size:.6rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--ab);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.fg-head::after{content:'';flex:1;height:1px;background:var(--border);}
+.feat-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0;}
+.feat{display:flex;gap:13px;padding:13px 0;border-bottom:1px solid var(--border);}
+.feat:last-child{border-bottom:none;padding-bottom:0;}
+.feat-icon{width:30px;height:30px;border-radius:8px;background:rgba(27,127,212,.08);border:1px solid rgba(27,127,212,.14);display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;margin-top:2px;}
+.feat-title{font-weight:700;font-size:.85rem;color:var(--ink);margin-bottom:3px;}
+.feat-desc{font-size:.77rem;color:var(--muted);line-height:1.55;}
+.feat-detail{margin-top:5px;padding:5px 10px;background:var(--off);border-radius:5px;font-size:.72rem;color:var(--muted);border-left:2px solid rgba(27,127,212,.28);line-height:1.5;}
+
+/* ═══ 5 · ROI CALCUL ═══ */
+.roi-table{width:100%;border-collapse:collapse;border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);}
+.roi-table th{font-size:.64rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:11px 16px;border-bottom:2px solid var(--border);text-align:left;background:var(--off);}
+.roi-table th:last-child{text-align:right;}
+.roi-table td{font-size:.82rem;padding:13px 16px;border-bottom:1px solid var(--border);color:var(--ink3);vertical-align:top;}
+.roi-table td:last-child{color:var(--green);font-weight:700;text-align:right;white-space:nowrap;}
+.roi-table tr:last-child td{border-bottom:none;}
+.roi-table tr:hover td{background:rgba(27,127,212,.02);}
+.roi-table tfoot tr:first-child td{border-top:2px solid var(--border2);}
+.roi-table tfoot td{font-weight:700;color:var(--ink);border-bottom:none;background:var(--off);padding:13px 16px;}
+.roi-table tfoot td:last-child{color:var(--green);font-size:.9rem;}
+
+/* ═══ 6 · DASHBOARD ═══ */
+.dashboard-section{background:var(--off);}
+.db-frame{background:var(--white);border:1px solid var(--border);border-radius:var(--r3);overflow:hidden;box-shadow:var(--shadow-lg);}
+.db-bar{background:var(--off2);border-bottom:1px solid var(--border);padding:10px 18px;display:flex;align-items:center;gap:7px;}
+.db-btn{width:11px;height:11px;border-radius:50%;}
+.db-bar-title{font-size:.68rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-left:6px;}
+.db-live{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:.63rem;font-weight:700;color:var(--green);}
+.db-live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.db-tiime-badge{background:rgba(27,127,212,.1);color:var(--ab);font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:100px;border:1px solid rgba(27,127,212,.2);}
+.db-body{padding:16px;}
+
+/* KPIs */
+.db-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px;}
+.dkpi{background:var(--off);border:1px solid var(--border);border-radius:var(--r);padding:13px;position:relative;overflow:hidden;transition:box-shadow .2s;}
+.dkpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--adai);}
+.dkpi:hover{box-shadow:var(--shadow-xs);}
+.dkpi-label{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.dkpi-val{font-family:'Calibri','Inter',sans-serif;font-size:1.5rem;font-weight:700;color:var(--ink);line-height:1;margin-bottom:3px;}
+.dkpi-delta{font-size:.65rem;font-weight:600;}
+.dkpi-delta.up{color:var(--green);}
+
+/* Grid 3 modules */
+.db-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.db-module{background:var(--off);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.dbm-head{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.dbm-title{font-size:.65rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink);}
+.dbm-badge{font-size:.58rem;font-weight:700;padding:2px 7px;border-radius:4px;}
+.dbm-badge.blue{background:rgba(27,127,212,.1);color:var(--ab);}
+.dbm-badge.green{background:var(--green-bg);color:var(--green);}
+.dbm-badge.purple{background:rgba(123,94,167,.1);color:var(--ap);}
+.dbm-body{padding:12px 14px;}
+
+/* Relance rows */
+.dv-row{display:grid;grid-template-columns:1fr auto auto;gap:6px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:.75rem;}
+.dv-row:last-child{border-bottom:none;}
+.dv-name{font-weight:600;color:var(--ink);}
+.dv-detail{font-size:.64rem;color:var(--muted);}
+.dv-status{font-size:.59rem;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;}
+.dv-status.s{background:var(--green-bg);color:var(--green);}
+.dv-status.e{background:rgba(27,127,212,.1);color:var(--ab);}
+.dv-status.p{background:var(--off3);color:var(--muted);}
+.dv-status.r{background:var(--amber-bg);color:var(--amber);}
+.dv-amt{font-weight:700;font-size:.76rem;color:var(--ink);}
+
+/* CRM rows */
+.vis-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:.75rem;}
+.vis-row:last-child{border-bottom:none;}
+.vis-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.vis-dot.ok{background:var(--green);}
+.vis-dot.sync{background:var(--ab);}
+.vis-dot.new{background:var(--ao);}
+.vis-name{flex:1;color:var(--ink3);}
+.vis-meta{font-size:.64rem;color:var(--muted);}
+.vis-tag{font-size:.58rem;font-weight:700;padding:2px 6px;border-radius:4px;}
+.vis-tag.ok{background:var(--green-bg);color:var(--green);}
+.vis-tag.sync{background:rgba(27,127,212,.1);color:var(--ab);}
+.vis-tag.new{background:var(--amber-bg);color:var(--amber);}
+
+/* Avis rows */
+.mail-row{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:.75rem;}
+.mail-row:last-child{border-bottom:none;}
+.mail-ico{width:24px;height:24px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;}
+.mail-ico.b{background:rgba(27,127,212,.1);border:1px solid rgba(27,127,212,.2);}
+.mail-ico.g{background:var(--green-bg);border:1px solid var(--green-b);}
+.mail-ico.o{background:var(--amber-bg);border:1px solid #FDE68A;}
+.mail-content{flex:1;}
+.mail-title{font-weight:600;color:var(--ink);line-height:1.3;}
+.mail-sub{font-size:.63rem;color:var(--muted);}
+.mail-time{font-size:.6rem;color:var(--muted2);white-space:nowrap;margin-top:1px;}
+
+/* Mini chart + stats */
+.dbm-footer{border-top:1px solid var(--border);padding:10px 14px;display:flex;align-items:center;gap:8px;}
+.dbm-stat{flex:1;text-align:center;}
+.dbms-val{font-family:'Calibri','Inter',sans-serif;font-size:1.15rem;font-weight:700;color:var(--ink);line-height:1;}
+.dbms-lab{font-size:.58rem;color:var(--muted);}
+.mchart{display:flex;align-items:flex-end;gap:3px;height:32px;flex:2;}
+.mc-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;}
+.mc-b{width:100%;border-radius:2px 2px 0 0;background:var(--off3);}
+.mc-b.now{background:linear-gradient(180deg,var(--ab2),var(--ap));}
+.mc-l{font-size:.52rem;color:var(--muted);}
+
+/* ═══ 7 · OFFRE ═══ */
+.audit-banner{background:linear-gradient(100deg,rgba(22,163,74,.06),rgba(22,163,74,.03));border:1px solid var(--green-b);border-radius:var(--r2);padding:18px 22px;display:flex;align-items:center;gap:16px;margin-bottom:20px;}
+.ab-icon{font-size:1.6rem;}
+.ab-text-title{font-weight:700;font-size:.95rem;color:var(--ink);margin-bottom:2px;}
+.ab-text-desc{font-size:.8rem;color:var(--muted);}
+.ab-badge{margin-left:auto;background:var(--green);color:white;font-family:'Calibri','Inter',sans-serif;font-size:.85rem;font-weight:700;padding:6px 14px;border-radius:8px;white-space:nowrap;}
+
+/* Modules offre */
+.offre-modules{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;}
+.om-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);transition:box-shadow .2s,border-color .2s;}
+.om-card:hover{box-shadow:var(--shadow-sm);}
+.om-card.featured{border-color:rgba(27,127,212,.28);}
+.om-inner{display:grid;grid-template-columns:1fr auto;align-items:start;padding:20px 24px;gap:20px;}
+.om-stripe{height:2px;background:var(--adai);}
+.om-num{font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ab);margin-bottom:4px;}
+.om-name{font-family:'Calibri','Inter',sans-serif;font-size:1.25rem;color:var(--ink);margin-bottom:4px;}
+.om-desc{font-size:.8rem;color:var(--muted);line-height:1.5;margin-bottom:10px;}
+.om-items{display:flex;flex-direction:column;gap:5px;}
+.oi{display:flex;align-items:flex-start;gap:7px;font-size:.79rem;}
+.oi-check{color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px;}
+.oi-text{color:var(--ink3);line-height:1.35;}
+.oi-text strong{color:var(--ink);font-weight:600;}
+.om-price-box{text-align:right;flex-shrink:0;}
+.om-price-val{font-family:'Calibri','Inter',sans-serif;font-size:2rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;letter-spacing:-1px;}
+.om-price-unit{font-size:.72rem;color:var(--muted);margin-top:2px;}
+
+/* Bonus option */
+.bonus-card{background:linear-gradient(100deg,rgba(215,119,6,.05),rgba(212,160,23,.04));border:1.5px dashed var(--amber);border-radius:var(--r2);padding:18px 22px;margin-bottom:20px;}
+.bonus-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.bonus-badge{background:var(--amber-bg);color:var(--amber);font-size:.6rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:4px;border:1px solid #FDE68A;}
+.bonus-title{font-weight:700;font-size:.9rem;color:var(--ink);}
+.bonus-items{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.bonus-item{display:flex;align-items:flex-start;gap:7px;font-size:.79rem;color:var(--ink3);}
+.bonus-check{color:var(--amber);font-weight:700;flex-shrink:0;margin-top:1px;}
+
+/* Mensuel */
+.mensuel-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:0;overflow:hidden;box-shadow:var(--shadow-xs);}
+.mc-stripe{height:2px;background:var(--adai);}
+.mc-inner{padding:20px 24px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;}
+.mc-left .om-num{color:var(--green);}
+.mc-price-val{font-family:'Calibri','Inter',sans-serif;font-size:2rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;letter-spacing:-1px;text-align:right;}
+.mc-price-unit{font-size:.72rem;color:var(--muted);text-align:right;margin-top:2px;}
+.mc-items{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+
+/* ═══ AVANT → APRÈS ═══ */
+.avap-section{background:var(--off);}
+.avap-grid{display:grid;grid-template-columns:1fr 40px 1fr;gap:0;align-items:stretch;}
+.avap-col{border-radius:var(--r2);overflow:hidden;}
+.avap-col.before{background:var(--red-bg);border:1px solid var(--red-b);}
+.avap-col.after{background:var(--green-bg);border:1px solid var(--green-b);}
+.avap-head{padding:11px 18px;font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+.avap-head.before{background:rgba(220,38,38,.08);color:var(--red);}
+.avap-head.after{background:rgba(22,163,74,.08);color:var(--green);}
+.avap-body{padding:12px 16px;display:flex;flex-direction:column;gap:7px;}
+.avap-step{display:flex;align-items:flex-start;gap:8px;font-size:.79rem;color:var(--ink3);line-height:1.4;}
+.avap-dot-r{width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:5px;}
+.avap-dot-g{width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:5px;}
+.avap-arrow-col{display:flex;align-items:center;justify-content:center;}
+.avap-arrow-ico{width:34px;height:34px;border-radius:50%;background:var(--adai);display:flex;align-items:center;justify-content:center;color:white;font-size:.88rem;box-shadow:var(--shadow-sm);}
+
+/* ═══ 8 · ENGAGEMENTS ═══ */
+.garanties-section{background:var(--white);}
+.g-row{counter-reset:g-counter;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);}
+.g-card{background:var(--white);padding:16px 18px;display:flex;align-items:flex-start;gap:12px;transition:background .2s;counter-increment:g-counter;}
+.g-card:hover{background:var(--off);}
+.g-icon{display:none;}
+.g-card::before{content:counter(g-counter,decimal-leading-zero);font-family:'Calibri','Inter',sans-serif;font-size:.7rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;flex-shrink:0;margin-top:2px;min-width:18px;}
+.g-title{font-family:'Calibri','Inter',sans-serif;font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:2px;}
+.g-text{font-size:.73rem;color:var(--muted);line-height:1.45;}
+
+/* ═══ 9 · DÉMARRAGE ═══ */
+.onboarding-section{background:var(--off);}
+.onb-steps-simple{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;}
+.onb-steps-simple::before{content:'';position:absolute;top:22px;left:calc(12.5% + 10px);right:calc(12.5% + 10px);height:1px;background:var(--border2);z-index:0;}
+.onb-s{text-align:center;padding:0 12px;position:relative;z-index:1;}
+.onb-n{width:44px;height:44px;border-radius:50%;background:var(--white);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:'Calibri','Inter',sans-serif;font-size:.95rem;font-weight:700;color:var(--muted);margin:0 auto 12px;box-shadow:var(--shadow-xs);}
+.onb-n.a{background:var(--adai);border:none;color:white;}
+.onb-phase{font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ab);margin-bottom:4px;}
+.onb-title{font-weight:600;font-size:.82rem;color:var(--ink);margin-bottom:4px;}
+.onb-desc{font-size:.73rem;color:var(--muted);line-height:1.5;}
+
+/* FOOTER */
+footer{background:var(--ink);padding:24px 48px;display:flex;align-items:center;justify-content:space-between;font-size:.7rem;color:rgba(255,255,255,.4);}
+.footer-brand{background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;font-size:.82rem;}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  nav{padding:0 18px;}
+  .wrap{padding:36px 20px;}
+  .pain-grid{grid-template-columns:1fr;}
+  .avap-grid{grid-template-columns:1fr;}
+  .db-kpis{grid-template-columns:1fr 1fr;}
+  .db-grid{grid-template-columns:1fr;}
+  .g-row{grid-template-columns:1fr 1fr;}
+  .om-inner,.mc-inner,.mc-items,.bonus-items{grid-template-columns:1fr;}
+  .onb-steps-simple{grid-template-columns:1fr 1fr;}
+  footer{flex-direction:column;gap:6px;}
+}
+</style>
+</head>
+<body>
+<div class="top-stripe"></div>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo">
+      <div>
+        <div class="nav-logo-text">ADAI</div>
+      </div>
+    </div>
+    <div class="nav-pipe"></div>
+    <div class="nav-client-wrap">
+      <span class="nav-client-label">Proposition commerciale pour</span>
+      <span class="nav-client-name">Réseau Minitaux</span>
+    </div>
+  </div>
+  <button class="nav-link active" onclick="navTo(this,'s2')">Douleurs</button>
+  <button class="nav-link" onclick="navTo(this,'s4')">Modules</button>
+  <button class="nav-link" onclick="navTo(this,'s5')">ROI détaillé</button>
+  <button class="nav-link" onclick="navTo(this,'s6')">Dashboard</button>
+  <button class="nav-link" onclick="navTo(this,'s7')">Offre</button>
+  <button class="nav-link" onclick="navTo(this,'s8')">Engagements</button>
+  <button class="nav-link" onclick="navTo(this,'s9')">Démarrage</button>
+</nav>
+
+<!-- ══════════════════════════════
+  1 · HERO
+══════════════════════════════ -->
+<section id="s1" style="background:var(--white);">
+  <div style="max-width:1080px;margin:0 auto;padding:56px 48px 44px;text-align:center;">
+    <div style="display:inline-flex;align-items:center;gap:8px;font-size:.68rem;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--ab);margin-bottom:14px;">
+      <span style="width:18px;height:2px;background:var(--adai);display:inline-block;"></span>
+      Audit IA · Réseau Minitaux · Fév 2026
+    </div>
+    <h1 style="font-family:'Calibri','Inter',sans-serif;font-weight:700;font-size:clamp(2.2rem,4vw,3.2rem);line-height:1.1;color:var(--ink);margin-bottom:12px;">
+      200 000€ de CA <em style="font-style:italic;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">dormant</em><br>dans votre base Actelo
+    </h1>
+    <p style="font-size:.95rem;color:var(--muted);line-height:1.65;max-width:620px;margin:0 auto 28px;">
+      Vos 128 dossiers de simulation et 121 contacts non transformés représentent un gisement immédiat. L'IA active ce portefeuille <strong style="color:var(--ink);font-weight:600;">sans charge administrative additionnelle</strong>.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;max-width:540px;margin:0 auto;">
+      <div style="padding:16px 20px;text-align:center;border-right:1px solid var(--border);">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.7rem;font-weight:700;line-height:1;margin-bottom:4px;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">249</div>
+        <div style="font-size:.68rem;color:var(--muted);line-height:1.3;">contacts à réactiver</div>
+      </div>
+      <div style="padding:16px 20px;text-align:center;border-right:1px solid var(--border);">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.7rem;font-weight:700;line-height:1;margin-bottom:4px;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">+200K€</div>
+        <div style="font-size:.68rem;color:var(--muted);line-height:1.3;">de CA potentiel identifié</div>
+      </div>
+      <div style="padding:16px 20px;text-align:center;">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.7rem;font-weight:700;line-height:1;margin-bottom:4px;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">&lt; 30 j</div>
+        <div style="font-size:.68rem;color:var(--muted);line-height:1.3;">premiers résultats</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════
+  2 · LES DOULEURS & DEMAIN AVEC ADAI
+══════════════════════════════ -->
+<section id="s2" class="section-bg-off">
+  <div class="wrap">
+    <div class="s-eye">Diagnostic terrain · Audit 18 février 2026</div>
+    <h2 class="s-h">Ce qui freine <em>votre croissance</em> aujourd'hui</h2>
+    <p class="s-sub">Votre base clients est constituée, vos courtiers sont actifs — mais les relances restent manuelles et non systématisées. Chaque semaine sans automatisation, c'est du CA qui dort.</p>
+
+    <div class="pain-grid">
+      <div class="pain-card">
+        <span class="pain-icon">💤</span>
+        <div>
+          <span class="pain-badge">#1 PRIORITÉ IMMÉDIATE</span>
+          <div class="pain-title">200K€ dormants : base non exploitée</div>
+          <div class="pain-desc">128 simulations + 121 contacts non transformés traités "au fil de l'eau". Aucun workflow de relance systématique. Le CA potentiel s'évapore faute de suivi.</div>
+        </div>
+      </div>
+      <div class="pain-card">
+        <span class="pain-icon">🗃️</span>
+        <div>
+          <span class="pain-badge">#2 CHANTIER 1</span>
+          <div class="pain-title">CRM Actelo non segmenté : automatisation impossible</div>
+          <div class="pain-desc">Absence de statuts métiers formalisés (prospect actif, standby, ancien client). Sans segmentation, toute relance automatisée risque l'erreur et l'irritation client.</div>
+        </div>
+      </div>
+      <div class="pain-card">
+        <span class="pain-icon">⭐</span>
+        <div>
+          <span class="pain-badge">#3 À STRUCTURER</span>
+          <div class="pain-title">Avis clients : collecte partielle, non systématique</div>
+          <div class="pain-desc">Intégration partielle avec Opinion System / Uwin. Les dossiers terminés ne génèrent pas automatiquement de demande d'avis. Notation publique sous-exploitée.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accordéon Avant/Après -->
+    <div class="avap-toggle-wrap">
+      <button class="avap-toggle" onclick="toggleAvap(this)" aria-expanded="false">
+        <span class="avap-toggle-label">Voir le détail — Avant / Après votre journée type</span>
+        <span class="avap-toggle-icon">▼</span>
+      </button>
+      <div class="avap-collapsible">
+        <div class="avap-grid">
+          <div class="avap-col before">
+            <div class="avap-head before">⚠ Aujourd'hui — Sans ADAI</div>
+            <div class="avap-body">
+              <div class="avap-step"><span class="avap-dot-r"></span><span>Dossier financé → aucun workflow de relance → le contact refroidit</span></div>
+              <div class="avap-step"><span class="avap-dot-r"></span><span>Relance manuelle, chronophage, dépendante de la mémoire du courtier</span></div>
+              <div class="avap-step"><span class="avap-dot-r"></span><span>128 simulations non converties → aucun scénario de réactivation</span></div>
+              <div class="avap-step"><span class="avap-dot-r"></span><span>Actelo rempli sans segmentation → impossible de cibler par statut</span></div>
+              <div class="avap-step"><span class="avap-dot-r"></span><span>Dossier terminé → aucune demande d'avis automatique → notation publique stagnante</span></div>
+              <div class="avap-step"><span class="avap-dot-r"></span><span><strong>Résultat : 200K€ dormants, 0 process industrialisé</strong></span></div>
+            </div>
+          </div>
+          <div class="avap-arrow-col"><div class="avap-arrow-ico">→</div></div>
+          <div class="avap-col after">
+            <div class="avap-head after">✓ Demain — Avec ADAI</div>
+            <div class="avap-body">
+              <div class="avap-step"><span class="avap-dot-g"></span><span>Dossier financé → séquence de parrainage et réactivation déclenchée automatiquement</span></div>
+              <div class="avap-step"><span class="avap-dot-g"></span><span>Relances multicanal (email / SMS / WhatsApp) personnalisées dans votre ton, sans intervention</span></div>
+              <div class="avap-step"><span class="avap-dot-g"></span><span>128 simulations segmentées → scénarios de réactivation ciblés → prises de RDV générées</span></div>
+              <div class="avap-step"><span class="avap-dot-g"></span><span>Actelo structuré avec statuts métiers → automatisation fiable et sans risque d'erreur</span></div>
+              <div class="avap-step"><span class="avap-dot-g"></span><span>Dossier terminé → demande d'avis envoyée automatiquement → notation publique en hausse</span></div>
+              <div class="avap-step"><span class="avap-dot-g"></span><span><strong>+mandats générés, effet réseau activé, ROI consolidé en 90 jours</strong></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════
+  4 · LES 3 MODULES DU COCKPIT
+══════════════════════════════ -->
+<section id="s4" class="modules-section">
+  <div class="wrap">
+    <div class="s-eye">Détail des automatisations</div>
+    <h2 class="s-h">Les 3 modules <em>de votre cockpit IA</em></h2>
+    <p class="s-sub">Chaque module conçu sur mesure pour les process identifiés lors de l'audit. Connexion Actelo native sur l'ensemble. Déploiement pilote sur Adrien Riou, puis extension équipe.</p>
+
+    <div class="mod-tabs">
+      <button class="mod-tab active" onclick="showMod(0,this)">01 · RelanceBot IA</button>
+      <button class="mod-tab" onclick="showMod(1,this)">02 · Segmentation CRM</button>
+      <button class="mod-tab" onclick="showMod(2,this)">03 · AvisBot IA</button>
+    </div>
+
+    <!-- MODULE 01 — RelanceBot IA -->
+    <div class="mod-panel active">
+      <div class="mod-left">
+        <div class="mod-num">01</div>
+        <div class="mod-name">RelanceBot IA <em>— Activation de la base existante</em></div>
+        <div class="mod-tagline">Activation systématique de vos 249 contacts dormants via séquences multicanal automatisées. Connecté à Actelo. Supervision humaine initiale, puis autonome.</div>
+        <div class="feat-group">
+          <div class="fg-head">Activation de la base dormante</div>
+          <div class="feat">
+            <div class="feat-icon">🔗</div>
+            <div><div class="feat-title">Extraction & connexion Actelo</div><div class="feat-desc">Récupération régulière des contacts (nom, prénom, tél, email, statut) depuis Actelo via export ou API. Les 128 dossiers simulation et 121 non transformés sont intégrés dans le moteur de relance.</div><div class="feat-detail">Validation technique export Actelo en semaine 1. Scénario manuel prévu en alternative.</div></div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">📅</div>
+            <div><div class="feat-title">Scénarios de relance multicanal</div><div class="feat-desc">Calendrier de relance automatisé : anniversaire de financement, baisse des taux, offre de parrainage, promo saisonnière. Canaux : email, SMS, WhatsApp. Messages personnalisés dans votre ton.</div><div class="feat-detail">Zéro action manuelle après validation du scénario. Supervision allégée à partir de J+30.</div></div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">📊</div>
+            <div><div class="feat-title">Reporting conversions & suivi Actelo</div><div class="feat-desc">Tableau de bord suivi : taux d'ouverture, clics, prises de RDV, mandats signés. Synchronisation des statuts dans Actelo à chaque événement.</div></div>
+          </div>
+        </div>
+        <div class="feat-group">
+          <div class="fg-head">Parrainage systématisé</div>
+          <div class="feat">
+            <div class="feat-icon">🤝</div>
+            <div><div class="feat-title">Programme de parrainage automatisé</div><div class="feat-desc">Après chaque financement, envoi automatique d'un message de parrainage personnalisé. Suivi des recommandations et attribution dans Actelo.</div><div class="feat-detail">Effet réseau activé dès le premier mois. Chaque client satisfait devient ambassadeur.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 02 — Segmentation CRM -->
+    <div class="mod-panel">
+      <div class="mod-left">
+        <div class="mod-num">02</div>
+        <div class="mod-name">Segmentation CRM <em>— Structuration Actelo</em></div>
+        <div class="mod-tagline">Formalisation des statuts métiers dans Actelo. Prérequis indispensable pour automatiser sans risque d'erreur. Clé de voûte du système.</div>
+        <div class="feat-group">
+          <div class="fg-head">Structuration des données</div>
+          <div class="feat">
+            <div class="feat-icon">🏷️</div>
+            <div><div class="feat-title">Définition des statuts métiers</div><div class="feat-desc">Création et formalisation des grandes familles de statuts dans Actelo : prospect actif, prospect standby, dossier en cours, client financé, ancien client, sans suite. Règles métiers documentées.</div></div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">🧹</div>
+            <div><div class="feat-title">Nettoyage & enrichissement de la base</div><div class="feat-desc">Nettoyage des doublons, mise à jour des contacts obsolètes. Enrichissement via Uwin si disponible. Base prête pour l'automatisation sans risque d'irritation client.</div><div class="feat-detail">Étape critique : une base propre = des relances pertinentes.</div></div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">🔄</div>
+            <div><div class="feat-title">Règles d'automatisation des statuts</div><div class="feat-desc">Mise à jour automatique des statuts Actelo à chaque événement : simulation reçue, dossier monté, financement accordé, relance envoyée, RDV pris. Zéro saisie manuelle.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 03 — AvisBot IA -->
+    <div class="mod-panel">
+      <div class="mod-left">
+        <div class="mod-num">03</div>
+        <div class="mod-name">AvisBot IA <em>— Collecte automatisée d'avis clients</em></div>
+        <div class="mod-tagline">Chaque dossier terminé déclenche automatiquement une demande d'avis sur Opinion System / Google. Votre réputation en ligne progresse sans effort.</div>
+        <div class="feat-group">
+          <div class="fg-head">Collecte systématique</div>
+          <div class="feat">
+            <div class="feat-icon">✉️</div>
+            <div><div class="feat-title">Déclenchement automatique post-financement</div><div class="feat-desc">Dès le passage en statut "client financé" dans Actelo, envoi automatique d'une demande d'avis personnalisée par email ou SMS. Délai paramétrable (J+3, J+7...).</div><div class="feat-detail">Compatible Opinion System et Google Business Profile.</div></div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">🌟</div>
+            <div><div class="feat-title">Message personnalisé dans votre ton</div><div class="feat-desc">L'IA génère un message de remerciement dans le ton du cabinet, avec lien direct vers la page d'avis. Taux de réponse multiplié par rapport à une demande générique.</div></div>
+          </div>
+          <div class="feat">
+            <div class="feat-icon">📈</div>
+            <div><div class="feat-title">Suivi notation publique</div><div class="feat-desc">Tableau de bord dédié : nombre d'avis collectés, note moyenne, évolution mensuelle. Alerte en cas d'avis négatif pour réaction rapide.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════
+  5 · LE ROI CALCULÉ
+══════════════════════════════ -->
+<section id="s5" class="section-bg-white">
+  <div class="wrap">
+    <div class="s-eye">Retour sur investissement · Calcul détaillé</div>
+    <h2 class="s-h">Le ROI <em>chiffré</em> de Réseau Minitaux</h2>
+    <p class="s-sub">Le gisement est identifié et quantifié. La valeur ne vient pas de la création de nouveaux leads — elle vient de l'activation de ce que vous avez déjà.</p>
+
+    <div style="overflow-x:auto;">
+      <table class="roi-table" style="margin-bottom:20px;">
+        <thead><tr><th>Source de gain</th><th>Détail du calcul</th><th>Valeur estimée</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Réactivation des 128 dossiers simulation</strong><br><span style="font-size:.72rem;color:var(--muted2);">Taux conversion 5% × marge moyenne courtage</span></td>
+            <td style="font-size:.78rem;">6–7 mandats supplémentaires générés depuis la base existante</td>
+            <td>+CA direct</td>
+          </tr>
+          <tr>
+            <td><strong>Activation des 121 contacts non transformés</strong><br><span style="font-size:.72rem;color:var(--muted2);">Relances ciblées par statut → prises de RDV</span><br><span style="font-size:.72rem;color:var(--green);font-weight:600;">Potentiel identifié audit : ~200K€ dormants</span></td>
+            <td style="font-size:.78rem;"><span style="color:var(--ink3);">Modéré : 3–4% conversion sur 121 contacts = <strong>+3–5 dossiers/mois</strong></span><br><span style="color:var(--green);font-weight:600;">Optimiste : exploitation complète du portefeuille = <strong>+200K€ CA</strong></span></td>
+            <td><span style="display:block;font-weight:700;">+50–100K€</span><span style="font-size:.72rem;color:var(--green);font-weight:700;">+200K€ optim.</span></td>
+          </tr>
+          <tr>
+            <td><strong>Parrainage systématisé</strong><br><span style="font-size:.72rem;color:var(--muted2);">1 client satisfait → 1 recommandation × base actuelle</span></td>
+            <td style="font-size:.78rem;">Effet réseau activé sur chaque dossier terminé. Leads gratuits à coût d'acquisition nul.</td>
+            <td>+Leads gratuits</td>
+          </tr>
+          <tr>
+            <td><strong>Temps courtiers libéré</strong><br><span style="font-size:.72rem;color:var(--muted2);">Relances manuelles supprimées — estimé 2–3h/semaine/courtier</span></td>
+            <td style="font-size:.78rem;">4 courtiers × 2.5h × 48 semaines = 480h/an réorientées vers la production</td>
+            <td>+480h/an</td>
+          </tr>
+          <tr>
+            <td><strong>Réputation & avis clients</strong><br><span style="font-size:.72rem;color:var(--muted2);">Notation publique en hausse → meilleure conversion leads entrants</span></td>
+            <td style="font-size:.78rem;">Amélioration du taux de transformation sur les 20–30 leads/mois existants</td>
+            <td>+%</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr><td colspan="2">Valeur libérée estimée — <em>scénario modéré</em> (base existante seule)</td><td>+50 000€ CA</td></tr>
+          <tr style="background:rgba(22,163,74,.06);"><td colspan="2" style="color:var(--green);">Valeur libérée estimée — <em>scénario optimiste</em> (portefeuille complet + parrainage)</td><td style="color:var(--green);font-size:.92rem;">+200 000€ CA</td></tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- Résumé ROI horizontal -->
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-sm);position:relative;">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--adai);z-index:1;"></div>
+      <div style="padding:20px 16px;text-align:center;border-right:1px solid var(--border);background:var(--white);">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.55rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:5px;">249</div>
+        <div style="font-size:.7rem;color:var(--muted);line-height:1.4;font-weight:500;">contacts à activer<br>dès le lancement</div>
+      </div>
+      <div style="padding:20px 16px;text-align:center;border-right:1px solid var(--border);background:var(--white);">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.55rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:5px;">+480h</div>
+        <div style="font-size:.7rem;color:var(--muted);line-height:1.4;font-weight:500;">libérées/an<br>sur 4 courtiers</div>
+      </div>
+      <div style="padding:20px 16px;text-align:center;border-right:1px solid var(--border);background:var(--white);">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.55rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:5px;">&lt; 30 j</div>
+        <div style="font-size:.7rem;color:var(--muted);line-height:1.4;font-weight:500;">premiers résultats<br>quick wins</div>
+      </div>
+      <div style="padding:20px 16px;text-align:center;border-right:1px solid var(--border);background:rgba(22,163,74,.03);">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.55rem;font-weight:700;color:var(--green);line-height:1;margin-bottom:5px;">+50K€</div>
+        <div style="font-size:.7rem;color:var(--muted);line-height:1.4;font-weight:500;">CA en + / an<br><span style="color:var(--green);font-weight:600;">scénario modéré</span></div>
+      </div>
+      <div style="padding:20px 16px;text-align:center;background:rgba(22,163,74,.07);">
+        <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.55rem;font-weight:700;color:var(--green);line-height:1;margin-bottom:5px;">+200K€</div>
+        <div style="font-size:.7rem;color:var(--muted);line-height:1.4;font-weight:500;">CA en + / an<br><span style="color:var(--green);font-weight:600;">scénario optimiste</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════
+  6 · DASHBOARD COCKPIT
+══════════════════════════════ -->
+<section id="s6" class="dashboard-section">
+  <div class="wrap">
+    <div class="s-eye">Tableau de bord · Cockpit connecté Actelo</div>
+    <h2 class="s-h">Votre cockpit <em>Réseau Minitaux</em></h2>
+    <p class="s-sub">Vue centralisée des 3 automatisations en service, synchronisée en temps réel avec Actelo. Accessible par Adrien Riou et les courtiers depuis téléphone et ordinateur.</p>
+
+    <div class="db-frame">
+      <div class="db-bar">
+        <div class="db-btn" style="background:#FF5F57;"></div>
+        <div class="db-btn" style="background:#FEBC2E;"></div>
+        <div class="db-btn" style="background:#28C840;"></div>
+        <div class="db-bar-title">ADAI · Cockpit Réseau Minitaux</div>
+        <span class="db-tiime-badge" style="margin-left:10px;">🔗 Actelo Sync</span>
+        <div class="db-live" style="margin-left:auto;">LIVE</div>
+        <div style="margin-left:10px;font-size:.65rem;color:var(--muted);">Fév 2026</div>
+      </div>
+
+      <div class="db-body">
+        <!-- KPIs globaux -->
+        <div class="db-kpis">
+          <div class="dkpi">
+            <div class="dkpi-label">Contacts relancés ce mois</div>
+            <div class="dkpi-val">47</div>
+            <div class="dkpi-delta up">↑ +47 vs 0 manuel</div>
+          </div>
+          <div class="dkpi">
+            <div class="dkpi-label">Taux d'ouverture relances</div>
+            <div class="dkpi-val">38%</div>
+            <div class="dkpi-delta up">↑ +38% automatisé</div>
+          </div>
+          <div class="dkpi">
+            <div class="dkpi-label">RDV générés ce mois</div>
+            <div class="dkpi-val">6</div>
+            <div class="dkpi-delta up">↑ depuis base dormante</div>
+          </div>
+          <div class="dkpi">
+            <div class="dkpi-label">Avis collectés ce mois</div>
+            <div class="dkpi-val">9</div>
+            <div class="dkpi-delta up">↑ +9 vs 0 avant</div>
+          </div>
+        </div>
+
+        <!-- 3 modules côte à côte -->
+        <div class="db-grid">
+
+          <!-- MODULE 01 : RelanceBot -->
+          <div class="db-module">
+            <div class="dbm-head">
+              <div class="dbm-title">01 · RelanceBot IA</div>
+              <span class="dbm-badge blue">ACTELO SYNC ✓</span>
+            </div>
+            <div class="dbm-body">
+              <div class="dv-row">
+                <div><div class="dv-name">Martin T. — Simulation 2024</div><div class="dv-detail">Prêt immo · Relance J+180</div></div>
+                <span class="dv-status s">✓ RDV pris</span>
+                <div class="dv-amt">Dossier ouvert</div>
+              </div>
+              <div class="dv-row">
+                <div><div class="dv-name">Dupuis C. — Non transformé</div><div class="dv-detail">Prêt immo · Baisse taux</div></div>
+                <span class="dv-status e">Envoyée</span>
+                <div class="dv-amt">En attente</div>
+              </div>
+              <div class="dv-row">
+                <div><div class="dv-name">Leblanc M. — Client financé</div><div class="dv-detail">Parrainage · Envoi auto</div></div>
+                <span class="dv-status s">✓ Répondu</span>
+                <div class="dv-amt">1 lead généré</div>
+              </div>
+              <div class="dv-row">
+                <div><div class="dv-name">Petit J. — Simulation 2023</div><div class="dv-detail">Prêt immo · Anniv. financement</div></div>
+                <span class="dv-status r">Relancé</span>
+                <div class="dv-amt">Planifié</div>
+              </div>
+              <div class="dv-row">
+                <div><div class="dv-name">Fontaine A. — Non transformé</div><div class="dv-detail">Renégociation · Promo taux</div></div>
+                <span class="dv-status p">Planifiée</span>
+                <div class="dv-amt">J+2</div>
+              </div>
+            </div>
+            <div class="dbm-footer">
+              <div class="dbm-stat"><div class="dbms-val">47</div><div class="dbms-lab">Relancés</div></div>
+              <div class="dbm-stat" style="border-left:1px solid var(--border);"><div class="dbms-val" style="color:var(--green);">6</div><div class="dbms-lab">RDV générés</div></div>
+              <div class="mchart">
+                <div class="mc-col"><div class="mc-b" style="height:10px;"></div><div class="mc-l">O</div></div>
+                <div class="mc-col"><div class="mc-b" style="height:14px;"></div><div class="mc-l">N</div></div>
+                <div class="mc-col"><div class="mc-b" style="height:10px;"></div><div class="mc-l">D</div></div>
+                <div class="mc-col"><div class="mc-b" style="height:18px;"></div><div class="mc-l">J</div></div>
+                <div class="mc-col"><div class="mc-b now" style="height:30px;"></div><div class="mc-l" style="color:var(--ab);font-weight:700;">F</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MODULE 02 : Segmentation CRM -->
+          <div class="db-module">
+            <div class="dbm-head">
+              <div class="dbm-title">02 · Segmentation CRM</div>
+              <span class="dbm-badge green">ACTELO STRUCTURÉ ✓</span>
+            </div>
+            <div class="dbm-body">
+              <div class="vis-row">
+                <div class="vis-dot ok"></div>
+                <span class="vis-name">Prospect actif</span>
+                <span class="vis-meta">72 contacts</span>
+                <span class="vis-tag ok">Segmenté</span>
+              </div>
+              <div class="vis-row">
+                <div class="vis-dot sync"></div>
+                <span class="vis-name">Simulation non conv.</span>
+                <span class="vis-meta">128 contacts</span>
+                <span class="vis-tag sync">Activés</span>
+              </div>
+              <div class="vis-row">
+                <div class="vis-dot ok"></div>
+                <span class="vis-name">Client financé</span>
+                <span class="vis-meta">89 contacts</span>
+                <span class="vis-tag ok">Parrainage actif</span>
+              </div>
+              <div class="vis-row">
+                <div class="vis-dot new"></div>
+                <span class="vis-name">Non transformé</span>
+                <span class="vis-meta">121 contacts</span>
+                <span class="vis-tag new">En relance</span>
+              </div>
+              <div class="vis-row">
+                <div class="vis-dot sync"></div>
+                <span class="vis-name">Ancien client</span>
+                <span class="vis-meta">44 contacts</span>
+                <span class="vis-tag sync">Réactivation</span>
+              </div>
+            </div>
+            <div class="dbm-footer">
+              <div class="dbm-stat"><div class="dbms-val">454</div><div class="dbms-lab">Contacts Actelo</div></div>
+              <div class="dbm-stat" style="border-left:1px solid var(--border);"><div class="dbms-val" style="color:var(--ab);">5</div><div class="dbms-lab">Statuts métiers</div></div>
+              <div class="dbm-stat" style="border-left:1px solid var(--border);"><div class="dbms-val" style="color:var(--green);">0</div><div class="dbms-lab">Erreurs relance</div></div>
+            </div>
+          </div>
+
+          <!-- MODULE 03 : AvisBot -->
+          <div class="db-module">
+            <div class="dbm-head">
+              <div class="dbm-title">03 · AvisBot IA</div>
+              <span class="dbm-badge purple">ACTIF ✓</span>
+            </div>
+            <div class="dbm-body">
+              <div class="mail-row">
+                <div class="mail-ico g">⭐</div>
+                <div class="mail-content"><div class="mail-title">Avis 5★ — Fontaine A.</div><div class="mail-sub">Google · "Réactivité et professionnalisme"</div></div>
+                <div class="mail-time">09:14</div>
+              </div>
+              <div class="mail-row">
+                <div class="mail-ico b">✉️</div>
+                <div class="mail-content"><div class="mail-title">Demande avis envoyée</div><div class="mail-sub">Martin T. · Post-financement J+3</div></div>
+                <div class="mail-time">10:00</div>
+              </div>
+              <div class="mail-row">
+                <div class="mail-ico g">⭐</div>
+                <div class="mail-content"><div class="mail-title">Avis 5★ — Dupuis C.</div><div class="mail-sub">Opinion System · Notifié équipe</div></div>
+                <div class="mail-time">11:22</div>
+              </div>
+              <div class="mail-row">
+                <div class="mail-ico b">✉️</div>
+                <div class="mail-content"><div class="mail-title">3 demandes planifiées</div><div class="mail-sub">Dossiers finalisés ce jour</div></div>
+                <div class="mail-time">14:00</div>
+              </div>
+              <div class="mail-row">
+                <div class="mail-ico o">📈</div>
+                <div class="mail-content"><div class="mail-title">Note moyenne : 4.8/5</div><div class="mail-sub">↑ +0.4 point vs mois dernier</div></div>
+                <div class="mail-time">16:00</div>
+              </div>
+            </div>
+            <div class="dbm-footer">
+              <div class="dbm-stat"><div class="dbms-val">9</div><div class="dbms-lab">Avis collectés</div></div>
+              <div class="dbm-stat" style="border-left:1px solid var(--border);"><div class="dbms-val" style="color:var(--green);">4.8</div><div class="dbms-lab">Note moy.</div></div>
+              <div class="dbm-stat" style="border-left:1px solid var(--border);"><div class="dbms-val" style="color:var(--amber);">0</div><div class="dbms-lab">Avis négatifs</div></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════
+  7 · L'OFFRE
+══════════════════════════════ -->
+<section id="s7" class="section-bg-white">
+  <div class="wrap">
+    <div class="s-eye">Investissement · Structure tarifaire</div>
+    <h2 class="s-h">L'offre <em>conçue pour Minitaux</em></h2>
+    <p class="s-sub">Trois modules distincts, chacun avec son tarif, pour une transparence totale sur votre investissement. Déploiement pilote sur Adrien Riou, extension équipe incluse si ROI validé.</p>
+
+    <!-- Audit offert -->
+    <div class="audit-banner">
+      <div class="ab-icon">🔍</div>
+      <div>
+        <div class="ab-text-title">Audit & Cartographie des process</div>
+        <div class="ab-text-desc">Analyse complète des process Actelo, identification des priorités, plan de déploiement personnalisé Réseau Minitaux. Réalisé le 18 février 2026.</div>
+      </div>
+      <div class="ab-badge">OFFERT</div>
+    </div>
+
+    <!-- 3 modules -->
+    <div class="offre-modules">
+
+      <!-- Module 1 : RelanceBot -->
+      <div class="om-card featured">
+        <div class="om-stripe"></div>
+        <div class="om-inner">
+          <div>
+            <div class="om-num">Module 1</div>
+            <div class="om-name">RelanceBot IA — Activation base existante</div>
+            <div class="om-desc">Activation systématique des 249 contacts dormants. Séquences multicanal (email, SMS, WhatsApp) connectées à Actelo. Parrainage automatisé inclus.</div>
+            <div class="om-items">
+              <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Connexion Actelo (export ou API) — extraction régulière des contacts</span></div>
+              <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Scénarios de relance multicanal personnalisés (email, SMS, WhatsApp)</span></div>
+              <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Calendrier automatisé : taux, anniversaire financement, parrainage</span></div>
+              <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Reporting conversions + synchronisation statuts Actelo</span></div>
+            </div>
+          </div>
+          <div class="om-price-box">
+            <div class="om-price-val">3 200€</div>
+            <div class="om-price-unit">TTC</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 2 : Segmentation CRM -->
+      <div class="om-card featured">
+        <div class="om-stripe"></div>
+        <div class="om-inner">
+          <div>
+            <div class="om-num">Module 2</div>
+            <div class="om-name">Segmentation CRM — Structuration Actelo</div>
+            <div class="om-desc">Formalisation des statuts métiers et nettoyage de la base Actelo. Prérequis indispensable pour fiabiliser toute automatisation.</div>
+            <div class="om-items">
+              <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Définition et création des statuts métiers dans Actelo</span></div>
+              <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Nettoyage & déduplication de la base (454 contacts)</span></div>
+              <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Règles d'automatisation de mise à jour des statuts</span></div>
+              <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Documentation des règles métiers pour l'équipe</span></div>
+            </div>
+          </div>
+          <div class="om-price-box">
+            <div class="om-price-val">2 900€</div>
+            <div class="om-price-unit">TTC</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bandeau total M1+M2 -->
+      <div style="background:linear-gradient(100deg,rgba(27,127,212,.06),rgba(123,94,167,.05));border:1.5px solid rgba(27,127,212,.22);border-radius:var(--r2);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ab);">Pack Module 1 + Module 2</span>
+          <span style="font-size:.75rem;color:var(--muted);">— Indissociables : la segmentation est le socle de la relance</span>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <div style="font-family:'Calibri','Inter',sans-serif;font-size:1.6rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;letter-spacing:-0.5px;">6 100€</div>
+          <div style="font-size:.7rem;color:var(--muted);margin-top:1px;">TTC · soit 3 200 + 2 900</div>
+        </div>
+      </div>
+
+      <!-- Module 3 : AvisBot -->
+      <div class="om-card featured">
+        <div class="om-stripe"></div>
+        <div class="om-inner">
+          <div>
+            <div class="om-num">Module 3</div>
+            <div class="om-name">AvisBot IA — Collecte automatisée d'avis</div>
+            <div class="om-desc">Chaque dossier terminé déclenche une demande d'avis personnalisée. Compatible Opinion System et Google Business Profile.</div>
+            <div class="om-items">
+              <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Déclenchement automatique post-financement (Actelo → avis)</span></div>
+              <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Message personnalisé dans le ton du cabinet</span></div>
+              <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Compatible Opinion System / Google Business Profile</span></div>
+              <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Tableau de bord suivi notation + alerte avis négatif</span></div>
+            </div>
+          </div>
+          <div class="om-price-box">
+            <div class="om-price-val">1 500€</div>
+            <div class="om-price-unit">TTC</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Option bonus -->
+    <div class="bonus-card">
+      <div class="bonus-head">
+        <span class="bonus-badge">⭐ OPTION PHASE 2</span>
+        <div class="bonus-title">Extension équipe & Qualification prospects</div>
+      </div>
+      <div class="bonus-items">
+        <div class="bonus-item"><span class="bonus-check">→</span><span>Déploiement des automatisations à l'ensemble des 4–6 courtiers</span></div>
+        <div class="bonus-item"><span class="bonus-check">→</span><span>Qualification automatisée des prospects via formulaire IA pré-RDV</span></div>
+        <div class="bonus-item"><span class="bonus-check">→</span><span>Délestage d'Opinion System : centralisation dans un seul tableau de bord</span></div>
+        <div class="bonus-item"><span class="bonus-check">→</span><span>Reporting équipe : suivi individuel des conversions et relances par courtier</span></div>
+      </div>
+      <div style="margin-top:10px;font-size:.75rem;color:var(--muted);font-style:italic;">Déploiement Phase 2 conditionné au ROI validé sur le pilote Adrien Riou — tarif à définir.</div>
+    </div>
+
+    <!-- Mensuel -->
+    <div class="mensuel-card">
+      <div class="mc-stripe"></div>
+      <div class="mc-inner">
+        <div class="mc-left">
+          <div class="om-num" style="color:var(--green);">Abonnement mensuel</div>
+          <div class="om-name">Maintenance & Évolution Continue</div>
+          <div class="mc-items">
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Infrastructure IA & hébergement sécurisé UE</span></div>
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Mises à jour & évolutions réglementaires incluses</span></div>
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Améliorations continues sur vos scénarios de relance</span></div>
+            <div class="oi"><span class="oi-check">✓</span><span class="oi-text">Support dédié — interlocuteur unique qui connaît votre base</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="mc-price-val">149€</div>
+          <div class="mc-price-unit">TTC / mois</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════
+  8 · CE SUR QUOI NOUS NOUS ENGAGEONS
+══════════════════════════════ -->
+<section id="s8" class="garanties-section">
+  <div class="wrap">
+    <div class="s-eye">Engagements & garanties</div>
+    <h2 class="s-h">Ce sur quoi <em>nous nous engageons</em></h2>
+
+    <div class="g-row">
+      <div class="g-card"><span class="g-icon"></span><div><div class="g-title">Quick wins en moins de 30 jours</div><div class="g-text">Premiers flux de relance actifs, premières prises de RDV mesurées. Retour sur investissement immédiat.</div></div></div>
+      <div class="g-card"><span class="g-icon"></span><div><div class="g-title">Supervision humaine initiale</div><div class="g-text">Phase pilote avec validation Adrien Riou avant chaque envoi. Autonomie progressive, jamais précipitée.</div></div></div>
+      <div class="g-card"><span class="g-icon"></span><div><div class="g-title">Vos données vous appartiennent</div><div class="g-text">Hébergement UE, RGPD, conformité Actelo. Export possible à tout moment. Désinscription gérée automatiquement.</div></div></div>
+      <div class="g-card"><span class="g-icon"></span><div><div class="g-title">Support dédié 24–48h ouvrées</div><div class="g-text">Un interlocuteur unique qui connaît votre base Actelo et vos scénarios. Pas de ticket anonyme.</div></div></div>
+      <div class="g-card"><span class="g-icon"></span><div><div class="g-title">Déploiement équipe si ROI validé</div><div class="g-text">Extension aux 4–6 courtiers déclenchée sur vos résultats. Pas d'engagement à l'aveugle sur la Phase 2.</div></div></div>
+      <div class="g-card"><span class="g-icon"></span><div><div class="g-title">Conçu pour le courtage immobilier</div><div class="g-text">Solution taillée pour un cabinet en croissance sur le réseau Minitaux, pas un outil générique.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════
+  9 · DE LA SIGNATURE À LA PREMIÈRE AUTOMATISATION
+══════════════════════════════ -->
+<section id="s9" class="onboarding-section">
+  <div class="wrap">
+    <div class="s-eye">Mise en service & accompagnement</div>
+    <h2 class="s-h">De la signature <em>aux premiers mandats générés</em></h2>
+    <p class="s-sub">3 phases, 90 jours. Démarrage sur Adrien Riou, résultats mesurés, extension équipe. Votre rôle : valider et utiliser.</p>
+
+    <div class="onb-steps-simple">
+      <div class="onb-s">
+        <div class="onb-n a">1</div>
+        <div class="onb-phase">J 0–30 · Quick Wins</div>
+        <div class="onb-title">Export & lancement pilote</div>
+        <div class="onb-desc">Validation export Actelo, nettoyage base, scénarios initiaux, relance semi-auto sur 128 dossiers. Premiers RDV et retour sur investissement mesuré.</div>
+      </div>
+      <div class="onb-s">
+        <div class="onb-n">2</div>
+        <div class="onb-phase">J 30–60 · Optimisation</div>
+        <div class="onb-title">Affinage & autonomie</div>
+        <div class="onb-desc">Ajustements messages, amélioration segmentation, suivi conversions. Automatisation de la validation partielle. Charge manuelle réduite.</div>
+      </div>
+      <div class="onb-s">
+        <div class="onb-n a">3</div>
+        <div class="onb-phase">J 60–90 · Industrialisation</div>
+        <div class="onb-title">Extension équipe & reporting</div>
+        <div class="onb-desc">Déploiement aux 121 non transformés, extension équipe si ROI validé, reporting structuré. Process industrialisé, effet réseau activé.</div>
+      </div>
+      <div class="onb-s">
+        <div class="onb-n">4</div>
+        <div class="onb-phase">J 90+ · Pilotage</div>
+        <div class="onb-title">Cockpit autonome</div>
+        <div class="onb-desc">Tableau de bord en temps réel, évolutions continues, interlocuteur dédié. Le système travaille pour vous 24h/24.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div>
+    <span class="footer-brand">ADAI — Création & Automation</span>
+    <span style="margin-left:12px;">· Proposition confidentielle Réseau Minitaux · Février 2026</span>
+  </div>
+  <div>Document réservé · © 2026 ADAI</div>
+</footer>
+
+<script>
+function toggleAvap(btn){
+  const content = btn.nextElementSibling;
+  const icon = btn.querySelector('.avap-toggle-icon');
+  const isOpen = content.classList.contains('open');
+  content.classList.toggle('open', !isOpen);
+  icon.classList.toggle('open', !isOpen);
+  btn.setAttribute('aria-expanded', !isOpen);
+}
+function navTo(btn, id){
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function showMod(idx, btn){
+  document.querySelectorAll('.mod-tab').forEach((b,i)=>b.classList.toggle('active',i===idx));
+  document.querySelectorAll('.mod-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
+}
+</script>
+</body>
+</html>
