@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADAI × C2 Chapes — Récap Décision Finale</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:#FFFFFF; --off:#F7F8FA; --off2:#EFF1F5; --off3:#E4E7EE;
+  --ink:#0D1117; --ink3:#3A4254;
+  --muted:#6B7280; --muted2:#9CA3AF;
+  --border:#E4E7EE; --border2:#D1D5DB;
+  --ab:#1B7FD4; --ap:#7B5EA7; --ao:#E8852A; --ag:#D4A017;
+  --adai:linear-gradient(100deg,#1B7FD4 0%,#7B5EA7 48%,#E8852A 78%,#D4A017 100%);
+  --green:#16A34A; --green-bg:#F0FDF4; --green-b:#BBF7D0;
+  --amber:#D97706; --amber-bg:#FFFBEB;
+  --shadow-sm:0 4px 12px rgba(13,17,23,.08),0 2px 4px rgba(13,17,23,.04);
+  --shadow-md:0 8px 24px rgba(13,17,23,.10),0 4px 8px rgba(13,17,23,.04);
+  --shadow-lg:0 16px 48px rgba(13,17,23,.12),0 8px 16px rgba(13,17,23,.06);
+  --r:12px; --r2:16px; --r3:20px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Calibri','Inter',sans-serif;background:var(--off);color:var(--ink);line-height:1.6;font-size:15px;}
+
+.top-stripe{height:3px;background:var(--adai);}
+
+/* HEADER */
+.header{background:var(--white);border-bottom:1px solid var(--border);padding:20px 48px;display:flex;align-items:center;justify-content:space-between;}
+.logo-text{font-weight:700;font-size:1.2rem;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.header-right{text-align:right;}
+.header-label{font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);}
+.header-date{font-size:.88rem;font-weight:600;color:var(--ink);}
+
+.wrap{max-width:860px;margin:0 auto;padding:44px 24px;}
+
+/* HERO RECAP */
+.hero{text-align:center;margin-bottom:40px;}
+.hero-eye{font-size:.62rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--ab);margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:10px;}
+.hero-eye::before,.hero-eye::after{content:'';width:20px;height:2px;background:var(--adai);border-radius:2px;}
+.hero-title{font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:800;line-height:1.1;color:var(--ink);margin-bottom:10px;}
+.hero-title em{font-style:italic;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:.92rem;color:var(--muted);max-width:520px;margin:0 auto;}
+
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px;}
+.stat-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:22px 20px;text-align:center;position:relative;overflow:hidden;box-shadow:var(--shadow-sm);}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--adai);}
+.stat-val{font-size:2.2rem;font-weight:800;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:5px;}
+.stat-label{font-size:.75rem;color:var(--muted);line-height:1.4;font-weight:500;}
+
+/* SECTIONS */
+.section{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-sm);margin-bottom:16px;}
+.section-head{padding:14px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--off);}
+.section-num{font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.section-title{font-size:.88rem;font-weight:700;color:var(--ink);}
+.section-body{padding:20px 22px;}
+
+/* MODULES GRID */
+.modules-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.mod-box{border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;position:relative;overflow:hidden;}
+.mod-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--adai);}
+.mod-box-name{font-weight:700;font-size:.88rem;color:var(--ink);margin-bottom:8px;}
+.mod-box-items{display:flex;flex-direction:column;gap:5px;}
+.mod-item{display:flex;gap:7px;font-size:.78rem;color:var(--ink3);}
+.mod-check{color:var(--green);font-weight:700;flex-shrink:0;}
+.mod-box-price{margin-top:12px;padding-top:10px;border-top:1px solid var(--border);display:flex;align-items:baseline;gap:6px;}
+.mod-price-val{font-size:1.4rem;font-weight:800;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+.mod-price-unit{font-size:.7rem;color:var(--muted);}
+
+/* PACK BOX */
+.pack-box{background:var(--green-bg);border:1.5px solid var(--green-b);border-radius:var(--r2);padding:20px 22px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:20px;margin-top:12px;}
+.pack-label{font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:4px;}
+.pack-name{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:6px;}
+.pack-desc{font-size:.8rem;color:var(--muted);}
+.pack-price-box{text-align:right;flex-shrink:0;}
+.pack-crossed{font-size:.8rem;color:var(--muted);text-decoration:line-through;margin-bottom:2px;}
+.pack-val{font-size:2rem;font-weight:800;color:var(--green);line-height:1;}
+.pack-unit{font-size:.72rem;color:var(--green);font-weight:600;}
+.pack-saving{display:inline-block;background:var(--green);color:white;font-size:.65rem;font-weight:700;padding:3px 9px;border-radius:100px;margin-top:4px;}
+
+/* AMORTISSEMENT */
+.amort-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.amort-card{border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;text-align:center;}
+.amort-card.highlight{background:rgba(22,163,74,.05);border-color:var(--green-b);}
+.amort-label{font-size:.62rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.amort-val{font-size:1.5rem;font-weight:800;color:var(--ink);line-height:1;margin-bottom:3px;}
+.amort-val.green{color:var(--green);}
+.amort-sub{font-size:.72rem;color:var(--muted);line-height:1.4;}
+
+/* ECHELONNEMENT */
+.echel-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;}
+.echel-step{padding:16px 18px;text-align:center;border-right:1px solid var(--border);position:relative;}
+.echel-step:last-child{border-right:none;}
+.echel-step::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--adai);}
+.echel-n{font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.echel-moment{font-size:.78rem;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.echel-val{font-size:1.35rem;font-weight:800;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+.echel-pct{font-size:.7rem;color:var(--muted);margin-top:2px;}
+
+/* GO LIVE */
+.golive-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;}
+.golive-row::before{content:'';position:absolute;top:18px;left:calc(12.5% + 8px);right:calc(12.5% + 8px);height:1px;background:var(--border2);z-index:0;}
+.gl-step{text-align:center;padding:0 8px;position:relative;z-index:1;}
+.gl-n{width:36px;height:36px;border-radius:50%;background:var(--white);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--muted);margin:0 auto 10px;box-shadow:var(--shadow-sm);}
+.gl-n.a{background:var(--adai);border:none;color:white;}
+.gl-phase{font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ab);margin-bottom:3px;}
+.gl-title{font-weight:600;font-size:.78rem;color:var(--ink);margin-bottom:2px;}
+.gl-date{font-size:.7rem;color:var(--green);font-weight:600;}
+
+/* DECISION BOX */
+.decision-box{background:var(--ink);border-radius:var(--r2);padding:28px 32px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:24px;margin-top:16px;}
+.decision-left{}
+.decision-eye{font-size:.6rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px;}
+.decision-title{font-size:1.3rem;font-weight:800;color:white;line-height:1.2;margin-bottom:8px;}
+.decision-sub{font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.6;}
+.decision-cta{flex-shrink:0;text-align:center;}
+.decision-date{background:var(--adai);color:white;font-weight:800;font-size:1rem;padding:14px 24px;border-radius:var(--r);line-height:1.3;text-align:center;box-shadow:var(--shadow-md);}
+.decision-date span{display:block;font-size:.65rem;font-weight:600;opacity:.8;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;}
+
+footer{text-align:center;padding:24px;font-size:.7rem;color:var(--muted2);}
+.footer-brand{background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;}
+
+@media(max-width:700px){
+  .header{padding:14px 18px;}
+  .wrap{padding:24px 14px;}
+  .stats-row,.modules-grid,.amort-grid,.echel-steps,.golive-row{grid-template-columns:1fr 1fr;}
+  .pack-box,.decision-box{grid-template-columns:1fr;}
+  .echel-steps{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="top-stripe"></div>
+
+<div class="header">
+  <div>
+    <div class="logo-text">ADAI</div>
+  </div>
+  <div class="header-right">
+    <div class="header-label">Décision finale</div>
+    <div class="header-date">Vendredi 13 mars 2026 · 10h00</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eye">C2 Chapes · Cédric Chevenay · Récap décision finale</div>
+    <h1 class="hero-title">Tout ce qu'il faut savoir<br>pour <em>prendre la décision</em></h1>
+    <p class="hero-sub">Ce document résume l'essentiel de nos deux échanges. En 5 minutes, vous avez tous les éléments pour décider en confiance.</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-val">+300h</div>
+      <div class="stat-label">récupérées par an<br>AO + visites + admin</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">×3</div>
+      <div class="stat-label">capacité de traitement<br>AO sans embauche</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">fin avril</div>
+      <div class="stat-label">go live estimé<br>si signature vendredi</div>
+    </div>
+  </div>
+
+  <!-- LES 2 MODULES -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">01</div>
+      <div class="section-title">Les 2 modules sur mesure C2 Chapes</div>
+    </div>
+    <div class="section-body">
+      <div class="modules-grid">
+
+        <div class="mod-box">
+          <div class="mod-box-name">Agent AO semi-IA</div>
+          <div class="mod-box-items">
+            <div class="mod-item"><span class="mod-check">✓</span><span>Extraction automatique depuis Gmail</span></div>
+            <div class="mod-item"><span class="mod-check">✓</span><span>Pré-remplissage Google Docs/Sheets</span></div>
+            <div class="mod-item"><span class="mod-check">✓</span><span>Checklist conformité AO auto</span></div>
+            <div class="mod-item"><span class="mod-check">✓</span><span>Vous validez avant envoi — contrôle total</span></div>
+            <div class="mod-item"><span class="mod-check">✓</span><span>Archivage automatique Drive par chantier</span></div>
+          </div>
+          <div class="mod-box-price">
+            <div class="mod-price-val">5 400€</div>
+            <div class="mod-price-unit">TTC</div>
+          </div>
+        </div>
+
+        <div class="mod-box">
+          <div class="mod-box-name">Assistant IA Visite Technique</div>
+          <div class="mod-box-items">
+            <div class="mod-item"><span class="mod-check">✓</span><span>Guidage visite via WhatsApp — dictée, photos</span></div>
+            <div class="mod-item"><span class="mod-check">✓</span><span>Synchro automatique Drive par chantier</span></div>
+            <div class="mod-item"><span class="mod-check">✓</span><span>Templates Obat pré-remplis depuis la visite</span></div>
+            <div class="mod-item"><span class="mod-check">✓</span><span>Historique photos + notes traçable</span></div>
+          </div>
+          <div class="mod-box-price">
+            <div class="mod-price-val">4 500€</div>
+            <div class="mod-price-unit">TTC</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- PACK -->
+      <div class="pack-box">
+        <div>
+          <div class="pack-label">⭐ Recommandé · Pack 2 modules</div>
+          <div class="pack-name">Agent AO + Visite Technique IA</div>
+          <div class="pack-desc">Une seule phase de déploiement, une seule formation, un seul interlocuteur. <strong>Économie de 1 000€ TTC</strong> par rapport aux modules séparés.</div>
+        </div>
+        <div class="pack-price-box">
+          <div class="pack-crossed">9 900€</div>
+          <div class="pack-val">8 900€</div>
+          <div class="pack-unit">TTC · Pack complet</div>
+          <div class="pack-saving">− 1 000€</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AMORTISSEMENT -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">02</div>
+      <div class="section-title">L'investissement vu autrement — Amortissement comptable</div>
+    </div>
+    <div class="section-body">
+      <p style="font-size:.82rem;color:var(--muted);margin-bottom:16px;line-height:1.6;">L'investissement initial est <strong style="color:var(--ink);">amortissable comptablement sur 3 à 5 ans</strong> en tant qu'actif technologique. Ce n'est pas une dépense — c'est un investissement qui se déclare et s'étale.</p>
+      <div class="amort-grid">
+        <div class="amort-card">
+          <div class="amort-label">Investissement total</div>
+          <div class="amort-val">8 900€</div>
+          <div class="amort-sub">TTC · Pack 2 modules</div>
+        </div>
+        <div class="amort-card">
+          <div class="amort-label">Amorti sur 3 ans</div>
+          <div class="amort-val">248€</div>
+          <div class="amort-sub">par mois</div>
+        </div>
+        <div class="amort-card highlight">
+          <div class="amort-label">Amorti sur 5 ans ✓</div>
+          <div class="amort-val green">149€</div>
+          <div class="amort-sub">par mois — soit le coût<br>de la maintenance</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ECHELONNEMENT -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">03</div>
+      <div class="section-title">Échelonnement du paiement — 50% / 50%</div>
+    </div>
+    <div class="section-body">
+      <div class="echel-steps" style="grid-template-columns:1fr 1fr;">
+        <div class="echel-step">
+          <div class="echel-n">Versement 1</div>
+          <div class="echel-moment">À la commande</div>
+          <div class="echel-val">4 450€</div>
+          <div class="echel-pct">50% · Lancement du projet</div>
+        </div>
+        <div class="echel-step">
+          <div class="echel-n">Versement 2</div>
+          <div class="echel-moment">À la livraison</div>
+          <div class="echel-val">4 450€</div>
+          <div class="echel-pct">50% · Go live + formation</div>
+        </div>
+      </div>
+      <p style="font-size:.75rem;color:var(--muted);margin-top:12px;font-style:italic;">+ 149€ TTC/mois · Maintenance & évolution continue · Interlocuteur dédié</p>
+    </div>
+  </div>
+
+  <!-- GO LIVE -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">04</div>
+      <div class="section-title">De la signature au go live — 4 à 5 semaines</div>
+    </div>
+    <div class="section-body">
+      <div class="golive-row">
+        <div class="gl-step">
+          <div class="gl-n a">1</div>
+          <div class="gl-phase">Semaine 1</div>
+          <div class="gl-title">Lancement</div>
+          <div class="gl-date">~20 mars</div>
+        </div>
+        <div class="gl-step">
+          <div class="gl-n a">2</div>
+          <div class="gl-phase">Sem. 2–3</div>
+          <div class="gl-title">Configuration</div>
+          <div class="gl-date">~27 mars</div>
+        </div>
+        <div class="gl-step">
+          <div class="gl-n">3</div>
+          <div class="gl-phase">Sem. 4–5</div>
+          <div class="gl-title">Formation</div>
+          <div class="gl-date">~10 avril</div>
+        </div>
+        <div class="gl-step">
+          <div class="gl-n">4</div>
+          <div class="gl-phase">Sem. 5 →</div>
+          <div class="gl-title">Go Live ✓</div>
+          <div class="gl-date">~fin avril</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DECISION -->
+  <div class="decision-box">
+    <div class="decision-left">
+      <div class="decision-eye">Prochaine étape</div>
+      <div class="decision-title">On prend la décision ensemble.<br>Vendredi 13 mars à 10h.</div>
+      <div class="decision-sub">Si vous signez vendredi, vous êtes opérationnels fin avril — et équipés pour la reprise de septembre au maximum de votre capacité. Votre associé est le bienvenu.</div>
+    </div>
+    <div class="decision-cta">
+      <div class="decision-date">
+        <span>Rendez-vous</span>
+        Vendredi 13 mars<br>10h00
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span class="footer-brand">ADAI — Création & Automation</span>
+  · Document confidentiel C2 Chapes · Mars 2026 · © 2026 ADAI
+</footer>
+
+</body>
+</html>
