@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADAI × Avicap — Rapport d'Audit R1</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:#FFFFFF; --off:#F8F9FB; --off2:#EFF1F5;
+  --ink:#0D1117; --ink2:#1E2533; --ink3:#3A4254;
+  --muted:#6B7280; --muted2:#9CA3AF;
+  --border:#E4E7EE;
+  --ab:#1B7FD4; --ao:#E8852A;
+  --logo:linear-gradient(90deg,#1B7FD4 0%,#3A9FE8 35%,#E8852A 100%);
+  --adai:linear-gradient(100deg,#1B7FD4 0%,#7B5EA7 48%,#E8852A 78%,#D4A017 100%);
+  --green:#16A34A; --green-bg:#F0FDF4; --green-b:#BBF7D0;
+  --red:#DC2626;   --red-bg:#FEF2F2;   --red-b:#FECACA;
+  --amber:#D97706; --amber-bg:#FFFBEB; --amber-b:#FDE68A;
+  --shadow-xs:0 1px 3px rgba(13,17,23,.07),0 1px 2px rgba(13,17,23,.04);
+  --shadow-sm:0 4px 12px rgba(13,17,23,.07);
+  --r:8px; --r2:12px;
+  --sb:210px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Calibri','Inter',sans-serif;background:var(--off);color:var(--ink);line-height:1.6;font-size:16px;display:flex;min-height:100vh;justify-content:center;}
+
+/* ── SIDEBAR ──────────────────────────── */
+#sb{
+  position:fixed;top:0;left:0;width:var(--sb);height:100vh;
+  background:var(--white);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow-y:auto;z-index:100;
+}
+.sb-top{padding:14px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.sb-logo-wrap{display:flex;align-items:baseline;gap:0;}
+.sb-logo-ad{font-weight:800;font-size:1.25rem;color:#1B7FD4;line-height:1;letter-spacing:-.5px;}
+.sb-logo-ai{font-weight:800;font-size:1.25rem;color:#E8852A;line-height:1;letter-spacing:-.5px;}
+.sb-logo-sub{font-size:.42rem;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted2);display:block;margin-top:1px;}
+.sb-meta{padding:9px 18px;border-bottom:1px solid var(--border);background:var(--off);}
+.sb-client{font-weight:700;font-size:.78rem;color:var(--ink);margin-bottom:1px;}
+.sb-date{font-size:.63rem;color:var(--muted);}
+.sb-nav{padding:4px 0 12px;flex:1;}
+.sb-group{font-size:.48rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);padding:10px 18px 2px;}
+.sb-link{
+  display:flex;align-items:center;gap:7px;padding:6px 18px;
+  width:100%;background:none;border:none;cursor:pointer;
+  color:var(--muted);font-size:.72rem;font-weight:400;
+  font-family:'Calibri','Inter',sans-serif;text-align:left;
+  border-left:2px solid transparent;transition:all .15s;
+}
+.sb-link:hover{color:var(--ink2);background:var(--off);}
+.sb-link.active{color:var(--ab);border-left-color:var(--ab);background:rgba(27,127,212,.05);font-weight:600;}
+.sb-num{font-size:.54rem;color:var(--muted2);min-width:13px;}
+.sb-link.active .sb-num{color:var(--ab);}
+
+/* ── PROGRESS ─────────────────────────── */
+#prog{position:fixed;top:0;left:var(--sb);right:0;height:3px;background:var(--adai);transform-origin:left;transform:scaleX(0);z-index:200;}
+
+/* ── MAIN ─────────────────────────────── */
+#main{margin-left:var(--sb);flex:1;}
+
+/* ── COVER ────────────────────────────── */
+#cover{background:var(--ink2);padding:28px 44px 24px;position:relative;overflow:hidden;}
+#cover::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 80% 20%,rgba(123,94,167,.22) 0%,transparent 55%),
+             radial-gradient(ellipse at 10% 90%,rgba(27,127,212,.12) 0%,transparent 50%);}
+.cover-in{position:relative;}
+.cover-eye{display:inline-flex;align-items:center;gap:7px;font-size:.56rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:8px;}
+.cover-eye::before{content:'';width:14px;height:2px;background:var(--adai);border-radius:2px;}
+.cover-h1{font-size:1.75rem;font-weight:700;color:var(--white);line-height:1.1;margin-bottom:4px;}
+.cover-h1 em{font-style:italic;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.cover-sub{font-size:.8rem;color:rgba(255,255,255,.4);margin-bottom:14px;}
+.cover-pills{display:flex;flex-wrap:wrap;gap:5px;}
+.pill{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.55);font-size:.66rem;padding:2px 9px;border-radius:20px;}
+.pill strong{color:var(--white);}
+
+/* ── CONTENT ──────────────────────────── */
+.content{padding:0 44px 52px;max-width:900px;margin:0 auto;}
+
+/* ── SECTION ──────────────────────────── */
+.section{padding-top:30px;}
+.s-eye{font-size:.54rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--ab);margin-bottom:3px;display:flex;align-items:center;gap:7px;}
+.s-eye::before{content:'';width:14px;height:2px;background:var(--adai);border-radius:2px;}
+.s-h{font-weight:700;font-size:1.25rem;color:var(--ink);padding-bottom:7px;border-bottom:1px solid var(--border);margin-bottom:10px;}
+.s-h em{font-style:italic;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+/* ── KPI ROW ──────────────────────────── */
+.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.kpi{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:13px 15px;position:relative;overflow:hidden;box-shadow:var(--shadow-xs);}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--adai);}
+.kpi-val{font-size:1.4rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:2px;}
+.kpi-label{font-size:.58rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+.kpi-sub{font-size:.63rem;color:var(--muted2);margin-top:1px;}
+
+/* ── CALLOUT ──────────────────────────── */
+.callout{border-radius:var(--r2);padding:10px 14px;margin-bottom:8px;border-left:3px solid;font-size:.89rem;line-height:1.55;color:var(--ink3);}
+.callout-blue{background:rgba(27,127,212,.05);border-color:var(--ab);}
+.callout-amber{background:var(--amber-bg);border-color:var(--amber);}
+.callout-green{background:var(--green-bg);border-color:var(--green);}
+.callout strong{color:var(--ink);font-weight:600;}
+
+/* ── BADGES ───────────────────────────── */
+.badge{display:inline-block;font-size:.55rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:4px;white-space:nowrap;}
+.badge-red   {background:var(--red-bg);  color:var(--red);  border:1px solid var(--red-b);}
+.badge-amber {background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-b);}
+.badge-blue  {background:rgba(27,127,212,.1);color:var(--ab);border:1px solid rgba(27,127,212,.2);}
+.badge-green {background:var(--green-bg);color:var(--green);border:1px solid var(--green-b);}
+.badge-gray  {background:var(--off2);color:var(--muted);border:1px solid var(--border);}
+
+/* ── TABLES ───────────────────────────── */
+.tbl{border-radius:var(--r2);overflow:hidden;border:1px solid var(--border);margin:8px 0;box-shadow:var(--shadow-xs);}
+table{width:100%;border-collapse:collapse;background:var(--white);font-size:.88rem;}
+thead th{background:var(--ink2);color:var(--white);font-size:.54rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:8px 12px;text-align:left;}
+tbody tr{border-bottom:1px solid var(--border);}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:nth-child(even) td{background:var(--off);}
+tbody tr:hover td{background:rgba(27,127,212,.03);}
+td{padding:8px 12px;vertical-align:middle;color:var(--ink3);line-height:1.3;}
+td.fw{font-weight:600;color:var(--ink2);}
+td.gain{color:var(--green);font-weight:700;}
+td.delay{color:var(--muted);font-size:.72rem;}
+td.imp-b{color:var(--red);font-weight:600;}
+td.imp-m{color:var(--ab);font-weight:600;}
+td.imp-a{color:var(--green);font-weight:700;}
+.td-sub{font-size:.68rem;color:var(--muted);font-weight:400;display:block;margin-top:1px;}
+
+/* ── TWO COL ──────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0;}
+
+/* ── LIST CARD ────────────────────────── */
+.lcard{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:11px 14px;box-shadow:var(--shadow-xs);}
+.lcard-title{font-size:.55rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;}
+.lcard ul{list-style:none;}
+.lcard li{display:flex;align-items:flex-start;gap:6px;padding:4px 0;border-bottom:1px solid var(--border);font-size:.86rem;color:var(--ink3);line-height:1.3;}
+.lcard li:last-child{border-bottom:none;}
+.dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.dot-r{background:var(--red);}
+.dot-g{background:var(--green);}
+.dot-b{background:var(--ab);}
+.dot-o{background:var(--ao);}
+.lcard li strong{color:var(--ink2);font-weight:600;}
+.lcard li.label-item{display:flex;align-items:flex-start;gap:6px;}
+.lcard li.label-item .label-content{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:flex-start;flex:1;}
+.lcard li.label-item .label-content strong{white-space:nowrap;}
+
+/* ── PROC GRID ────────────────────────── */
+.proc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;}
+.proc{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:11px 13px;display:flex;gap:10px;box-shadow:var(--shadow-xs);}
+.proc-ico{width:28px;height:28px;border-radius:7px;background:rgba(27,127,212,.07);border:1px solid rgba(27,127,212,.13);display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;}
+.proc-name{font-weight:700;font-size:.78rem;color:var(--ink);margin-bottom:1px;}
+.proc-meta{font-size:.67rem;color:var(--muted);line-height:1.3;margin-bottom:3px;}
+.proc-f{font-size:.65rem;color:var(--red);font-weight:600;}
+.proc-f::before{content:'↳ ';}
+
+/* ── STARS ────────────────────────────── */
+.stars{color:var(--ab);letter-spacing:1px;font-size:.82rem;}
+.stars-off{color:var(--border);font-size:.82rem;}
+
+/* ── SOP STEPS ────────────────────────── */
+.sop-steps{margin:10px 0;display:flex;flex-direction:column;}
+.sop-step{display:flex;gap:10px;padding-bottom:12px;position:relative;}
+.sop-step:last-child{padding-bottom:0;}
+.sop-step::before{content:'';position:absolute;left:12px;top:27px;bottom:0;width:2px;background:var(--border);}
+.sop-step:last-child::before{display:none;}
+.step-n{width:26px;height:26px;border-radius:50%;background:var(--adai);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.72rem;flex-shrink:0;position:relative;z-index:1;}
+.step-b{flex:1;padding-top:3px;}
+.step-title{font-weight:700;font-size:.89rem;color:var(--ink);margin-bottom:4px;}
+.step-list{list-style:none;}
+.step-list li{display:flex;align-items:flex-start;gap:6px;font-size:.83rem;color:var(--ink3);padding:3px 0;border-bottom:1px solid var(--border);line-height:1.3;}
+.step-list li:last-child{border-bottom:none;}
+.step-list li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;font-size:.65rem;margin-top:2px;}
+
+.sop-result{background:var(--green-bg);border:1px solid var(--green-b);border-radius:var(--r2);padding:10px 14px;display:flex;align-items:center;margin-top:6px;}
+.sr-item{flex:1;text-align:center;padding:0 8px;}
+.sr-item+.sr-item{border-left:1px solid var(--green-b);}
+.sr-val{font-size:.95rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+.sr-lab{font-size:.58rem;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.4px;}
+
+/* ── ROADMAP ──────────────────────────── */
+.roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0;}
+.phase{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);}
+.phase-stripe{height:2px;background:var(--adai);}
+.phase-bd{padding:11px 13px;}
+.phase-num{font-size:.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ab);margin-bottom:1px;}
+.phase-name{font-size:.92rem;font-weight:700;color:var(--ink);margin-bottom:1px;}
+.phase-period{font-size:.74rem;color:var(--muted);padding-bottom:7px;margin-bottom:7px;border-bottom:1px solid var(--border);}
+.phase-item{display:flex;align-items:flex-start;gap:5px;font-size:.81rem;color:var(--ink3);padding:3px 0;line-height:1.3;}
+.phase-item::before{content:'→';color:var(--ao);font-weight:700;flex-shrink:0;font-size:.68rem;}
+
+/* ── NEXT STEPS ───────────────────────── */
+.rdv{background:var(--ink2);border-radius:var(--r2);padding:13px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:8px;flex-wrap:wrap;}
+.rdv-ll{font-size:.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:2px;}
+.rdv-lv{font-size:1rem;font-weight:700;color:var(--white);}
+.rdv-rl{font-size:.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:2px;text-align:right;}
+.rdv-rv{font-size:.76rem;font-weight:600;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:right;}
+
+.next-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.ncard{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);}
+.ncard-head{padding:8px 13px;background:var(--off);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;}
+.ncard-title{font-size:.56rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink2);}
+.ncard-body{padding:8px 13px;}
+.ncard-item{display:flex;align-items:flex-start;gap:6px;padding:4px 0;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--ink3);line-height:1.3;}
+.ncard-item:last-child{border-bottom:none;}
+.ncard-item::before{content:'→';color:var(--ab);font-weight:700;flex-shrink:0;font-size:.68rem;margin-top:2px;}
+
+/* ── FOOTER ───────────────────────────── */
+.doc-footer{margin-top:48px;padding:13px 0 4px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.footer-brand{font-weight:700;font-size:.72rem;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.footer-conf{font-size:.66rem;color:var(--muted);font-style:italic;}
+
+/* ── FADE ─────────────────────────────── */
+.fade{opacity:0;transform:translateY(10px);transition:opacity .3s ease,transform .3s ease;}
+.fade.on{opacity:1;transform:none;}
+
+@media(max-width:860px){
+  body{display:block;}
+  #sb{position:relative;width:100%;height:auto;}
+  #main{margin-left:0;}
+  .content{padding:0 18px 48px;}
+  #cover{padding:28px 18px;}
+  .kpi-row,.two,.proc-grid,.roadmap,.next-grid{grid-template-columns:1fr;}
+  .sop-result{flex-wrap:wrap;}
+  .rdv{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+
+<!-- ── SIDEBAR ──────────────────────────────── -->
+<aside id="sb">
+  <div class="sb-top">
+    <div>
+      <div class="sb-logo-wrap">
+        <span class="sb-logo-ad">AD</span><span class="sb-logo-ai">AI</span>
+      </div>
+      <span class="sb-logo-sub">Création & Automation</span>
+    </div>
+  </div>
+  <div class="sb-meta">
+    <div class="sb-client">Avicap / Mon Meilleur Banquier</div>
+    <div class="sb-date">Rapport d'Audit R1 · 9 mars 2026</div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-group">Vue d'ensemble</div>
+    <button class="sb-link active" onclick="go(this,'s0')"><span class="sb-num">00</span>Synthèse</button>
+    <div class="sb-group">Audit</div>
+    <button class="sb-link" onclick="go(this,'s1')"><span class="sb-num">01</span>Diagnostic terrain</button>
+    <button class="sb-link" onclick="go(this,'s2')"><span class="sb-num">02</span>Cartographie process</button>
+    <button class="sb-link" onclick="go(this,'s3')"><span class="sb-num">03</span>Scoring & priorisation</button>
+    <div class="sb-group">Recommandations</div>
+    <button class="sb-link" onclick="go(this,'s4')"><span class="sb-num">04</span>SOP recommandée</button>
+    <button class="sb-link" onclick="go(this,'s5')"><span class="sb-num">05</span>Roadmap</button>
+    <button class="sb-link" onclick="go(this,'s6')"><span class="sb-num">06</span>Impact & risques</button>
+    <button class="sb-link" onclick="go(this,'s7')"><span class="sb-num">07</span>Next steps</button>
+  </nav>
+</aside>
+
+<!-- ── MAIN ─────────────────────────────────── -->
+<main id="main">
+
+  <div id="cover">
+    <div class="cover-in">
+      <div class="cover-eye">Rapport d'Audit R1</div>
+      <h1 class="cover-h1">Audit IA — <em>Avicap & Mon Meilleur Banquier</em></h1>
+      <div class="cover-sub">Plan d'automatisation · 9 mars 2026</div>
+      <div class="cover-pills">
+        <span class="pill">Réalisé par <strong>Adrien Pais · ADAI</strong></span>
+        <span class="pill">CA prév. <strong>5,2 M€ HT</strong></span>
+        <span class="pill">Objectif <strong>6 M€</strong></span>
+        <span class="pill">Secteur <strong>Courtage en financement</strong></span>
+        <span class="pill">Réseau <strong>~100 collaborateurs · 85 points</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- 00 · SYNTHÈSE -->
+    <div class="section fade" id="s0">
+      <div class="s-eye">One-pager exécutif</div>
+      <h2 class="s-h"><em>Synthèse</em> & Décisions Prioritaires</h2>
+
+      <div class="callout callout-blue">
+        Avicap / MMB dispose d'une base de 20 000 familles clients et d'un réseau de 100 collaborateurs en pleine relance post-crise. La priorité est double : automatiser le travail quotidien des courtiers en crédit pour leur faire gagner du temps et traiter davantage de dossiers, et activer la base client existante pour générer du chiffre d'affaires récurrent — placement, assurance, prévoyance — sans prospecter davantage.
+      </div>
+
+      <div class="two">
+        <div class="lcard">
+          <div class="lcard-title" style="color:var(--ab);">Décisions Prioritaires</div>
+          <ul>
+            <li><div class="dot dot-o"></div>Automatiser la collecte, le tri et l'analyse des documents clients via une plateforme connectée à Cifacil (suppression double saisie, relances auto)</li>
+            <li><div class="dot dot-o"></div>Déployer un parcours client IA sur la base de 20 000 familles pour identifier et solliciter les opportunités de placement, assurance et prévoyance au bon moment</li>
+            <li><div class="dot dot-o"></div>Mettre en place une application sur mesure souveraine (Mistral AI + Supabase Paris) intégrant Cifacil et O2S, propriété d'Avicap, avec potentiel de revente réseau</li>
+          </ul>
+        </div>
+        <div class="lcard">
+          <div class="lcard-title" style="color:var(--green);">Impact Attendu</div>
+          <ul>
+            <li><div class="dot dot-g"></div><strong>Temps libéré :</strong> analyse documentaire réduite de ~1h à ~30 min par dossier, permettant de passer de 3–4 à 5–6 dossiers/mois/courtier</li>
+            <li><div class="dot dot-g"></div>Activation de la base de 20 000 familles — chiffre d'affaires récurrent additionnel sans prospection</li>
+            <li><div class="dot dot-g"></div>Fidélisation et attractivité réseau : différenciation concurrentielle via des outils modernes</li>
+            <li><div class="dot dot-g"></div>Création d'un actif technologique propriétaire revendable aux confrères affiliés</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 01 · DIAGNOSTIC -->
+    <div class="section fade" id="s1">
+      <div class="s-eye">Diagnostic terrain · 9 mars 2026</div>
+      <h2 class="s-h"><em>1.</em> Diagnostic Terrain</h2>
+
+      <div class="two">
+        <div>
+          <div class="lcard" style="margin-bottom:8px;">
+            <div class="lcard-title" style="color:var(--ab);">Organisation</div>
+            <ul>
+              <li><div class="dot dot-b"></div>5 associés (3 producteurs 100%, 1 sorti de prod — développement réseau, 1 à 50/50 prod & animation)</li>
+              <li><div class="dot dot-b"></div>~100 collaborateurs indépendants répartis sur 85 points d'implantation en France, deux marques : Avicap & Mon Meilleur Banquier</li>
+              <li><div class="dot dot-b"></div>Objectif 2026 : +15–20 nouveaux collaborateurs, 6 M€ de CA (vs 5,2 M€ prévus 2025)</li>
+              <li><div class="dot dot-b"></div>Pôle placement/patrimoine : 3 personnes (assurance-vie, PER, capitalisation) — suivi client annuel obligatoire, capacité d'absorption limitée sans outils</li>
+            </ul>
+          </div>
+          <div class="lcard">
+            <div class="lcard-title" style="color:var(--ab);">Maturité Numérique</div>
+            <ul>
+              <li class="label-item"><div class="dot dot-b"></div><div class="label-content"><strong>Outils :</strong><span>Cifacil (logiciel métier courtage crédit), O2S/Harvest (agrégateur placement), Brevo (newsletter), OneDrive (usage partiel)</span></div></li>
+              <li class="label-item"><div class="dot dot-b"></div><div class="label-content"><strong>Intégration :</strong><span>Aucune automatisation centralisée — chaque collaborateur gère ses documents en local, pas de cloud unifié pour les dossiers clients</span></div></li>
+              <li class="label-item"><div class="dot dot-b"></div><div class="label-content"><strong>IA :</strong><span>Un chantier SEO/GEO en cours (robot de veille concurrentielle IA). Pas d'IA opérationnelle sur les process métier courtage à ce stade</span></div></li>
+            </ul>
+          </div>
+        </div>
+        <div class="lcard">
+          <div class="lcard-title" style="color:var(--red);">Pain Points Majeurs</div>
+          <ul>
+            <li class="label-item"><div class="dot dot-r"></div><div class="label-content"><strong>Analyse documentaire :</strong><span>1h à 1h30 par dossier en manuel — conversion JPEG→PDF, renommage, tri, double saisie dans Cifacil — tâche chronophage à faible valeur ajoutée</span></div></li>
+            <li class="label-item"><div class="dot dot-r"></div><div class="label-content"><strong>Base clients inexploitée :</strong><span>20 000 familles dans Cifacil, données propres et à jour, mais aucun outil pour identifier les opportunités et déclencher des relances au bon moment</span></div></li>
+            <li class="label-item"><div class="dot dot-r"></div><div class="label-content"><strong>Dépôt documents :</strong><span>Module interne Cifacil mal calibré, non utilisé — les clients envoient les pièces par mail, dispatch manuel, stockage non centralisé (PC individuel)</span></div></li>
+            <li class="label-item"><div class="dot dot-r"></div><div class="label-content"><strong>Suivi placement :</strong><span>O2S non automatisé — relances conformité et suivi annuel clients chronophages, limitent la capacité d'absorption du pôle patrimoine</span></div></li>
+            <li class="label-item"><div class="dot dot-r"></div><div class="label-content"><strong>RGPD & purge :</strong><span>Aucun process de purge documentaire en place — risque de non-conformité sur les données sensibles (relevés de compte, épargne, statut pro)</span></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 · CARTOGRAPHIE -->
+    <div class="section fade" id="s2">
+      <div class="s-eye">Analyse des processus</div>
+      <h2 class="s-h"><em>2.</em> Cartographie Process</h2>
+      <div class="tbl">
+        <table>
+          <thead>
+            <tr><th>Étape</th><th>Acteur</th><th>Outils actuels</th><th>Frictions identifiées</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="fw">Collecte & tri des documents clients</td>
+              <td>Courtier / Collaborateur</td>
+              <td>E-mail, PC local</td>
+              <td>Documents reçus par mail, conversion JPEG→PDF manuelle, renommage manuel, risque d'oubli et de doublons — jusqu'à 1h30 par dossier</td>
+            </tr>
+            <tr>
+              <td class="fw">Analyse du dossier & double saisie</td>
+              <td>Courtier / Collaborateur</td>
+              <td>Cifacil, E-mail</td>
+              <td>Lecture manuelle des relevés, ressaisie des crédits en cours et revenus dans Cifacil — module interne Cifacil mal calibré, non utilisé</td>
+            </tr>
+            <tr>
+              <td class="fw">Suivi conformité & relances clients</td>
+              <td>Courtier / Secrétaire</td>
+              <td>E-mail, Cifacil</td>
+              <td>Relances manuelles pour documents manquants, suivi non centralisé, risque de dossiers bloqués sans alerte automatique</td>
+            </tr>
+            <tr>
+              <td class="fw">Placement & suivi patrimonial annuel</td>
+              <td>Grégory (pôle patrimoine)</td>
+              <td>O2S/Harvest, E-mail</td>
+              <td>O2S non automatisé — rapprochement multi-compagnies manuel, suivi annuel chronophage, limite le nombre de clients gérables</td>
+            </tr>
+            <tr>
+              <td class="fw">Animation base clients & parcours cycle de vie</td>
+              <td>Jean Cerda (dev réseau), Community Manager</td>
+              <td>Brevo, Google Ads</td>
+              <td>Base de 20 000 familles non exploitée pour le placement — campagnes payantes acquièrent de nouveaux clients tandis que la base existante est laissée dormante</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 03 · SCORING -->
+    <div class="section fade" id="s3">
+      <div class="s-eye">Scoring & priorisation</div>
+      <h2 class="s-h"><em>3.</em> Scoring & Priorisation</h2>
+      <div class="tbl">
+        <table>
+          <thead>
+            <tr><th>Opportunité</th><th style="text-align:center">Score Global</th><th>Priorité</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="fw">Automatisation collecte & analyse documents (Cifacil/IA)</td>
+              <td style="text-align:center"><span class="stars">★★★★★★★★★★</span><span class="stars-off"></span> <span style="font-size:.7rem;color:var(--muted);">10/10</span></td>
+              <td><span class="badge badge-red">#1 Immédiat</span></td>
+            </tr>
+            <tr>
+              <td class="fw">Parcours client IA — activation base 20 000 familles</td>
+              <td style="text-align:center"><span class="stars">★★★★★★★★★</span><span class="stars-off">★</span> <span style="font-size:.7rem;color:var(--muted);">9/10</span></td>
+              <td><span class="badge badge-red">#2 Rapproché</span></td>
+            </tr>
+            <tr>
+              <td class="fw">Automatisation suivi placement & conformité (O2S/IA)</td>
+              <td style="text-align:center"><span class="stars">★★★★★★★★</span><span class="stars-off">★★</span> <span style="font-size:.7rem;color:var(--muted);">8/10</span></td>
+              <td><span class="badge badge-red">#3 Rapproché</span></td>
+            </tr>
+            <tr>
+              <td class="fw">Centralisation documentaire & purge RGPD (Supabase)</td>
+              <td style="text-align:center"><span class="stars">★★★★★★★</span><span class="stars-off">★★★</span> <span style="font-size:.7rem;color:var(--muted);">7/10</span></td>
+              <td><span class="badge badge-amber">#4 Court terme</span></td>
+            </tr>
+            <tr>
+              <td class="fw">Application sur mesure revendable au réseau (SaaS courtiers)</td>
+              <td style="text-align:center"><span class="stars">★★★★★★★★★★</span><span class="stars-off"></span> <span style="font-size:.7rem;color:var(--muted);">10/10</span></td>
+              <td><span class="badge badge-blue">Structurant</span></td>
+            </tr>
+            <tr>
+              <td class="fw">Automatisation communication réseau interne & reporting</td>
+              <td style="text-align:center"><span class="stars">★★★★</span><span class="stars-off">★★★★★★</span> <span style="font-size:.7rem;color:var(--muted);">4/10</span></td>
+              <td><span class="badge badge-gray">Différé</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 04 · SOP -->
+    <div class="section fade" id="s4">
+      <div class="s-eye">Procédure opérationnelle</div>
+      <h2 class="s-h"><em>4.</em> SOP — Extraits Recommandés</h2>
+
+      <div class="callout callout-blue">
+        <strong>Process Dossier Crédit Automatisé</strong> — De la collecte documentaire à la validation du dossier, connecté à Cifacil via API.
+      </div>
+
+      <div class="sop-steps">
+        <div class="sop-step">
+          <div class="step-n">1</div>
+          <div class="step-b">
+            <div class="step-title">Collecte automatique des documents (lien sécurisé client)</div>
+            <ul class="step-list">
+              <li>Envoi automatique d'un lien de dépôt sécurisé au client dès l'ouverture du dossier dans Cifacil</li>
+              <li>Tri, renommage, conversion JPEG→PDF et fusion des pages réalisés automatiquement sans action humaine</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sop-step">
+          <div class="step-n">2</div>
+          <div class="step-b">
+            <div class="step-title">Analyse IA & suppression double saisie (via API Cifacil)</div>
+            <ul class="step-list">
+              <li>Analyse du dossier en moins de 3 minutes : détection crédits en cours, revenus, anomalies (ATD, incohérences relevés), scoring de complétude</li>
+              <li>Remplissage automatique des champs Cifacil via API — plus de double saisie pour le courtier</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sop-step">
+          <div class="step-n">3</div>
+          <div class="step-b">
+            <div class="step-title">Relances automatiques & suivi statut (validation humaine conservée)</div>
+            <ul class="step-list">
+              <li>Détection des pièces manquantes et relance semi-automatique au client avec validation courtier avant envoi</li>
+              <li>Tableau de bord administrateur centralisé : statut dossiers, top courtiers, temps récupéré par utilisateur visible en temps réel</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="sop-result">
+        <div class="sr-item"><div class="sr-val">~30 min</div><div class="sr-lab">temps cible / dossier</div></div>
+        <div class="sr-item"><div class="sr-val">–1h</div><div class="sr-lab">gain par dossier</div></div>
+        <div class="sr-item"><div class="sr-val">+2 dossiers</div><div class="sr-lab">capacité / mois / courtier</div></div>
+        <div class="sr-item"><div class="sr-val">< 3 mois</div><div class="sr-lab">retour sur invest.</div></div>
+      </div>
+
+      <div class="callout callout-amber" style="margin-top:10px;">
+        <strong>Sécurité & RGPD —</strong> Outil souverain : Mistral AI open source, stockage Supabase Paris. Aucune donnée client (relevés, épargne, statut pro) transmise à des IA tierces (Gemini, ChatGPT). Process de purge RGPD intégré dès la conception.
+      </div>
+    </div>
+
+    <!-- 05 · ROADMAP -->
+    <div class="section fade" id="s5">
+      <div class="s-eye">Planification</div>
+      <h2 class="s-h"><em>5.</em> Roadmap d'Automatisation</h2>
+      <div class="roadmap">
+        <div class="phase">
+          <div class="phase-stripe"></div>
+          <div class="phase-bd">
+            <div class="phase-num">Quick Wins</div>
+            <div class="phase-name">0–3 mois</div>
+            <div class="phase-period">Priorité immédiate</div>
+            <div class="phase-item">Plateforme collecte & analyse documents — connexion API Cifacil, renommage auto, scoring dossier</div>
+            <div class="phase-item">Relances automatiques documents manquants — semi-auto avec validation courtier</div>
+            <div class="phase-item">Tableau de bord centralisé — statut dossiers, temps récupéré, top producteurs (Avicap & MMB)</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-stripe"></div>
+          <div class="phase-bd">
+            <div class="phase-num">Structurant</div>
+            <div class="phase-name">3–6 mois</div>
+            <div class="phase-period">Consolidation & parcours client</div>
+            <div class="phase-item">Parcours client IA — analyse base 20 000 familles, déclenchement automatique opportunités placement / assurance</div>
+            <div class="phase-item">Connexion O2S — suivi conformité et offres comparatives automatisées pour le pôle patrimoine</div>
+            <div class="phase-item">Espace client centralisé (Supabase) — dépôt, archivage, purge RGPD</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-stripe"></div>
+          <div class="phase-bd">
+            <div class="phase-num">À différer</div>
+            <div class="phase-name">6 mois+</div>
+            <div class="phase-period">Complexité élevée</div>
+            <div class="phase-item">Application SaaS revendable aux confrères — packaging et commercialisation réseau</div>
+            <div class="phase-item">Automatisation complète communication interne réseau et reporting associés</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 · IMPACT & RISQUES -->
+    <div class="section fade" id="s6">
+      <div class="s-eye">Impact & gestion du risque</div>
+      <h2 class="s-h"><em>6.</em> Impacts Attendus & Gestion du Risque</h2>
+
+      <div class="callout callout-green">
+        <strong>ROI immédiat (&lt;3 mois) :</strong> 1h gagnée par dossier × 3–4 dossiers/mois = 3–4h récupérées par courtier. Sur 100 collaborateurs, c'est un potentiel de 300–400h/mois libérées dans le réseau. Passage estimé de 3–4 à 5–6 dossiers/mois par courtier, soit +15–20% de CA sans recrutement supplémentaire.
+      </div>
+
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Indicateur</th><th>Aujourd'hui</th><th>À 3 mois</th><th>À 6 mois</th></tr></thead>
+          <tbody>
+            <tr><td class="fw">Temps analyse dossier crédit</td><td class="imp-b">~1h – 1h30</td><td class="imp-m">~30 min</td><td class="imp-a">~20 min</td></tr>
+            <tr><td class="fw">Dossiers / mois / courtier</td><td class="imp-b">3–4 dossiers</td><td class="imp-m">5–6 dossiers</td><td class="imp-a">6–8 dossiers</td></tr>
+            <tr><td class="fw">Exploitation base 20 000 familles</td><td class="imp-b">Non exploitée</td><td class="imp-m">Analyse IA lancée</td><td class="imp-a">Parcours client actif</td></tr>
+            <tr><td class="fw">Suivi conformité O2S (placement)</td><td class="imp-b">Manuel, chronophage</td><td class="imp-m">Semi-automatisé</td><td class="imp-a">Automatisé</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="two" style="margin-top:0;">
+        <div class="callout callout-blue" style="margin:0;">
+          <strong>Gestion des risques :</strong> Adoption progressive recommandée — tarification modulaire, prise en main pendant la phase de développement. Validation humaine systématique avant tout envoi automatique. IA souveraine (Mistral open source) + Supabase Paris : conformité RGPD garantie sur données sensibles.
+        </div>
+        <div class="callout callout-amber" style="margin:0;">
+          <strong>Points de vigilance :</strong> Résistance au changement probable dans le réseau — nécessité d'un ticket d'entrée accessible, d'un évolutif tarifaire et d'une présentation au séminaire réseau (26–28 mai). Maintien de Cifacil comme socle — l'outil vient en surcouche, pas en remplacement.
+        </div>
+      </div>
+    </div>
+
+    <!-- 07 · NEXT STEPS -->
+    <div class="section fade" id="s7">
+      <div class="s-eye">Prochaines étapes</div>
+      <h2 class="s-h"><em>7.</em> Next Steps</h2>
+
+      <div class="rdv">
+        <div>
+          <div class="rdv-ll">Rendez-vous R2 — Présentation des solutions</div>
+          <div class="rdv-lv">Lundi 16 mars 2026 · 11h30</div>
+        </div>
+        <div>
+          <div class="rdv-rl">Participants confirmés</div>
+          <div class="rdv-rv">Alan Scouarnec · Jean Cerda · Grégory Durand Poudret</div>
+        </div>
+      </div>
+
+      <div class="next-grid">
+        <div class="ncard">
+          <div class="ncard-head"><span style="font-size:.85rem;">🏦</span><span class="ncard-title">Avicap / MMB — Avant le R2</span></div>
+          <div class="ncard-body">
+            <div class="ncard-item">Discuter en réunion associés (mardi) de l'enveloppe budgétaire à allouer au développement IA</div>
+            <div class="ncard-item">Transmettre si possible les tarifs, contrat et leasing Cifacil pour cohérence tarifaire</div>
+          </div>
+        </div>
+        <div class="ncard">
+          <div class="ncard-head">
+            <span style="font-size:.85rem;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:800;line-height:1;">A</span>
+            <span class="ncard-title">ADAI — Préparation R2</span>
+          </div>
+          <div class="ncard-body">
+            <div class="ncard-item">Préparer la présentation des solutions courtage crédit (Cockpit IA / module analyse Cifacil) et des solutions placement (O2S/IA)</div>
+            <div class="ncard-item">Auditer les process placement de Grégory et communication de Jean lors du R2 — proposer planning de développement et de livraison sur 3 mois</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="doc-footer">
+      <span class="footer-brand">ADAI — Création & Automation</span>
+      <span class="footer-conf">Document confidentiel · Avicap / Mon Meilleur Banquier · Mars 2026</span>
+    </div>
+
+  </div>
+</main>
+
+<script>
+const prog = document.getElementById('prog');
+window.addEventListener('scroll', () => {
+  prog.style.transform = `scaleX(${window.scrollY / (document.body.scrollHeight - window.innerHeight)})`;
+});
+
+function go(btn, id) {
+  document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id)?.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+const ids = ['s0','s1','s2','s3','s4','s5','s6','s7'];
+const links = document.querySelectorAll('.sb-link');
+window.addEventListener('scroll', () => {
+  let cur = 0;
+  ids.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - 100) cur = i;
+  });
+  links.forEach((l, i) => l.classList.toggle('active', i === cur));
+});
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); } });
+}, { threshold: 0.06 });
+document.querySelectorAll('.fade').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
