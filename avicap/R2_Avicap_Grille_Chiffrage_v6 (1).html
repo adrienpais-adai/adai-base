@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADAI × Avicap — Grille tarifaire & ROI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:#FFFFFF; --off:#F8F9FB; --off2:#EFF1F5;
+  --ink:#0D1117; --ink2:#1E2533; --ink3:#3A4254;
+  --muted:#6B7280; --muted2:#9CA3AF;
+  --border:#E4E7EE;
+  --ab:#1B7FD4; --ao:#E8852A;
+  --adai:linear-gradient(100deg,#1B7FD4 0%,#7B5EA7 48%,#E8852A 78%,#D4A017 100%);
+  --green:#16A34A; --green-bg:#F0FDF4; --green-b:#BBF7D0;
+  --amber:#D97706; --amber-bg:#FFFBEB; --amber-b:#FDE68A;
+  --purple:#7B5EA7; --purple-bg:#F5F3FF; --purple-b:#DDD6FE;
+  --ia:#0E7490; --ia-bg:#ECFEFF; --ia-b:#A5F3FC;
+  --shadow-xs:0 1px 3px rgba(13,17,23,.07);
+  --r:8px; --r2:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:var(--off);color:var(--ink);line-height:1.6;font-size:15px;}
+
+/* ── COVER ── */
+.cover{background:var(--ink2);padding:28px 44px 22px;position:relative;overflow:hidden;}
+.cover::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 85% 20%,rgba(123,94,167,.2) 0%,transparent 55%);}
+.cover-in{position:relative;max-width:860px;margin:0 auto;}
+.cover-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.6rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:8px;}
+.cover-eyebrow::before{content:'';width:16px;height:2px;background:var(--adai);border-radius:2px;}
+.cover-h1{font-size:1.6rem;font-weight:700;color:var(--white);line-height:1.15;margin-bottom:4px;letter-spacing:-.02em;}
+.cover-h1 em{font-style:normal;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.cover-sub{font-size:.8rem;color:rgba(255,255,255,.4);}
+
+/* ── PAGE ── */
+.page{max-width:860px;margin:0 auto;padding:16px 32px 64px;}
+
+/* ── NOTE ── */
+.note{font-size:.78rem;color:var(--muted);font-style:italic;padding:8px 0 14px;}
+
+/* ── SECTION LABEL ── */
+.s-label{font-size:.58rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--ab);margin:22px 0 8px;display:flex;align-items:center;gap:8px;}
+.s-label::before{content:'';width:14px;height:2px;background:var(--adai);border-radius:2px;}
+
+/* ── TABLE ── */
+.tbl{border-radius:var(--r2);overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow-xs);margin-bottom:6px;}
+table{width:100%;border-collapse:collapse;background:var(--white);font-size:.86rem;}
+thead th{background:var(--ink2);color:var(--white);font-size:.54rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:9px 16px;text-align:left;}
+thead th.right{text-align:right;}
+tbody tr{border-bottom:1px solid var(--border);}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:nth-child(even) td{background:var(--off);}
+tbody tr.group-header td{background:var(--off2);padding:6px 16px;}
+tbody tr.group-header .group-label{font-size:.56rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+tbody tr.subtotal-row td{background:var(--off2)!important;border-top:2px solid var(--border);}
+tbody tr.total-row td{background:var(--ink2)!important;color:var(--white);}
+
+td{padding:10px 16px;vertical-align:top;color:var(--ink3);}
+td.feat{width:28%;}
+td.feat-name{font-weight:600;color:var(--ink2);font-size:.88rem;margin-bottom:2px;}
+td.feat-desc{font-size:.78rem;color:var(--muted);line-height:1.45;margin-top:2px;}
+td.right{text-align:right;vertical-align:middle;white-space:nowrap;}
+td.couche{text-align:center;vertical-align:middle;white-space:nowrap;}
+
+.price-auto{font-weight:700;color:var(--ab);font-size:.92rem;}
+.price-ia{font-weight:600;color:var(--ia);font-size:.88rem;}
+.price-na{color:var(--muted2);font-size:.78rem;font-style:italic;}
+.price-tbd{color:var(--amber);font-weight:600;font-size:.82rem;}
+
+.total-label{font-size:.55rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:2px;}
+.total-val{font-size:1rem;font-weight:700;color:var(--white);}
+.total-val.ia{color:#67e8f9;}
+
+/* ── BADGES ── */
+.badge{display:inline-block;font-size:.52rem;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:2px 7px;border-radius:4px;white-space:nowrap;}
+.badge-c1{background:rgba(27,127,212,.08);color:var(--ab);border:1px solid rgba(27,127,212,.2);}
+.badge-c2{background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-b);}
+.badge-c3{background:var(--ia-bg);color:var(--ia);border:1px solid var(--ia-b);}
+.badge-green{background:var(--green-bg);color:var(--green);border:1px solid var(--green-b);}
+.badge-amber{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-b);}
+.badge-gray{background:var(--off2);color:var(--muted);border:1px solid var(--border);}
+
+/* ── LÉGENDE ── */
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.78rem;color:var(--ink3);padding:8px 14px;background:var(--white);border:1px solid var(--border);border-radius:var(--r);margin-bottom:14px;}
+.legend-item{display:flex;align-items:center;gap:7px;}
+.lchip{font-size:.58rem;font-weight:700;padding:2px 8px;border-radius:4px;}
+.lchip.auto{background:rgba(27,127,212,.08);color:var(--ab);border:1px solid rgba(27,127,212,.2);}
+.lchip.ia{background:var(--ia-bg);color:var(--ia);border:1px solid var(--ia-b);}
+
+/* ── ABONNEMENT TABLE ── */
+.abo-header{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border-radius:var(--r2) var(--r2) 0 0;overflow:hidden;border:1px solid var(--border);border-bottom:none;}
+.abo-col{padding:12px 16px;border-right:1px solid var(--border);}
+.abo-col:last-child{border-right:none;}
+.abo-col-1{background:rgba(27,127,212,.05);}
+.abo-col-2{background:rgba(123,94,167,.05);}
+.abo-col-3{background:rgba(232,133,42,.05);}
+.abo-level{font-size:.55rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;}
+.abo-level-1{color:var(--ab);}
+.abo-level-2{color:var(--purple);}
+.abo-level-3{color:var(--ao);}
+.abo-name{font-size:.9rem;font-weight:700;color:var(--ink2);margin-bottom:4px;}
+.abo-price{font-size:1.3rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+.abo-unit{font-size:.68rem;color:var(--muted);}
+.abo-modules{font-size:.65rem;color:var(--muted2);margin-top:4px;font-style:italic;}
+
+/* Volume table */
+.vol-tbl{border-radius:0 0 var(--r2) var(--r2);overflow:hidden;border:1px solid var(--border);}
+.vol-tbl table{font-size:.84rem;}
+.vol-tbl thead th{font-size:.52rem;}
+.vol-tbl td.commission{font-weight:700;color:var(--green);text-align:right;}
+.vol-tbl td.amount{text-align:right;color:var(--ab);font-weight:600;}
+
+/* ── FOOTER ── */
+.footer{margin-top:28px;padding:12px 0 4px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.footer-brand{font-size:.72rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.footer-conf{font-size:.65rem;color:var(--muted);font-style:italic;}
+
+@media(max-width:700px){
+  .page{padding:12px 16px 48px;}
+  .cover{padding:22px 20px;}
+  .abo-header{grid-template-columns:1fr;}
+  .abo-col{border-right:none;border-bottom:1px solid var(--border);}
+}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-in">
+    <div class="cover-eyebrow">Grille de chiffrage · Confidentiel · Mars 2026</div>
+    <h1 class="cover-h1">Cockpit Avicap — <em>Grille tarifaire & ROI</em></h1>
+    <div class="cover-sub">Tarifs & retour sur investissement · Mars 2026</div>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="note">Les montants ci-dessous sont des estimations indicatives, à affiner après validation technique. La colonne <span style="color:var(--ia);font-weight:600;">+ IA</span> représente le surcoût pour activer la version IA d'une fonctionnalité, en complément de l'automatisation de base.</div>
+
+  <!-- PARTIE 1 -->
+  <div class="s-label">Partie 1 — Investissement initial (one-shot)</div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="lchip auto">Automatisation</span> Prix de base — fonctionnalité disponible dès le déploiement</div>
+    <div class="legend-item"><span class="lchip ia">+ IA</span> Surcoût pour activer la version intelligente du module</div>
+  </div>
+
+  <div class="tbl">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:30%;">Fonctionnalité</th>
+          <th>Ce que ça fait</th>
+          <th class="right" style="width:8%;">Couche</th>
+          <th class="right" style="width:13%;">Automatisation</th>
+          <th class="right" style="width:12%;">+ IA</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- COUCHE 1 -->
+        <tr class="group-header">
+          <td colspan="5"><span class="group-label">Couche 1 — Priorité · Déployable avant le 28 mai</span></td>
+        </tr>
+        <tr>
+          <td class="feat">
+            <div class="feat-name">Collecte de documents</div>
+          </td>
+          <td><span class="feat-desc">Le client reçoit un lien et dépose ses pièces depuis son téléphone. Le courtier est notifié quand le dossier est complet. Plus d'emails allers-retours pour récupérer les documents.</span></td>
+          <td class="couche"><span class="badge badge-c1">C1</span></td>
+          <td class="right"><span class="price-auto">3 500 €</span></td>
+          <td class="right"><span class="price-ia">+ 1 400 €</span></td>
+        </tr>
+        <tr>
+          <td class="feat">
+            <div class="feat-name">Lecture & analyse des documents</div>
+          </td>
+          <td><span class="feat-desc">Les documents sont lus, classés et résumés automatiquement. Les données clés (revenus, charges, crédits en cours) sont extraites. Le courtier relit et valide — il ne lit plus rien à la main.</span></td>
+          <td class="couche"><span class="badge badge-c1">C1</span></td>
+          <td class="right"><span class="price-na">Inclus*</span></td>
+          <td class="right"><span class="price-na">Inclus*</span></td>
+        </tr>
+        <tr>
+          <td class="feat">
+            <div class="feat-name">Zéro ressaisie dans CiFacil</div>
+          </td>
+          <td><span class="feat-desc">Les informations extraites remontent automatiquement dans CiFacil via connexion directe. Le courtier ne ressaisit rien après l'analyse.</span></td>
+          <td class="couche"><span class="badge badge-c1">C1</span></td>
+          <td class="right"><span class="price-auto">3 500 €</span></td>
+          <td class="right"><span class="price-na">N/A</span></td>
+        </tr>
+        <tr>
+          <td class="feat">
+            <div class="feat-name">Relances automatiques</div>
+          </td>
+          <td><span class="feat-desc">Email et SMS envoyés automatiquement selon l'avancement du dossier — documents manquants, validation en attente, signature à finaliser. Séquences paramétrées avec Avicap en amont.</span></td>
+          <td class="couche"><span class="badge badge-c1">C1</span></td>
+          <td class="right"><span class="price-auto">2 800 €</span></td>
+          <td class="right"><span class="price-ia">+ 1 400 €</span></td>
+        </tr>
+        <tr>
+          <td class="feat">
+            <div class="feat-name">Facturation automatique</div>
+          </td>
+          <td><span class="feat-desc">Quand un dossier passe en financé, la facture est générée et envoyée à la banque automatiquement. Validation humaine conservée avant chaque envoi.</span></td>
+          <td class="couche"><span class="badge badge-c1">C1</span></td>
+          <td class="right"><span class="price-auto">2 800 €</span></td>
+          <td class="right"><span class="price-ia">+ 1 400 €</span></td>
+        </tr>
+
+        <!-- SOUS-TOTAL C1 -->
+        <tr class="subtotal-row">
+          <td colspan="3" style="padding:9px 16px;font-weight:700;color:var(--ink2);font-size:.86rem;">Sous-total Couche 1</td>
+          <td class="right" style="padding:9px 16px;">
+            <span class="price-auto" style="font-size:.95rem;">~12 600 €</span>
+          </td>
+          <td class="right" style="padding:9px 16px;">
+            <span class="price-ia" style="font-size:.9rem;">+ ~4 200 €</span>
+          </td>
+        </tr>
+
+        <!-- COUCHE 2 -->
+        <tr class="group-header">
+          <td colspan="5"><span class="group-label">Couche 2 — Commercial · Après couche 1</span></td>
+        </tr>
+        <tr>
+          <td class="feat">
+            <div class="feat-name">Prospection & prise de RDV</div>
+          </td>
+          <td><span class="feat-desc">Relance automatique des prospects dormants. Si intéressés, un RDV est positionné directement dans l'agenda du courtier. Le matin, les rendez-vous sont déjà calés.</span></td>
+          <td class="couche"><span class="badge badge-c2">C2</span></td>
+          <td class="right"><span class="price-auto">3 500 €</span></td>
+          <td class="right"><span class="price-ia">+ 2 800 €</span></td>
+        </tr>
+        <tr>
+          <td class="feat">
+            <div class="feat-name">Simulation crédit rapide</div>
+          </td>
+          <td><span class="feat-desc">Génère une enveloppe de financement indicative en quelques secondes pour qualifier un prospect dès le premier contact — sans remplir tout CiFacil.</span></td>
+          <td class="couche"><span class="badge badge-c2">C2</span></td>
+          <td class="right"><span class="price-auto">2 100 €</span></td>
+          <td class="right"><span class="price-ia">+ 2 100 €</span></td>
+        </tr>
+
+        <!-- SOUS-TOTAL C2 -->
+        <tr class="subtotal-row">
+          <td colspan="3" style="padding:9px 16px;font-weight:700;color:var(--ink2);font-size:.86rem;">Sous-total Couche 2</td>
+          <td class="right" style="padding:9px 16px;">
+            <span class="price-auto" style="font-size:.95rem;">~5 600 €</span>
+          </td>
+          <td class="right" style="padding:9px 16px;">
+            <span class="price-ia" style="font-size:.9rem;">+ ~4 900 €</span>
+          </td>
+        </tr>
+
+        <!-- COUCHE 3 -->
+        <tr class="group-header">
+          <td colspan="5"><span class="group-label">Couche 3 — Placement · Après audit Grégory + Cyril</span></td>
+        </tr>
+        <tr>
+          <td class="feat">
+            <div class="feat-name">Détection opportunités O2S</div>
+          </td>
+          <td><span class="feat-desc">Surveillance de la base clients et alerte de l'équipe patrimoine quand un client est mûr pour un produit placement — fin de crédit, revenus en hausse, capacité d'emprunt retrouvée.</span></td>
+          <td class="couche"><span class="badge badge-c3">C3</span></td>
+          <td class="right"><span class="price-tbd">À chiffrer</span></td>
+          <td class="right"><span class="price-tbd">À chiffrer</span></td>
+        </tr>
+
+        <!-- TOTAL GÉNÉRAL -->
+        <tr class="total-row">
+          <td colspan="3" style="padding:12px 16px;">
+            <div class="total-label">Total couches 1 + 2</div>
+          </td>
+          <td class="right" style="padding:12px 16px;">
+            <div class="total-label">Automatisation</div>
+            <div class="total-val">~18 200 €</div>
+          </td>
+          <td class="right" style="padding:12px 16px;">
+            <div class="total-label">Avec IA complète</div>
+            <div class="total-val ia">~27 300 €</div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:.73rem;color:var(--muted2);font-style:italic;margin-top:4px;">* La lecture des documents est incluse dans le développement de la collecte — pas de coût séparé en automatisation de base.</p>
+
+  <!-- PARTIE 2 -->
+  <div class="s-label">Partie 2 — Abonnement mensuel par utilisateur</div>
+
+  <div class="abo-header">
+    <div class="abo-col abo-col-1">
+      <div class="abo-level abo-level-1">Niveau 1 · Entrée</div>
+      <div class="abo-name">Cockpit Essentiel</div>
+      <div style="margin-bottom:4px;"><span class="abo-price">19 €</span> <span class="abo-unit">/ user / mois HT · Automatisation</span></div>
+      <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:4px;"><span style="font-size:1.1rem;font-weight:700;color:var(--ia);">29 €</span> <span class="abo-unit" style="color:var(--ia);">/ user / mois HT · avec IA</span></div>
+      <div class="abo-modules">Collecte + Analyse documentaire</div>
+    </div>
+    <div class="abo-col abo-col-2">
+      <div class="abo-level abo-level-2">Niveau 2 · Standard</div>
+      <div class="abo-name">Cockpit Pro</div>
+      <div style="margin-bottom:4px;"><span class="abo-price">49 €</span> <span class="abo-unit">/ user / mois HT · Automatisation</span></div>
+      <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:4px;"><span style="font-size:1.1rem;font-weight:700;color:var(--ia);">69 €</span> <span class="abo-unit" style="color:var(--ia);">/ user / mois HT · avec IA</span></div>
+      <div class="abo-modules">Niveau 1 + CiFacil + Relances + Facturation</div>
+    </div>
+    <div class="abo-col abo-col-3">
+      <div class="abo-level abo-level-3">Niveau 3 · Complet</div>
+      <div class="abo-name">Cockpit Réseau</div>
+      <div style="margin-bottom:4px;"><span class="abo-price">89 €</span> <span class="abo-unit">/ user / mois HT · Automatisation</span></div>
+      <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:4px;"><span style="font-size:1.1rem;font-weight:700;color:var(--ia);">109 €</span> <span class="abo-unit" style="color:var(--ia);">/ user / mois HT · avec IA</span></div>
+      <div class="abo-modules">Niveau 2 + Prospection + Scoring + O2S</div>
+    </div>
+  </div>
+
+  <div class="vol-tbl">
+    <table>
+      <thead>
+        <tr>
+          <th>Volume</th>
+          <th class="right">N1 Auto · 19 €</th>
+          <th class="right">N1 IA · 29 €</th>
+          <th class="right">N2 Auto · 49 €</th>
+          <th class="right">N2 IA · 69 €</th>
+          <th class="right">N3 Auto · 89 €</th>
+          <th class="right">N3 IA · 109 €</th>
+          <th class="right">Commission (20–30 %)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fw">50 users</td>
+          <td class="amount">950 €</td>
+          <td class="amount" style="color:var(--ia);">1 450 €</td>
+          <td class="amount">2 450 €</td>
+          <td class="amount" style="color:var(--ia);">3 450 €</td>
+          <td class="amount">4 450 €</td>
+          <td class="amount" style="color:var(--ia);">5 450 €</td>
+          <td class="commission">190 – 1 635 €</td>
+        </tr>
+        <tr>
+          <td class="fw">100 users</td>
+          <td class="amount">1 900 €</td>
+          <td class="amount" style="color:var(--ia);">2 900 €</td>
+          <td class="amount">4 900 €</td>
+          <td class="amount" style="color:var(--ia);">6 900 €</td>
+          <td class="amount">8 900 €</td>
+          <td class="amount" style="color:var(--ia);">10 900 €</td>
+          <td class="commission">380 – 3 270 €</td>
+        </tr>
+        <tr>
+          <td class="fw">150 users</td>
+          <td class="amount">2 850 €</td>
+          <td class="amount" style="color:var(--ia);">4 350 €</td>
+          <td class="amount">7 350 €</td>
+          <td class="amount" style="color:var(--ia);">10 350 €</td>
+          <td class="amount">13 350 €</td>
+          <td class="amount" style="color:var(--ia);">16 350 €</td>
+          <td class="commission">570 – 4 905 €</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:.73rem;color:var(--muted2);font-style:italic;margin-top:4px;">Montants mensuels HT. <span style="color:var(--ia);font-weight:600;">En cyan</span> : version avec IA activée. Commission à finaliser selon l'engagement en volume et les termes du partenariat.</p>
+
+  <!-- PARTIE 3 ROI -->
+  <div class="s-label">Partie 3 — Retour sur investissement</div>
+
+  <div class="tbl">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:35%;">Indicateur</th>
+          <th>Situation actuelle</th>
+          <th class="right">Avec Cockpit</th>
+          <th class="right">Gain estimé</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="feat-name">Temps par dossier</div></td>
+          <td><span class="feat-desc">~60 min de traitement manuel (collecte, lecture, saisie CiFacil)</span></td>
+          <td class="right"><span class="price-auto">~15 min</span></td>
+          <td class="right"><span style="color:var(--green);font-weight:700;">−45 min / dossier</span></td>
+        </tr>
+        <tr>
+          <td><div class="feat-name">Volume de dossiers par courtier</div></td>
+          <td><span class="feat-desc">3–4 dossiers/mois — limité par le temps passé sur les tâches administratives</span></td>
+          <td class="right"><span class="price-auto">5–6 dossiers/mois</span></td>
+          <td class="right"><span style="color:var(--green);font-weight:700;">+2 dossiers / courtier / mois</span></td>
+        </tr>
+        <tr>
+          <td><div class="feat-name">CA par courtier</div></td>
+          <td><span class="feat-desc">3–4 dossiers × 2 500 € = 7 500 – 10 000 €/mois</span></td>
+          <td class="right"><span class="price-auto">5–6 dossiers × 2 500 €</span></td>
+          <td class="right"><span style="color:var(--green);font-weight:700;">12 500 – 15 000 €/mois</span></td>
+        </tr>
+        <tr>
+          <td><div class="feat-name">CA additionnel réseau (100 courtiers)</div></td>
+          <td><span class="feat-desc">Plafond atteint par manque de temps opérationnel</span></td>
+          <td class="right"><span class="price-auto">+2 dossiers × 2 500 € × 100</span></td>
+          <td class="right"><span style="color:var(--green);font-weight:700;">+500 000 €/mois réseau</span></td>
+        </tr>
+        <tr>
+          <td><div class="feat-name">Coût abonnement N2 · 100 users</div></td>
+          <td><span class="feat-desc">—</span></td>
+          <td class="right"><span class="price-auto">49 € × 100 = 4 900 €/mois</span></td>
+          <td class="right"><span style="color:var(--green);font-weight:700;">= 1 % du CA additionnel</span></td>
+        </tr>
+        <tr>
+          <td><div class="feat-name">Amorti par courtier</div></td>
+          <td><span class="feat-desc">Un courtier qui fait 1 dossier supplémentaire génère 2 500 € de CA</span></td>
+          <td class="right"><span class="price-auto">Abonnement N2 : 49 €/mois</span></td>
+          <td class="right"><span style="color:var(--green);font-weight:700;">1 dossier = 51 mois d'abonnement couverts</span></td>
+        </tr>
+        <tr>
+          <td><div class="feat-name">Commission réseau (Avicap)</div></td>
+          <td><span class="feat-desc">Aucune — logiciel actuel sans modèle distributeur</span></td>
+          <td class="right"><span class="price-auto">20–30 % sur chaque licence</span></td>
+          <td class="right"><span style="color:var(--green);font-weight:700;">380 – 1 470 €/mois à 100 users</span></td>
+        </tr>
+        <!-- TOTAL ROI -->
+        <tr class="total-row">
+          <td style="padding:12px 16px;" colspan="2">
+            <div class="total-label">Amorti investissement couche 1 — Sur gains opérationnels Avicap</div>
+            <div style="font-size:.72rem;color:rgba(255,255,255,.4);margin-top:2px;">Commission réseau + dossiers supplémentaires courtiers</div>
+          </td>
+          <td class="right" style="padding:12px 16px;" colspan="2">
+            <div class="total-label">Investissement 12 600 € · 100 users · N2 49 €</div>
+            <div class="total-val">Amorti en <em style="-webkit-text-fill-color:#67e8f9;background:none;color:#67e8f9;">~3–4 mois</em></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:.73rem;color:var(--muted2);font-style:italic;margin-top:4px;">Estimations basées sur les données communiquées lors des échanges du 9 et 16 mars 2026. À affiner selon les volumes réels du réseau.</p>
+
+
+  <div class="footer">
+    <span class="footer-brand">ADAI — Création & Automation</span>
+    <span class="footer-conf">Document confidentiel · Avicap · Mars 2026</span>
+  </div>
+
+</div>
+</body>
+</html>

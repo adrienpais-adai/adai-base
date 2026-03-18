@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UAS-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cockpit Avicap — Démonstration</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F4F6F9;
+  --white: #FFFFFF;
+  --sidebar: #0F1923;
+  --sidebar2: #162030;
+  --ink: #0D1117;
+  --ink2: #1E2533;
+  --ink3: #3A4254;
+  --muted: #6B7280;
+  --muted2: #9CA3AF;
+  --border: #E4E7EE;
+  --border2: #F0F2F5;
+  --ab: #1B7FD4;
+  --ab-light: #EBF3FC;
+  --ao: #E8852A;
+  --adai: linear-gradient(100deg,#1B7FD4 0%,#7B5EA7 48%,#E8852A 100%);
+  --green: #16A34A;
+  --green-bg: #F0FDF4;
+  --green-b: #BBF7D0;
+  --amber: #D97706;
+  --amber-bg: #FFFBEB;
+  --red: #DC2626;
+  --red-bg: #FEF2F2;
+  --purple: #7B5EA7;
+  --shadow-xs: 0 1px 3px rgba(13,17,23,.06);
+  --shadow-sm: 0 4px 16px rgba(13,17,23,.08);
+  --r: 8px;
+  --r2: 12px;
+  --sidebar-w: 220px;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Geist','Inter',sans-serif; background:var(--bg); color:var(--ink); font-size:14px; line-height:1.5; overflow:hidden; height:100vh; }
+
+/* ── LOGIN ── */
+#screen-login {
+  position:fixed; inset:0; background:var(--sidebar);
+  display:flex; align-items:center; justify-content:center;
+  z-index:1000;
+}
+#screen-login::before {
+  content:''; position:absolute; inset:0;
+  background: radial-gradient(ellipse at 70% 30%, rgba(27,127,212,.15) 0%, transparent 55%),
+              radial-gradient(ellipse at 20% 80%, rgba(232,133,42,.08) 0%, transparent 50%);
+}
+.login-box {
+  position:relative; width:380px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:16px; padding:36px 32px;
+}
+.login-logo {
+  display:flex; align-items:center; gap:10px; margin-bottom:28px; justify-content:center;
+}
+.login-logo-mark {
+  width:36px; height:36px; border-radius:10px;
+  background:var(--adai);
+  display:flex; align-items:center; justify-content:center;
+  font-size:.75rem; font-weight:800; color:#fff; letter-spacing:-.5px;
+}
+.login-logo-text { font-size:1rem; font-weight:700; color:#fff; }
+.login-logo-sub { font-size:.65rem; color:rgba(255,255,255,.4); display:block; }
+.login-title { font-size:1.2rem; font-weight:700; color:#fff; margin-bottom:4px; text-align:center; }
+.login-sub { font-size:.8rem; color:rgba(255,255,255,.4); text-align:center; margin-bottom:24px; }
+.login-field { margin-bottom:14px; }
+.login-label { font-size:.72rem; font-weight:600; color:rgba(255,255,255,.6); margin-bottom:5px; display:block; letter-spacing:.3px; }
+.login-input {
+  width:100%; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--r); padding:9px 12px; color:#fff; font-size:.85rem;
+  font-family:inherit; outline:none;
+}
+.login-input::placeholder { color:rgba(255,255,255,.25); }
+.login-btn {
+  width:100%; margin-top:8px; padding:10px;
+  background:var(--adai); border:none; border-radius:var(--r);
+  color:#fff; font-size:.88rem; font-weight:700; cursor:pointer;
+  font-family:inherit; letter-spacing:.2px;
+  transition:opacity .15s;
+}
+.login-btn:hover { opacity:.9; }
+.login-demo { font-size:.7rem; color:rgba(255,255,255,.3); text-align:center; margin-top:14px; }
+
+/* ── ASP SHELL ── */
+#app { display:none; height:100vh; overflow:hidden; }
+#app.visible { display:flex; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width:var(--sidebar-w); flex-shrink:0;
+  background:var(--sidebar);
+  display:flex; flex-direction:column;
+  height:100vh; overflow-y:auto;
+}
+.sb-logo {
+  padding:16px 16px 14px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  display:flex; align-items:center; gap:9px;
+}
+.sb-logo-mark {
+  width:30px; height:30px; border-radius:8px;
+  background:var(--adai);
+  display:flex; align-items:center; justify-content:center;
+  font-size:.62rem; font-weight:800; color:#fff; flex-shrink:0;
+}
+.sb-logo-name { font-size:.82rem; font-weight:700; color:#fff; }
+.sb-logo-sub { font-size:.58rem; color:rgba(255,255,255,.35); }
+.sb-nav { padding:8px 0; flex:1; }
+.sb-group { font-size:.5rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,.25); padding:10px 16px 4px; }
+.sb-item {
+  display:flex; align-items:center; gap:9px;
+  padding:7px 16px; cursor:pointer; border-radius:0;
+  color:rgba(255,255,255,.5); font-size:.78rem; font-weight:500;
+  transition:all .12s; border-left:2px solid transparent;
+  user-select:none;
+}
+.sb-item:hover { color:rgba(255,255,255,.8); background:rgba(255,255,255,.04); }
+.sb-item.active { color:#fff; background:rgba(255,255,255,.07); border-left-color:var(--ab); }
+.sb-item svg { width:14px; height:14px; flex-shrink:0; }
+.sb-bottom { padding:12px 16px; border-top:1px solid rgba(255,255,255,.06); }
+.sb-user { display:flex; align-items:center; gap:8px; }
+.sb-avatar { width:28px; height:28px; border-radius:50%; background:var(--adai); display:flex; align-items:center; justify-content:center; font-size:.65rem; font-weight:700; color:#fff; flex-shrink:0; }
+.sb-user-name { font-size:.75rem; font-weight:600; color:rgba(255,255,255,.7); }
+.sb-user-role { font-size:.62rem; color:rgba(255,255,255,.3); }
+
+/* ── MAIN ── */
+.main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+.topbar {
+  height:52px; flex-shrink:0;
+  background:var(--white); border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 24px;
+}
+.topbar-left { display:flex; align-items:center; gap:6px; font-size:.78rem; color:var(--muted); }
+.topbar-left .sep { color:var(--border); }
+.topbar-left .current { color:var(--ink2); font-weight:600; }
+.topbar-right { display:flex; align-items:center; gap:12px; }
+.topbar-icon { width:32px; height:32px; border-radius:8px; background:var(--bg); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; }
+.topbar-icon svg { width:14px; height:14px; color:var(--muted); }
+.topbar-avatar { width:32px; height:32px; border-radius:50%; background:var(--adai); display:flex; align-items:center; justify-content:center; font-size:.65rem; font-weight:700; color:#fff; cursor:pointer; }
+.content { flex:1; overflow-y:auto; padding:24px; }
+
+/* ── SCREENS ── */
+.screen { display:none; }
+.screen.active { display:block; }
+
+/* ── PAGE HEADER ── */
+.page-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:12px; }
+.page-title { font-size:1.3rem; font-weight:700; color:var(--ink); letter-spacing:-.02em; }
+.page-sub { font-size:.8rem; color:var(--muted); margin-top:2px; }
+.btn-primary {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:8px 16px; background:var(--ab); border:none; border-radius:var(--r);
+  color:#fff; font-size:.8rem; font-weight:600; cursor:pointer;
+  font-family:inherit; transition:opacity .15s; white-space:nowrap;
+}
+.btn-primary:hover { opacity:.9; }
+.btn-secondary {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:7px 14px; background:var(--white); border:1px solid var(--border); border-radius:var(--r);
+  color:var(--ink3); font-size:.8rem; font-weight:500; cursor:pointer;
+  font-family:inherit; transition:all .15s;
+}
+.btn-secondary:hover { border-color:var(--ab); color:var(--ab); }
+
+/* ── KPI CARDS ── */
+.kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:20px; }
+.kpi-card {
+  background:var(--white); border:1px solid var(--border);
+  border-radius:var(--r2); padding:14px 16px;
+  box-shadow:var(--shadow-xs); position:relative; overflow:hidden;
+}
+.kpi-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--adai); }
+.kpi-label { font-size:.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+.kpi-val { font-size:1.6rem; font-weight:700; color:var(--ink); line-height:1; margin-bottom:3px; letter-spacing:-.03em; }
+.kpi-sub { font-size:.72rem; color:var(--muted2); }
+.kpi-icon { position:absolute; top:14px; right:14px; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:.9rem; }
+.kpi-icon.green { background:var(--green-bg); }
+.kpi-icon.blue { background:var(--ab-light); }
+.kpi-icon.amber { background:var(--amber-bg); }
+.kpi-icon.red { background:var(--red-bg); }
+
+/* ── TWO COL ── */
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+.three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+
+/* ── CARD ── */
+.card { background:var(--white); border:1px solid var(--border); border-radius:var(--r2); padding:16px; box-shadow:var(--shadow-xs); }
+.card-title { font-size:.72rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-bottom:12px; display:flex; align-items:center; gap:6px; }
+.card-title-icon { font-size:.9rem; }
+
+/* ── QUICK ACTIONS ── */
+.qa-item {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:9px 12px; border:1px solid var(--border); border-radius:var(--r);
+  margin-bottom:7px; cursor:pointer; transition:all .15s;
+}
+.qa-item:hover { border-color:var(--ab); background:var(--ab-light); }
+.qa-item:last-child { margin-bottom:0; }
+.qa-left { display:flex; align-items:center; gap:10px; }
+.qa-icon { width:28px; height:28px; border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:.8rem; flex-shrink:0; }
+.qa-icon.green { background:var(--green-bg); }
+.qa-icon.amber { background:var(--amber-bg); }
+.qa-icon.blue { background:var(--ab-light); }
+.qa-name { font-size:.82rem; font-weight:600; color:var(--ink2); }
+.qa-desc { font-size:.7rem; color:var(--muted); }
+.qa-arrow { color:var(--muted2); font-size:.8rem; }
+
+/* ── DOSSIER LIST ── */
+.dossier-item {
+  display:flex; align-items:center; gap:12px;
+  padding:9px 0; border-bottom:1px solid var(--border2);
+  cursor:pointer; transition:background .1s;
+}
+.dossier-item:hover { background:var(--bg); margin:0 -4px; padding:9px 4px; border-radius:var(--r); }
+.dossier-item:last-child { border-bottom:none; }
+.dossier-ico { width:30px; height:30px; border-radius:8px; background:var(--ab-light); display:flex; align-items:center; justify-content:center; font-size:.75rem; flex-shrink:0; }
+.dossier-ref { font-size:.75rem; font-weight:700; color:var(--ink2); }
+.dossier-name { font-size:.72rem; color:var(--muted); }
+.dossier-date { font-size:.68rem; color:var(--muted2); margin-left:auto; white-space:nowrap; }
+
+/* ── BADGES ── */
+.badge { display:inline-flex; align-items:center; gap:4px; font-size:.6rem; font-weight:700; letter-spacing:.3px; text-transform:uppercase; padding:2px 8px; border-radius:20px; white-space:nowrap; }
+.badge-green { background:var(--green-bg); color:var(--green); border:1px solid var(--green-b); }
+.badge-blue { background:var(--ab-light); color:var(--ab); border:1px solid rgba(27,127,212,.2); }
+.badge-amber { background:var(--amber-bg); color:var(--amber); border:1px solid #FDE68A; }
+.badge-red { background:var(--red-bg); color:var(--red); border:1px solid #FECACA; }
+.badge-gray { background:var(--bg); color:var(--muted); border:1px solid var(--border); }
+.badge-purple { background:#F5F3FF; color:var(--purple); border:1px solid #DDD6FE; }
+.badge::before { content:''; width:5px; height:5px; border-radius:50%; background:currentColor; flex-shrink:0; }
+
+/* ── KANBAN ── */
+.kanban { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; align-items:start; }
+.kanban-col { background:var(--bg); border-radius:var(--r2); padding:10px; min-height:400px; }
+.kanban-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; padding:0 2px; }
+.kanban-col-title { font-size:.72rem; font-weight:700; color:var(--ink3); }
+.kanban-count { font-size:.65rem; font-weight:700; padding:2px 7px; border-radius:20px; }
+.kanban-count.nouveau { background:#E0E7FF; color:#4338CA; }
+.kanban-count.encours { background:var(--ab-light); color:var(--ab); }
+.kanban-count.analyse { background:#F5F3FF; color:var(--purple); }
+.kanban-count.complet { background:var(--amber-bg); color:var(--amber); }
+.kanban-card {
+  background:var(--white); border:1px solid var(--border);
+  border-radius:var(--r); padding:10px 12px; margin-bottom:8px;
+  cursor:pointer; transition:all .15s; box-shadow:var(--shadow-xs);
+}
+.kanban-card:hover { border-color:var(--ab); transform:translateY(-1px); box-shadow:var(--shadow-sm); }
+.kanban-card-ref { font-size:.65rem; font-weight:700; color:var(--muted); margin-bottom:3px; }
+.kanban-card-name { font-size:.8rem; font-weight:700; color:var(--ink2); margin-bottom:2px; }
+.kanban-card-courtier { font-size:.7rem; color:var(--muted); margin-bottom:7px; }
+.kanban-card-footer { display:flex; align-items:center; justify-content:space-between; }
+.kanban-card-amount { font-size:.78rem; font-weight:700; color:var(--ab); }
+.kanban-card-date { font-size:.65rem; color:var(--muted2); }
+
+/* ── FILTERS BAR ── */
+.filters { display:flex; align-items:center; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.filter-input {
+  display:flex; align-items:center; gap:6px;
+  padding:6px 12px; background:var(--white); border:1px solid var(--border);
+  border-radius:var(--r); font-size:.78rem; color:var(--muted);
+  cursor:pointer; transition:border-color .15s;
+}
+.filter-input:hover { border-color:var(--ab); }
+.filter-input svg { width:12px; height:12px; }
+.view-toggle { display:flex; gap:2px; margin-left:auto; background:var(--bg); border:1px solid var(--border); border-radius:var(--r); padding:2px; }
+.view-btn { width:28px; height:28px; border-radius:6px; display:flex; align-items:center; justify-content:center; cursor:pointer; border:none; background:transparent; color:var(--muted); font-size:.75rem; }
+.view-btn.active { background:var(--white); color:var(--ab); box-shadow:var(--shadow-xs); }
+
+/* ── ADMIN DASHBOARD ── */
+.chart-placeholder { height:140px; background:linear-gradient(135deg,var(--ab-light) 0%,#F5F3FF 100%); border-radius:var(--r); display:flex; align-items:flex-end; padding:12px; gap:4px; overflow:hidden; }
+.bar { border-radius:4px 4px 0 0; background:var(--ab); opacity:.7; flex:1; transition:opacity .2s; }
+.bar:hover { opacity:1; }
+.bar.fin { background:var(--green); opacity:.8; }
+.top-courtiers { }
+.tc-item { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--border2); }
+.tc-item:last-child { border-bottom:none; }
+.tc-rank { width:20px; height:20px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:.65rem; font-weight:700; flex-shrink:0; }
+.tc-rank.gold { background:#FEF3C7; color:#B45309; }
+.tc-rank.silver { background:#F3F4F6; color:#6B7280; }
+.tc-rank.bronze { background:#FEF9EE; color:#B45309; }
+.tc-rank.other { background:var(--bg); color:var(--muted); }
+.tc-name { font-size:.82rem; font-weight:600; color:var(--ink2); flex:1; }
+.tc-sub { font-size:.68rem; color:var(--muted); }
+.tc-bar-wrap { width:100px; height:6px; background:var(--border); border-radius:3px; }
+.tc-bar { height:100%; border-radius:3px; background:var(--adai); }
+.tc-count { font-size:.8rem; font-weight:700; color:var(--ink2); min-width:24px; text-align:right; }
+
+/* ── TEMPS GAGNÉ ── */
+.tg-kpi { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:16px; }
+.tg-card { background:var(--white); border:1px solid var(--border); border-radius:var(--r2); padding:14px 16px; box-shadow:var(--shadow-xs); }
+.tg-val { font-size:1.4rem; font-weight:700; margin-bottom:2px; letter-spacing:-.02em; }
+.tg-val.green { color:var(--green); }
+.tg-val.blue { color:var(--ab); }
+.tg-val.purple { color:var(--purple); }
+.tg-val.amber { color:var(--amber); }
+.tg-label { font-size:.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-bottom:2px; }
+.tg-sub { font-size:.68rem; color:var(--muted2); }
+
+/* ── DOSSIER DETAIL ── */
+.detail-header { background:var(--white); border:1px solid var(--border); border-radius:var(--r2); padding:16px 20px; margin-bottom:14px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+.detail-ref { font-size:.65rem; font-weight:700; color:var(--muted); letter-spacing:1px; margin-bottom:3px; }
+.detail-name { font-size:1.1rem; font-weight:700; color:var(--ink); margin-bottom:4px; }
+.detail-meta { font-size:.75rem; color:var(--muted); }
+.detail-grid { display:grid; grid-template-columns:2fr 1fr; gap:14px; }
+.doc-list { }
+.doc-item { display:flex; align-items:center; gap:10px; padding:8px 10px; background:var(--white); border:1px solid var(--border); border-radius:var(--r); margin-bottom:7px; }
+.doc-icon { width:28px; height:28px; border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:.8rem; flex-shrink:0; }
+.doc-icon.pdf { background:#FEF2F2; }
+.doc-icon.img { background:var(--ab-light); }
+.doc-name { font-size:.8rem; font-weight:600; color:var(--ink2); flex:1; }
+.doc-size { font-size:.68rem; color:var(--muted2); }
+.doc-status { font-size:.62rem; font-weight:700; padding:2px 7px; border-radius:20px; }
+.doc-status.ok { background:var(--green-bg); color:var(--green); }
+.doc-status.pending { background:var(--amber-bg); color:var(--amber); }
+
+/* ── TIMELINE ── */
+.timeline { }
+.tl-item { display:flex; gap:10px; padding-bottom:14px; position:relative; }
+.tl-item:last-child { padding-bottom:0; }
+.tl-item::before { content:''; position:absolute; left:11px; top:24px; bottom:0; width:2px; background:var(--border); }
+.tl-item:last-child::before { display:none; }
+.tl-dot { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.65rem; flex-shrink:0; position:relative; z-index:1; }
+.tl-dot.green { background:var(--green-bg); color:var(--green); border:2px solid var(--green-b); }
+.tl-dot.blue { background:var(--ab-light); color:var(--ab); border:2px solid rgba(27,127,212,.2); }
+.tl-dot.gray { background:var(--bg); color:var(--muted); border:2px solid var(--border); }
+.tl-content { flex:1; padding-top:2px; }
+.tl-action { font-size:.8rem; font-weight:600; color:var(--ink2); margin-bottom:1px; }
+.tl-time { font-size:.68rem; color:var(--muted2); }
+
+/* ── PROGRESS STEPS ── */
+.steps { display:flex; align-items:center; gap:0; margin-bottom:20px; }
+.step { display:flex; align-items:center; flex:1; }
+.step:last-child { flex:none; }
+.step-circle { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:700; flex-shrink:0; z-index:1; }
+.step-circle.done { background:var(--ab); color:#fff; }
+.step-circle.active { background:var(--white); color:var(--ab); border:2px solid var(--ab); }
+.step-circle.todo { background:var(--white); color:var(--muted); border:2px solid var(--border); }
+.step-line { flex:1; height:2px; background:var(--border); margin:0 4px; }
+.step-line.done { background:var(--ab); }
+.step-label { font-size:.65rem; font-weight:600; margin-top:4px; white-space:nowrap; }
+.step-wrap { display:flex; flex-direction:column; align-items:center; }
+
+/* ── TABS ── */
+.tabs { display:flex; gap:0; border-bottom:2px solid var(--border); margin-bottom:16px; }
+.tab { padding:8px 16px; font-size:.8rem; font-weight:600; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; transition:all .15s; }
+.tab.active { color:var(--ab); border-bottom-color:var(--ab); }
+.tab:hover:not(.active) { color:var(--ink3); }
+
+/* ── ANIMATIONS ── */
+.screen { animation: fadeIn .2s ease; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:none; } }
+
+.slide-in { animation: slideIn .3s ease; }
+@keyframes slideIn { from { opacity:0; transform:translateX(16px); } to { opacity:1; transform:none; } }
+
+/* ── NOTIFICATION ── */
+.notif {
+  position:fixed; bottom:20px; right:20px;
+  background:var(--ink2); color:#fff; padding:10px 16px;
+  border-radius:var(--r2); font-size:.8rem; font-weight:500;
+  box-shadow:var(--shadow-sm); z-index:9999;
+  display:none; align-items:center; gap:8px;
+  animation: slideUp .25s ease;
+}
+.notif.show { display:flex; }
+@keyframes slideUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+.notif-icon { font-size:1rem; }
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div id="screen-login">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-mark">CA</div>
+      <div>
+        <div class="login-logo-text">Cockpit Avicap</div>
+        <span class="login-logo-sub">Plateforme de gestion intelligente</span>
+      </div>
+    </div>
+    <div class="login-title">Connexion collaborateur</div>
+    <div class="login-sub">Accédez à votre espace de travail</div>
+    <div class="login-field">
+      <label class="login-label">Email</label>
+      <input class="login-input" type="email" value="alan.scouarnec@avicap.fr" placeholder="votre@email.fr">
+    </div>
+    <div class="login-field">
+      <label class="login-label">Mot de passe</label>
+      <input class="login-input" type="password" value="••••••••" placeholder="••••••••">
+    </div>
+    <button class="login-btn" onclick="showApp()">Se connecter →</button>
+    <div class="login-demo">Démonstration Cockpit Avicap · ADAI 2026</div>
+  </div>
+</div>
+
+<!-- ── ASP ── -->
+<div id="app">
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-mark">CA</div>
+      <div>
+        <div class="sb-logo-name">Cockpit Avicap</div>
+        <div class="sb-logo-sub">Plateforme courtage IA</div>
+      </div>
+    </div>
+    <div class="sb-nav">
+      <div class="sb-group">Navigation</div>
+      <div class="sb-item active" onclick="goTo('cockpit', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Cockpit
+      </div>
+      <div class="sb-item" onclick="goTo('nouveau', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Nouveau dossier
+      </div>
+      <div class="sb-item" onclick="goTo('dossiers', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        Mes dossiers
+      </div>
+      <div class="sb-group">Administration</div>
+      <div class="sb-item" onclick="goTo('admin', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Dashboard Admin
+      </div>
+      <div class="sb-item" onclick="goTo('temps', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+        Temps gagné
+      </div>
+      <div class="sb-group">CRM & Croissance</div>
+      <div class="sb-item" onclick="goTo('crm', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        CRM Clients
+      </div>
+      <div class="sb-item" onclick="goTo('opportunites', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Opportunités
+      </div>
+      <div class="sb-item" onclick="goTo('relances', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.37a16 16 0 0 0 6 6l.82-.82a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16z"/></svg>
+        Relances & RDV
+      </div>
+      <div class="sb-group">Paramètres</div>
+      <div class="sb-item" onclick="notify('⚙️ Section en cours de développement')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Utilisateurs
+      </div>
+      <div class="sb-item" onclick="notify('📊 Consommation IA disponible en production')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+        Consommation
+      </div>
+    </div>
+    <div class="sb-bottom">
+      <div class="sb-user">
+        <div class="sb-avatar">AS</div>
+        <div>
+          <div class="sb-user-name">Alan Scouarnec</div>
+          <div class="sb-user-role">Administrateur · Avicap</div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <span>Cockpit Avicap</span>
+        <span class="sep">›</span>
+        <span class="current" id="topbar-current">Cockpit</span>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-icon" onclick="notify('📸 Capture d\'écran copiée')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        </div>
+        <div class="topbar-avatar" onclick="notify('👤 Profil utilisateur')">AS</div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ── COCKPIT ── -->
+      <div class="screen active" id="screen-cockpit">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Bonjour, Alan 👋</div>
+            <div class="page-sub">Vue globale · Tous les utilisateurs · Avicap</div>
+          </div>
+          <button class="btn-primary" onclick="goTo('nouveau', document.querySelector('[onclick*=nouveau]'))">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Nouveau dossier
+          </button>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Total dossiers</div>
+            <div class="kpi-val">1 842</div>
+            <div class="kpi-sub">Tous statuts confondus</div>
+            <div class="kpi-icon blue">📁</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">En cours</div>
+            <div class="kpi-val">1 259</div>
+            <div class="kpi-sub">Dossiers actifs</div>
+            <div class="kpi-icon amber">⏳</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">À compléter</div>
+            <div class="kpi-val">3</div>
+            <div class="kpi-sub">Documents manquants</div>
+            <div class="kpi-icon red">⚠️</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Financés ce mois</div>
+            <div class="kpi-val">24</div>
+            <div class="kpi-sub">+18 % vs mois dernier</div>
+            <div class="kpi-icon green">✅</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon">⚡</span>Actions rapides</div>
+            <div class="qa-item" onclick="goTo('nouveau', document.querySelector('[onclick*=nouveau]'))">
+              <div class="qa-left">
+                <div class="qa-icon green">📋</div>
+                <div>
+                  <div class="qa-name">Créer un dossier</div>
+                  <div class="qa-desc">Nouveau dossier de financement</div>
+                </div>
+              </div>
+              <span class="qa-arrow">→</span>
+            </div>
+            <div class="qa-item" onclick="notify('📬 3 relances en attente de validation')">
+              <div class="qa-left">
+                <div class="qa-icon amber">📬</div>
+                <div>
+                  <div class="qa-name">Relances en attente</div>
+                  <div class="qa-desc">3 relances à valider</div>
+                </div>
+              </div>
+              <span class="qa-arrow">→</span>
+            </div>
+            <div class="qa-item" onclick="notify('🧾 2 factures générées ce matin — en attente validation Marion')">
+              <div class="qa-left">
+                <div class="qa-icon blue">🧾</div>
+                <div>
+                  <div class="qa-name">Factures générées</div>
+                  <div class="qa-desc">2 factures ce matin · en attente</div>
+                </div>
+              </div>
+              <span class="qa-arrow">→</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon">📂</span>Dossiers récents <span style="margin-left:auto;font-size:.68rem;color:var(--ab);cursor:pointer;" onclick="goTo('dossiers', document.querySelector('[onclick*=dossiers]'))">Voir tout →</span></div>
+            <div class="dossier-item" onclick="goTo('detail', null)">
+              <div class="dossier-ico">📄</div>
+              <div>
+                <div class="dossier-ref">2026-03-NANCE-089</div>
+                <div class="dossier-name">Sophie NANCE · Alan SCOUARNEC</div>
+              </div>
+              <span class="badge badge-green">Validé</span>
+              <div class="dossier-date">il y a 2h</div>
+            </div>
+            <div class="dossier-item" onclick="goTo('detail', null)">
+              <div class="dossier-ico">📄</div>
+              <div>
+                <div class="dossier-ref">2026-03-PRUNTE-JEAN-088</div>
+                <div class="dossier-name">Jean PRUNTE · Jean CERDA</div>
+              </div>
+              <span class="badge badge-blue">En cours</span>
+              <div class="dossier-date">il y a 5h</div>
+            </div>
+            <div class="dossier-item" onclick="goTo('detail', null)">
+              <div class="dossier-ico">📄</div>
+              <div>
+                <div class="dossier-ref">2026-03-BERNARD-ALEX-087</div>
+                <div class="dossier-name">Paul ISSON · Grégory DURAND-POUDRET</div>
+              </div>
+              <span class="badge badge-purple">Analyse</span>
+              <div class="dossier-date">hier</div>
+            </div>
+            <div class="dossier-item" onclick="goTo('detail', null)">
+              <div class="dossier-ico">📄</div>
+              <div>
+                <div class="dossier-ref">2026-03-ROUSSEAU-EMMA-086</div>
+                <div class="dossier-name">Claire VOYANTE · Cyril DUBOIS</div>
+              </div>
+              <span class="badge badge-amber">À compléter</span>
+              <div class="dossier-date">il y a 2j</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── NOUVEAU DOSSIER ── -->
+      <div class="screen" id="screen-nouveau">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Nouveau dossier</div>
+            <div class="page-sub">Créez un nouveau dossier de financement</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-bottom:24px;">
+          <div class="step-wrap">
+            <div class="step-circle done">✓</div>
+            <div class="step-label" style="color:var(--ab);">Emprunteur</div>
+          </div>
+          <div style="flex:1;display:flex;align-items:center;padding-bottom:18px;"><div style="flex:1;height:2px;background:var(--ab);"></div></div>
+          <div class="step-wrap">
+            <div class="step-circle active">2</div>
+            <div class="step-label" style="color:var(--ab);">Projet</div>
+          </div>
+          <div style="flex:1;display:flex;align-items:center;padding-bottom:18px;"><div style="flex:1;height:2px;background:var(--border);"></div></div>
+          <div class="step-wrap">
+            <div class="step-circle todo">3</div>
+            <div class="step-label" style="color:var(--muted);">Récapitulatif</div>
+          </div>
+        </div>
+
+        <div class="card" style="max-width:680px;">
+          <div style="font-size:.92rem;font-weight:700;color:var(--ink);margin-bottom:4px;">Informations de l'emprunteur</div>
+          <div style="font-size:.78rem;color:var(--muted);margin-bottom:18px;">Renseignez les coordonnées de l'emprunteur principal</div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--border2);border-radius:var(--r);padding:3px;margin-bottom:20px;width:fit-content;">
+            <div style="padding:6px 18px;border-radius:6px;background:var(--white);font-size:.8rem;font-weight:600;color:var(--ink2);cursor:pointer;box-shadow:var(--shadow-xs);">👤 Particulier</div>
+            <div style="padding:6px 18px;border-radius:6px;font-size:.8rem;color:var(--muted);cursor:pointer;">🏢 Professionnel</div>
+          </div>
+
+          <div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border);font-size:.75rem;font-weight:600;color:var(--muted);letter-spacing:.5px;">EMPRUNTEUR PRINCIPAL</div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+            <div>
+              <div style="font-size:.72rem;font-weight:600;color:var(--ink3);margin-bottom:5px;">Prénom *</div>
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--border);border-radius:var(--r);background:var(--white);font-size:.85rem;color:var(--ink3);">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
+                Jean
+              </div>
+            </div>
+            <div>
+              <div style="font-size:.72rem;font-weight:600;color:var(--ink3);margin-bottom:5px;">Nom *</div>
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--border);border-radius:var(--r);background:var(--white);font-size:.85rem;color:var(--ink3);">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
+                Dupont
+              </div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;">
+            <div>
+              <div style="font-size:.72rem;font-weight:600;color:var(--ink3);margin-bottom:5px;">Email *</div>
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--ab);border-radius:var(--r);background:var(--white);font-size:.85rem;color:var(--ink3);">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b0dad5d1de9ed4c5c0dfdec4f0d5ddd1d9dc9ed3dfdd">[email&#160;protected]</a>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:.72rem;font-weight:600;color:var(--ink3);margin-bottom:5px;">Téléphone</div>
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--border);border-radius:var(--r);background:var(--white);font-size:.85rem;color:var(--ink3);">
+                🇫🇷 +33 6 12 34 56 78
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;justify-content:flex-end;">
+            <button class="btn-secondary" onclick="goTo('cockpit', document.querySelector('[onclick*=cockpit]'))">Annuler</button>
+            <button class="btn-primary" onclick="notify('✉️ Lien de collecte envoyé à jean.aimar@email.com')">Envoyer le lien de collecte →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── DOSSIERS ── -->
+      <div class="screen" id="screen-dossiers">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Mes dossiers</div>
+            <div class="page-sub">1 842 dossier(s) trouvé(s)</div>
+          </div>
+          <button class="btn-primary" onclick="goTo('nouveau', document.querySelector('[onclick*=nouveau]'))">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Nouveau dossier
+          </button>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-bottom:14px;">
+          <div style="padding:5px 14px;border-radius:20px;background:var(--ab);color:#fff;font-size:.75rem;font-weight:600;cursor:pointer;">Tous</div>
+          <div style="padding:5px 14px;border-radius:20px;background:var(--white);border:1px solid var(--border);color:var(--muted);font-size:.75rem;cursor:pointer;" onclick="notify('Filtre Actifs appliqué')">Actifs</div>
+          <div style="padding:5px 14px;border-radius:20px;background:var(--white);border:1px solid var(--border);color:var(--muted);font-size:.75rem;cursor:pointer;" onclick="notify('Filtre Terminés appliqué')">Terminés</div>
+          <div style="padding:5px 14px;border-radius:20px;background:var(--white);border:1px solid var(--border);color:var(--muted);font-size:.75rem;cursor:pointer;" onclick="notify('Filtre Archivés appliqué')">Archivés</div>
+        </div>
+
+        <div class="filters">
+          <div class="filter-input">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Rechercher un dossier...
+          </div>
+          <div class="filter-input" onclick="notify('Filtre statut ouvert')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+            Tous les statuts ↓
+          </div>
+          <div class="filter-input" onclick="notify('Filtre type ouvert')">Tous les types ↓</div>
+          <div class="filter-input" onclick="notify('Filtre dates ouvert')">📅 Toutes les dates ↓</div>
+          <div class="filter-input" onclick="notify('Filtre utilisateurs ouvert')">👤 Tous les utilisateurs ↓</div>
+          <div class="view-toggle">
+            <div class="view-btn" onclick="notify('Vue liste')">☰</div>
+            <div class="view-btn active">⊞</div>
+          </div>
+        </div>
+
+        <div class="kanban">
+          <div class="kanban-col">
+            <div class="kanban-header">
+              <div class="kanban-col-title">Nouveau</div>
+              <div class="kanban-count nouveau">319</div>
+            </div>
+            <div class="kanban-card" onclick="goTo('detail', null)">
+              <div class="kanban-card-ref">2026-03-NANCE-089</div>
+              <div class="kanban-card-name">Sophie NANCE</div>
+              <div class="kanban-card-courtier">Alan SCOUARNEC</div>
+              <div class="kanban-card-footer">
+                <div class="kanban-card-amount">285 000 €</div>
+                <div class="kanban-card-date">il y a 2h</div>
+              </div>
+            </div>
+            <div class="kanban-card" onclick="goTo('detail', null)">
+              <div class="kanban-card-ref">2026-03-ISSON-088</div>
+              <div class="kanban-card-name">Guy TARD</div>
+              <div class="kanban-card-courtier">Jean CERDA</div>
+              <div class="kanban-card-footer">
+                <div class="kanban-card-amount">412 000 €</div>
+                <div class="kanban-card-date">il y a 4h</div>
+              </div>
+            </div>
+            <div class="kanban-card" onclick="goTo('detail', null)">
+              <div class="kanban-card-ref">2026-03-ONYME-087</div>
+              <div class="kanban-card-name">Anne ONYME</div>
+              <div class="kanban-card-courtier">Cyril DUBOIS</div>
+              <div class="kanban-card-footer">
+                <div class="kanban-card-amount">198 000 €</div>
+                <div class="kanban-card-date">hier</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="kanban-col">
+            <div class="kanban-header">
+              <div class="kanban-col-title">En cours</div>
+              <div class="kanban-count encours">1 259</div>
+            </div>
+            <div class="kanban-card" onclick="goTo('detail', null)">
+              <div class="kanban-card-ref">2026-03-PRUNTE-086</div>
+              <div class="kanban-card-name">Jean PRUNTE</div>
+              <div class="kanban-card-courtier">Alan SCOUARNEC</div>
+              <div class="kanban-card-footer">
+                <div class="kanban-card-amount">350 000 €</div>
+                <div class="kanban-card-date">il y a 3j</div>
+              </div>
+            </div>
+            <div class="kanban-card" onclick="goTo('detail', null)">
+              <div class="kanban-card-ref">2026-03-DURAND-085</div>
+              <div class="kanban-card-name">Marc HING</div>
+              <div class="kanban-card-courtier">Grégory DURAND-POUDRET</div>
+              <div class="kanban-card-footer">
+                <div class="kanban-card-amount">520 000 €</div>
+                <div class="kanban-card-date">il y a 5j</div>
+              </div>
+            </div>
+            <div class="kanban-card" onclick="goTo('detail', null)">
+              <div class="kanban-card-ref">2026-03-VOYANTE-084</div>
+              <div class="kanban-card-name">Léa TARD</div>
+              <div class="kanban-card-courtier">Jean CERDA</div>
+              <div class="kanban-card-footer">
+                <div class="kanban-card-amount">275 000 €</div>
+                <div class="kanban-card-date">il y a 6j</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="kanban-col">
+            <div class="kanban-header">
+              <div class="kanban-col-title">Analyse terminée</div>
+              <div class="kanban-count analyse">47</div>
+            </div>
+            <div class="kanban-card" onclick="goTo('detail', null)">
+              <div class="kanban-card-ref">2026-03-OQUE-083</div>
+              <div class="kanban-card-name">Philippe OQUE</div>
+              <div class="kanban-card-courtier">Alan SCOUARNEC</div>
+              <div class="kanban-card-footer">
+                <div class="kanban-card-amount">445 000 €</div>
+                <div class="kanban-card-date">il y a 2j</div>
+              </div>
+            </div>
+            <div class="kanban-card" onclick="goTo('detail', null)">
+              <div class="kanban-card-ref">2026-03-ISSON-082</div>
+              <div class="kanban-card-name">Paul ISSON</div>
+              <div class="kanban-card-courtier">Cyril DUBOIS</div>
+              <div class="kanban-card-footer">
+                <div class="kanban-card-amount">310 000 €</div>
+                <div class="kanban-card-date">il y a 3j</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="kanban-col">
+            <div class="kanban-header">
+              <div class="kanban-col-title">À compléter</div>
+              <div class="kanban-count complet">3</div>
+            </div>
+            <div class="kanban-card" style="border-color:var(--amber);" onclick="goTo('detail', null)">
+              <div class="kanban-card-ref">2026-03-VOYANTE-081</div>
+              <div class="kanban-card-name">Claire VOYANTE</div>
+              <div class="kanban-card-courtier">Grégory DURAND-POUDRET</div>
+              <div style="margin-bottom:6px;"><span class="badge badge-amber">2 docs manquants</span></div>
+              <div class="kanban-card-footer">
+                <div class="kanban-card-amount">189 000 €</div>
+                <div class="kanban-card-date">il y a 4j</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── DÉTAIL DOSSIER ── -->
+      <div class="screen" id="screen-detail">
+        <div class="page-header">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <button class="btn-secondary" onclick="goTo('dossiers', document.querySelector('[onclick*=dossiers]'))">← Retour</button>
+            <div>
+              <div class="page-title">Sophie NANCE</div>
+              <div class="page-sub">2026-03-NANCE-089 · Alan SCOUARNEC · Créé il y a 2h</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <span class="badge badge-blue">En cours</span>
+            <button class="btn-primary" onclick="notify('✉️ Lien de collecte renvoyé au client')">Renvoyer le lien</button>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <div class="tab active" onclick="switchTab(this)">Documents</div>
+          <div class="tab" onclick="switchTab(this)">Analyse IA</div>
+          <div class="tab" onclick="switchTab(this)">Historique</div>
+          <div class="tab" onclick="switchTab(this)">Facturation</div>
+        </div>
+
+        <div class="detail-grid">
+          <div>
+            <div class="card" style="margin-bottom:12px;">
+              <div class="card-title"><span class="card-title-icon">📄</span>Documents reçus <span style="margin-left:auto;font-size:.72rem;color:var(--green);">6 / 8 documents</span></div>
+              <div class="doc-item">
+                <div class="doc-icon pdf">📕</div>
+                <div class="doc-name">Relevé compte courant — janv. 2026</div>
+                <div class="doc-size" style="margin-right:8px;">2.1 MB</div>
+                <div class="doc-status ok">Analysé</div>
+              </div>
+              <div class="doc-item">
+                <div class="doc-icon pdf">📕</div>
+                <div class="doc-name">Relevé compte courant — févr. 2026</div>
+                <div class="doc-size" style="margin-right:8px;">1.8 MB</div>
+                <div class="doc-status ok">Analysé</div>
+              </div>
+              <div class="doc-item">
+                <div class="doc-icon pdf">📕</div>
+                <div class="doc-name">Bulletin de salaire — janv. 2026</div>
+                <div class="doc-size" style="margin-right:8px;">0.4 MB</div>
+                <div class="doc-status ok">Analysé</div>
+              </div>
+              <div class="doc-item">
+                <div class="doc-icon pdf">📕</div>
+                <div class="doc-name">Avis d'imposition 2025</div>
+                <div class="doc-size" style="margin-right:8px;">1.2 MB</div>
+                <div class="doc-status ok">Analysé</div>
+              </div>
+              <div class="doc-item" style="border:1px dashed var(--amber);background:var(--amber-bg);">
+                <div class="doc-icon amber">⚠️</div>
+                <div class="doc-name" style="color:var(--amber);">Bulletin de salaire — févr. 2026</div>
+                <div class="doc-status pending">En attente</div>
+              </div>
+              <div class="doc-item" style="border:1px dashed var(--amber);background:var(--amber-bg);">
+                <div class="doc-icon amber">⚠️</div>
+                <div class="doc-name" style="color:var(--amber);">Justificatif de domicile</div>
+                <div class="doc-status pending">En attente</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="card" style="margin-bottom:12px;">
+              <div class="card-title"><span class="card-title-icon">🤖</span>Résumé IA</div>
+              <div style="background:var(--green-bg);border:1px solid var(--green-b);border-radius:var(--r);padding:10px 12px;margin-bottom:10px;">
+                <div style="font-size:.72rem;font-weight:700;color:var(--green);margin-bottom:4px;">PROFIL VALIDÉ</div>
+                <div style="font-size:.8rem;color:var(--ink3);line-height:1.5;">Dossier solide. Revenus stables, pas d'anomalie détectée sur les 3 derniers mois. Taux d'endettement estimé à 28 %.</div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <div style="background:var(--bg);border-radius:var(--r);padding:8px 10px;">
+                  <div style="font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;">Revenus nets</div>
+                  <div style="font-size:.92rem;font-weight:700;color:var(--ink2);">3 840 €/mois</div>
+                </div>
+                <div style="background:var(--bg);border-radius:var(--r);padding:8px 10px;">
+                  <div style="font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;">Charges mensuel.</div>
+                  <div style="font-size:.92rem;font-weight:700;color:var(--ink2);">620 €/mois</div>
+                </div>
+                <div style="background:var(--bg);border-radius:var(--r);padding:8px 10px;">
+                  <div style="font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;">Capacité emprunt</div>
+                  <div style="font-size:.92rem;font-weight:700;color:var(--ab);">285 000 €</div>
+                </div>
+                <div style="background:var(--bg);border-radius:var(--r);padding:8px 10px;">
+                  <div style="font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;">Taux endettement</div>
+                  <div style="font-size:.92rem;font-weight:700;color:var(--green);">28 %</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title"><span class="card-title-icon">📋</span>Historique</div>
+              <div class="timeline">
+                <div class="tl-item">
+                  <div class="tl-dot green">✓</div>
+                  <div class="tl-content">
+                    <div class="tl-action">Analyse IA terminée</div>
+                    <div class="tl-time">Aujourd'hui · 09h14</div>
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot green">✓</div>
+                  <div class="tl-content">
+                    <div class="tl-action">4 documents reçus et classés</div>
+                    <div class="tl-time">Aujourd'hui · 08h52</div>
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot blue">✉</div>
+                  <div class="tl-content">
+                    <div class="tl-action">Lien de collecte envoyé au client</div>
+                    <div class="tl-time">Aujourd'hui · 08h30</div>
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot gray">+</div>
+                  <div class="tl-content">
+                    <div class="tl-action">Dossier créé par Alan SCOUARNEC</div>
+                    <div class="tl-time">Aujourd'hui · 08h28</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ADMIN ── -->
+      <div class="screen" id="screen-admin">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Dashboard Administration</div>
+            <div class="page-sub">Vue d'ensemble de l'activité du réseau Avicap</div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn-secondary" onclick="notify('📅 Filtre de dates ouvert')">📅 Mars 2026 ↓</button>
+            <button class="btn-secondary" onclick="notify('👤 Filtre utilisateurs ouvert')">👤 Tous les courtiers ↓</button>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Courtiers actifs</div>
+            <div class="kpi-val">87</div>
+            <div class="kpi-sub">sur 100 inscrits</div>
+            <div class="kpi-icon green">👥</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Dossiers ce mois</div>
+            <div class="kpi-val">312</div>
+            <div class="kpi-sub">+24 % vs févr.</div>
+            <div class="kpi-icon blue">📁</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Financés</div>
+            <div class="kpi-val">24</div>
+            <div class="kpi-sub">CA réseau : 6,8 M€</div>
+            <div class="kpi-icon green">💰</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Taux conversion</div>
+            <div class="kpi-val">7,7 %</div>
+            <div class="kpi-sub">+1,2 pts vs mois passé</div>
+            <div class="kpi-icon amber">📈</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon">📊</span>Évolution mensuelle — Dossiers créés vs financés</div>
+            <div class="chart-placeholder">
+              <div class="bar" style="height:35%"></div>
+              <div class="bar fin" style="height:5%"></div>
+              <div class="bar" style="height:55%"></div>
+              <div class="bar fin" style="height:7%"></div>
+              <div class="bar" style="height:48%"></div>
+              <div class="bar fin" style="height:6%"></div>
+              <div class="bar" style="height:80%"></div>
+              <div class="bar fin" style="height:10%"></div>
+              <div class="bar" style="height:72%"></div>
+              <div class="bar fin" style="height:8%"></div>
+              <div class="bar" style="height:60%"></div>
+              <div class="bar fin" style="height:7%"></div>
+            </div>
+            <div style="display:flex;gap:14px;margin-top:8px;">
+              <div style="display:flex;align-items:center;gap:5px;font-size:.7rem;color:var(--muted);">
+                <div style="width:10px;height:10px;border-radius:3px;background:var(--ab);opacity:.7;"></div>Créés
+              </div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:.7rem;color:var(--muted);">
+                <div style="width:10px;height:10px;border-radius:3px;background:var(--green);opacity:.8;"></div>Financés
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon">🏆</span>Top Courtiers — Dossiers en mars</div>
+            <div class="top-courtiers">
+              <div class="tc-item">
+                <div class="tc-rank gold">1</div>
+                <div>
+                  <div class="tc-name">Alan SCOUARNEC</div>
+                  <div class="tc-sub">3 financés</div>
+                </div>
+                <div class="tc-bar-wrap"><div class="tc-bar" style="width:100%"></div></div>
+                <div class="tc-count">42</div>
+              </div>
+              <div class="tc-item">
+                <div class="tc-rank silver">2</div>
+                <div>
+                  <div class="tc-name">Jean CERDA</div>
+                  <div class="tc-sub">2 financés</div>
+                </div>
+                <div class="tc-bar-wrap"><div class="tc-bar" style="width:78%"></div></div>
+                <div class="tc-count">33</div>
+              </div>
+              <div class="tc-item">
+                <div class="tc-rank bronze">3</div>
+                <div>
+                  <div class="tc-name">Grégory DURAND-POUDRET</div>
+                  <div class="tc-sub">1 financé</div>
+                </div>
+                <div class="tc-bar-wrap"><div class="tc-bar" style="width:45%"></div></div>
+                <div class="tc-count">19</div>
+              </div>
+              <div class="tc-item">
+                <div class="tc-rank other">4</div>
+                <div>
+                  <div class="tc-name">Cyril DUBOIS</div>
+                  <div class="tc-sub">1 financé</div>
+                </div>
+                <div class="tc-bar-wrap"><div class="tc-bar" style="width:28%"></div></div>
+                <div class="tc-count">12</div>
+              </div>
+              <div class="tc-item">
+                <div class="tc-rank other">5</div>
+                <div>
+                  <div class="tc-name">Franck CORROYEZ</div>
+                  <div class="tc-sub">0 financé</div>
+                </div>
+                <div class="tc-bar-wrap"><div class="tc-bar" style="width:12%"></div></div>
+                <div class="tc-count">5</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TEMPS GAGNÉ ── -->
+      <div class="screen" id="screen-temps">
+        <div class="page-header">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:38px;height:38px;border-radius:10px;background:var(--green-bg);border:1px solid var(--green-b);display:flex;align-items:center;justify-content:center;font-size:1rem;">⏱️</div>
+            <div>
+              <div class="page-title">Temps gagné</div>
+              <div class="page-sub">Estimation du temps économisé grâce à l'automatisation</div>
+            </div>
+          </div>
+          <button class="btn-secondary" onclick="notify('🔄 Données actualisées')">🔄 Actualiser</button>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-bottom:16px;background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:3px;width:fit-content;">
+          <div style="padding:5px 14px;border-radius:6px;background:var(--ab);color:#fff;font-size:.75rem;font-weight:600;cursor:pointer;">Mois</div>
+          <div style="padding:5px 14px;border-radius:6px;font-size:.75rem;color:var(--muted);cursor:pointer;" onclick="notify('Vue Trimestre')">Trimestre</div>
+          <div style="padding:5px 14px;border-radius:6px;font-size:.75rem;color:var(--muted);cursor:pointer;" onclick="notify('Vue Semestre')">Semestre</div>
+          <div style="padding:5px 14px;border-radius:6px;font-size:.75rem;color:var(--muted);cursor:pointer;" onclick="notify('Vue Année')">Année</div>
+        </div>
+
+        <div class="tg-kpi">
+          <div class="tg-card">
+            <div class="tg-label">Temps économisé</div>
+            <div class="tg-val green">48h 30min</div>
+            <div class="tg-sub">6 jour(s) de travail</div>
+          </div>
+          <div class="tg-card">
+            <div class="tg-label">Opérations auto.</div>
+            <div class="tg-val blue">847</div>
+            <div class="tg-sub">traitements automatisés</div>
+          </div>
+          <div class="tg-card">
+            <div class="tg-label">Documents traités</div>
+            <div class="tg-val purple">1 240</div>
+            <div class="tg-sub">classifiés et analysés</div>
+          </div>
+          <div class="tg-card">
+            <div class="tg-label">Gain productivité</div>
+            <div class="tg-val amber">63×</div>
+            <div class="tg-sub">plus rapide qu'en manuel</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon">📈</span>Évolution du temps gagné — Minutes économisées par jour</div>
+            <div class="chart-placeholder" style="height:120px;background:linear-gradient(135deg,var(--green-bg) 0%,#ECFDF5 100%);">
+              <div class="bar" style="height:55%;background:var(--purple);opacity:.6;"></div>
+              <div class="bar" style="height:70%;background:var(--purple);opacity:.6;"></div>
+              <div class="bar" style="height:45%;background:var(--purple);opacity:.6;"></div>
+              <div class="bar" style="height:85%;background:var(--purple);opacity:.6;"></div>
+              <div class="bar" style="height:60%;background:var(--purple);opacity:.6;"></div>
+              <div class="bar" style="height:90%;background:var(--purple);opacity:.6;"></div>
+              <div class="bar" style="height:75%;background:var(--purple);opacity:.6;"></div>
+              <div class="bar" style="height:95%;background:var(--purple);opacity:.6;"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon">🔄</span>Répartition par activité</div>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:.78rem;color:var(--ink3);">Collecte documentaire</span>
+                  <span style="font-size:.78rem;font-weight:700;color:var(--ab);">38 %</span>
+                </div>
+                <div style="height:6px;background:var(--border);border-radius:3px;"><div style="width:38%;height:100%;background:var(--ab);border-radius:3px;"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:.78rem;color:var(--ink3);">Analyse & classification</span>
+                  <span style="font-size:.78rem;font-weight:700;color:var(--purple);">35 %</span>
+                </div>
+                <div style="height:6px;background:var(--border);border-radius:3px;"><div style="width:35%;height:100%;background:var(--purple);border-radius:3px;"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:.78rem;color:var(--ink3);">Relances automatiques</span>
+                  <span style="font-size:.78rem;font-weight:700;color:var(--green);">18 %</span>
+                </div>
+                <div style="height:6px;background:var(--border);border-radius:3px;"><div style="width:18%;height:100%;background:var(--green);border-radius:3px;"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:.78rem;color:var(--ink3);">Saisie CiFacil</span>
+                  <span style="font-size:.78rem;font-weight:700;color:var(--amber);">9 %</span>
+                </div>
+                <div style="height:6px;background:var(--border);border-radius:3px;"><div style="width:9%;height:100%;background:var(--amber);border-radius:3px;"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ── CRM CLIENTS ── -->
+      <div class="screen" id="screen-crm">
+        <div class="page-header">
+          <div>
+            <div class="page-title">CRM Clients</div>
+            <div class="page-sub">20 148 familles clientes · Avicap</div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn-secondary" onclick="notify('🔍 Filtres avancés')">🔍 Filtres ↓</button>
+            <button class="btn-primary" onclick="notify('📤 Export en cours...')">Exporter</button>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Clients actifs</div>
+            <div class="kpi-val">20 148</div>
+            <div class="kpi-sub">Base totale Avicap</div>
+            <div class="kpi-icon blue">👥</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Opportunités détectées</div>
+            <div class="kpi-val">342</div>
+            <div class="kpi-sub">Placement · assurance · rachat</div>
+            <div class="kpi-icon amber">⭐</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Relances en cours</div>
+            <div class="kpi-val">87</div>
+            <div class="kpi-sub">Séquences actives</div>
+            <div class="kpi-icon green">📬</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">RDV générés ce mois</div>
+            <div class="kpi-val">24</div>
+            <div class="kpi-sub">Via prospection automatique</div>
+            <div class="kpi-icon green">📅</div>
+          </div>
+        </div>
+
+        <div class="filters">
+          <div class="filter-input">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Rechercher un client...
+          </div>
+          <div class="filter-input" onclick="notify('Filtre opportunités')">⭐ Avec opportunité ↓</div>
+          <div class="filter-input" onclick="notify('Filtre produit')">Tous les produits ↓</div>
+          <div class="filter-input" onclick="notify('Filtre courtier')">Tous les courtiers ↓</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="card-title-icon">👤</span>Liste clients</div>
+          <table style="width:100%;border-collapse:collapse;font-size:.82rem;">
+            <thead>
+              <tr style="border-bottom:2px solid var(--border);">
+                <th style="text-align:left;padding:8px 10px;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Client</th>
+                <th style="text-align:left;padding:8px 10px;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Dossier</th>
+                <th style="text-align:left;padding:8px 10px;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Financé</th>
+                <th style="text-align:left;padding:8px 10px;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Profil</th>
+                <th style="text-align:left;padding:8px 10px;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Opportunité IA</th>
+                <th style="text-align:left;padding:8px 10px;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Courtier</th>
+                <th style="text-align:left;padding:8px 10px;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border2);cursor:pointer;" onclick="notify('📋 Fiche client Sophie NANCE ouverte')">
+                <td style="padding:10px 10px;">
+                  <div style="font-weight:700;color:var(--ink2);">Sophie NANCE</div>
+                  <div style="font-size:.7rem;color:var(--muted);">36 ans · paris 11e</div>
+                </td>
+                <td style="padding:10px 10px;color:var(--ink3);">Résidence principale</td>
+                <td style="padding:10px 10px;font-weight:700;color:var(--ab);">285 000 €</td>
+                <td style="padding:10px 10px;">
+                  <div style="font-size:.75rem;color:var(--ink3);">Revenus : 3 840 €/mois</div>
+                  <div style="font-size:.7rem;color:var(--muted);">Crédit restant : 18 ans</div>
+                </td>
+                <td style="padding:10px 10px;"><span class="badge badge-amber">⭐ Investissement locatif</span></td>
+                <td style="padding:10px 10px;font-size:.78rem;color:var(--muted);">Alan S.</td>
+                <td style="padding:10px 10px;"><span style="color:var(--ab);font-size:.78rem;cursor:pointer;">Voir →</span></td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border2);cursor:pointer;" onclick="notify('📋 Fiche client Marc HING ouverte')">
+                <td style="padding:10px 10px;">
+                  <div style="font-weight:700;color:var(--ink2);">Marc HING</div>
+                  <div style="font-size:.7rem;color:var(--muted);">42 ans · Lyon 3e</div>
+                </td>
+                <td style="padding:10px 10px;color:var(--ink3);">Résidence principale</td>
+                <td style="padding:10px 10px;font-weight:700;color:var(--ab);">520 000 €</td>
+                <td style="padding:10px 10px;">
+                  <div style="font-size:.75rem;color:var(--ink3);">Revenus : 6 200 €/mois</div>
+                  <div style="font-size:.7rem;color:var(--muted);">Crédit restant : 14 ans</div>
+                </td>
+                <td style="padding:10px 10px;"><span class="badge badge-purple">💼 Assurance vie</span></td>
+                <td style="padding:10px 10px;font-size:.78rem;color:var(--muted);">Jean C.</td>
+                <td style="padding:10px 10px;"><span style="color:var(--ab);font-size:.78rem;cursor:pointer;">Voir →</span></td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border2);cursor:pointer;" onclick="notify('📋 Fiche client Claire VOYANTE ouverte')">
+                <td style="padding:10px 10px;">
+                  <div style="font-weight:700;color:var(--ink2);">Claire VOYANTE</div>
+                  <div style="font-size:.7rem;color:var(--muted);">29 ans · Bordeaux</div>
+                </td>
+                <td style="padding:10px 10px;color:var(--ink3);">Primo-accédant</td>
+                <td style="padding:10px 10px;font-weight:700;color:var(--ab);">189 000 €</td>
+                <td style="padding:10px 10px;">
+                  <div style="font-size:.75rem;color:var(--ink3);">Revenus : 2 900 €/mois</div>
+                  <div style="font-size:.7rem;color:var(--muted);">Crédit restant : 22 ans</div>
+                </td>
+                <td style="padding:10px 10px;"><span class="badge badge-gray">Aucune · trop tôt</span></td>
+                <td style="padding:10px 10px;font-size:.78rem;color:var(--muted);">Grégory D-P.</td>
+                <td style="padding:10px 10px;"><span style="color:var(--ab);font-size:.78rem;cursor:pointer;">Voir →</span></td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border2);cursor:pointer;" onclick="notify('📋 Fiche client Paul ISSON ouverte')">
+                <td style="padding:10px 10px;">
+                  <div style="font-weight:700;color:var(--ink2);">Paul ISSON</div>
+                  <div style="font-size:.7rem;color:var(--muted);">48 ans · Nantes</div>
+                </td>
+                <td style="padding:10px 10px;color:var(--ink3);">Investissement locatif</td>
+                <td style="padding:10px 10px;font-weight:700;color:var(--ab);">310 000 €</td>
+                <td style="padding:10px 10px;">
+                  <div style="font-size:.75rem;color:var(--ink3);">Revenus : 7 800 €/mois</div>
+                  <div style="font-size:.7rem;color:var(--muted);">Crédit restant : 8 ans</div>
+                </td>
+                <td style="padding:10px 10px;"><span class="badge badge-blue">🏦 Rachat de crédit</span></td>
+                <td style="padding:10px 10px;font-size:.78rem;color:var(--muted);">Cyril D.</td>
+                <td style="padding:10px 10px;"><span style="color:var(--ab);font-size:.78rem;cursor:pointer;">Voir →</span></td>
+              </tr>
+              <tr style="cursor:pointer;" onclick="notify('📋 Fiche client Jean PRUNTE ouverte')">
+                <td style="padding:10px 10px;">
+                  <div style="font-weight:700;color:var(--ink2);">Jean PRUNTE</div>
+                  <div style="font-size:.7rem;color:var(--muted);">54 ans · Toulouse</div>
+                </td>
+                <td style="padding:10px 10px;color:var(--ink3);">Résidence principale</td>
+                <td style="padding:10px 10px;font-weight:700;color:var(--ab);">350 000 €</td>
+                <td style="padding:10px 10px;">
+                  <div style="font-size:.75rem;color:var(--ink3);">Revenus : 5 100 €/mois</div>
+                  <div style="font-size:.7rem;color:var(--muted);">Crédit terminé il y a 2 ans</div>
+                </td>
+                <td style="padding:10px 10px;"><span class="badge badge-green">💰 Placement O2S détecté</span></td>
+                <td style="padding:10px 10px;font-size:.78rem;color:var(--muted);">Alan S.</td>
+                <td style="padding:10px 10px;"><span style="color:var(--ab);font-size:.78rem;cursor:pointer;">Voir →</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── OPPORTUNITÉS ── -->
+      <div class="screen" id="screen-opportunites">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Opportunités détectées</div>
+            <div class="page-sub">342 clients identifiés comme mûrs par l'IA · Mars 2026</div>
+          </div>
+          <button class="btn-primary" onclick="notify('📬 Campagne de relance lancée sur 342 clients')">Lancer une campagne →</button>
+        </div>
+
+        <div class="three-col" style="margin-bottom:16px;">
+          <div class="card" style="border-top:3px solid var(--amber);">
+            <div class="card-title" style="color:var(--amber);">⭐ Investissement locatif</div>
+            <div style="font-size:1.8rem;font-weight:700;color:var(--ink);margin-bottom:2px;">124</div>
+            <div style="font-size:.75rem;color:var(--muted);">Clients avec capacité d'emprunt retrouvée</div>
+            <div style="margin-top:10px;display:flex;gap:6px;">
+              <button class="btn-primary" style="font-size:.72rem;padding:5px 10px;" onclick="notify('📬 Campagne Investissement locatif lancée')">Relancer</button>
+            </div>
+          </div>
+          <div class="card" style="border-top:3px solid var(--purple);">
+            <div class="card-title" style="color:var(--purple);">💼 Assurance vie / O2S</div>
+            <div style="font-size:1.8rem;font-weight:700;color:var(--ink);margin-bottom:2px;">147</div>
+            <div style="font-size:.75rem;color:var(--muted);">Clients avec épargne disponible détectée</div>
+            <div style="margin-top:10px;display:flex;gap:6px;">
+              <button class="btn-primary" style="font-size:.72rem;padding:5px 10px;background:var(--purple);" onclick="notify('📬 Campagne Assurance vie lancée')">Relancer</button>
+            </div>
+          </div>
+          <div class="card" style="border-top:3px solid var(--ab);">
+            <div class="card-title" style="color:var(--ab);">🏦 Rachat de crédit</div>
+            <div style="font-size:1.8rem;font-weight:700;color:var(--ink);margin-bottom:2px;">71</div>
+            <div style="font-size:.75rem;color:var(--muted);">Clients avec taux renégociable détecté</div>
+            <div style="margin-top:10px;display:flex;gap:6px;">
+              <button class="btn-primary" style="font-size:.72rem;padding:5px 10px;" onclick="notify('📬 Campagne Rachat de crédit lancée')">Relancer</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="card-title-icon">🤖</span>Signaux détectés par l'IA — Top opportunités</div>
+          <div style="display:flex;flex-direction:column;gap:0;">
+            <div style="display:grid;grid-template-columns:1fr 1fr auto auto auto;gap:12px;padding:8px 10px;background:var(--off2);border-radius:var(--r);margin-bottom:6px;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">
+              <div>Client</div><div>Signal IA détecté</div><div>Score</div><div>Produit suggéré</div><div></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr auto auto auto;gap:12px;align-items:center;padding:10px 10px;border-bottom:1px solid var(--border2);cursor:pointer;" onclick="notify('📋 Fiche Jean PRUNTE — opportunité O2S')">
+              <div>
+                <div style="font-weight:700;font-size:.85rem;color:var(--ink2);">Jean PRUNTE</div>
+                <div style="font-size:.7rem;color:var(--muted);">54 ans · Toulouse · crédit terminé</div>
+              </div>
+              <div style="font-size:.8rem;color:var(--ink3);">Crédit remboursé depuis 2 ans, revenus stables à 5 100 €/mois — capacité d'épargne non exploitée détectée</div>
+              <div style="text-align:center;">
+                <div style="font-size:1rem;font-weight:800;color:var(--green);">94</div>
+                <div style="font-size:.58rem;color:var(--muted);">/ 100</div>
+              </div>
+              <div><span class="badge badge-green">💰 Placement O2S</span></div>
+              <div><button class="btn-primary" style="font-size:.72rem;padding:5px 10px;" onclick="event.stopPropagation();notify('📅 RDV pris avec Jean PRUNTE — Alan SCOUARNEC notifié')">Prendre RDV</button></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr auto auto auto;gap:12px;align-items:center;padding:10px 10px;border-bottom:1px solid var(--border2);cursor:pointer;" onclick="notify('📋 Fiche Paul ISSON — opportunité rachat')">
+              <div>
+                <div style="font-weight:700;font-size:.85rem;color:var(--ink2);">Paul ISSON</div>
+                <div style="font-size:.7rem;color:var(--muted);">48 ans · Nantes · 8 ans restants</div>
+              </div>
+              <div style="font-size:.8rem;color:var(--ink3);">Taux actuel 2,4 % — taux marché actuel 1,8 %. Économie estimée : 18 000 € sur la durée restante</div>
+              <div style="text-align:center;">
+                <div style="font-size:1rem;font-weight:800;color:var(--ab);">87</div>
+                <div style="font-size:.58rem;color:var(--muted);">/ 100</div>
+              </div>
+              <div><span class="badge badge-blue">🏦 Rachat de crédit</span></div>
+              <div><button class="btn-primary" style="font-size:.72rem;padding:5px 10px;" onclick="event.stopPropagation();notify('📅 RDV pris avec Paul ISSON — Cyril DUBOIS notifié')">Prendre RDV</button></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr auto auto auto;gap:12px;align-items:center;padding:10px 10px;border-bottom:1px solid var(--border2);cursor:pointer;" onclick="notify('📋 Fiche Marc HING — opportunité assurance vie')">
+              <div>
+                <div style="font-weight:700;font-size:.85rem;color:var(--ink2);">Marc HING</div>
+                <div style="font-size:.7rem;color:var(--muted);">42 ans · Lyon · revenus en hausse</div>
+              </div>
+              <div style="font-size:.8rem;color:var(--ink3);">Augmentation de revenus de +15 % détectée. Capacité d'endettement supplémentaire : 120 000 €</div>
+              <div style="text-align:center;">
+                <div style="font-size:1rem;font-weight:800;color:var(--purple);">81</div>
+                <div style="font-size:.58rem;color:var(--muted);">/ 100</div>
+              </div>
+              <div><span class="badge badge-purple">💼 Assurance vie</span></div>
+              <div><button class="btn-primary" style="font-size:.72rem;padding:5px 10px;" onclick="event.stopPropagation();notify('📅 RDV pris avec Marc HING — Jean CERDA notifié')">Prendre RDV</button></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr auto auto auto;gap:12px;align-items:center;padding:10px 10px;cursor:pointer;" onclick="notify('📋 Fiche Sophie NANCE — opportunité locatif')">
+              <div>
+                <div style="font-weight:700;font-size:.85rem;color:var(--ink2);">Sophie NANCE</div>
+                <div style="font-size:.7rem;color:var(--muted);">36 ans · Paris · 18 ans restants</div>
+              </div>
+              <div style="font-size:.8rem;color:var(--ink3);">Revenus stables, faible endettement résiduel. Profil compatible investissement locatif en zone B1</div>
+              <div style="text-align:center;">
+                <div style="font-size:1rem;font-weight:800;color:var(--amber);">76</div>
+                <div style="font-size:.58rem;color:var(--muted);">/ 100</div>
+              </div>
+              <div><span class="badge badge-amber">⭐ Invest. locatif</span></div>
+              <div><button class="btn-primary" style="font-size:.72rem;padding:5px 10px;" onclick="event.stopPropagation();notify('📅 RDV pris avec Sophie NANCE — Alan SCOUARNEC notifié')">Prendre RDV</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── RELANCES & RDV ── -->
+      <div class="screen" id="screen-relances">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Relances & RDV</div>
+            <div class="page-sub">87 séquences actives · 24 RDV générés ce mois</div>
+          </div>
+          <button class="btn-primary" onclick="notify('➕ Nouvelle séquence de relance créée')">+ Nouvelle séquence</button>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Relances envoyées</div>
+            <div class="kpi-val">312</div>
+            <div class="kpi-sub">Ce mois · email + SNS</div>
+            <div class="kpi-icon blue">📬</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Taux d'ouverture</div>
+            <div class="kpi-val">68 %</div>
+            <div class="kpi-sub">+12 pts vs campagnes manuelles</div>
+            <div class="kpi-icon green">📧</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">RDV générés</div>
+            <div class="kpi-val">24</div>
+            <div class="kpi-sub">Via prospection automatique</div>
+            <div class="kpi-icon amber">📅</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Taux de réponse</div>
+            <div class="kpi-val">14 %</div>
+            <div class="kpi-sub">Vs 3 % en manuel</div>
+            <div class="kpi-icon green">↑</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon">📋</span>Séquences actives</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="padding:10px 12px;border:1px solid var(--border);border-radius:var(--r);cursor:pointer;" onclick="notify('📬 Séquence Placement O2S — détails')">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                  <div style="font-weight:700;font-size:.85rem;color:var(--ink2);">Placement O2S — Clients 50 ans+</div>
+                  <span class="badge badge-green">Active</span>
+                </div>
+                <div style="font-size:.75rem;color:var(--muted);margin-bottom:6px;">147 clients ciblés · 3 messages · J+0, J+7, J+21</div>
+                <div style="height:4px;background:var(--border);border-radius:2px;"><div style="width:65%;height:100%;background:var(--green);border-radius:2px;"></div></div>
+                <div style="font-size:.68rem;color:var(--muted);margin-top:3px;">65 % des clients ont ouvert le premier message</div>
+              </div>
+              <div style="padding:10px 12px;border:1px solid var(--border);border-radius:var(--r);cursor:pointer;" onclick="notify('📬 Séquence Rachat de crédit — détails')">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                  <div style="font-weight:700;font-size:.85rem;color:var(--ink2);">Rachat de crédit — Taux renégociable</div>
+                  <span class="badge badge-green">Active</span>
+                </div>
+                <div style="font-size:.75rem;color:var(--muted);margin-bottom:6px;">71 clients ciblés · 2 messages · J+0, J+14</div>
+                <div style="height:4px;background:var(--border);border-radius:2px;"><div style="width:42%;height:100%;background:var(--ab);border-radius:2px;"></div></div>
+                <div style="font-size:.68rem;color:var(--muted);margin-top:3px;">42 % des clients ont ouvert le premier message</div>
+              </div>
+              <div style="padding:10px 12px;border:1px solid var(--border);border-radius:var(--r);cursor:pointer;" onclick="notify('📬 Séquence Documents manquants — détails')">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                  <div style="font-weight:700;font-size:.85rem;color:var(--ink2);">Documents manquants — Relance dossiers</div>
+                  <span class="badge badge-amber">En pause</span>
+                </div>
+                <div style="font-size:.75rem;color:var(--muted);margin-bottom:6px;">3 dossiers · 1 message · J+1 après dépôt incomplet</div>
+                <div style="height:4px;background:var(--border);border-radius:2px;"><div style="width:100%;height:100%;background:var(--amber);border-radius:2px;"></div></div>
+                <div style="font-size:.68rem;color:var(--muted);margin-top:3px;">En attente de validation manuelle</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon">📅</span>RDV générés automatiquement — Cette semaine</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div style="padding:9px 12px;background:var(--green-bg);border:1px solid var(--green-b);border-radius:var(--r);cursor:pointer;" onclick="notify('✅ RDV Jean PRUNTE confirmé — Lundi 23 mars 10h00')">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;">
+                  <div style="font-weight:700;font-size:.82rem;color:var(--ink2);">Jean PRUNTE</div>
+                  <span class="badge badge-green">Confirmé</span>
+                </div>
+                <div style="font-size:.72rem;color:var(--muted);">Lundi 23 mars · 10h00 · Alan SCOUARNEC</div>
+                <div style="font-size:.7rem;color:var(--green);margin-top:2px;">💰 Placement O2S — Score IA : 94/100</div>
+              </div>
+              <div style="padding:9px 12px;background:var(--ab-light);border:1px solid rgba(27,127,212,.2);border-radius:var(--r);cursor:pointer;" onclick="notify('🔵 RDV Paul ISSON — Mardi 24 mars 14h30')">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;">
+                  <div style="font-weight:700;font-size:.82rem;color:var(--ink2);">Paul ISSON</div>
+                  <span class="badge badge-blue">Planifié</span>
+                </div>
+                <div style="font-size:.72rem;color:var(--muted);">Mardi 24 mars · 14h30 · Cyril DUBOIS</div>
+                <div style="font-size:.7rem;color:var(--ab);margin-top:2px;">🏦 Rachat de crédit — Score IA : 87/100</div>
+              </div>
+              <div style="padding:9px 12px;background:var(--amber-bg);border:1px solid var(--amber-b);border-radius:var(--r);cursor:pointer;" onclick="notify('⏳ RDV Marc HING — En attente de confirmation')">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;">
+                  <div style="font-weight:700;font-size:.82rem;color:var(--ink2);">Marc HING</div>
+                  <span class="badge badge-amber">En attente</span>
+                </div>
+                <div style="font-size:.72rem;color:var(--muted);">Proposition envoyée · Jean CERDA</div>
+                <div style="font-size:.7rem;color:var(--amber);margin-top:2px;">💼 Assurance vie — Score IA : 81/100</div>
+              </div>
+              <div style="padding:9px 12px;background:var(--green-bg);border:1px solid var(--green-b);border-radius:var(--r);cursor:pointer;" onclick="notify('✅ RDV Sophie NANCE — Jeudi 26 mars 11h00')">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;">
+                  <div style="font-weight:700;font-size:.82rem;color:var(--ink2);">Sophie NANCE</div>
+                  <span class="badge badge-green">Confirmé</span>
+                </div>
+                <div style="font-size:.72rem;color:var(--muted);">Jeudi 26 mars · 11h00 · Alan SCOUARNEC</div>
+                <div style="font-size:.7rem;color:var(--green);margin-top:2px;">⭐ Invest. locatif — Score IA : 76/100</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- NOTIFICATION -->
+<div class="notif" id="notif">
+  <span class="notif-icon" id="notif-icon">✅</span>
+  <span id="notif-text">Message</span>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function showApp() {
+  document.getElementById('screen-login').style.display = 'none';
+  document.getElementById('app').classList.add('visible');
+}
+
+function goTo(screen, navItem) {
+  // Update screens
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + screen).classList.add('active');
+
+  // Update nav
+  if (navItem) {
+    document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
+    navItem.classList.add('active');
+  }
+
+  // Update topbar
+  const labels = {
+    cockpit: 'Cockpit',
+    nouveau: 'Nouveau dossier',
+    dossiers: 'Mes dossiers',
+    detail: 'Dossier · Sophie NANCE',
+    admin: 'Dashboard Admin',
+    temps: 'Temps gagné'
+  };
+  document.getElementById('topbar-current').textContent = labels[screen] || screen;
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  notify('📂 Onglet ' + tab.textContent + ' sélectionné');
+}
+
+function notify(msg) {
+  const notif = document.getElementById('notif');
+  document.getElementById('notif-text').textContent = msg;
+  notif.classList.add('show');
+  setTimeout(() => notif.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>

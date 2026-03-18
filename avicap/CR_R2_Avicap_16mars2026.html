@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADAI × Avicap — CR R2 & Plan d'actions</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:#FFFFFF; --off:#F8F9FB; --off2:#EFF1F5;
+  --ink:#0D1117; --ink2:#1E2533; --ink3:#3A4254;
+  --muted:#6B7280; --muted2:#9CA3AF;
+  --border:#E4E7EE;
+  --ab:#1B7FD4; --ao:#E8852A;
+  --adai:linear-gradient(100deg,#1B7FD4 0%,#7B5EA7 48%,#E8852A 78%,#D4A017 100%);
+  --green:#16A34A; --green-bg:#F0FDF4; --green-b:#BBF7D0;
+  --red:#DC2626; --red-bg:#FEF2F2; --red-b:#FECACA;
+  --amber:#D97706; --amber-bg:#FFFBEB; --amber-b:#FDE68A;
+  --purple:#7B5EA7; --purple-bg:#F5F3FF; --purple-b:#DDD6FE;
+  --shadow-xs:0 1px 3px rgba(13,17,23,.07);
+  --shadow-sm:0 4px 12px rgba(13,17,23,.07);
+  --r:8px; --r2:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--off);color:var(--ink);line-height:1.6;font-size:15px;}
+
+/* ── PROGRESS ── */
+#prog{position:fixed;top:0;left:0;right:0;height:3px;background:var(--adai);transform-origin:left;transform:scaleX(0);z-index:200;}
+
+/* ── PAGE ── */
+.page{max-width:860px;margin:0 auto;padding:0 32px 64px;}
+
+/* ── COVER ── */
+.cover{background:var(--ink2);padding:32px 44px 26px;position:relative;overflow:hidden;}
+.cover::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 85% 20%,rgba(123,94,167,.2) 0%,transparent 55%),
+             radial-gradient(ellipse at 10% 90%,rgba(27,127,212,.1) 0%,transparent 50%);}
+.cover-in{position:relative;}
+.cover-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.6rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:10px;}
+.cover-eyebrow::before{content:'';width:16px;height:2px;background:var(--adai);border-radius:2px;}
+.cover-h1{font-size:1.75rem;font-weight:700;color:var(--white);line-height:1.15;margin-bottom:5px;letter-spacing:-.02em;}
+.cover-h1 em{font-style:normal;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.cover-sub{font-size:.82rem;color:rgba(255,255,255,.4);margin-bottom:18px;}
+.cover-pills{display:flex;flex-wrap:wrap;gap:6px;}
+.cover-pill{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.55);font-size:.67rem;padding:3px 10px;border-radius:20px;}
+.cover-pill strong{color:var(--white);}
+
+/* ── VERDICT ── */
+.verdict{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);margin-top:12px;overflow:hidden;box-shadow:var(--shadow-xs);}
+.verdict-head{padding:14px 22px;background:var(--green-bg);border-bottom:1px solid var(--green-b);display:flex;align-items:center;gap:10px;}
+.verdict-icon{font-size:1.1rem;}
+.verdict-label{font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);}
+.verdict-body{padding:16px 22px;}
+.verdict-text{font-size:.96rem;color:var(--ink2);line-height:1.7;font-weight:400;}
+.verdict-text strong{color:var(--ink);font-weight:700;}
+
+/* ── SECTION ── */
+.section{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);margin-top:10px;overflow:hidden;box-shadow:var(--shadow-xs);opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s;}
+.section.on{opacity:1;transform:none;}
+.section-head{padding:13px 22px;background:var(--off);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.section-num{font-size:.55rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ab);background:rgba(27,127,212,.07);border:1px solid rgba(27,127,212,.15);padding:2px 8px;border-radius:4px;white-space:nowrap;}
+.section-title{font-size:.95rem;font-weight:700;color:var(--ink2);}
+.section-body{padding:18px 22px;}
+
+/* ── CALLOUT ── */
+.callout{border-radius:var(--r);padding:10px 14px;margin-bottom:10px;border-left:3px solid;font-size:.88rem;line-height:1.6;color:var(--ink3);}
+.callout-blue{background:rgba(27,127,212,.05);border-color:var(--ab);}
+.callout-green{background:var(--green-bg);border-color:var(--green);}
+.callout-amber{background:var(--amber-bg);border-color:var(--amber);}
+.callout-red{background:var(--red-bg);border-color:var(--red);}
+.callout-purple{background:var(--purple-bg);border-color:var(--purple);}
+.callout strong{color:var(--ink);font-weight:600;}
+
+/* ── QUOTE ── */
+.quote{background:var(--off);border:1px solid var(--border);border-left:3px solid var(--ab);border-radius:0 var(--r) var(--r) 0;padding:12px 16px;margin:10px 0;}
+.quote-text{font-size:.9rem;color:var(--ink2);line-height:1.65;font-style:italic;}
+.quote-attr{margin-top:6px;font-size:.7rem;color:var(--muted2);font-style:normal;}
+
+/* ── LCARD ── */
+.lcard{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:10px;}
+.lcard:last-child{margin-bottom:0;}
+.lcard-head{padding:7px 14px;background:var(--off);border-bottom:1px solid var(--border);font-size:.57rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
+.lcard-head.blue{color:var(--ab);}
+.lcard-head.green{color:var(--green);}
+.lcard-head.amber{color:var(--amber);}
+.lcard-head.red{color:var(--red);}
+.lcard-head.purple{color:var(--purple);}
+.litem{display:flex;align-items:flex-start;gap:10px;padding:8px 14px;border-bottom:1px solid var(--border);font-size:.86rem;color:var(--ink3);line-height:1.5;}
+.litem:last-child{border-bottom:none;}
+.litem-icon{width:18px;height:18px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.6rem;flex-shrink:0;margin-top:1px;font-weight:700;}
+.litem-icon.g{background:var(--green-bg);color:var(--green);}
+.litem-icon.b{background:rgba(27,127,212,.08);color:var(--ab);}
+.litem-icon.a{background:var(--amber-bg);color:var(--amber);}
+.litem-icon.r{background:var(--red-bg);color:var(--red);}
+.litem-icon.p{background:var(--purple-bg);color:var(--purple);}
+.litem strong{color:var(--ink2);font-weight:600;}
+
+/* ── TWO COL ── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.two .lcard{margin-bottom:0;}
+
+/* ── TABLE ── */
+.tbl{border-radius:var(--r2);overflow:hidden;border:1px solid var(--border);margin:8px 0;box-shadow:var(--shadow-xs);}
+table{width:100%;border-collapse:collapse;background:var(--white);font-size:.86rem;}
+thead th{background:var(--ink2);color:var(--white);font-size:.54rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:8px 14px;text-align:left;}
+tbody tr{border-bottom:1px solid var(--border);}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:nth-child(even) td{background:var(--off);}
+td{padding:8px 14px;vertical-align:middle;color:var(--ink3);line-height:1.35;}
+td.fw{font-weight:600;color:var(--ink2);}
+td.ok{color:var(--green);font-weight:600;}
+td.warn{color:var(--amber);font-weight:600;}
+td.pending{color:var(--muted);font-size:.8rem;}
+
+/* ── BADGE ── */
+.badge{display:inline-block;font-size:.55rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 8px;border-radius:4px;white-space:nowrap;}
+.badge-green{background:var(--green-bg);color:var(--green);border:1px solid var(--green-b);}
+.badge-amber{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-b);}
+.badge-red{background:var(--red-bg);color:var(--red);border:1px solid var(--red-b);}
+.badge-blue{background:rgba(27,127,212,.08);color:var(--ab);border:1px solid rgba(27,127,212,.2);}
+.badge-purple{background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-b);}
+
+/* ── ACTION CARDS ── */
+.action-grid{display:flex;flex-direction:column;gap:8px;}
+.action{border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;background:var(--white);display:grid;grid-template-columns:28px 1fr auto;gap:12px;align-items:flex-start;box-shadow:var(--shadow-xs);}
+.action-num{width:26px;height:26px;border-radius:50%;background:var(--adai);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:var(--white);flex-shrink:0;}
+.action-title{font-size:.9rem;font-weight:700;color:var(--ink2);margin-bottom:3px;}
+.action-desc{font-size:.83rem;color:var(--ink3);line-height:1.55;}
+.action-deadline{font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;align-self:flex-start;}
+.action-deadline.urgent{background:var(--red-bg);color:var(--red);border:1px solid var(--red-b);}
+.action-deadline.medium{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-b);}
+.action-deadline.later{background:var(--off2);color:var(--muted);border:1px solid var(--border);}
+
+/* ── FOOTER ── */
+.footer{margin-top:28px;padding:12px 0 4px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.footer-brand{font-size:.72rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.footer-conf{font-size:.65rem;color:var(--muted);font-style:italic;}
+
+@media(max-width:700px){
+  .page{padding:0 16px 48px;}
+  .cover{padding:24px 20px;}
+  .section-body{padding:14px 16px;}
+  .two{grid-template-columns:1fr;}
+  .action{grid-template-columns:28px 1fr;gap:10px;}
+  .action-deadline{grid-column:2;}
+}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+
+<div class="cover">
+  <div class="cover-in">
+    <div class="cover-eyebrow">Compte rendu R2 · Usage interne ADAI</div>
+    <h1 class="cover-h1">CR R2 — <em>Avicap</em></h1>
+    <div class="cover-sub">Réunion du 16 mars 2026 · 11h29 · Alan Scouarnec, Jean Cerda, Adrien Pais</div>
+    <div class="cover-pills">
+      <span class="cover-pill">Rédigé par <strong>Adrien Pais · ADAI</strong></span>
+      <span class="cover-pill">Statut <strong>Oui orienté — en attente décision associés</strong></span>
+      <span class="cover-pill">Deadline grille <strong>Avant mardi 24 mars</strong></span>
+      <span class="cover-pill">Convention réseau <strong>28 mai 2026 · Cap d'Agde</strong></span>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- VERDICT -->
+  <div class="verdict">
+    <div class="verdict-head">
+      <span class="verdict-icon">✅</span>
+      <span class="verdict-label">Verdict global</span>
+    </div>
+    <div class="verdict-body">
+      <div class="verdict-text">
+        C'est un <strong>oui orienté, pas encore signé.</strong> Alan et Jean sont convaincus — Alan a posé une deadline dure (28 mai, convention réseau), Jean a lui-même proposé la logique de tarification modulaire. Le seul frein restant : avoir des chiffres concrets à présenter aux 3 autres associés (Franck, Cyril, Grégory) lors de leur réunion du <strong>mardi 24 mars</strong>. La grille de chiffrage est le seul livrable qui débloque la suite.
+      </div>
+    </div>
+  </div>
+
+  <!-- 01 · CONTEXTE D'OUVERTURE -->
+  <div class="section on" id="s1">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <span class="section-title">Contexte d'ouverture — Ce qu'Alan a dit avant même de commencer</span>
+    </div>
+    <div class="section-body">
+      <p style="font-size:.9rem;color:var(--ink3);line-height:1.7;margin-bottom:12px;">
+        CiFacil (éditeur logiciel Avicap) annonce une sortie d'un produit similaire en mai–juin. Alan l'a appris la semaine précédente et a préféré le dire directement avant la réunion. Sa conclusion immédiate :
+      </p>
+      <div class="quote">
+        <div class="quote-text">« Ça fait un an qu'ils nous en parlent et qu'il ne se passe rien. Moi j'ai été clair avec eux : le 26–28 mai, on a notre convention avec les responsables de région et il faut que j'annonce quelque chose. Si ce n'est pas eux, ce sera vous. »</div>
+        <div class="quote-attr">Alan Scouarnec</div>
+      </div>
+      <div class="callout callout-green">
+        <strong>Signal fort :</strong> Alan a mis CiFacil au pied du mur en citant ADAI. Ce n'est pas une posture — c'est une décision déjà annoncée à l'éditeur. Le risque de retournement côté CiFacil est réel mais faible : ils sont en phase bêta, ont abandonné un projet similaire en septembre 2024, et le réseau est réticent à changer d'outil.
+      </div>
+      <div class="callout callout-amber">
+        <strong>À surveiller :</strong> Jean a souligné la problématique de propriété des données avec CiFacil (qui est aussi un concurrent en assurance via Alto). Argument à réutiliser si CiFacil tente de reprendre la main.
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 · CE QUI A ÉTÉ VALIDÉ -->
+  <div class="section" id="s2">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <span class="section-title">Ce qui a été validé pendant la réunion</span>
+    </div>
+    <div class="section-body">
+      <div class="lcard">
+        <div class="lcard-head green">Points validés explicitement</div>
+        <div class="litem"><div class="litem-icon g">✓</div><div><strong>Approche "marche par marche" :</strong> Jean a proposé de commencer par la couche 1 (collecte + analyse + CiFacil). O2S et placement en second temps avec Grégory + Cyril.</div></div>
+        <div class="litem"><div class="litem-icon g">✓</div><div><strong>Modèle partenariat + marque blanche :</strong> validé sans friction. Jean : <em>"En marque blanche, c'est bien — ça fidélise."</em></div></div>
+        <div class="litem"><div class="litem-icon g">✓</div><div><strong>Modèle abonnement mensuel (coût licence) + investissement initial sur mesure :</strong> la distinction tiroir mensuel / investissement one-shot est claire pour les deux.</div></div>
+        <div class="litem"><div class="litem-icon g">✓</div><div><strong>Déploiement réseau total :</strong> Alan — <em>"On leur laissera pas le choix."</em> Volume : <strong>100 à 150 utilisateurs</strong>.</div></div>
+        <div class="litem"><div class="litem-icon g">✓</div><div><strong>Présentation lors de la convention réseau :</strong> invitation confirmée le <strong>jeudi 28 mai à 11h</strong>, Cap d'Agde. Visio ou présentiel selon disponibilité.</div></div>
+        <div class="litem"><div class="litem-icon g">✓</div><div><strong>Gestion de la facturation dans le scope :</strong> Alan a confirmé un poste actuellement occupé par une personne à 2 700 €/mois uniquement pour la facturation manuelle. Ce flux sera automatisé.</div></div>
+        <div class="litem"><div class="litem-icon g">✓</div><div><strong>Cockpit = visibilité unifiée Avicap + réseau racheté :</strong> tous les utilisateurs (CiFacil ou Global Courtage) remontent sur l'espace administrateur central.</div></div>
+        <div class="litem"><div class="litem-icon g">✓</div><div><strong>Contrôle humain systématique dans les automatisations :</strong> Jean a insisté dessus — Marion exercera toujours un contrôle sur la facturation. À intégrer dans la démo et les documents.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 · SIGNAUX FORTS -->
+  <div class="section" id="s3">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <span class="section-title">Signaux forts — Ce qu'il faut retenir pour la suite</span>
+    </div>
+    <div class="section-body">
+      <div class="callout callout-purple">
+        <strong>Alan a évoqué une prise de participation au capital ADAI.</strong> Verbatim : <em>"Même moi, d'investir chez vous pour rentrer en part pour qu'on s'accompagne sur un logiciel commun... on ferme aucune porte."</em> Jean n'a pas contredit. C'est à ne pas pousser maintenant, mais à ne pas laisser tomber.
+      </div>
+      <div class="two">
+        <div class="lcard">
+          <div class="lcard-head blue">Signaux de confiance</div>
+          <div class="litem"><div class="litem-icon b">→</div><div>Alan : <em>"C'est tellement beau que ça me fait peur"</em> — il est convaincu, pas indifférent</div></div>
+          <div class="litem"><div class="litem-icon b">→</div><div>Jean a vendu lui-même le modèle modulaire aux autres : <em>"50 € par mois, un seul dossier les rembourse"</em></div></div>
+          <div class="litem"><div class="litem-icon b">→</div><div>Fidélité historique : Alto depuis 2010. Si Avicap embarque, c'est du long terme.</div></div>
+          <div class="litem"><div class="litem-icon b">→</div><div>Alan cite ADAI chez ses confrères : <em>"Je connais beaucoup de monde dans les autres réseaux"</em> — vitrine confrères confirmée</div></div>
+        </div>
+        <div class="lcard">
+          <div class="lcard-head amber">Freins à gérer</div>
+          <div class="litem"><div class="litem-icon a">!</div><div>Alan a peur que l'IA rende les mauvais courtiers aussi bons que les bons — réassurer sur le rôle d'assistant, pas de substitut</div></div>
+          <div class="litem"><div class="litem-icon a">!</div><div>Budget : <em>"On peut pas payer deux solutions sans savoir le résultat."</em> La grille doit montrer le ROI immédiat</div></div>
+          <div class="litem"><div class="litem-icon a">!</div><div>Plafond psychologique abonnement : <strong>35 € HT</strong> = prix actuel CiFacil. 50 € accepté verbalement mais à amortir par module</div></div>
+          <div class="litem"><div class="litem-icon a">!</div><div>Changement d'habitudes : 20 ans de routines — prévoir accompagnement progressif à la prise en main</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 · PÉRIMÈTRE TECHNIQUE CLARIFIÉ -->
+  <div class="section" id="s4">
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <span class="section-title">Périmètre technique clarifié pendant la réunion</span>
+    </div>
+    <div class="section-body">
+      <p style="font-size:.9rem;color:var(--ink3);line-height:1.7;margin-bottom:12px;">Ce qui a été dit sur la structure technique — à intégrer dans la grille et le plan de déploiement.</p>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Brique</th><th>Statut</th><th>Modèle tarifaire</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td class="fw">Cockpit IA (analyse, relance, CRM basique)</td><td class="ok">Validé · Couche 1</td><td>Abonnement mensuel</td><td>Déjà développé, config nécessaire</td></tr>
+            <tr><td class="fw">Intranet centralisé (espace utilisateur + espace client)</td><td class="ok">Validé · Couche 1</td><td>Développement sur mesure</td><td>Remplace les SharePoints régionaux dispersés</td></tr>
+            <tr><td class="fw">Connexion API CiFacil (zéro double saisie)</td><td class="ok">Validé · Couche 1</td><td>Développement sur mesure</td><td>~3 000 € sur projet InFi crédit comparable</td></tr>
+            <tr><td class="fw">Gestion facturation automatisée</td><td class="ok">Validé · Couche 1</td><td>Inclus dans l'outil</td><td>Poste à 2 700 €/mois actuellement humain</td></tr>
+            <tr><td class="fw">Visibilité unifiée réseau (Global Courtage + CiFacil)</td><td class="ok">Validé · Couche 1</td><td>Inclus dans le cockpit</td><td>Jean : "C'est impeccable"</td></tr>
+            <tr><td class="fw">Passerelle CiFacil → O2S (placement)</td><td class="warn">Couche 2 — RDV dédié</td><td>Développement sur mesure</td><td>Avec Grégory + Cyril à planifier</td></tr>
+            <tr><td class="fw">CRM cycle de vie client / parcours B2C</td><td class="warn">Couche 2 — après couche 1</td><td>À définir</td><td>Idée de Jean : abonnement client premium 50 €/an</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout-blue" style="margin-top:10px;">
+        <strong>Configuration ≠ déploiement instantané :</strong> Alan a compris que l'outil nécessite une configuration en amont (boîtes mail par utilisateur, séquences de relance par statut CiFacil, agents IA par workflow). Prévoir un atelier de travail avec eux avant tout développement.
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 · TARIFAIRE — CE QUI A ÉTÉ DIT -->
+  <div class="section" id="s5">
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <span class="section-title">Tarifaire — Ce qui a été dit, ce qui reste à définir</span>
+    </div>
+    <div class="section-body">
+      <div class="two">
+        <div class="lcard">
+          <div class="lcard-head blue">Ce qui a été dit en réunion</div>
+          <div class="litem"><div class="litem-icon b">→</div><div>Enveloppe développement sur mesure annoncée : <strong>10 000 – 20 000 € TTC</strong> pour la digitalisation complète du parcours client + agents IA couche 1</div></div>
+          <div class="litem"><div class="litem-icon b">→</div><div>Référence InFi Crédit citée : <strong>8 000 € TTC</strong> pour une application similaire (connecteur Penny Lane)</div></div>
+          <div class="litem"><div class="litem-icon b">→</div><div>Tarifs grille actuels exposés (non applicables ici) : 149 € admin / 99 € jusqu'au 10e user / 49 € à partir du 11e</div></div>
+          <div class="litem"><div class="litem-icon b">→</div><div>Plancher mensuel par courtier confirmé : <strong>50 € minimum</strong> (tokens agents IA) — Alan et Jean ont entendu sans bloquer</div></div>
+          <div class="litem"><div class="litem-icon b">→</div><div>CiFacil actuel : <strong>35 € HT / user / mois</strong> (27 000 €/an pour ~65 users Avicap)</div></div>
+        </div>
+        <div class="lcard">
+          <div class="lcard-head amber">Ce que Jean a proposé (modèle à retenir)</div>
+          <div class="litem"><div class="litem-icon a">→</div><div><strong>Entrée progressive :</strong> prix d'appel bas (ex. 15 €/mois) pour les premiers modules activés</div></div>
+          <div class="litem"><div class="litem-icon a">→</div><div><strong>Offre complète :</strong> 50 €/mois quand tous les modules sont activés</div></div>
+          <div class="litem"><div class="litem-icon a">→</div><div><strong>Auto-absorption :</strong> les courtiers augmentent leurs frais de courtage pour absorber le coût — Alan a validé</div></div>
+          <div class="litem"><div class="litem-icon a">→</div><div><strong>Volume :</strong> 100 à 150 users · déploiement total imposé par la direction</div></div>
+        </div>
+      </div>
+      <div class="callout callout-amber" style="margin-top:2px;">
+        <strong>À construire dans la grille :</strong> une structure modulaire par brique activable, avec un prix d'entrée accessible et une progression vers l'offre complète. C'est Jean qui l'a proposé — utilise ses propres mots dans le document.
+      </div>
+    </div>
+  </div>
+
+  <!-- 06 · CE QUI N'A PAS EU LIEU -->
+  <div class="section" id="s6">
+    <div class="section-head">
+      <span class="section-num">06</span>
+      <span class="section-title">Ce qui n'a pas eu lieu — Points ouverts</span>
+    </div>
+    <div class="section-body">
+      <div class="lcard">
+        <div class="lcard-head red">Sujets non traités dans ce R2</div>
+        <div class="litem"><div class="litem-icon r">✗</div><div><strong>Audit Grégory / O2S :</strong> Grégory ne s'est pas connecté. L'audit placement est entier — prévoir un RDV dédié avec Grégory + Cyril pour la couche 2.</div></div>
+        <div class="litem"><div class="litem-icon r">✗</div><div><strong>Concurrence Kilt Pro :</strong> Alan a reçu un mail de Kilt Pro proposant des fonctionnalités similaires. Il doit te l'envoyer — analyse à faire avant de répondre.</div></div>
+        <div class="litem"><div class="litem-icon r">✗</div><div><strong>Modèle commission distributeur :</strong> le sujet n'a pas été abordé frontalement. Les 20–30 % de commission sur licences réseau restent à formaliser dans la grille.</div></div>
+        <div class="litem"><div class="litem-icon r">✗</div><div><strong>Prise de participation capital :</strong> évoqué par Alan, pas développé. À garder en réserve pour une conversation ultérieure si la collaboration se consolide.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 07 · PLAN D'ACTIONS -->
+  <div class="section" id="s7">
+    <div class="section-head">
+      <span class="section-num">07</span>
+      <span class="section-title">Plan d'actions — Pour driver la collaboration jusqu'au bout</span>
+    </div>
+    <div class="section-body">
+      <div class="callout callout-red" style="margin-bottom:14px;">
+        <strong>Priorité absolue :</strong> La grille de chiffrage doit arriver avant le mardi 24 mars — c'est la réunion des 5 associés. Si elle arrive après, la dynamique retombe et la décision est reportée d'une semaine minimum.
+      </div>
+
+      <div class="lcard" style="margin-bottom:14px;">
+        <div class="lcard-head blue">Actions ADAI</div>
+        <div class="litem"><div class="litem-icon b">1</div><div style="flex:1;"><strong>Envoyer la grille de chiffrage complète</strong> — par tiroir (investissement sur mesure + licences mensuelles par volume). Inclure la structure modulaire proposée par Jean. <span class="badge badge-red" style="margin-left:6px;">Avant vendredi 21 mars</span></div></div>
+        <div class="litem"><div class="litem-icon b">2</div><div style="flex:1;"><strong>Préparer le plan des agents IA</strong> — liste des agents, tâches par agent, modules activables. C'est ce qu'Alan attend pour comprendre concrètement ce qu'il achète. <span class="badge badge-red" style="margin-left:6px;">Avant vendredi 21 mars</span></div></div>
+        <div class="litem"><div class="litem-icon b">3</div><div style="flex:1;"><strong>Analyser Kilt Pro</strong> dès réception du mail d'Alan — identifier les différences réelles et préparer une réponse courte et factuelle. <span class="badge badge-amber" style="margin-left:6px;">Dès réception</span></div></div>
+        <div class="litem"><div class="litem-icon b">4</div><div style="flex:1;"><strong>Point équipe interne</strong> — aligner JB et Alex sur le périmètre technique, les estimations, et le modèle de commission. <span class="badge badge-red" style="margin-left:6px;">Avant vendredi 21 mars</span></div></div>
+        <div class="litem"><div class="litem-icon b">5</div><div style="flex:1;"><strong>Planifier le RDV Grégory + Cyril</strong> pour l'audit couche 2 (O2S, placement, gestion patrimoniale). Ne pas laisser ce sujet en suspens trop longtemps. <span class="badge badge-amber" style="margin-left:6px;">Semaine du 24 mars</span></div></div>
+        <div class="litem"><div class="litem-icon b">6</div><div style="flex:1;"><strong>Confirmer ta présence au Cap d'Agde le 28 mai</strong> — Alan et Jean ont proposé le présentiel. C'est une opportunité : 20 responsables de région devant toi = autant de prescripteurs potentiels. <span class="badge badge-amber" style="margin-left:6px;">Décision à prendre</span></div></div>
+        <div class="litem"><div class="litem-icon b">7</div><div style="flex:1;"><strong>Préparer la présentation convention</strong> — démo live de l'outil pour les responsables de région. Objectif annoncé : déploiement réseau à la rentrée septembre. <span class="badge badge-blue" style="margin-left:6px;">Courant mai</span></div></div>
+      </div>
+
+      <div class="lcard">
+        <div class="lcard-head green">Actions Avicap (à relancer si pas reçu)</div>
+        <div class="litem"><div class="litem-icon g">→</div><div><strong>Alan envoie le mail Kilt Pro</strong> pour comparatif.</div></div>
+        <div class="litem"><div class="litem-icon g">→</div><div><strong>Alan teste la version gratuite de Claude</strong> (il a confirmé vouloir le faire pour flyers et fiches commerciales).</div></div>
+        <div class="litem"><div class="litem-icon g">→</div><div><strong>Jean et Alan présentent la grille aux 3 autres associés</strong> — réunion du mardi 24 mars.</div></div>
+        <div class="litem"><div class="litem-icon g">→</div><div><strong>Décision courant avril</strong> sur le lancement du premier développement.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 08 · CALENDRIER -->
+  <div class="section" id="s8">
+    <div class="section-head">
+      <span class="section-num">08</span>
+      <span class="section-title">Calendrier de la collaboration</span>
+    </div>
+    <div class="section-body">
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Date</th><th>Étape</th><th>Statut</th><th>Responsable</th></tr></thead>
+          <tbody>
+            <tr><td class="fw">16 mars 2026</td><td>R2 Avicap — Présentation vision + modèle</td><td class="ok">✓ Réalisé</td><td>Adrien</td></tr>
+            <tr><td class="fw">Avant 21 mars</td><td>Envoi grille de chiffrage + plan agents IA</td><td class="warn">🔴 Urgent</td><td>Adrien</td></tr>
+            <tr><td class="fw">Mardi 24 mars</td><td>Réunion associés Avicap — décision sur la grille</td><td class="pending">En attente</td><td>Alan + Jean</td></tr>
+            <tr><td class="fw">Semaine du 24 mars</td><td>Point express 30 min Alan + Jean (validation)</td><td class="pending">À planifier</td><td>Adrien</td></tr>
+            <tr><td class="fw">Semaine du 24 mars</td><td>RDV audit Grégory + Cyril (couche O2S)</td><td class="pending">À planifier</td><td>Adrien</td></tr>
+            <tr><td class="fw">Courant avril</td><td>Décision de lancement développement couche 1</td><td class="pending">En attente grille</td><td>5 associés</td></tr>
+            <tr><td class="fw">Courant avril</td><td>Démarrage développement (si accord)</td><td class="pending">Conditionnel</td><td>ADAI</td></tr>
+            <tr><td class="fw">Mi-mai</td><td>Premier module en test (collecte + analyse + CiFacil)</td><td class="pending">Conditionnel</td><td>ADAI</td></tr>
+            <tr><td class="fw">28 mai · 11h</td><td>Présentation convention réseau · Cap d'Agde</td><td class="pending">Confirmé</td><td>Adrien (visio ou présentiel)</td></tr>
+            <tr><td class="fw">Rentrée sept. 2026</td><td>Déploiement progressif réseau (100–150 users)</td><td class="pending">Objectif</td><td>ADAI + Avicap</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span class="footer-brand">ADAI — Création & Automation</span>
+    <span class="footer-conf">Usage interne · Compte rendu R2 Avicap · 16 mars 2026</span>
+  </div>
+
+</div>
+
+<script>
+const prog = document.getElementById('prog');
+window.addEventListener('scroll', () => {
+  prog.style.transform = `scaleX(${window.scrollY / (document.body.scrollHeight - window.innerHeight)})`;
+});
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); }});
+}, { threshold: 0.06 });
+document.querySelectorAll('.section').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

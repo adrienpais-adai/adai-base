@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UAS-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cockpit Avicap — Espace Client</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F4F6F9;
+  --white: #FFFFFF;
+  --ink: #0D1117;
+  --ink2: #1E2533;
+  --ink3: #3A4254;
+  --muted: #6B7280;
+  --muted2: #9CA3AF;
+  --border: #E4E7EE;
+  --ab: #1B7FD4;
+  --ab-light: #EBF3FC;
+  --ao: #E8852A;
+  --adai: linear-gradient(100deg,#1B7FD4 0%,#7B5EA7 48%,#E8852A 100%);
+  --green: #16A34A;
+  --green-bg: #F0FDF4;
+  --green-b: #BBF7D0;
+  --amber: #D97706;
+  --amber-bg: #FFFBEB;
+  --amber-b: #FDE68A;
+  --shadow-xs: 0 1px 3px rgba(13,17,23,.06);
+  --shadow-sm: 0 4px 16px rgba(13,17,23,.1);
+  --r: 10px;
+  --r2: 16px;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Geist','Inter',sans-serif;
+  background: #1A1A2E;
+  display:flex; align-items:center; justify-content:center;
+  min-height:100vh; padding:24px 16px;
+}
+
+/* ── DÉMO WRASPER ── */
+.demo-wrap {
+  display:flex; gap:40px; align-items:flex-start; justify-content:center;
+  flex-wrap:wrap; max-width:1100px; width:100%;
+}
+.demo-label {
+  font-size:.65rem; font-weight:700; letter-spacing:2px;
+  text-transform:uppercase; color:rgba(255,255,255,.3);
+  text-align:center; margin-bottom:12px;
+}
+
+/* ── PHONE FRAME ── */
+.phone {
+  width:320px; flex-shrink:0;
+  background:var(--white);
+  border-radius:36px;
+  box-shadow: 0 24px 80px rgba(0,0,0,.5), 0 0 0 8px #1A1F2E, 0 0 0 10px #0D1117;
+  overflow:hidden; position:relative;
+}
+.phone-notch {
+  height:32px; background:var(--ink);
+  display:flex; align-items:center; justify-content:center;
+  gap:8px; flex-shrink:0;
+}
+.phone-cam { width:10px; height:10px; border-radius:50%; background:#333; }
+.phone-speaker { width:48px; height:4px; border-radius:2px; background:#333; }
+.phone-body {
+  height:580px; overflow-y:auto; overflow-x:hidden;
+  scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
+}
+.phone-body::-webkit-scrollbar { display:none; }
+
+/* ── BROWSER FRAME ── */
+.browser {
+  width:680px; flex-shrink:0;
+  background:var(--white);
+  border-radius:var(--r2);
+  box-shadow:0 24px 80px rgba(0,0,0,.4);
+  overflow:hidden;
+}
+.browser-bar {
+  height:42px; background:#F0F0F0;
+  display:flex; align-items:center; gap:8px;
+  padding:0 14px;
+  border-bottom:1px solid #DDD;
+}
+.browser-dots { display:flex; gap:5px; }
+.browser-dot { width:11px; height:11px; border-radius:50%; }
+.browser-dot.red { background:#FF5F57; }
+.browser-dot.amber { background:#FEBC2E; }
+.browser-dot.green { background:#28C840; }
+.browser-url {
+  flex:1; background:#fff; border:1px solid #DDD;
+  border-radius:6px; padding:4px 10px;
+  font-size:.72rem; color:#666; margin:0 8px;
+  display:flex; align-items:center; gap:5px;
+}
+.browser-url::before { content:'🔒'; font-size:.7rem; }
+.browser-content { height:540px; overflow-y:auto; overflow-x:hidden; }
+.browser-content::-webkit-scrollbar { display:none; }
+
+/* ── NAV TABS ── */
+.nav-tabs {
+  display:flex; gap:8px; justify-content:center;
+  flex-wrap:wrap; margin-bottom:20px;
+}
+.nav-tab {
+  padding:6px 16px; border-radius:20px;
+  font-size:.75rem; font-weight:600;
+  cursor:pointer; transition:all .15s;
+  border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.5);
+  background:transparent;
+}
+.nav-tab.active { background:var(--ab); color:#fff; border-color:var(--ab); }
+.nav-tab:hover:not(.active) { color:rgba(255,255,255,.8); border-color:rgba(255,255,255,.4); }
+
+/* ── SCREENS ── */
+.screen { display:none; }
+.screen.active { display:block; animation:fadeIn .2s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+
+/* ══════════════════════════════
+   ÉCRAN 1 — SNS
+═══════════════════════════════ */
+.sms-wrap {
+  background:#1C1C1E; height:100%;
+  display:flex; flex-direction:column; padding:16px 12px;
+}
+.sms-topbar {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:20px; padding:4px 0;
+}
+.sms-back { color:#007AFF; font-size:.82rem; font-weight:500; }
+.sms-contact { text-align:center; }
+.sms-contact-name { font-size:.88rem; font-weight:600; color:#fff; }
+.sms-contact-sub { font-size:.65rem; color:#8E8E93; }
+.sms-actions { display:flex; gap:12px; }
+.sms-action-icon { color:#007AFF; font-size:1rem; }
+.sms-messages { flex:1; display:flex; flex-direction:column; gap:12px; padding:8px 0; }
+.sms-bubble-wrap { display:flex; flex-direction:column; }
+.sms-bubble-wrap.received { align-items:flex-start; }
+.sms-bubble-wrap.sent { align-items:flex-end; }
+.sms-bubble {
+  max-width:80%; padding:10px 14px;
+  border-radius:18px; font-size:.82rem; line-height:1.5;
+}
+.sms-bubble.received {
+  background:#2C2C2E; color:#fff;
+  border-bottom-left-radius:4px;
+}
+.sms-bubble.sent {
+  background:#007AFF; color:#fff;
+  border-bottom-right-radius:4px;
+}
+.sms-bubble a { color:#64D2FF; text-decoration:underline; }
+.sms-link-preview {
+  background:#3A3A3C; border-radius:12px;
+  padding:12px; margin-top:8px;
+  display:flex; gap:10px; cursor:pointer;
+}
+.sms-link-img {
+  width:44px; height:44px; border-radius:8px;
+  background:var(--adai); display:flex;
+  align-items:center; justify-content:center;
+  font-size:1.1rem; flex-shrink:0;
+}
+.sms-link-title { font-size:.78rem; font-weight:700; color:#fff; margin-bottom:2px; }
+.sms-link-url { font-size:.65rem; color:#8E8E93; }
+.sms-time { font-size:.6rem; color:#8E8E93; margin-top:3px; padding:0 4px; }
+.sms-cta {
+  margin-top:auto; padding:12px 0 4px;
+  display:flex; flex-direction:column; gap:8px;
+}
+.sms-cta-btn {
+  padding:13px; background:#007AFF; border-radius:12px;
+  text-align:center; font-size:.88rem; font-weight:700;
+  color:#fff; cursor:pointer;
+}
+.sms-cta-btn:hover { opacity:.9; }
+
+/* ══════════════════════════════
+   ÉCRAN 2 — DÉPÔT DOCUMENTS (mobile)
+═══════════════════════════════ */
+.depot-wrap { background:var(--bg); min-height:100%; }
+.depot-header {
+  background:var(--white); padding:14px 16px 12px;
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; gap:10px;
+}
+.depot-logo {
+  width:28px; height:28px; border-radius:7px;
+  background:var(--adai);
+  display:flex; align-items:center; justify-content:center;
+  font-size:.6rem; font-weight:800; color:#fff; flex-shrink:0;
+}
+.depot-logo-text { font-size:.82rem; font-weight:700; color:var(--ink2); }
+.depot-logo-sub { font-size:.58rem; color:var(--muted); }
+.depot-body { padding:14px 14px; }
+.depot-greeting {
+  background:var(--white); border-radius:var(--r2);
+  padding:14px; margin-bottom:12px;
+  border:1px solid var(--border);
+}
+.depot-greeting-name { font-size:.95rem; font-weight:700; color:var(--ink); margin-bottom:3px; }
+.depot-greeting-msg { font-size:.78rem; color:var(--muted); line-height:1.5; }
+.depot-courtier {
+  display:flex; align-items:center; gap:8px;
+  margin-top:10px; padding-top:10px;
+  border-top:1px solid var(--border);
+}
+.depot-courtier-avatar {
+  width:28px; height:28px; border-radius:50%;
+  background:var(--adai); display:flex;
+  align-items:center; justify-content:center;
+  font-size:.62rem; font-weight:700; color:#fff;
+}
+.depot-courtier-name { font-size:.78rem; font-weight:600; color:var(--ink2); }
+.depot-courtier-role { font-size:.65rem; color:var(--muted); }
+.depot-progress {
+  background:var(--white); border-radius:var(--r2);
+  padding:12px 14px; margin-bottom:12px;
+  border:1px solid var(--border);
+}
+.depot-progress-label {
+  display:flex; justify-content:space-between;
+  font-size:.72rem; font-weight:600; color:var(--ink3);
+  margin-bottom:6px;
+}
+.depot-progress-bar {
+  height:8px; background:var(--border); border-radius:4px;
+}
+.depot-progress-fill {
+  height:100%; border-radius:4px;
+  background:var(--adai); transition:width .3s;
+}
+.depot-doc-list { display:flex; flex-direction:column; gap:8px; }
+.depot-doc {
+  background:var(--white); border-radius:var(--r);
+  padding:11px 12px; border:1px solid var(--border);
+  display:flex; align-items:center; gap:10px;
+  cursor:pointer; transition:all .15s;
+}
+.depot-doc:hover { border-color:var(--ab); }
+.depot-doc.done { border-color:var(--green-b); background:var(--green-bg); }
+.depot-doc.pending { border-color:var(--amber-b); background:var(--amber-bg); }
+.depot-doc-icon {
+  width:34px; height:34px; border-radius:9px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:.9rem; flex-shrink:0;
+}
+.depot-doc-icon.done { background:var(--green-bg); }
+.depot-doc-icon.pending { background:var(--amber-bg); }
+.depot-doc-icon.todo { background:var(--ab-light); }
+.depot-doc-name { font-size:.82rem; font-weight:700; color:var(--ink2); margin-bottom:1px; }
+.depot-doc-status { font-size:.68rem; }
+.depot-doc-status.done { color:var(--green); }
+.depot-doc-status.pending { color:var(--amber); }
+.depot-doc-status.todo { color:var(--muted); }
+.depot-doc-check { margin-left:auto; font-size:1rem; flex-shrink:0; }
+.depot-upload-btn {
+  margin-top:14px; width:100%; padding:13px;
+  background:var(--ab); border:none; border-radius:var(--r);
+  color:#fff; font-size:.88rem; font-weight:700;
+  cursor:pointer; font-family:inherit;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.depot-upload-btn:hover { opacity:.9; }
+.depot-secure {
+  display:flex; align-items:center; justify-content:center;
+  gap:5px; margin-top:10px;
+  font-size:.65rem; color:var(--muted);
+}
+
+/* ══════════════════════════════
+   ÉCRAN 3 — CONFIRMATION (mobile)
+═══════════════════════════════ */
+.confirm-wrap {
+  background:var(--bg); min-height:100%;
+  display:flex; flex-direction:column;
+}
+.confirm-header {
+  background:var(--white); padding:14px 16px 12px;
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; gap:10px;
+}
+.confirm-body {
+  flex:1; padding:24px 16px;
+  display:flex; flex-direction:column; gap:14px;
+}
+.confirm-success {
+  text-align:center; padding:24px 16px;
+  background:var(--white); border-radius:var(--r2);
+  border:1px solid var(--green-b);
+}
+.confirm-check {
+  width:56px; height:56px; border-radius:50%;
+  background:var(--green); display:flex;
+  align-items:center; justify-content:center;
+  font-size:1.4rem; margin:0 auto 14px;
+}
+.confirm-title { font-size:1.05rem; font-weight:700; color:var(--ink); margin-bottom:6px; }
+.confirm-msg { font-size:.8rem; color:var(--muted); line-height:1.6; }
+.confirm-docs {
+  background:var(--white); border-radius:var(--r2);
+  padding:14px; border:1px solid var(--border);
+}
+.confirm-docs-title {
+  font-size:.65rem; font-weight:700; letter-spacing:1px;
+  text-transform:uppercase; color:var(--muted); margin-bottom:10px;
+}
+.confirm-doc-item {
+  display:flex; align-items:center; gap:8px;
+  padding:6px 0; border-bottom:1px solid var(--border);
+  font-size:.8rem; color:var(--ink3);
+}
+.confirm-doc-item:last-child { border-bottom:none; }
+.confirm-doc-item span { margin-left:auto; color:var(--green); font-size:.75rem; font-weight:600; }
+.confirm-next {
+  background:var(--white); border-radius:var(--r2);
+  padding:14px; border:1px solid var(--border);
+}
+.confirm-next-title {
+  font-size:.75rem; font-weight:700; color:var(--ink2); margin-bottom:8px;
+}
+.confirm-step {
+  display:flex; align-items:center; gap:10px;
+  padding:6px 0; font-size:.78rem; color:var(--ink3);
+}
+.confirm-step-num {
+  width:22px; height:22px; border-radius:50%;
+  background:var(--ab-light); color:var(--ab);
+  display:flex; align-items:center; justify-content:center;
+  font-size:.65rem; font-weight:700; flex-shrink:0;
+}
+.confirm-cta {
+  padding:13px; background:var(--ab); border-radius:var(--r);
+  text-align:center; font-size:.88rem; font-weight:700;
+  color:#fff; cursor:pointer;
+}
+
+/* ══════════════════════════════
+   ÉCRAN 4 — ESPACE CLIENT (browser)
+═══════════════════════════════ */
+.espace-wrap { background:var(--bg); min-height:100%; }
+.espace-topbar {
+  background:var(--white); height:52px;
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 24px;
+}
+.espace-logo { display:flex; align-items:center; gap:8px; }
+.espace-logo-mark {
+  width:28px; height:28px; border-radius:7px;
+  background:var(--adai); display:flex;
+  align-items:center; justify-content:center;
+  font-size:.58rem; font-weight:800; color:#fff;
+}
+.espace-logo-text { font-size:.82rem; font-weight:700; color:var(--ink2); }
+.espace-user {
+  display:flex; align-items:center; gap:8px;
+  font-size:.78rem; color:var(--muted);
+}
+.espace-avatar {
+  width:28px; height:28px; border-radius:50%;
+  background:var(--adai); display:flex;
+  align-items:center; justify-content:center;
+  font-size:.6rem; font-weight:700; color:#fff;
+}
+.espace-body { padding:20px 24px; }
+.espace-hello { margin-bottom:16px; }
+.espace-hello-name { font-size:1.2rem; font-weight:700; color:var(--ink); }
+.espace-hello-sub { font-size:.78rem; color:var(--muted); }
+
+/* Statut dossier */
+.dossier-status-card {
+  background:var(--white); border-radius:var(--r2);
+  border:1px solid var(--border);
+  overflow:hidden; margin-bottom:14px;
+  box-shadow:var(--shadow-xs);
+}
+.dsc-head {
+  padding:14px 18px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.dsc-ref { font-size:.65rem; font-weight:700; color:var(--muted); letter-spacing:.5px; margin-bottom:2px; }
+.dsc-name { font-size:.95rem; font-weight:700; color:var(--ink); }
+.dsc-body { padding:16px 18px; }
+
+/* Progress steps */
+.progress-steps {
+  display:flex; align-items:center; margin-bottom:20px;
+}
+.ps-item { display:flex; flex-direction:column; align-items:center; flex:1; }
+.ps-circle {
+  width:32px; height:32px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:.72rem; font-weight:700; margin-bottom:5px;
+}
+.ps-circle.done { background:var(--green); color:#fff; }
+.ps-circle.active {
+  background:var(--white); color:var(--ab);
+  border:2px solid var(--ab);
+  box-shadow:0 0 0 3px var(--ab-light);
+}
+.ps-circle.todo { background:var(--white); color:var(--muted2); border:2px solid var(--border); }
+.ps-label { font-size:.62rem; font-weight:600; color:var(--muted); text-align:center; line-height:1.2; }
+.ps-label.done { color:var(--green); }
+.ps-label.active { color:var(--ab); }
+.ps-line { flex:1; height:2px; background:var(--border); margin:0 4px; margin-bottom:20px; }
+.ps-line.done { background:var(--green); }
+
+/* Analyse result */
+.analyse-result {
+  background:var(--green-bg); border:1px solid var(--green-b);
+  border-radius:var(--r); padding:12px 14px; margin-bottom:12px;
+}
+.ar-label { font-size:.62rem; font-weight:700; color:var(--green); letter-spacing:1px; text-transform:uppercase; margin-bottom:4px; }
+.ar-msg { font-size:.82rem; color:var(--ink3); line-height:1.5; }
+.ar-data {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:8px; margin-top:10px;
+}
+.ar-item { background:var(--white); border-radius:var(--r); padding:8px 10px; }
+.ar-item-label { font-size:.58rem; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin-bottom:2px; }
+.ar-item-val { font-size:.88rem; font-weight:700; color:var(--ink2); }
+
+/* Notif client */
+.client-notif {
+  background:var(--white); border-radius:var(--r2);
+  border:1px solid var(--border); padding:12px 16px;
+  margin-bottom:14px; box-shadow:var(--shadow-xs);
+}
+.cn-title { font-size:.7rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
+.cn-item {
+  display:flex; align-items:flex-start; gap:10px;
+  padding:8px 0; border-bottom:1px solid var(--border);
+}
+.cn-item:last-child { border-bottom:none; }
+.cn-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:4px; }
+.cn-dot.green { background:var(--green); }
+.cn-dot.blue { background:var(--ab); }
+.cn-dot.amber { background:var(--amber); }
+.cn-text { font-size:.8rem; color:var(--ink3); line-height:1.4; }
+.cn-time { font-size:.65rem; color:var(--muted2); margin-top:1px; }
+
+/* Courtier contact */
+.courtier-card {
+  background:var(--white); border-radius:var(--r2);
+  border:1px solid var(--border); padding:14px 16px;
+  display:flex; align-items:center; gap:12px;
+  box-shadow:var(--shadow-xs);
+}
+.cc-avatar {
+  width:40px; height:40px; border-radius:50%;
+  background:var(--adai); display:flex;
+  align-items:center; justify-content:center;
+  font-size:.75rem; font-weight:700; color:#fff; flex-shrink:0;
+}
+.cc-name { font-size:.88rem; font-weight:700; color:var(--ink2); }
+.cc-role { font-size:.72rem; color:var(--muted); }
+.cc-actions { display:flex; gap:8px; margin-left:auto; }
+.cc-btn {
+  padding:6px 14px; border-radius:var(--r);
+  font-size:.75rem; font-weight:600; cursor:pointer;
+  border:none; font-family:inherit;
+}
+.cc-btn.call { background:var(--green-bg); color:var(--green); }
+.cc-btn.msg { background:var(--ab-light); color:var(--ab); }
+</style>
+</head>
+<body>
+
+<div style="width:100%;max-width:1200px;margin:0 auto;">
+
+  <!-- NAV TABS -->
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="showScreen('sms', this)">① SNS reçu</div>
+    <div class="nav-tab" onclick="showScreen('depot', this)">② Dépôt documents</div>
+    <div class="nav-tab" onclick="showScreen('confirm', this)">③ Confirmation</div>
+    <div class="nav-tab" onclick="showScreen('espace', this)">④ Espace client</div>
+  </div>
+
+  <div class="demo-wrap">
+
+    <!-- ══ ÉCRAN 1 — SNS ══ -->
+    <div id="s-sms" class="screen active">
+      <div class="demo-label">Vue smartphone · SNS reçu</div>
+      <div class="phone">
+        <div class="phone-notch">
+          <div class="phone-cam"></div>
+          <div class="phone-speaker"></div>
+        </div>
+        <div class="phone-body">
+          <div class="sms-wrap">
+            <div class="sms-topbar">
+              <div class="sms-back">‹ Messages</div>
+              <div class="sms-contact">
+                <div class="sms-contact-name">Alan SCOUARNEC</div>
+                <div class="sms-contact-sub">Courtier Avicap</div>
+              </div>
+              <div class="sms-actions">
+                <span class="sms-action-icon">📞</span>
+                <span class="sms-action-icon">⋯</span>
+              </div>
+            </div>
+
+            <div class="sms-messages">
+              <div class="sms-bubble-wrap received">
+                <div class="sms-bubble received">
+                  Bonjour Sophie 👋<br><br>
+                  Suite à notre échange, je vous envoie le lien sécurisé pour déposer vos documents.<br><br>
+                  Cliquez ci-dessous pour accéder à votre espace — cela prend moins de 5 minutes depuis votre téléphone.
+                  <div class="sms-link-preview" onclick="showScreen('depot', document.querySelectorAll('.nav-tab')[1])">
+                    <div class="sms-link-img">🏠</div>
+                    <div>
+                      <div class="sms-link-title">Espace Avicap · Dépôt documents</div>
+                      <div class="sms-link-url">cockpit.avicap.fr/depot/SN-089</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="sms-time">Aujourd'hui · 08h31</div>
+              </div>
+
+              <div class="sms-bubble-wrap received">
+                <div class="sms-bubble received">
+                  📋 Documents nécessaires :<br>
+                  • Relevés de compte (3 mois)<br>
+                  • Bulletins de salaire (3 mois)<br>
+                  • Avis d'imposition 2024<br>
+                  • Justificatif de domicile<br><br>
+                  N'hésitez pas si vous avez des questions !
+                </div>
+                <div class="sms-time">Aujourd'hui · 08h31</div>
+              </div>
+
+              <div class="sms-bubble-wrap sent">
+                <div class="sms-bubble sent">
+                  Bonjour Thomas, merci ! Je m'en occupe maintenant 👍
+                </div>
+                <div class="sms-time">Aujourd'hui · 08h45</div>
+              </div>
+            </div>
+
+            <div class="sms-cta">
+              <div class="sms-cta-btn" onclick="showScreen('depot', document.querySelectorAll('.nav-tab')[1])">
+                Ouvrir l'espace de dépôt →
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ÉCRAN 2 — DÉPÔT ══ -->
+    <div id="s-depot" class="screen">
+      <div class="demo-label">Vue smartphone · Page de dépôt</div>
+      <div class="phone">
+        <div class="phone-notch">
+          <div class="phone-cam"></div>
+          <div class="phone-speaker"></div>
+        </div>
+        <div class="phone-body">
+          <div class="depot-wrap">
+            <div class="depot-header">
+              <div class="depot-logo">CA</div>
+              <div>
+                <div class="depot-logo-text">Cockpit Avicap</div>
+                <div class="depot-logo-sub">Espace sécurisé · Dépôt documents</div>
+              </div>
+            </div>
+            <div class="depot-body">
+              <div class="depot-greeting">
+                <div class="depot-greeting-name">Bonjour Sophie 👋</div>
+                <div class="depot-greeting-msg">
+                  Votre courtier vous a préparé un espace sécurisé pour déposer vos documents. Tout est chiffré et accessible uniquement à votre conseiller.
+                </div>
+                <div class="depot-courtier">
+                  <div class="depot-courtier-avatar">AS</div>
+                  <div>
+                    <div class="depot-courtier-name">Alan SCOUARNEC</div>
+                    <div class="depot-courtier-role">Courtier · Avicap</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="depot-progress">
+                <div class="depot-progress-label">
+                  <span>Progression du dossier</span>
+                  <span style="color:var(--ab);">4 / 6 documents</span>
+                </div>
+                <div class="depot-progress-bar">
+                  <div class="depot-progress-fill" id="depot-fill" style="width:66%"></div>
+                </div>
+              </div>
+
+              <div class="depot-doc-list">
+                <div class="depot-doc done">
+                  <div class="depot-doc-icon done">📕</div>
+                  <div>
+                    <div class="depot-doc-name">Relevés de compte</div>
+                    <div class="depot-doc-status done">✓ 3 fichiers reçus</div>
+                  </div>
+                  <div class="depot-doc-check">✅</div>
+                </div>
+                <div class="depot-doc done">
+                  <div class="depot-doc-icon done">📋</div>
+                  <div>
+                    <div class="depot-doc-name">Bulletins de salaire</div>
+                    <div class="depot-doc-status done">✓ 3 fichiers reçus</div>
+                  </div>
+                  <div class="depot-doc-check">✅</div>
+                </div>
+                <div class="depot-doc pending" onclick="uploadDoc(this)">
+                  <div class="depot-doc-icon pending">📄</div>
+                  <div>
+                    <div class="depot-doc-name">Avis d'imposition 2024</div>
+                    <div class="depot-doc-status pending">⏳ En attente · Appuyer pour envoyer</div>
+                  </div>
+                  <div class="depot-doc-check">📎</div>
+                </div>
+                <div class="depot-doc" id="doc-domicile" onclick="uploadDoc2(this)">
+                  <div class="depot-doc-icon todo">🏠</div>
+                  <div>
+                    <div class="depot-doc-name">Justificatif de domicile</div>
+                    <div class="depot-doc-status todo">À déposer · Appuyer pour envoyer</div>
+                  </div>
+                  <div class="depot-doc-check">📎</div>
+                </div>
+              </div>
+
+              <button class="depot-upload-btn" onclick="showScreen('confirm', document.querySelectorAll('.nav-tab')[2])">
+                📤 Envoyer les documents
+              </button>
+              <div class="depot-secure">🔒 Connexion sécurisée · Données chiffrées · Avicap</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ÉCRAN 3 — CONFIRMATION ══ -->
+    <div id="s-confirm" class="screen">
+      <div class="demo-label">Vue smartphone · Confirmation de dépôt</div>
+      <div class="phone">
+        <div class="phone-notch">
+          <div class="phone-cam"></div>
+          <div class="phone-speaker"></div>
+        </div>
+        <div class="phone-body">
+          <div class="confirm-wrap">
+            <div class="confirm-header">
+              <div class="depot-logo">CA</div>
+              <div>
+                <div class="depot-logo-text">Cockpit Avicap</div>
+                <div class="depot-logo-sub">Espace sécurisé</div>
+              </div>
+            </div>
+            <div class="confirm-body">
+              <div class="confirm-success">
+                <div class="confirm-check">✓</div>
+                <div class="confirm-title">Documents bien reçus !</div>
+                <div class="confirm-msg">
+                  Vos 6 documents ont été transmis à Alan SCOUARNEC. L'analyse automatique est en cours — vous serez notifiée dès qu'elle est terminée.
+                </div>
+              </div>
+
+              <div class="confirm-docs">
+                <div class="confirm-docs-title">Documents transmis</div>
+                <div class="confirm-doc-item">📕 Relevé compte courant janv. <span>✓ Reçu</span></div>
+                <div class="confirm-doc-item">📕 Relevé compte courant févr. <span>✓ Reçu</span></div>
+                <div class="confirm-doc-item">📕 Relevé compte courant mars <span>✓ Reçu</span></div>
+                <div class="confirm-doc-item">📋 Bulletin de salaire janv. <span>✓ Reçu</span></div>
+                <div class="confirm-doc-item">📋 Bulletin de salaire févr. <span>✓ Reçu</span></div>
+                <div class="confirm-doc-item">📄 Avis d'imposition 2024 <span>✓ Reçu</span></div>
+              </div>
+
+              <div class="confirm-next">
+                <div class="confirm-next-title">Et maintenant ?</div>
+                <div class="confirm-step">
+                  <div class="confirm-step-num">1</div>
+                  Analyse automatique de vos documents — environ 3 minutes
+                </div>
+                <div class="confirm-step">
+                  <div class="confirm-step-num">2</div>
+                  Thomas vous contacte pour la suite du dossier
+                </div>
+                <div class="confirm-step">
+                  <div class="confirm-step-num">3</div>
+                  Suivez l'avancement depuis votre espace client
+                </div>
+              </div>
+
+              <div class="confirm-cta" onclick="showScreen('espace', document.querySelectorAll('.nav-tab')[3])">
+                Accéder à mon espace client →
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ÉCRAN 4 — ESPACE CLIENT (browser) ══ -->
+    <div id="s-espace" class="screen">
+      <div class="demo-label">Vue navigateur · Espace client</div>
+      <div class="browser">
+        <div class="browser-bar">
+          <div class="browser-dots">
+            <div class="browser-dot red"></div>
+            <div class="browser-dot amber"></div>
+            <div class="browser-dot green"></div>
+          </div>
+          <div class="browser-url">cockpit.avicap.fr/espace-client</div>
+        </div>
+        <div class="browser-content">
+          <div class="espace-wrap">
+            <div class="espace-topbar">
+              <div class="espace-logo">
+                <div class="espace-logo-mark">CA</div>
+                <div class="espace-logo-text">Cockpit Avicap</div>
+              </div>
+              <div class="espace-user">
+                Sophie NANCE
+                <div class="espace-avatar">SN</div>
+              </div>
+            </div>
+            <div class="espace-body">
+              <div class="espace-hello">
+                <div class="espace-hello-name">Bonjour Sophie 👋</div>
+                <div class="espace-hello-sub">Voici l'avancement de votre dossier de financement</div>
+              </div>
+
+              <div class="dossier-status-card">
+                <div class="dsc-head">
+                  <div>
+                    <div class="dsc-ref">DOSSIER · 2026-03-NANCE-089</div>
+                    <div class="dsc-name">Achat résidence principale · 285 000 €</div>
+                  </div>
+                  <span style="display:inline-flex;align-items:center;gap:4px;font-size:.62rem;font-weight:700;padding:3px 10px;border-radius:20px;background:var(--ab-light);color:var(--ab);border:1px solid rgba(27,127,212,.2);">● En cours</span>
+                </div>
+                <div class="dsc-body">
+                  <div class="progress-steps">
+                    <div class="ps-item">
+                      <div class="ps-circle done">✓</div>
+                      <div class="ps-label done">Documents<br>reçus</div>
+                    </div>
+                    <div class="ps-line done"></div>
+                    <div class="ps-item">
+                      <div class="ps-circle done">✓</div>
+                      <div class="ps-label done">Analyse<br>IA</div>
+                    </div>
+                    <div class="ps-line done"></div>
+                    <div class="ps-item">
+                      <div class="ps-circle active">3</div>
+                      <div class="ps-label active">Étude<br>banques</div>
+                    </div>
+                    <div class="ps-line"></div>
+                    <div class="ps-item">
+                      <div class="ps-circle todo">4</div>
+                      <div class="ps-label">Offre<br>reçue</div>
+                    </div>
+                    <div class="ps-line"></div>
+                    <div class="ps-item">
+                      <div class="ps-circle todo">5</div>
+                      <div class="ps-label">Signature</div>
+                    </div>
+                  </div>
+
+                  <div class="analyse-result">
+                    <div class="ar-label">✓ Analyse IA terminée</div>
+                    <div class="ar-msg">Votre dossier est solide. Pas d'anomalie détectée. Votre courtier prépare actuellement la présentation aux banques partenaires.</div>
+                    <div class="ar-data">
+                      <div class="ar-item">
+                        <div class="ar-item-label">Revenus nets</div>
+                        <div class="ar-item-val">3 840 €</div>
+                      </div>
+                      <div class="ar-item">
+                        <div class="ar-item-label">Taux endett.</div>
+                        <div class="ar-item-val" style="color:var(--green);">28 %</div>
+                      </div>
+                      <div class="ar-item">
+                        <div class="ar-item-label">Capacité</div>
+                        <div class="ar-item-val" style="color:var(--ab);">285 k€</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="client-notif">
+                <div class="cn-title">Notifications récentes</div>
+                <div class="cn-item">
+                  <div class="cn-dot green"></div>
+                  <div>
+                    <div class="cn-text">Analyse de vos documents terminée — dossier validé ✓</div>
+                    <div class="cn-time">Aujourd'hui · 09h14</div>
+                  </div>
+                </div>
+                <div class="cn-item">
+                  <div class="cn-dot blue"></div>
+                  <div>
+                    <div class="cn-text">Vos 6 documents ont bien été reçus par Alan SCOUARNEC</div>
+                    <div class="cn-time">Aujourd'hui · 08h52</div>
+                  </div>
+                </div>
+                <div class="cn-item">
+                  <div class="cn-dot amber"></div>
+                  <div>
+                    <div class="cn-text">Lien de dépôt envoyé par votre courtier</div>
+                    <div class="cn-time">Aujourd'hui · 08h31</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="courtier-card">
+                <div class="cc-avatar">AS</div>
+                <div>
+                  <div class="cc-name">Alan SCOUARNEC</div>
+                  <div class="cc-role">Votre courtier · Avicap</div>
+                </div>
+                <div class="cc-actions">
+                  <div class="cc-btn call" onclick="alert('📞 Appel en cours...')">📞 Appeler</div>
+                  <div class="cc-btn msg" onclick="alert('💬 Messagerie ouverte')">💬 Message</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /demo-wrap -->
+</div>
+
+<script>
+function showScreen(name, tab) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('s-' + name).classList.add('active');
+  if (tab) tab.classList.add('active');
+}
+
+function uploadDoc(el) {
+  el.classList.remove('pending');
+  el.classList.add('done');
+  el.querySelector('.depot-doc-icon').textContent = '📄';
+  el.querySelector('.depot-doc-icon').className = 'depot-doc-icon done';
+  el.querySelector('.depot-doc-status').textContent = '✓ Fichier reçu';
+  el.querySelector('.depot-doc-status').className = 'depot-doc-status done';
+  el.querySelector('.depot-doc-check').textContent = '✅';
+  document.getElementById('depot-fill').style.width = '83%';
+  document.querySelector('.depot-progress-label span:last-child').textContent = '5 / 6 documents';
+}
+
+function uploadDoc2(el) {
+  el.classList.add('done');
+  el.querySelector('.depot-doc-icon').textContent = '🏠';
+  el.querySelector('.depot-doc-icon').className = 'depot-doc-icon done';
+  el.querySelector('.depot-doc-status').textContent = '✓ Fichier reçu';
+  el.querySelector('.depot-doc-status').className = 'depot-doc-status done';
+  el.querySelector('.depot-doc-check').textContent = '✅';
+  document.getElementById('depot-fill').style.width = '100%';
+  document.querySelector('.depot-progress-label span:last-child').textContent = '6 / 6 documents';
+}
+</script>
+</body>
+</html>
