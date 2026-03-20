@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UAS-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cockpit A Bien Taux — Démonstration</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F4F6F9;
+  --white: #FFFFFF;
+  --sidebar: #0F1923;
+  --sidebar2: #162030;
+  --ink: #0D1117;
+  --ink2: #1E2533;
+  --ink3: #3A4254;
+  --muted: #6B7280;
+  --muted2: #9CA3AF;
+  --border: #E4E7EE;
+  --border2: #F0F2F5;
+  --ab: #1E7A34;
+  --ab-light: #E6F4EA;
+  --ao: #E8852A;
+  --adai: linear-gradient(100deg,#1E7A34 0%,#3E2723 60%,#1E7A34 100%);
+  --green: #16A34A;
+  --green-bg: #F0FDF4;
+  --green-b: #BBF7D0;
+  --amber: #D97706;
+  --amber-bg: #FFFBEB;
+  --red: #DC2626;
+  --red-bg: #FEF2F2;
+  --purple: #7B5EA7;
+  --shadow-xs: 0 1px 3px rgba(13,17,23,.06);
+  --shadow-sm: 0 4px 16px rgba(13,17,23,.08);
+  --r: 8px;
+  --r2: 12px;
+  --sidebar-w: 220px;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Geist','Inter',sans-serif; background:var(--bg); color:var(--ink); font-size:14px; line-height:1.5; overflow:hidden; height:100vh; }
+
+/* ── LOGIN ── */
+#screen-login {
+  position:fixed; inset:0; background:var(--sidebar);
+  display:flex; align-items:center; justify-content:center;
+  z-index:1000;
+}
+#screen-login::before {
+  content:''; position:absolute; inset:0;
+  background: radial-gradient(ellipse at 70% 30%, rgba(27,127,212,.15) 0%, transparent 55%),
+              radial-gradient(ellipse at 20% 80%, rgba(232,133,42,.08) 0%, transparent 50%);
+}
+.login-box {
+  position:relative; width:380px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:16px; padding:36px 32px;
+}
+.login-logo {
+  display:flex; align-items:center; gap:10px; margin-bottom:28px; justify-content:center;
+}
+.login-logo-mark {
+  width:36px; height:36px; border-radius:10px;
+  background:var(--adai);
+  display:flex; align-items:center; justify-content:center;
+  font-size:.75rem; font-weight:800; color:#fff; letter-spacing:-.5px;
+}
+.login-logo-text { font-size:1rem; font-weight:700; color:#fff; }
+.login-logo-sub { font-size:.65rem; color:rgba(255,255,255,.4); display:block; }
+.login-title { font-size:1.2rem; font-weight:700; color:#fff; margin-bottom:4px; text-align:center; }
+.login-sub { font-size:.8rem; color:rgba(255,255,255,.4); text-align:center; margin-bottom:24px; }
+.login-field { margin-bottom:14px; }
+.login-label { font-size:.72rem; font-weight:600; color:rgba(255,255,255,.6); margin-bottom:5px; display:block; letter-spacing:.3px; }
+.login-input {
+  width:100%; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--r); padding:9px 12px; color:#fff; font-size:.85rem;
+  font-family:inherit; outline:none;
+}
+.login-input::placeholder { color:rgba(255,255,255,.25); }
+.login-btn {
+  width:100%; margin-top:8px; padding:10px;
+  background:var(--adai); border:none; border-radius:var(--r);
+  color:#fff; font-size:.88rem; font-weight:700; cursor:pointer;
+  font-family:inherit; letter-spacing:.2px;
+  transition:opacity .15s;
+}
+.login-btn:hover { opacity:.9; }
+.login-demo { font-size:.7rem; color:rgba(255,255,255,.3); text-align:center; margin-top:14px; }
+
+/* ── ASP SHELL ── */
+#app { display:none; height:100vh; overflow:hidden; }
+#app.visible { display:flex; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width:var(--sidebar-w); flex-shrink:0;
+  background:var(--sidebar);
+  display:flex; flex-direction:column;
+  height:100vh; overflow-y:auto;
+}
+.sb-logo {
+  padding:16px 16px 14px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  display:flex; align-items:center; gap:9px;
+}
+.sb-logo-mark {
+  width:30px; height:30px; border-radius:8px;
+  background:var(--adai);
+  display:flex; align-items:center; justify-content:center;
+  font-size:.62rem; font-weight:800; color:#fff; flex-shrink:0;
+}
+.sb-logo-name { font-size:.82rem; font-weight:700; color:#fff; }
+.sb-logo-sub { font-size:.58rem; color:rgba(255,255,255,.35); }
+.sb-nav { padding:8px 0; flex:1; }
+.sb-group { font-size:.5rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,.25); padding:10px 16px 4px; }
+.sb-item {
+  display:flex; align-items:center; gap:9px;
+  padding:7px 16px; cursor:pointer; border-radius:0;
+  color:rgba(255,255,255,.5); font-size:.78rem; font-weight:500;
+  transition:all .12s; border-left:2px solid transparent;
+  user-select:none;
+}
+.sb-item:hover { color:rgba(255,255,255,.8); background:rgba(255,255,255,.04); }
+.sb-item.active { color:#fff; background:rgba(255,255,255,.07); border-left-color:var(--ab); }
+.sb-item svg { width:14px; height:14px; flex-shrink:0; }
+.sb-bottom { padding:12px 16px; border-top:1px solid rgba(255,255,255,.06); }
+.sb-user { display:flex; align-items:center; gap:8px; }
+.sb-avatar { width:28px; height:28px; border-radius:50%; background:var(--adai); display:flex; align-items:center; justify-content:center; font-size:.65rem; font-weight:700; color:#fff; flex-shrink:0; }
+.sb-user-name { font-size:.75rem; font-weight:600; color:rgba(255,255,255,.7); }
+.sb-user-role { font-size:.62rem; color:rgba(255,255,255,.3); }
+
+/* ── MAIN ── */
+.main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+.topbar {
+  height:52px; flex-shrink:0;
+  background:var(--white); border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 24px;
+}
+.topbar-left { display:flex; align-items:center; gap:6px; font-size:.78rem; color:var(--muted); }
+.topbar-left .sep { color:var(--border); }
+.topbar-left .current { color:var(--ink2); font-weight:600; }
+.topbar-right { display:flex; align-items:center; gap:12px; }
+.topbar-icon { width:32px; height:32px; border-radius:8px; background:var(--bg); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; }
+.topbar-icon svg { width:14px; height:14px; color:var(--muted); }
+.topbar-avatar { width:32px; height:32px; border-radius:50%; background:var(--adai); display:flex; align-items:center; justify-content:center; font-size:.65rem; font-weight:700; color:#fff; cursor:pointer; }
+.content { flex:1; overflow-y:auto; padding:24px; }
+
+/* ── SCREENS ── */
+.screen { display:none; }
+.screen.active { display:block; }
+
+/* ── PAGE HEADER ── */
+.page-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:12px; }
+.page-title { font-size:1.3rem; font-weight:700; color:var(--ink); letter-spacing:-.02em; }
+.page-sub { font-size:.8rem; color:var(--muted); margin-top:2px; }
+.btn-primary {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:8px 16px; background:var(--ab); border:none; border-radius:var(--r);
+  color:#fff; font-size:.8rem; font-weight:600; cursor:pointer;
+  font-family:inherit; transition:opacity .15s; white-space:nowrap;
+}
+.btn-primary:hover { opacity:.9; }
+.btn-secondary {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:7px 14px; background:var(--white); border:1px solid var(--border); border-radius:var(--r);
+  color:var(--ink3); font-size:.8rem; font-weight:500; cursor:pointer;
+  font-family:inherit; transition:all .15s;
+}
+.btn-secondary:hover { border-color:var(--ab); color:var(--ab); }
+
+/* ── KPI CARDS ── */
+.kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:20px; }
+.kpi-card {
+  background:var(--white); border:1px solid var(--border);
+  border-radius:var(--r2); padding:14px 16px;
+  box-shadow:var(--shadow-xs); position:relative; overflow:hidden;
+}
+.kpi-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--adai); }
+.kpi-label { font-size:.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+.kpi-val { font-size:1.6rem; font-weight:700; color:var(--ink); line-height:1; margin-bottom:3px; letter-spacing:-.03em; }
+.kpi-sub { font-size:.72rem; color:var(--muted2); }
+.kpi-icon { position:absolute; top:14px; right:14px; width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:.9rem; }
+.kpi-icon.green { background:var(--green-bg); }
+.kpi-icon.blue { background:var(--ab-light); }
+.kpi-icon.amber { background:var(--amber-bg); }
+.kpi-icon.red { background:var(--red-bg); }
+
+/* ── TWO COL ── */
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+.three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+
+/* ── CARD ── */
+.card { background:var(--white); border:1px solid var(--border); border-radius:var(--r2); padding:16px; box-shadow:var(--shadow-xs); }
+.card-title { font-size:.72rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-bottom:12px; display:flex; align-items:center; gap:6px; }
+.card-title-icon { font-size:.9rem; }
+
+/* ── QUICK ACTIONS ── */
+.qa-item {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:9px 12px; border:1px solid var(--border); border-radius:var(--r);
+  margin-bottom:7px; cursor:pointer; transition:all .15s;
+}
+.qa-item:hover { border-color:var(--ab); background:var(--ab-light); }
+.qa-item:last-child { margin-bottom:0; }
+.qa-left { display:flex; align-items:center; gap:10px; }
+.qa-icon { width:28px; height:28px; border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:.8rem; flex-shrink:0; }
+.qa-icon.green { background:var(--green-bg); }
+.qa-icon.amber { background:var(--amber-bg); }
+.qa-icon.blue { background:var(--ab-light); }
+.qa-name { font-size:.82rem; font-weight:600; color:var(--ink2); }
+.qa-desc { font-size:.7rem; color:var(--muted); }
+.qa-arrow { color:var(--muted2); font-size:.8rem; }
+
+/* ── DOSSIER LIST ── */
+.dossier-item {
+  display:flex; align-items:center; gap:12px;
+  padding:9px 0; border-bottom:1px solid var(--border2);
+  cursor:pointer; transition:background .1s;
+}
+.dossier-item:hover { background:var(--bg); margin:0 -4px; padding:9px 4px; border-radius:var(--r); }
+.dossier-item:last-child { border-bottom:none; }
+.dossier-ico { width:30px; height:30px; border-radius:8px; background:var(--ab-light); display:flex; align-items:center; justify-content:center; font-size:.75rem; flex-shrink:0; }
+.dossier-ref { font-size:.75rem; font-weight:700; color:var(--ink2); }
+.dossier-name { font-size:.72rem; color:var(--muted); }
+.dossier-date { font-size:.68rem; color:var(--muted2); margin-left:auto; white-space:nowrap; }
+
+/* ── BADGES ── */
+.badge { display:inline-flex; align-items:center; gap:4px; font-size:.6rem; font-weight:700; letter-spacing:.3px; text-transform:uppercase; padding:2px 8px; border-radius:20px; white-space:nowrap; }
+.badge-green { background:var(--green-bg); color:var(--green); border:1px solid var(--green-b); }
+.badge-blue { background:var(--ab-light); color:var(--ab); border:1px solid rgba(27,127,212,.2); }
+.badge-amber { background:var(--amber-bg); color:var(--amber); border:1px solid #FDE68A; }
+.badge-red { background:var(--red-bg); color:var(--red); border:1px solid #FECACA; }
+.badge-gray { background:var(--bg); color:var(--muted); border:1px solid var(--border); }
+.badge-purple { background:#F5F3FF; color:var(--purple); border:1px solid #DDD6FE; }
+.badge::before { content:''; width:5px; height:5px; border-radius:50%; background:currentColor; flex-shrink:0; }
+
+/* ── KANBAN ── */
+.kanban { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; align-items:start; }
+.kanban-col { background:var(--bg); border-radius:var(--r2); padding:10px; min-height:400px; }
+.kanban-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; padding:0 2px; }
+.kanban-col-title { font-size:.72rem; font-weight:700; color:var(--ink3); }
+.kanban-count { font-size:.65rem; font-weight:700; padding:2px 7px; border-radius:20px; }
+.kanban-count.nouveau { background:#E0E7FF; color:#4338CA; }
+.kanban-count.encours { background:var(--ab-light); color:var(--ab); }
+.kanban-count.analyse { background:#F5F3FF; color:var(--purple); }
+.kanban-count.complet { background:var(--amber-bg); color:var(--amber); }
+.kanban-card {
+  background:var(--white); border:1px solid var(--border);
+  border-radius:var(--r); padding:10px 12px; margin-bottom:8px;
+  cursor:pointer; transition:all .15s; box-shadow:var(--shadow-xs);
+}
+.kanban-card:hover { border-color:var(--ab); transform:translateY(-1px); box-shadow:var(--shadow-sm); }
+.kanban-card-ref { font-size:.65rem; font-weight:700; color:var(--muted); margin-bottom:3px; }
+.kanban-card-name { font-size:.8rem; font-weight:700; color:var(--ink2); margin-bottom:2px; }
+.kanban-card-courtier { font-size:.7rem; color:var(--muted); margin-bottom:7px; }
+.kanban-card-footer { display:flex; align-items:center; justify-content:space-between; }
+.kanban-card-amount { font-size:.78rem; font-weight:700; color:var(--ab); }
+.kanban-card-date { font-size:.65rem; color:var(--muted2); }
+
+/* ── FILTERS BAR ── */
+.filters { display:flex; align-items:center; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.filter-input {
+  display:flex; align-items:center; gap:6px;
+  padding:6px 12px; background:var(--white); border:1px solid var(--border);
+  border-radius:var(--r); font-size:.78rem; color:var(--muted);
+  cursor:pointer; transition:border-color .15s;
+}
+.filter-input:hover { border-color:var(--ab); }
+.filter-input svg { width:12px; height:12px; }
+.view-toggle { display:flex; gap:2px; margin-left:auto; background:var(--bg); border:1px solid var(--border); border-radius:var(--r); padding:2px; }
+.view-btn { width:28px; height:28px; border-radius:6px; display:flex; align-items:center; justify-content:center; cursor:pointer; border:none; background:transparent; color:var(--muted); font-size:.75rem; }
+.view-btn.active { background:var(--white); color:var(--ab); box-shadow:var(--shadow-xs); }
+
+/* ── ADMIN DASHBOARD ── */
+.chart-placeholder { height:140px; background:linear-gradient(135deg,var(--ab-light) 0%,#F5F3FF 100%); border-radius:var(--r); display:flex; align-items:flex-end; padding:12px; gap:4px; overflow:hidden; }
+.bar { border-radius:4px 4px 0 0; background:var(--ab); opacity:.7; flex:1; transition:opacity .2s; }
+.bar:hover { opacity:1; }
+.bar.fin { background:var(--green); opacity:.8; }
+.top-courtiers { }
+.tc-item { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--border2); }
+.tc-item:last-child { border-bottom:none; }
+.tc-rank { width:20px; height:20px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:.65rem; font-weight:700; flex-shrink:0; }
+.tc-rank.gold { background:#FEF3C7; color:#B45309; }
+.tc-rank.silver { background:#F3F4F6; color:#6B7280; }
+.tc-rank.bronze { background:#FEF9EE; color:#B45309; }
+.tc-rank.other { background:var(--bg); color:var(--muted); }
+.tc-name { font-size:.82rem; font-weight:600; color:var(--ink2); flex:1; }
+.tc-sub { font-size:.68rem; color:var(--muted); }
+.tc-bar-wrap { width:100px; height:6px; background:var(--border); border-radius:3px; }
+.tc-bar { height:100%; border-radius:3px; background:var(--adai); }
+.tc-count { font-size:.8rem; font-weight:700; color:var(--ink2); min-width:24px; text-align:right; }
+
+/* ── TEMPS GAGNÉ ── */
+.tg-kpi { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:16px; }
+.tg-card { background:var(--white); border:1px solid var(--border); border-radius:var(--r2); padding:14px 16px; box-shadow:var(--shadow-xs); }
+.tg-val { font-size:1.4rem; font-weight:700; margin-bottom:2px; letter-spacing:-.02em; }
+.tg-val.green { color:var(--green); }
+.tg-val.blue { color:var(--ab); }
+.tg-val.purple { color:var(--purple); }
+.tg-val.amber { color:var(--amber); }
+.tg-label { font-size:.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-bottom:2px; }
+.tg-sub { font-size:.68rem; color:var(--muted2); }
+
+/* ── DOSSIER DETAIL ── */
+.detail-header { background:var(--white); border:1px solid var(--border); border-radius:var(--r2); padding:16px 20px; margin-bottom:14px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+.detail-ref { font-size:.65rem; font-weight:700; color:var(--muted); letter-spacing:1px; margin-bottom:3px; }
+.detail-name { font-size:1.1rem; font-weight:700; color:var(--ink); margin-bottom:4px; }
+.detail-meta { font-size:.75rem; color:var(--muted); }
+.detail-grid { display:grid; grid-template-columns:2fr 1fr; gap:14px; }
+.doc-list { }
+.doc-item { display:flex; align-items:center; gap:10px; padding:8px 10px; background:var(--white); border:1px solid var(--border); border-radius:var(--r); margin-bottom:7px; }
+.doc-icon { width:28px; height:28px; border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:.8rem; flex-shrink:0; }
+.doc-icon.pdf { background:#FEF2F2; }
+.doc-icon.img { background:var(--ab-light); }
+.doc-name { font-size:.8rem; font-weight:600; color:var(--ink2); flex:1; }
+.doc-size { font-size:.68rem; color:var(--muted2); }
+.doc-status { font-size:.62rem; font-weight:700; padding:2px 7px; border-radius:20px; }
+.doc-status.ok { background:var(--green-bg); color:var(--green); }
+.doc-status.pending { background:var(--amber-bg); color:var(--amber); }
+
+/* ── TIMELINE ── */
+.timeline { }
+.tl-item { display:flex; gap:10px; padding-bottom:14px; position:relative; }
+.tl-item:last-child { padding-bottom:0; }
+.tl-item::before { content:''; position:absolute; left:11px; top:24px; bottom:0; width:2px; background:var(--border); }
+.tl-item:last-child::before { display:none; }
+.tl-dot { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.65rem; flex-shrink:0; position:relative; z-index:1; }
+.tl-dot.green { background:var(--green-bg); color:var(--green); border:2px solid var(--green-b); }
+.tl-dot.blue { background:var(--ab-light); color:var(--ab); border:2px solid rgba(27,127,212,.2); }
+.tl-dot.gray { background:var(--bg); color:var(--muted); border:2px solid var(--border); }
+.tl-content { flex:1; padding-top:2px; }
+.tl-action { font-size:.8rem; font-weight:600; color:var(--ink2); margin-bottom:1px; }
+.tl-time { font-size:.68rem; color:var(--muted2); }
+
+/* ── PROGRESS STEPS ── */
+.steps { display:flex; align-items:center; gap:0; margin-bottom:20px; }
+.step { display:flex; align-items:center; flex:1; }
+.step:last-child { flex:none; }
+.step-circle { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:700; flex-shrink:0; z-index:1; }
+.step-circle.done { background:var(--ab); color:#fff; }
+.step-circle.active { background:var(--white); color:var(--ab); border:2px solid var(--ab); }
+.step-circle.todo { background:var(--white); color:var(--muted); border:2px solid var(--border); }
+.step-line { flex:1; height:2px; background:var(--border); margin:0 4px; }
+.step-line.done { background:var(--ab); }
+.step-label { font-size:.65rem; font-weight:600; margin-top:4px; white-space:nowrap; }
+.step-wrap { display:flex; flex-direction:column; align-items:center; }
+
+/* ── TABS ── */
+.tabs { display:flex; gap:0; border-bottom:2px solid var(--border); margin-bottom:16px; }
+.tab { padding:8px 16px; font-size:.8rem; font-weight:600; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; transition:all .15s; }
+.tab.active { color:var(--ab); border-bottom-color:var(--ab); }
+.tab:hover:not(.active) { color:var(--ink3); }
+
+/* ── ANIMATIONS ── */
+.screen { animation: fadeIn .2s ease; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:none; } }
+
+.slide-in { animation: slideIn .3s ease; }
+@keyframes slideIn { from { opacity:0; transform:translateX(16px); } to { opacity:1; transform:none; } }
+
+/* ── NOTIFICATION ── */
+.notif {
+  position:fixed; bottom:20px; right:20px;
+  background:var(--ink2); color:#fff; padding:10px 16px;
+  border-radius:var(--r2); font-size:.8rem; font-weight:500;
+  box-shadow:var(--shadow-sm); z-index:9999;
+  display:none; align-items:center; gap:8px;
+  animation: slideUp .25s ease;
+}
+.notif.show { display:flex; }
+@keyframes slideUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+.notif-icon { font-size:1rem; }
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div id="screen-login">
+  <div class="login-box">
+    <div class="login-logo">
+      <div style="background:white;padding:4px 8px;border-radius:6px;"><img src="data:image/png;base64,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" style="height:18px;display:block;" alt="A Bien Taux"></div>
+      <div>
+        
+        
+      </div>
+    </div>
+    <div class="login-title">Connexion collaborateur</div>
+    <div class="login-sub">Accédez à votre espace de travail</div>
+    <div class="login-field">
+      <label class="login-label">Email</label>
+      <input class="login-input" type="email" value="o.dupont@abientaux.fr" placeholder="votre@email.fr">
+    </div>
+    <div class="login-field">
+      <label class="login-label">Mot de passe</label>
+      <input class="login-input" type="password" value="••••••••" placeholder="••••••••">
+    </div>
+    <button class="login-btn" onclick="showApp()">Se connecter →</button>
+    <div class="login-demo">Démonstration Cockpit A Bien Taux · ADAI 2026</div>
+  </div>
+</div>
+
+<!-- ── ASP ── -->
+<div id="app">
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sb-logo">
+      <div style="padding:2px 0;"><img src="data:image/webp;base64,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" style="height:18px;display:block;" alt="A Bien Taux"></div>
+      <div>
+        
+        
+      </div>
+    </div>
+    <div class="sb-nav">
+      <div class="sb-group">Navigation</div>
+      <div class="sb-item active" onclick="goTo('cockpit', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Cockpit
+      </div>
+      <div class="sb-item" onclick="goTo('nouveau', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Nouveau dossier
+      </div>
+      <div class="sb-item" onclick="goTo('dossiers', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        Mes dossiers
+      </div>
+      <div class="sb-group">Administration</div>
+      <div class="sb-item" onclick="goTo('admin', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Dashboard Admin
+      </div>
+      <div class="sb-item" onclick="goTo('temps', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+        Temps gagné
+      </div>
+      <div class="sb-group">CRM & Croissance</div>
+      <div class="sb-item" onclick="goTo('crm', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        CRM Clients
+      </div>
+      <div class="sb-item" onclick="goTo('opportunites', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Opportunités
+      </div>
+      <div class="sb-item" onclick="goTo('relances', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.37a16 16 0 0 0 6 6l.82-.82a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16z"/></svg>
+        Relances & RDV
+      </div>
+      <div class="sb-group">Paramètres</div>
+      <div class="sb-item" onclick="notify('⚙️ Section en cours de développement')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Utilisateurs
+      </div>
+      <div class="sb-item" onclick="notify('📊 Consommation IA disponible en production')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+        Consommation
+      </div>
+    </div>
+    <div class="sb-bottom">
+      <div class="sb-user">
+        <div class="sb-avatar">OD</div>
+        <div>
+          <div class="sb-user-name">Olivier Dupont</div>
+          <div class="sb-user-role">o.dupont@abientaux.fr</div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <span>Cockpit A Bien Taux</span>
+        <span class="sep">›</span>
+        <span class="current" id="topbar-current">Cockpit</span>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-icon" onclick="notify('📸 Capture d\'écran copiée')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        </div>
+        <div class="topbar-avatar" onclick="notify('👤 Profil utilisateur')">OD</div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ── COCKPIT ── -->
+      <div class="screen active" id="screen-cockpit">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Bonjour, Olivier 👋</div>
+            <div class="page-sub">Vue globale · Tous les utilisateurs · A Bien Taux</div>
+          </div>
+          <button class="btn-primary" onclick="goTo('nouveau', document.querySelector('[onclick*=nouveau]'))">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Nouveau dossier
+          </button>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Total dossiers</div>
+            <div class="kpi-val">1 842</div>
+            <div class="kpi-sub">Tous statuts confondus</div>
+            <div class="kpi-icon blue">📁</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">En cours</div>
+            <div class="kpi-val">1 259</div>
+            <div class="kpi-sub">Dossiers actifs</div>
+            <div class="kpi-icon amber">⏳</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">À compléter</div>
+            <div class="kpi-val">3</div>
+            <div class="kpi-sub">Documents manquants</div>
+            <div class="kpi-icon red">⚠️</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Financés ce mois</div>
+            <div class="kpi-val">24</div>
+            <div class="kpi-sub">+18 % vs mois dernier</div>
+            <div class="kpi-icon green">✅</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon">⚡</span>Actions rapides</div>
+            <div class="qa-item" onclick="goTo('nouveau', document.querySelector('[onclick*=nouveau]'))">
+              <div class="qa-left">
+                <div class="qa-icon green">📋</div>
+                <div>
+                  <div class="qa-name">Créer un dossier</div>
+                  <div class="qa-desc">Nouveau dossier de financement</div>
+                </div>
+              </div>
+              <span class="qa-arrow">→</span>
+            </div>
+            <div class="qa-item" onclick="notify('📬 3 relances en attente de validation')">
+              <div class="qa-left">
+                <div class="qa-icon amber">📬</div>
+                <div>
+                  <div class="qa-name">Relances en attente</div>
+                  <div class="qa-desc">3 relances à valider</div>
+                </div>
+              </div>
+              <span class="qa-arrow">→</span>
+            </div>
+            <div class="qa-item" onclick="notify('🧾 2 factures générées ce matin — en attente validation Marion')">
+              <div class="qa-left">
+                <div class="qa-icon blue">🧾</div>
+                <div>
+                  <div class="qa-name">Factures générées</div>
+                  <div class="qa-desc">2 factures ce matin · en attente</div>
+                </div>
+              </div>
+              <span class="qa-arrow">→</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon">📂</span>Dossiers récents <span style="margin-left:auto;font-size:.68rem;color:var(--ab);cursor:pointer;" onclick="goTo('dossiers', document.querySelector('[onclick*=dossiers]'))">Voir tout →</span></div>
+            <div class="dossier-item" onclick="goTo('detail', null)">
+              <div class="dossier-ico">📄</div>
+              <div>
+                <div class="dossier-ref">2026-03-NANCE-089</div>
+                <div class="dossier-name">Sophie NANCE · Olivier Dupont</div>
+              </div>
+              <span class="badge badge-green">Validé</span>
+              <div class="dossier-date">il y a 2h</div>
+            </div>
+            <div class="dossier-item" onclick="goTo('detail', null)">
+              <div class="dossier-ico">📄</div>
+              <div>
+                <div class="dossier-ref">2026-03-PRUNTE-JEAN-088</div>
+                <div class="dossier-name">Jean PRUNTE · Jean CERDA</div>
+              </div>
+              <span class="badge badge-blue">En cours</span>
+              <div class="dossier-date">il y a 5h</div>
+            </div>
+            <div class="dossier-item" onclick="goTo('detail', null)">
+              <div class="dossier-ico">📄</div>
+              <div>
+                <div class="dossier-ref">2026-03-BERNARD-ALEX-087</div>
+                <div class="dossier-name">Paul ISSON · Grégory DURAND-POUDRET</div>
+              </div>
+              <span class="badge badge-purple">Analyse</span>
+              <div class="dossier-date">hier</div>
+            </div>
+            <div class="dossier-item" onclick="goTo('detail', null)">
+              <div class="dossier-ico">📄</div>
+              <div>
+                <div class="dossier-ref">2026-03-ROUSSEAU-EMMA-086</div>
+                <div class="dossier-name">Claire VOYANTE · Cyril DUBOIS</div>
+              </div>
+              <span class="badge badge-amber">À compléter</span>
+              <div class="dossier-date">il y a 2j</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── NOUVEAU DOSSIER ── -->
+      <div class="screen" id="screen-nouveau">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Nouveau dossier</div>
+            <div class="page-sub">Créez un nouveau dossier de financement</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-bottom:24px;">
+          <div class="step-wrap">
+            <div class="step-circle done">✓</div>
+            <div class="step-label" style="color:var(--ab);">Emprunteur</div>
+          </div>
+          <div style="flex:1;display:flex;align-items:center;padding-bottom:18px;"><div style="flex:1;height:2px;background:var(--ab);"></div></div>
+          <div class="step-wrap">
+            <div class="step-circle active">2</div>
+            <div class="step-label" style="color:var(--ab);">Projet</div>
+          </div>
+          <div style="flex:1;display:flex;align-items:center;padding-bottom:18px;"><div style="flex:1;height:2px;background:var(--border);"></div></div>
+          <div class="step-wrap">
+            <div class="step-circle todo">3</div>
+            <div class="step-label" style="color:var(--muted);">Récapitulatif</div>
+          </div>
+        </div>
+
+        <div class="card" style="max-width:680px;">
+          <div style="font-size:.92rem;font-weight:700;color:var(--ink);margin-bottom:4px;">Informations de l'emprunteur</div>
+          <div style="font-size:.78rem;color:var(--muted);margin-bottom:18px;">Renseignez les coordonnées de l'emprunteur principal</div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--border2);border-radius:var(--r);padding:3px;margin-bottom:20px;width:fit-content;">
+            <div style="padding:6px 18px;border-radius:6px;background:var(--white);font-size:.8rem;font-weight:600;color:var(--ink2);cursor:pointer;box-shadow:var(--shadow-xs);">👤 Particulier</div>
+            <div style="padding:6px 18px;border-radius:6px;font-size:.8rem;color:var(--muted);cursor:pointer;">🏢 Professionnel</div>
+          </div>
+
+          <div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border);font-size:.75rem;font-weight:600;color:var(--muted);letter-spacing:.5px;">EMPRUNTEUR PRINCIPAL</div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+            <div>
+              <div style="font-size:.72rem;font-weight:600;color:var(--ink3);margin-bottom:5px;">Prénom *</div>
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--border);border-radius:var(--r);background:var(--white);font-size:.85rem;color:var(--ink3);">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
+                Jean
+              </div>
+            </div>
+            <div>
+              <div style="font-size:.72rem;font-weight:600;color:var(--ink3);margin-bottom:5px;">Nom *</div>
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--border);border-radius:var(--r);background:var(--white);font-size:.85rem;color:var(--ink3);">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
+                Dupont
+              </div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;">
+            <div>
+              <div style="font-size:.72rem;font-weight:600;color:var(--ink3);margin-bottom:5px;">Email *</div>
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--ab);border-radius:var(--r);background:var(--white);font-size:.85rem;color:var(--ink3);">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b0dad5d1de9ed4c5c0dfdec4f0d5ddd1d9dc9ed3dfdd">[email&#160;protected]</a>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:.72rem;font-weight:600;color:var(--ink3);margin-bottom:5px;">Téléphone</div>
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--border);border-radius:var(--r);background:var(--white);font-size:.85rem;color:var(--ink3);">
+                🇫🇷 +33 6 12 34 56 78
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;justify-content:flex-end;">
+            <button class="btn-secondary" onclick="goTo('cockpit', document.querySelector('[onclick*=cockpit]'))">Annuler</button>
+            <button class="btn-primary" onclick="notify('✉️ Lien de collecte envoyé à jean.aimar@email.com')">Envoyer le lien de collecte →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── DOSSIERS ── -->
+      <div class="screen" id="screen-dossiers">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Mes dossiers</div>
+            <div class="page-sub">1 842 dossier(s) trouvé(s)</div>
+          </div>
+          <button class="btn-primary" onclick="goTo('nouveau', document.querySelector('[onclick*=nouveau]'))">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Nouveau dossier
+          </button>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-bottom:14px;">
+          <div style="padding:5px 14px;border-radius:20px;background:var(--ab);color:#fff;font-size:.75rem;font-weight:600;cursor:pointer;">Tous</div>
+          <div style="padding:5px 14px;border-radius:20px;background:var(--white);border:1px solid var(--border);color:var(--muted);font-size:.75rem;cursor:pointer;" onclick="notify('Filtre Actifs appliqué')">Actifs</div>
+          <div style="padding:5px 14px;border-radius:20px;background:var(--white);border:1px solid var(--border);color:var(--muted);font-size:.75rem;cursor:pointer;" onclick="notify('Filtre Terminés appliqué')">Terminés</div>
+          <div style="padding:5px 14px;border-radius:20px;background:var(--white);border:1px solid var(--border);color:var(--muted);font-size:.75rem;cursor:pointer;" onclick="notify('Filtre Archivés appliqué')">Archivés</div>
+        </div>
+
+        <div class="filters">
+          <div class="filter-input">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Rechercher un dossier...
+          </div>
+          <div class="filter-input" onclick="notify('Filtre statut ouvert')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+            Tous les statuts ↓
+          </div>
+          <div class="filter-input" onclick="notify('Filtre type ouvert')">Tous les types ↓</div>
+          <div class="filter-input" onclick="notify('Filtre dates ouvert')">📅 Toutes les dates ↓</div>
+          <div class="filter-input" onclick="notify('Filtre utilisateurs ouvert')">👤 Tous les utilisateurs ↓</div>
+          <div class="view-toggle">
+            <div class="view-btn" onclick="notify('Vue liste')">☰</div>
+            <div class="view-btn active">⊞</div>
+          </div>
+        </div>
+
+        <div class="kanban">
+          <div class="kanban-col">
+            <div class="kanban-header">
+              <div class="kanban-col-title">Nouveau</div>
+              <div class="kanban-count nouveau">319</div>
+            </div>
+            <div class="kanban-card" onclick="goTo('detail', null)">
+              <div class="kanban-card-ref">2026-03-NANCE-089</div>
+              <div class="kanban-card-name">Sophie NANCE</div>
+              <div class="kanban-card-courtier">Olivier Dupont</div>
+              <div class="kanban-card-footer">
+                <div class="kanban-card-amount">285 000 €</div>
+                <div class="kanban-card-date">il y a 2h</div>
+              </div>
+            </div>
+            <div class="kanban-card" onclick="goTo('detail', null)">
+              <div class="kanban-card-ref">2026-03-ISSON-088</div>
+              <div class="kanban-card-name">Guy TARD</div>
+              <div class="kanban-card-courtier">Jean CERDA</div>
+              <div class="kanban-card-footer">
+                <div class="kanban-card-amount">412 000 €</div>
+                <div class="kanban-card-date">il y a 4h</div>
+              </div>
+            </div>
+            <div class="kanban-card" onclick="goTo('detail', null)">
+              <div class="kanban-card-ref">2026-03-ONYME-087</div>
+              <div class="kanban-card-name">Anne ONYME</div>
+              <div class="kanban-card-courtier">Cyril DUBOIS</div>
+              <div class="kanban-card-footer">
+                <div class="kanban-card-amount">198 000 €</div>
+                <div class="kanban-card-date">hier</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="kanban-col">
+            <div class="kanban-header">
+              <div class="kanban-col-title">En cours</div>
+              <div class="kanban-count encours">1 259</div>
+            </div>
+            <div class="kanban-card" onclick="goTo('detail', null)">
+              <div class="kanban-card-ref">2026-03-PRUNTE-086</div>
+              <div class="kanban-card-name">Jean PRUNTE</div>
+              <div class="kanban-card-courtier">Olivier Dupont</div>
+              <div class="kanban-card-footer">
+                <div class="kanban-card-amount">350 000 €</div>
+                <div class="kanban-card-date">il y a 3j</div>
+              </div>
+            </div>
+            <div class="kanban-card" onclick="goTo('detail', null)">
+              <div class="kanban-card-ref">2026-03-DURAND-085</div>
+              <div class="kanban-card-name">Marc HING</div>
+              <div class="kanban-card-courtier">Grégory DURAND-POUDRET</div>
+              <div class="kanban-card-footer">
+                <div class="kanban-card-amount">520 000 €</div>
+                <div class="kanban-card-date">il y a 5j</div>
+              </div>
+            </div>
+            <div class="kanban-card" onclick="goTo('detail', null)">
+              <div class="kanban-card-ref">2026-03-VOYANTE-084</div>
+              <div class="kanban-card-name">Léa TARD</div>
+              <div class="kanban-card-courtier">Jean CERDA</div>
+              <div class="kanban-card-footer">
+                <div class="kanban-card-amount">275 000 €</div>
+                <div class="kanban-card-date">il y a 6j</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="kanban-col">
+            <div class="kanban-header">
+              <div class="kanban-col-title">Analyse terminée</div>
+              <div class="kanban-count analyse">47</div>
+            </div>
+            <div class="kanban-card" onclick="goTo('detail', null)">
+              <div class="kanban-card-ref">2026-03-OQUE-083</div>
+              <div class="kanban-card-name">Philippe OQUE</div>
+              <div class="kanban-card-courtier">Olivier Dupont</div>
+              <div class="kanban-card-footer">
+                <div class="kanban-card-amount">445 000 €</div>
+                <div class="kanban-card-date">il y a 2j</div>
+              </div>
+            </div>
+            <div class="kanban-card" onclick="goTo('detail', null)">
+              <div class="kanban-card-ref">2026-03-ISSON-082</div>
+              <div class="kanban-card-name">Paul ISSON</div>
+              <div class="kanban-card-courtier">Cyril DUBOIS</div>
+              <div class="kanban-card-footer">
+                <div class="kanban-card-amount">310 000 €</div>
+                <div class="kanban-card-date">il y a 3j</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="kanban-col">
+            <div class="kanban-header">
+              <div class="kanban-col-title">À compléter</div>
+              <div class="kanban-count complet">3</div>
+            </div>
+            <div class="kanban-card" style="border-color:var(--amber);" onclick="goTo('detail', null)">
+              <div class="kanban-card-ref">2026-03-VOYANTE-081</div>
+              <div class="kanban-card-name">Claire VOYANTE</div>
+              <div class="kanban-card-courtier">Grégory DURAND-POUDRET</div>
+              <div style="margin-bottom:6px;"><span class="badge badge-amber">2 docs manquants</span></div>
+              <div class="kanban-card-footer">
+                <div class="kanban-card-amount">189 000 €</div>
+                <div class="kanban-card-date">il y a 4j</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── DÉTAIL DOSSIER ── -->
+      <div class="screen" id="screen-detail">
+        <div class="page-header">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <button class="btn-secondary" onclick="goTo('dossiers', document.querySelector('[onclick*=dossiers]'))">← Retour</button>
+            <div>
+              <div class="page-title">Sophie NANCE</div>
+              <div class="page-sub">2026-03-NANCE-089 · Olivier Dupont · Créé il y a 2h</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <span class="badge badge-blue">En cours</span>
+            <button class="btn-primary" onclick="notify('✉️ Lien de collecte renvoyé au client')">Renvoyer le lien</button>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <div class="tab active" onclick="switchTab(this)">Documents</div>
+          <div class="tab" onclick="switchTab(this)">Analyse IA</div>
+          <div class="tab" onclick="switchTab(this)">Historique</div>
+          <div class="tab" onclick="switchTab(this)">Facturation</div>
+        </div>
+
+        <div class="detail-grid">
+          <div>
+            <div class="card" style="margin-bottom:12px;">
+              <div class="card-title"><span class="card-title-icon">📄</span>Documents reçus <span style="margin-left:auto;font-size:.72rem;color:var(--green);">6 / 8 documents</span></div>
+              <div class="doc-item">
+                <div class="doc-icon pdf">📕</div>
+                <div class="doc-name">Relevé compte courant — janv. 2026</div>
+                <div class="doc-size" style="margin-right:8px;">2.1 MB</div>
+                <div class="doc-status ok">Analysé</div>
+              </div>
+              <div class="doc-item">
+                <div class="doc-icon pdf">📕</div>
+                <div class="doc-name">Relevé compte courant — févr. 2026</div>
+                <div class="doc-size" style="margin-right:8px;">1.8 MB</div>
+                <div class="doc-status ok">Analysé</div>
+              </div>
+              <div class="doc-item">
+                <div class="doc-icon pdf">📕</div>
+                <div class="doc-name">Bulletin de salaire — janv. 2026</div>
+                <div class="doc-size" style="margin-right:8px;">0.4 MB</div>
+                <div class="doc-status ok">Analysé</div>
+              </div>
+              <div class="doc-item">
+                <div class="doc-icon pdf">📕</div>
+                <div class="doc-name">Avis d'imposition 2025</div>
+                <div class="doc-size" style="margin-right:8px;">1.2 MB</div>
+                <div class="doc-status ok">Analysé</div>
+              </div>
+              <div class="doc-item" style="border:1px dashed var(--amber);background:var(--amber-bg);">
+                <div class="doc-icon amber">⚠️</div>
+                <div class="doc-name" style="color:var(--amber);">Bulletin de salaire — févr. 2026</div>
+                <div class="doc-status pending">En attente</div>
+              </div>
+              <div class="doc-item" style="border:1px dashed var(--amber);background:var(--amber-bg);">
+                <div class="doc-icon amber">⚠️</div>
+                <div class="doc-name" style="color:var(--amber);">Justificatif de domicile</div>
+                <div class="doc-status pending">En attente</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="card" style="margin-bottom:12px;">
+              <div class="card-title"><span class="card-title-icon">🤖</span>Résumé IA</div>
+              <div style="background:var(--green-bg);border:1px solid var(--green-b);border-radius:var(--r);padding:10px 12px;margin-bottom:10px;">
+                <div style="font-size:.72rem;font-weight:700;color:var(--green);margin-bottom:4px;">PROFIL VALIDÉ</div>
+                <div style="font-size:.8rem;color:var(--ink3);line-height:1.5;">Dossier solide. Revenus stables, pas d'anomalie détectée sur les 3 derniers mois. Taux d'endettement estimé à 28 %.</div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <div style="background:var(--bg);border-radius:var(--r);padding:8px 10px;">
+                  <div style="font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;">Revenus nets</div>
+                  <div style="font-size:.92rem;font-weight:700;color:var(--ink2);">3 840 €/mois</div>
+                </div>
+                <div style="background:var(--bg);border-radius:var(--r);padding:8px 10px;">
+                  <div style="font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;">Charges mensuel.</div>
+                  <div style="font-size:.92rem;font-weight:700;color:var(--ink2);">620 €/mois</div>
+                </div>
+                <div style="background:var(--bg);border-radius:var(--r);padding:8px 10px;">
+                  <div style="font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;">Capacité emprunt</div>
+                  <div style="font-size:.92rem;font-weight:700;color:var(--ab);">285 000 €</div>
+                </div>
+                <div style="background:var(--bg);border-radius:var(--r);padding:8px 10px;">
+                  <div style="font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;">Taux endettement</div>
+                  <div style="font-size:.92rem;font-weight:700;color:var(--green);">28 %</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title"><span class="card-title-icon">📋</span>Historique</div>
+              <div class="timeline">
+                <div class="tl-item">
+                  <div class="tl-dot green">✓</div>
+                  <div class="tl-content">
+                    <div class="tl-action">Analyse IA terminée</div>
+                    <div class="tl-time">Aujourd'hui · 09h14</div>
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot green">✓</div>
+                  <div class="tl-content">
+                    <div class="tl-action">4 documents reçus et classés</div>
+                    <div class="tl-time">Aujourd'hui · 08h52</div>
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot blue">✉</div>
+                  <div class="tl-content">
+                    <div class="tl-action">Lien de collecte envoyé au client</div>
+                    <div class="tl-time">Aujourd'hui · 08h30</div>
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-dot gray">+</div>
+                  <div class="tl-content">
+                    <div class="tl-action">Dossier créé par Olivier Dupont</div>
+                    <div class="tl-time">Aujourd'hui · 08h28</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ADMIN ── -->
+      <div class="screen" id="screen-admin">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Dashboard Administration</div>
+            <div class="page-sub">Vue d'ensemble de l'activité du réseau A Bien Taux</div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn-secondary" onclick="notify('📅 Filtre de dates ouvert')">📅 Mars 2026 ↓</button>
+            <button class="btn-secondary" onclick="notify('👤 Filtre utilisateurs ouvert')">👤 Tous les courtiers ↓</button>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Courtiers actifs</div>
+            <div class="kpi-val">87</div>
+            <div class="kpi-sub">sur 100 inscrits</div>
+            <div class="kpi-icon green">👥</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Dossiers ce mois</div>
+            <div class="kpi-val">312</div>
+            <div class="kpi-sub">+24 % vs févr.</div>
+            <div class="kpi-icon blue">📁</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Financés</div>
+            <div class="kpi-val">24</div>
+            <div class="kpi-sub">CA réseau : 6,8 M€</div>
+            <div class="kpi-icon green">💰</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Taux conversion</div>
+            <div class="kpi-val">7,7 %</div>
+            <div class="kpi-sub">+1,2 pts vs mois passé</div>
+            <div class="kpi-icon amber">📈</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon">📊</span>Évolution mensuelle — Dossiers créés vs financés</div>
+            <div class="chart-placeholder">
+              <div class="bar" style="height:35%"></div>
+              <div class="bar fin" style="height:5%"></div>
+              <div class="bar" style="height:55%"></div>
+              <div class="bar fin" style="height:7%"></div>
+              <div class="bar" style="height:48%"></div>
+              <div class="bar fin" style="height:6%"></div>
+              <div class="bar" style="height:80%"></div>
+              <div class="bar fin" style="height:10%"></div>
+              <div class="bar" style="height:72%"></div>
+              <div class="bar fin" style="height:8%"></div>
+              <div class="bar" style="height:60%"></div>
+              <div class="bar fin" style="height:7%"></div>
+            </div>
+            <div style="display:flex;gap:14px;margin-top:8px;">
+              <div style="display:flex;align-items:center;gap:5px;font-size:.7rem;color:var(--muted);">
+                <div style="width:10px;height:10px;border-radius:3px;background:var(--ab);opacity:.7;"></div>Créés
+              </div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:.7rem;color:var(--muted);">
+                <div style="width:10px;height:10px;border-radius:3px;background:var(--green);opacity:.8;"></div>Financés
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon">🏆</span>Top Courtiers — Dossiers en mars</div>
+            <div class="top-courtiers">
+              <div class="tc-item">
+                <div class="tc-rank gold">1</div>
+                <div>
+                  <div class="tc-name">Olivier Dupont</div>
+                  <div class="tc-sub">3 financés</div>
+                </div>
+                <div class="tc-bar-wrap"><div class="tc-bar" style="width:100%"></div></div>
+                <div class="tc-count">42</div>
+              </div>
+              <div class="tc-item">
+                <div class="tc-rank silver">2</div>
+                <div>
+                  <div class="tc-name">Jean CERDA</div>
+                  <div class="tc-sub">2 financés</div>
+                </div>
+                <div class="tc-bar-wrap"><div class="tc-bar" style="width:78%"></div></div>
+                <div class="tc-count">33</div>
+              </div>
+              <div class="tc-item">
+                <div class="tc-rank bronze">3</div>
+                <div>
+                  <div class="tc-name">Grégory DURAND-POUDRET</div>
+                  <div class="tc-sub">1 financé</div>
+                </div>
+                <div class="tc-bar-wrap"><div class="tc-bar" style="width:45%"></div></div>
+                <div class="tc-count">19</div>
+              </div>
+              <div class="tc-item">
+                <div class="tc-rank other">4</div>
+                <div>
+                  <div class="tc-name">Cyril DUBOIS</div>
+                  <div class="tc-sub">1 financé</div>
+                </div>
+                <div class="tc-bar-wrap"><div class="tc-bar" style="width:28%"></div></div>
+                <div class="tc-count">12</div>
+              </div>
+              <div class="tc-item">
+                <div class="tc-rank other">5</div>
+                <div>
+                  <div class="tc-name">Franck CORROYEZ</div>
+                  <div class="tc-sub">0 financé</div>
+                </div>
+                <div class="tc-bar-wrap"><div class="tc-bar" style="width:12%"></div></div>
+                <div class="tc-count">5</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TEMPS GAGNÉ ── -->
+      <div class="screen" id="screen-temps">
+        <div class="page-header">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:38px;height:38px;border-radius:10px;background:var(--green-bg);border:1px solid var(--green-b);display:flex;align-items:center;justify-content:center;font-size:1rem;">⏱️</div>
+            <div>
+              <div class="page-title">Temps gagné</div>
+              <div class="page-sub">Estimation du temps économisé grâce à l'automatisation</div>
+            </div>
+          </div>
+          <button class="btn-secondary" onclick="notify('🔄 Données actualisées')">🔄 Actualiser</button>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-bottom:16px;background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:3px;width:fit-content;">
+          <div style="padding:5px 14px;border-radius:6px;background:var(--ab);color:#fff;font-size:.75rem;font-weight:600;cursor:pointer;">Mois</div>
+          <div style="padding:5px 14px;border-radius:6px;font-size:.75rem;color:var(--muted);cursor:pointer;" onclick="notify('Vue Trimestre')">Trimestre</div>
+          <div style="padding:5px 14px;border-radius:6px;font-size:.75rem;color:var(--muted);cursor:pointer;" onclick="notify('Vue Semestre')">Semestre</div>
+          <div style="padding:5px 14px;border-radius:6px;font-size:.75rem;color:var(--muted);cursor:pointer;" onclick="notify('Vue Année')">Année</div>
+        </div>
+
+        <div class="tg-kpi">
+          <div class="tg-card">
+            <div class="tg-label">Temps économisé</div>
+            <div class="tg-val green">48h 30min</div>
+            <div class="tg-sub">6 jour(s) de travail</div>
+          </div>
+          <div class="tg-card">
+            <div class="tg-label">Opérations auto.</div>
+            <div class="tg-val blue">847</div>
+            <div class="tg-sub">traitements automatisés</div>
+          </div>
+          <div class="tg-card">
+            <div class="tg-label">Documents traités</div>
+            <div class="tg-val purple">1 240</div>
+            <div class="tg-sub">classifiés et analysés</div>
+          </div>
+          <div class="tg-card">
+            <div class="tg-label">Gain productivité</div>
+            <div class="tg-val amber">63×</div>
+            <div class="tg-sub">plus rapide qu'en manuel</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon">📈</span>Évolution du temps gagné — Minutes économisées par jour</div>
+            <div class="chart-placeholder" style="height:120px;background:linear-gradient(135deg,var(--green-bg) 0%,#ECFDF5 100%);">
+              <div class="bar" style="height:55%;background:var(--purple);opacity:.6;"></div>
+              <div class="bar" style="height:70%;background:var(--purple);opacity:.6;"></div>
+              <div class="bar" style="height:45%;background:var(--purple);opacity:.6;"></div>
+              <div class="bar" style="height:85%;background:var(--purple);opacity:.6;"></div>
+              <div class="bar" style="height:60%;background:var(--purple);opacity:.6;"></div>
+              <div class="bar" style="height:90%;background:var(--purple);opacity:.6;"></div>
+              <div class="bar" style="height:75%;background:var(--purple);opacity:.6;"></div>
+              <div class="bar" style="height:95%;background:var(--purple);opacity:.6;"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon">🔄</span>Répartition par activité</div>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:.78rem;color:var(--ink3);">Collecte documentaire</span>
+                  <span style="font-size:.78rem;font-weight:700;color:var(--ab);">38 %</span>
+                </div>
+                <div style="height:6px;background:var(--border);border-radius:3px;"><div style="width:38%;height:100%;background:var(--ab);border-radius:3px;"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:.78rem;color:var(--ink3);">Analyse & classification</span>
+                  <span style="font-size:.78rem;font-weight:700;color:var(--purple);">35 %</span>
+                </div>
+                <div style="height:6px;background:var(--border);border-radius:3px;"><div style="width:35%;height:100%;background:var(--purple);border-radius:3px;"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:.78rem;color:var(--ink3);">Relances automatiques</span>
+                  <span style="font-size:.78rem;font-weight:700;color:var(--green);">18 %</span>
+                </div>
+                <div style="height:6px;background:var(--border);border-radius:3px;"><div style="width:18%;height:100%;background:var(--green);border-radius:3px;"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                  <span style="font-size:.78rem;color:var(--ink3);">Saisie CiFacil</span>
+                  <span style="font-size:.78rem;font-weight:700;color:var(--amber);">9 %</span>
+                </div>
+                <div style="height:6px;background:var(--border);border-radius:3px;"><div style="width:9%;height:100%;background:var(--amber);border-radius:3px;"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ── CRM CLIENTS ── -->
+      <div class="screen" id="screen-crm">
+        <div class="page-header">
+          <div>
+            <div class="page-title">CRM Clients</div>
+            <div class="page-sub">20 148 familles clientes · A Bien Taux</div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn-secondary" onclick="notify('🔍 Filtres avancés')">🔍 Filtres ↓</button>
+            <button class="btn-primary" onclick="notify('📤 Export en cours...')">Exporter</button>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Clients actifs</div>
+            <div class="kpi-val">20 148</div>
+            <div class="kpi-sub">Base totale A Bien Taux</div>
+            <div class="kpi-icon blue">👥</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Opportunités détectées</div>
+            <div class="kpi-val">342</div>
+            <div class="kpi-sub">Placement · assurance · rachat</div>
+            <div class="kpi-icon amber">⭐</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Relances en cours</div>
+            <div class="kpi-val">87</div>
+            <div class="kpi-sub">Séquences actives</div>
+            <div class="kpi-icon green">📬</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">RDV générés ce mois</div>
+            <div class="kpi-val">24</div>
+            <div class="kpi-sub">Via prospection automatique</div>
+            <div class="kpi-icon green">📅</div>
+          </div>
+        </div>
+
+        <div class="filters">
+          <div class="filter-input">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Rechercher un client...
+          </div>
+          <div class="filter-input" onclick="notify('Filtre opportunités')">⭐ Avec opportunité ↓</div>
+          <div class="filter-input" onclick="notify('Filtre produit')">Tous les produits ↓</div>
+          <div class="filter-input" onclick="notify('Filtre courtier')">Tous les courtiers ↓</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="card-title-icon">👤</span>Liste clients</div>
+          <table style="width:100%;border-collapse:collapse;font-size:.82rem;">
+            <thead>
+              <tr style="border-bottom:2px solid var(--border);">
+                <th style="text-align:left;padding:8px 10px;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Client</th>
+                <th style="text-align:left;padding:8px 10px;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Dossier</th>
+                <th style="text-align:left;padding:8px 10px;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Financé</th>
+                <th style="text-align:left;padding:8px 10px;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Profil</th>
+                <th style="text-align:left;padding:8px 10px;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Opportunité IA</th>
+                <th style="text-align:left;padding:8px 10px;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Courtier</th>
+                <th style="text-align:left;padding:8px 10px;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border2);cursor:pointer;" onclick="notify('📋 Fiche client Sophie NANCE ouverte')">
+                <td style="padding:10px 10px;">
+                  <div style="font-weight:700;color:var(--ink2);">Sophie NANCE</div>
+                  <div style="font-size:.7rem;color:var(--muted);">36 ans · paris 11e</div>
+                </td>
+                <td style="padding:10px 10px;color:var(--ink3);">Résidence principale</td>
+                <td style="padding:10px 10px;font-weight:700;color:var(--ab);">285 000 €</td>
+                <td style="padding:10px 10px;">
+                  <div style="font-size:.75rem;color:var(--ink3);">Revenus : 3 840 €/mois</div>
+                  <div style="font-size:.7rem;color:var(--muted);">Crédit restant : 18 ans</div>
+                </td>
+                <td style="padding:10px 10px;"><span class="badge badge-amber">⭐ Investissement locatif</span></td>
+                <td style="padding:10px 10px;font-size:.78rem;color:var(--muted);">Olivier S.</td>
+                <td style="padding:10px 10px;"><span style="color:var(--ab);font-size:.78rem;cursor:pointer;">Voir →</span></td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border2);cursor:pointer;" onclick="notify('📋 Fiche client Marc HING ouverte')">
+                <td style="padding:10px 10px;">
+                  <div style="font-weight:700;color:var(--ink2);">Marc HING</div>
+                  <div style="font-size:.7rem;color:var(--muted);">42 ans · Lyon 3e</div>
+                </td>
+                <td style="padding:10px 10px;color:var(--ink3);">Résidence principale</td>
+                <td style="padding:10px 10px;font-weight:700;color:var(--ab);">520 000 €</td>
+                <td style="padding:10px 10px;">
+                  <div style="font-size:.75rem;color:var(--ink3);">Revenus : 6 200 €/mois</div>
+                  <div style="font-size:.7rem;color:var(--muted);">Crédit restant : 14 ans</div>
+                </td>
+                <td style="padding:10px 10px;"><span class="badge badge-purple">💼 Assurance vie</span></td>
+                <td style="padding:10px 10px;font-size:.78rem;color:var(--muted);">Jean C.</td>
+                <td style="padding:10px 10px;"><span style="color:var(--ab);font-size:.78rem;cursor:pointer;">Voir →</span></td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border2);cursor:pointer;" onclick="notify('📋 Fiche client Claire VOYANTE ouverte')">
+                <td style="padding:10px 10px;">
+                  <div style="font-weight:700;color:var(--ink2);">Claire VOYANTE</div>
+                  <div style="font-size:.7rem;color:var(--muted);">29 ans · Bordeaux</div>
+                </td>
+                <td style="padding:10px 10px;color:var(--ink3);">Primo-accédant</td>
+                <td style="padding:10px 10px;font-weight:700;color:var(--ab);">189 000 €</td>
+                <td style="padding:10px 10px;">
+                  <div style="font-size:.75rem;color:var(--ink3);">Revenus : 2 900 €/mois</div>
+                  <div style="font-size:.7rem;color:var(--muted);">Crédit restant : 22 ans</div>
+                </td>
+                <td style="padding:10px 10px;"><span class="badge badge-gray">Aucune · trop tôt</span></td>
+                <td style="padding:10px 10px;font-size:.78rem;color:var(--muted);">Grégory D-P.</td>
+                <td style="padding:10px 10px;"><span style="color:var(--ab);font-size:.78rem;cursor:pointer;">Voir →</span></td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border2);cursor:pointer;" onclick="notify('📋 Fiche client Paul ISSON ouverte')">
+                <td style="padding:10px 10px;">
+                  <div style="font-weight:700;color:var(--ink2);">Paul ISSON</div>
+                  <div style="font-size:.7rem;color:var(--muted);">48 ans · Nantes</div>
+                </td>
+                <td style="padding:10px 10px;color:var(--ink3);">Investissement locatif</td>
+                <td style="padding:10px 10px;font-weight:700;color:var(--ab);">310 000 €</td>
+                <td style="padding:10px 10px;">
+                  <div style="font-size:.75rem;color:var(--ink3);">Revenus : 7 800 €/mois</div>
+                  <div style="font-size:.7rem;color:var(--muted);">Crédit restant : 8 ans</div>
+                </td>
+                <td style="padding:10px 10px;"><span class="badge badge-blue">🏦 Rachat de crédit</span></td>
+                <td style="padding:10px 10px;font-size:.78rem;color:var(--muted);">Cyril D.</td>
+                <td style="padding:10px 10px;"><span style="color:var(--ab);font-size:.78rem;cursor:pointer;">Voir →</span></td>
+              </tr>
+              <tr style="cursor:pointer;" onclick="notify('📋 Fiche client Jean PRUNTE ouverte')">
+                <td style="padding:10px 10px;">
+                  <div style="font-weight:700;color:var(--ink2);">Jean PRUNTE</div>
+                  <div style="font-size:.7rem;color:var(--muted);">54 ans · Toulouse</div>
+                </td>
+                <td style="padding:10px 10px;color:var(--ink3);">Résidence principale</td>
+                <td style="padding:10px 10px;font-weight:700;color:var(--ab);">350 000 €</td>
+                <td style="padding:10px 10px;">
+                  <div style="font-size:.75rem;color:var(--ink3);">Revenus : 5 100 €/mois</div>
+                  <div style="font-size:.7rem;color:var(--muted);">Crédit terminé il y a 2 ans</div>
+                </td>
+                <td style="padding:10px 10px;"><span class="badge badge-green">💰 Placement O2S détecté</span></td>
+                <td style="padding:10px 10px;font-size:.78rem;color:var(--muted);">Olivier S.</td>
+                <td style="padding:10px 10px;"><span style="color:var(--ab);font-size:.78rem;cursor:pointer;">Voir →</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── OPPORTUNITÉS ── -->
+      <div class="screen" id="screen-opportunites">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Opportunités détectées</div>
+            <div class="page-sub">342 clients identifiés comme mûrs par l'IA · Mars 2026</div>
+          </div>
+          <button class="btn-primary" onclick="notify('📬 Campagne de relance lancée sur 342 clients')">Lancer une campagne →</button>
+        </div>
+
+        <div class="three-col" style="margin-bottom:16px;">
+          <div class="card" style="border-top:3px solid var(--amber);">
+            <div class="card-title" style="color:var(--amber);">⭐ Investissement locatif</div>
+            <div style="font-size:1.8rem;font-weight:700;color:var(--ink);margin-bottom:2px;">124</div>
+            <div style="font-size:.75rem;color:var(--muted);">Clients avec capacité d'emprunt retrouvée</div>
+            <div style="margin-top:10px;display:flex;gap:6px;">
+              <button class="btn-primary" style="font-size:.72rem;padding:5px 10px;" onclick="notify('📬 Campagne Investissement locatif lancée')">Relancer</button>
+            </div>
+          </div>
+          <div class="card" style="border-top:3px solid var(--purple);">
+            <div class="card-title" style="color:var(--purple);">💼 Assurance vie / O2S</div>
+            <div style="font-size:1.8rem;font-weight:700;color:var(--ink);margin-bottom:2px;">147</div>
+            <div style="font-size:.75rem;color:var(--muted);">Clients avec épargne disponible détectée</div>
+            <div style="margin-top:10px;display:flex;gap:6px;">
+              <button class="btn-primary" style="font-size:.72rem;padding:5px 10px;background:var(--purple);" onclick="notify('📬 Campagne Assurance vie lancée')">Relancer</button>
+            </div>
+          </div>
+          <div class="card" style="border-top:3px solid var(--ab);">
+            <div class="card-title" style="color:var(--ab);">🏦 Rachat de crédit</div>
+            <div style="font-size:1.8rem;font-weight:700;color:var(--ink);margin-bottom:2px;">71</div>
+            <div style="font-size:.75rem;color:var(--muted);">Clients avec taux renégociable détecté</div>
+            <div style="margin-top:10px;display:flex;gap:6px;">
+              <button class="btn-primary" style="font-size:.72rem;padding:5px 10px;" onclick="notify('📬 Campagne Rachat de crédit lancée')">Relancer</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="card-title-icon">🤖</span>Signaux détectés par l'IA — Top opportunités</div>
+          <div style="display:flex;flex-direction:column;gap:0;">
+            <div style="display:grid;grid-template-columns:1fr 1fr auto auto auto;gap:12px;padding:8px 10px;background:var(--off2);border-radius:var(--r);margin-bottom:6px;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">
+              <div>Client</div><div>Signal IA détecté</div><div>Score</div><div>Produit suggéré</div><div></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr auto auto auto;gap:12px;align-items:center;padding:10px 10px;border-bottom:1px solid var(--border2);cursor:pointer;" onclick="notify('📋 Fiche Jean PRUNTE — opportunité O2S')">
+              <div>
+                <div style="font-weight:700;font-size:.85rem;color:var(--ink2);">Jean PRUNTE</div>
+                <div style="font-size:.7rem;color:var(--muted);">54 ans · Toulouse · crédit terminé</div>
+              </div>
+              <div style="font-size:.8rem;color:var(--ink3);">Crédit remboursé depuis 2 ans, revenus stables à 5 100 €/mois — capacité d'épargne non exploitée détectée</div>
+              <div style="text-align:center;">
+                <div style="font-size:1rem;font-weight:800;color:var(--green);">94</div>
+                <div style="font-size:.58rem;color:var(--muted);">/ 100</div>
+              </div>
+              <div><span class="badge badge-green">💰 Placement O2S</span></div>
+              <div><button class="btn-primary" style="font-size:.72rem;padding:5px 10px;" onclick="event.stopPropagation();notify('📅 RDV pris avec Jean PRUNTE — Olivier Dupont notifié')">Prendre RDV</button></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr auto auto auto;gap:12px;align-items:center;padding:10px 10px;border-bottom:1px solid var(--border2);cursor:pointer;" onclick="notify('📋 Fiche Paul ISSON — opportunité rachat')">
+              <div>
+                <div style="font-weight:700;font-size:.85rem;color:var(--ink2);">Paul ISSON</div>
+                <div style="font-size:.7rem;color:var(--muted);">48 ans · Nantes · 8 ans restants</div>
+              </div>
+              <div style="font-size:.8rem;color:var(--ink3);">Taux actuel 2,4 % — taux marché actuel 1,8 %. Économie estimée : 18 000 € sur la durée restante</div>
+              <div style="text-align:center;">
+                <div style="font-size:1rem;font-weight:800;color:var(--ab);">87</div>
+                <div style="font-size:.58rem;color:var(--muted);">/ 100</div>
+              </div>
+              <div><span class="badge badge-blue">🏦 Rachat de crédit</span></div>
+              <div><button class="btn-primary" style="font-size:.72rem;padding:5px 10px;" onclick="event.stopPropagation();notify('📅 RDV pris avec Paul ISSON — Cyril DUBOIS notifié')">Prendre RDV</button></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr auto auto auto;gap:12px;align-items:center;padding:10px 10px;border-bottom:1px solid var(--border2);cursor:pointer;" onclick="notify('📋 Fiche Marc HING — opportunité assurance vie')">
+              <div>
+                <div style="font-weight:700;font-size:.85rem;color:var(--ink2);">Marc HING</div>
+                <div style="font-size:.7rem;color:var(--muted);">42 ans · Lyon · revenus en hausse</div>
+              </div>
+              <div style="font-size:.8rem;color:var(--ink3);">Augmentation de revenus de +15 % détectée. Capacité d'endettement supplémentaire : 120 000 €</div>
+              <div style="text-align:center;">
+                <div style="font-size:1rem;font-weight:800;color:var(--purple);">81</div>
+                <div style="font-size:.58rem;color:var(--muted);">/ 100</div>
+              </div>
+              <div><span class="badge badge-purple">💼 Assurance vie</span></div>
+              <div><button class="btn-primary" style="font-size:.72rem;padding:5px 10px;" onclick="event.stopPropagation();notify('📅 RDV pris avec Marc HING — Jean CERDA notifié')">Prendre RDV</button></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr auto auto auto;gap:12px;align-items:center;padding:10px 10px;cursor:pointer;" onclick="notify('📋 Fiche Sophie NANCE — opportunité locatif')">
+              <div>
+                <div style="font-weight:700;font-size:.85rem;color:var(--ink2);">Sophie NANCE</div>
+                <div style="font-size:.7rem;color:var(--muted);">36 ans · Paris · 18 ans restants</div>
+              </div>
+              <div style="font-size:.8rem;color:var(--ink3);">Revenus stables, faible endettement résiduel. Profil compatible investissement locatif en zone B1</div>
+              <div style="text-align:center;">
+                <div style="font-size:1rem;font-weight:800;color:var(--amber);">76</div>
+                <div style="font-size:.58rem;color:var(--muted);">/ 100</div>
+              </div>
+              <div><span class="badge badge-amber">⭐ Invest. locatif</span></div>
+              <div><button class="btn-primary" style="font-size:.72rem;padding:5px 10px;" onclick="event.stopPropagation();notify('📅 RDV pris avec Sophie NANCE — Olivier Dupont notifié')">Prendre RDV</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── RELANCES & RDV ── -->
+      <div class="screen" id="screen-relances">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Relances & RDV</div>
+            <div class="page-sub">87 séquences actives · 24 RDV générés ce mois</div>
+          </div>
+          <button class="btn-primary" onclick="notify('➕ Nouvelle séquence de relance créée')">+ Nouvelle séquence</button>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Relances envoyées</div>
+            <div class="kpi-val">312</div>
+            <div class="kpi-sub">Ce mois · email + SNS</div>
+            <div class="kpi-icon blue">📬</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Taux d'ouverture</div>
+            <div class="kpi-val">68 %</div>
+            <div class="kpi-sub">+12 pts vs campagnes manuelles</div>
+            <div class="kpi-icon green">📧</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">RDV générés</div>
+            <div class="kpi-val">24</div>
+            <div class="kpi-sub">Via prospection automatique</div>
+            <div class="kpi-icon amber">📅</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Taux de réponse</div>
+            <div class="kpi-val">14 %</div>
+            <div class="kpi-sub">Vs 3 % en manuel</div>
+            <div class="kpi-icon green">↑</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon">📋</span>Séquences actives</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="padding:10px 12px;border:1px solid var(--border);border-radius:var(--r);cursor:pointer;" onclick="notify('📬 Séquence Placement O2S — détails')">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                  <div style="font-weight:700;font-size:.85rem;color:var(--ink2);">Placement O2S — Clients 50 ans+</div>
+                  <span class="badge badge-green">Active</span>
+                </div>
+                <div style="font-size:.75rem;color:var(--muted);margin-bottom:6px;">147 clients ciblés · 3 messages · J+0, J+7, J+21</div>
+                <div style="height:4px;background:var(--border);border-radius:2px;"><div style="width:65%;height:100%;background:var(--green);border-radius:2px;"></div></div>
+                <div style="font-size:.68rem;color:var(--muted);margin-top:3px;">65 % des clients ont ouvert le premier message</div>
+              </div>
+              <div style="padding:10px 12px;border:1px solid var(--border);border-radius:var(--r);cursor:pointer;" onclick="notify('📬 Séquence Rachat de crédit — détails')">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                  <div style="font-weight:700;font-size:.85rem;color:var(--ink2);">Rachat de crédit — Taux renégociable</div>
+                  <span class="badge badge-green">Active</span>
+                </div>
+                <div style="font-size:.75rem;color:var(--muted);margin-bottom:6px;">71 clients ciblés · 2 messages · J+0, J+14</div>
+                <div style="height:4px;background:var(--border);border-radius:2px;"><div style="width:42%;height:100%;background:var(--ab);border-radius:2px;"></div></div>
+                <div style="font-size:.68rem;color:var(--muted);margin-top:3px;">42 % des clients ont ouvert le premier message</div>
+              </div>
+              <div style="padding:10px 12px;border:1px solid var(--border);border-radius:var(--r);cursor:pointer;" onclick="notify('📬 Séquence Documents manquants — détails')">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                  <div style="font-weight:700;font-size:.85rem;color:var(--ink2);">Documents manquants — Relance dossiers</div>
+                  <span class="badge badge-amber">En pause</span>
+                </div>
+                <div style="font-size:.75rem;color:var(--muted);margin-bottom:6px;">3 dossiers · 1 message · J+1 après dépôt incomplet</div>
+                <div style="height:4px;background:var(--border);border-radius:2px;"><div style="width:100%;height:100%;background:var(--amber);border-radius:2px;"></div></div>
+                <div style="font-size:.68rem;color:var(--muted);margin-top:3px;">En attente de validation manuelle</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title"><span class="card-title-icon">📅</span>RDV générés automatiquement — Cette semaine</div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div style="padding:9px 12px;background:var(--green-bg);border:1px solid var(--green-b);border-radius:var(--r);cursor:pointer;" onclick="notify('✅ RDV Jean PRUNTE confirmé — Lundi 23 mars 10h00')">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;">
+                  <div style="font-weight:700;font-size:.82rem;color:var(--ink2);">Jean PRUNTE</div>
+                  <span class="badge badge-green">Confirmé</span>
+                </div>
+                <div style="font-size:.72rem;color:var(--muted);">Lundi 23 mars · 10h00 · Olivier Dupont</div>
+                <div style="font-size:.7rem;color:var(--green);margin-top:2px;">💰 Placement O2S — Score IA : 94/100</div>
+              </div>
+              <div style="padding:9px 12px;background:var(--ab-light);border:1px solid rgba(27,127,212,.2);border-radius:var(--r);cursor:pointer;" onclick="notify('🔵 RDV Paul ISSON — Mardi 24 mars 14h30')">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;">
+                  <div style="font-weight:700;font-size:.82rem;color:var(--ink2);">Paul ISSON</div>
+                  <span class="badge badge-blue">Planifié</span>
+                </div>
+                <div style="font-size:.72rem;color:var(--muted);">Mardi 24 mars · 14h30 · Cyril DUBOIS</div>
+                <div style="font-size:.7rem;color:var(--ab);margin-top:2px;">🏦 Rachat de crédit — Score IA : 87/100</div>
+              </div>
+              <div style="padding:9px 12px;background:var(--amber-bg);border:1px solid var(--amber-b);border-radius:var(--r);cursor:pointer;" onclick="notify('⏳ RDV Marc HING — En attente de confirmation')">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;">
+                  <div style="font-weight:700;font-size:.82rem;color:var(--ink2);">Marc HING</div>
+                  <span class="badge badge-amber">En attente</span>
+                </div>
+                <div style="font-size:.72rem;color:var(--muted);">Proposition envoyée · Jean CERDA</div>
+                <div style="font-size:.7rem;color:var(--amber);margin-top:2px;">💼 Assurance vie — Score IA : 81/100</div>
+              </div>
+              <div style="padding:9px 12px;background:var(--green-bg);border:1px solid var(--green-b);border-radius:var(--r);cursor:pointer;" onclick="notify('✅ RDV Sophie NANCE — Jeudi 26 mars 11h00')">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;">
+                  <div style="font-weight:700;font-size:.82rem;color:var(--ink2);">Sophie NANCE</div>
+                  <span class="badge badge-green">Confirmé</span>
+                </div>
+                <div style="font-size:.72rem;color:var(--muted);">Jeudi 26 mars · 11h00 · Olivier Dupont</div>
+                <div style="font-size:.7rem;color:var(--green);margin-top:2px;">⭐ Invest. locatif — Score IA : 76/100</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- NOTIFICATION -->
+<div class="notif" id="notif">
+  <span class="notif-icon" id="notif-icon">✅</span>
+  <span id="notif-text">Message</span>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function showApp() {
+  document.getElementById('screen-login').style.display = 'none';
+  document.getElementById('app').classList.add('visible');
+}
+
+function goTo(screen, navItem) {
+  // Update screens
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + screen).classList.add('active');
+
+  // Update nav
+  if (navItem) {
+    document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
+    navItem.classList.add('active');
+  }
+
+  // Update topbar
+  const labels = {
+    cockpit: 'Cockpit',
+    nouveau: 'Nouveau dossier',
+    dossiers: 'Mes dossiers',
+    detail: 'Dossier · Sophie NANCE',
+    admin: 'Dashboard Admin',
+    temps: 'Temps gagné'
+  };
+  document.getElementById('topbar-current').textContent = labels[screen] || screen;
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  notify('📂 Onglet ' + tab.textContent + ' sélectionné');
+}
+
+function notify(msg) {
+  const notif = document.getElementById('notif');
+  document.getElementById('notif-text').textContent = msg;
+  notif.classList.add('show');
+  setTimeout(() => notif.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>
