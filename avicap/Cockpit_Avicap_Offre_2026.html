@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cockpit Avicap — Offre Commerciale 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,600&family=General+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   COCKPIT AVICAP — Offre Commerciale
+   Direction: Editorial Luxury × Swiss Precision
+   Warm cream + bold accents + oversized typography
+   ═══════════════════════════════════════════════ */
+
+:root {
+  --cream: #FAF7F2;
+  --cream2: #F3EDE4;
+  --cream3: #EBE3D7;
+  --white: #FFFFFF;
+  --ink: #1A1A1A;
+  --ink2: #2D2D2D;
+  --ink3: #555555;
+  --ink4: #888888;
+  --ink5: #BBBBBB;
+  --ink6: #DDDDDD;
+  --blue: #2563EB;
+  --blue2: #1D4ED8;
+  --blue-soft: #EFF6FF;
+  --blue-border: #BFDBFE;
+  --violet: #7C3AED;
+  --violet2: #6D28D9;
+  --violet-soft: #F5F3FF;
+  --violet-border: #DDD6FE;
+  --amber: #D97706;
+  --amber2: #B45309;
+  --amber-soft: #FFFBEB;
+  --amber-border: #FDE68A;
+  --green: #059669;
+  --green2: #047857;
+  --green-soft: #ECFDF5;
+  --green-border: #A7F3D0;
+  --red: #DC2626;
+  --gradient: linear-gradient(135deg, #2563EB 0%, #7C3AED 50%, #D97706 100%);
+  --shadow-s: 0 1px 3px rgba(0,0,0,.04), 0 1px 2px rgba(0,0,0,.06);
+  --shadow-m: 0 4px 16px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.04);
+  --shadow-l: 0 12px 40px rgba(0,0,0,.08);
+  --r: 12px;
+  --r2: 20px;
+  --r3: 28px;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'General Sans', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--cream);
+  color: var(--ink2);
+  line-height: 1.65;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* grain overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── PROGRESS ── */
+#progress {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--gradient);
+  transform-origin: left;
+  transform: scaleX(0);
+  z-index: 999;
+  transition: transform .1s linear;
+}
+
+/* ── NAV STICKY ── */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(250,247,242,.85);
+  backdrop-filter: blur(16px) saturate(1.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  border-bottom: 1px solid rgba(0,0,0,.06);
+  padding: 0 40px;
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+}
+.nav-brand {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.nav-brand span {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.nav-links {
+  display: flex;
+  gap: 6px;
+}
+.nav-link {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--ink4);
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 100px;
+  transition: all .25s ease;
+}
+.nav-link:hover { color: var(--ink); background: rgba(0,0,0,.04); }
+
+/* ── HERO ── */
+.hero {
+  padding: 100px 40px 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  width: 700px; height: 700px;
+  top: -200px; right: -150px;
+  background: radial-gradient(circle, rgba(37,99,235,.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  width: 500px; height: 500px;
+  bottom: -100px; left: -100px;
+  background: radial-gradient(circle, rgba(124,58,237,.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--ink4);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  animation: slideUp .6s ease both;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 28px; height: 2px;
+  background: var(--gradient);
+  border-radius: 2px;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  max-width: 800px;
+  margin-bottom: 24px;
+  animation: slideUp .6s ease .08s both;
+}
+.hero h1 em {
+  font-style: italic;
+  font-weight: 600;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-desc {
+  font-size: 1.1rem;
+  color: var(--ink3);
+  max-width: 520px;
+  line-height: 1.7;
+  margin-bottom: 36px;
+  animation: slideUp .6s ease .16s both;
+}
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  animation: slideUp .6s ease .24s both;
+}
+.hero-tag {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  padding: 8px 18px;
+  border-radius: 100px;
+  background: var(--white);
+  border: 1px solid var(--ink6);
+  color: var(--ink3);
+  box-shadow: var(--shadow-s);
+  transition: all .2s ease;
+}
+.hero-tag:hover { box-shadow: var(--shadow-m); transform: translateY(-1px); }
+.hero-tag strong { color: var(--ink); font-weight: 700; }
+.hero-tag.t-blue { border-color: var(--blue-border); background: var(--blue-soft); }
+.hero-tag.t-violet { border-color: var(--violet-border); background: var(--violet-soft); }
+.hero-tag.t-amber { border-color: var(--amber-border); background: var(--amber-soft); }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ── CONTAINER ── */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+
+/* ── SECTION HEADER ── */
+.sh { margin-bottom: 40px; }
+.sh-label {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--blue);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.sh-label::before {
+  content: '';
+  width: 20px; height: 2px;
+  background: var(--gradient);
+  border-radius: 2px;
+}
+.sh-title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: 10px;
+}
+.sh-title em {
+  font-style: italic;
+  font-weight: 400;
+}
+.sh-desc {
+  font-size: 0.95rem;
+  color: var(--ink4);
+  max-width: 500px;
+  line-height: 1.65;
+}
+
+/* ── PRICING SECTION ── */
+.pricing-section { padding: 80px 0; }
+
+/* Toggle */
+.toggle-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+.toggle-label {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ink4);
+  transition: color .25s;
+  cursor: pointer;
+}
+.toggle-label.active { color: var(--ink); font-weight: 600; }
+.toggle-track {
+  width: 52px; height: 28px;
+  background: var(--ink6);
+  border-radius: 100px;
+  position: relative;
+  cursor: pointer;
+  transition: background .3s ease;
+}
+.toggle-track.on { background: var(--green); }
+.toggle-thumb {
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: 0 1px 4px rgba(0,0,0,.15);
+  transition: transform .3s cubic-bezier(.4,0,.2,1);
+}
+.toggle-track.on .toggle-thumb { transform: translateX(24px); }
+.toggle-save {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--green);
+  background: var(--green-soft);
+  border: 1px solid var(--green-border);
+  padding: 4px 12px;
+  border-radius: 100px;
+  letter-spacing: 0.5px;
+}
+
+/* Cards */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 32px;
+}
+.p-card {
+  background: var(--white);
+  border: 1px solid var(--ink6);
+  border-radius: var(--r2);
+  padding: 36px 32px 32px;
+  position: relative;
+  box-shadow: var(--shadow-s);
+  transition: all .35s cubic-bezier(.16,1,.3,1);
+  overflow: hidden;
+}
+.p-card:hover { box-shadow: var(--shadow-l); transform: translateY(-6px); }
+.p-card.best {
+  border: 2px solid var(--violet);
+  box-shadow: var(--shadow-m), 0 0 0 4px rgba(124,58,237,.08);
+}
+.p-card.best::before {
+  content: '★ Recommandé';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--violet);
+  padding: 6px;
+}
+.p-card.best { padding-top: 56px; }
+
+.p-tier {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.p-tier.t1 { color: var(--blue); }
+.p-tier.t2 { color: var(--violet); }
+.p-tier.t3 { color: var(--amber); }
+.p-name {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+.p-price-block { margin-bottom: 24px; min-height: 80px; }
+.p-price {
+  font-family: var(--serif);
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  transition: all .4s ease;
+}
+.p-price.c1 { color: var(--blue); }
+.p-price.c2 { color: var(--violet); }
+.p-price.c3 { color: var(--amber); }
+.p-price sup {
+  font-size: 1.6rem;
+  font-weight: 600;
+  vertical-align: super;
+  margin-left: 2px;
+}
+.p-unit {
+  font-size: 0.78rem;
+  color: var(--ink4);
+  margin-top: 2px;
+}
+.p-annual-info {
+  display: none;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--green2);
+  margin-top: 6px;
+}
+.p-annual-info .old {
+  text-decoration: line-through;
+  color: var(--ink5);
+  margin-right: 6px;
+}
+body.annual .p-annual-info { display: block; }
+
+.p-divider {
+  height: 1px;
+  background: linear-gradient(90deg, var(--ink6) 0%, transparent 100%);
+  margin-bottom: 22px;
+}
+.p-features { list-style: none; }
+.p-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 0.84rem;
+  color: var(--ink3);
+  line-height: 1.5;
+}
+.p-features li .dot {
+  flex-shrink: 0;
+  width: 20px; height: 20px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  font-weight: 700;
+  margin-top: 1px;
+}
+.dot-yes { background: var(--green-soft); color: var(--green); border: 1px solid var(--green-border); }
+.dot-no { background: var(--cream2); color: var(--ink5); }
+.dot-lim { background: var(--amber-soft); color: var(--amber); border: 1px solid var(--amber-border); font-size: 0.55rem; }
+.p-features li.off { color: var(--ink5); }
+.p-features li strong { color: var(--ink2); font-weight: 600; }
+
+/* ── PROMO STRIP ── */
+.promo-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 0;
+}
+.promo {
+  background: var(--white);
+  border: 1px solid var(--ink6);
+  border-radius: var(--r2);
+  padding: 28px;
+  box-shadow: var(--shadow-s);
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  transition: all .25s ease;
+}
+.promo:hover { box-shadow: var(--shadow-m); }
+.promo-ico {
+  width: 48px; height: 48px;
+  border-radius: var(--r);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+.promo-ico.green { background: var(--green-soft); border: 1px solid var(--green-border); }
+.promo-ico.blue { background: var(--blue-soft); border: 1px solid var(--blue-border); }
+.promo-body h4 {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.promo-body p {
+  font-size: 0.82rem;
+  color: var(--ink4);
+  line-height: 1.55;
+  margin-bottom: 10px;
+}
+.promo-chip {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 100px;
+}
+.promo-chip.green { background: var(--green-soft); color: var(--green); border: 1px solid var(--green-border); }
+.promo-chip.blue { background: var(--blue-soft); color: var(--blue); border: 1px solid var(--blue-border); }
+
+/* ── COMPARISON TABLE ── */
+.comparison-section { padding: 80px 0; }
+.comp-wrap {
+  background: var(--white);
+  border: 1px solid var(--ink6);
+  border-radius: var(--r2);
+  overflow: hidden;
+  box-shadow: var(--shadow-m);
+}
+.comp-table { width: 100%; border-collapse: collapse; }
+.comp-table thead th {
+  padding: 16px 20px;
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink4);
+  text-align: center;
+  background: var(--cream);
+  border-bottom: 1px solid var(--ink6);
+}
+.comp-table thead th:first-child { text-align: left; width: 38%; padding-left: 28px; }
+.comp-table thead th:nth-child(2) { color: var(--blue); }
+.comp-table thead th:nth-child(3) { color: var(--violet); }
+.comp-table thead th:nth-child(4) { color: var(--amber); }
+.comp-table tbody tr {
+  border-bottom: 1px solid rgba(0,0,0,.04);
+  transition: background .15s;
+}
+.comp-table tbody tr:hover { background: var(--cream); }
+.comp-table tbody tr:last-child { border-bottom: none; }
+.comp-table td {
+  padding: 13px 20px;
+  font-size: 0.85rem;
+  color: var(--ink3);
+  text-align: center;
+  vertical-align: middle;
+}
+.comp-table td:first-child { text-align: left; font-weight: 500; color: var(--ink2); padding-left: 28px; }
+.c-yes { color: var(--green); font-size: 1rem; }
+.c-no { color: var(--ink6); font-size: 0.85rem; }
+.c-lim { font-family: var(--mono); font-size: 0.65rem; font-weight: 600; color: var(--amber); background: var(--amber-soft); padding: 2px 10px; border-radius: 100px; }
+.c-txt { font-family: var(--mono); font-size: 0.65rem; color: var(--ink4); }
+.comp-special td {
+  font-style: italic;
+  color: var(--green) !important;
+  font-size: 0.8rem;
+  background: var(--green-soft);
+}
+
+/* ── MODULES SECTION ── */
+.modules-section { padding: 80px 0; }
+.tier-group { margin-bottom: 56px; }
+.tier-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--ink6);
+}
+.tier-pip {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.pip-1 { background: var(--blue); }
+.pip-2 { background: var(--violet); }
+.pip-3 { background: var(--amber); }
+.pip-4 { background: var(--green); }
+.tier-bar h3 {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+.tier-bar .tier-sub {
+  font-size: 0.8rem;
+  color: var(--ink4);
+  margin-left: auto;
+}
+
+.mod-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.mod-grid.full { grid-template-columns: 1fr; }
+.m-card {
+  background: var(--white);
+  border: 1px solid var(--ink6);
+  border-radius: var(--r);
+  overflow: hidden;
+  box-shadow: var(--shadow-s);
+  transition: all .3s ease;
+}
+.m-card:hover { box-shadow: var(--shadow-m); transform: translateY(-3px); }
+.m-head {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid rgba(0,0,0,.04);
+}
+.m-ico {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.m-ico.i1 { background: var(--blue-soft); }
+.m-ico.i2 { background: var(--violet-soft); }
+.m-ico.i3 { background: var(--amber-soft); }
+.m-ico.i4 { background: var(--green-soft); }
+.m-meta { flex: 1; }
+.m-title {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.m-sub { font-size: 0.74rem; color: var(--ink4); margin-top: 1px; }
+.m-body {
+  padding: 16px 20px;
+}
+.m-body ul { list-style: none; }
+.m-body li {
+  font-size: 0.82rem;
+  color: var(--ink3);
+  padding: 4px 0 4px 20px;
+  position: relative;
+  line-height: 1.5;
+}
+.m-body li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--ink5);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+.m-foot {
+  padding: 10px 20px;
+  background: var(--cream);
+  border-top: 1px solid rgba(0,0,0,.04);
+  font-size: 0.76rem;
+  color: var(--ink4);
+}
+.m-foot strong { color: var(--green); font-weight: 700; }
+
+/* 3-col module body for special card */
+.m-body-3col {
+  padding: 16px 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+.m-body-3col .col-title {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink5);
+  margin-bottom: 8px;
+}
+
+/* ── ROI SECTION ── */
+.roi-section { padding: 80px 0; }
+.roi-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.roi-stat {
+  background: var(--white);
+  border: 1px solid var(--ink6);
+  border-radius: var(--r2);
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: var(--shadow-s);
+  transition: all .3s ease;
+}
+.roi-stat:hover { box-shadow: var(--shadow-m); transform: translateY(-3px); }
+.roi-num {
+  font-family: var(--serif);
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.roi-num.green { color: var(--green); }
+.roi-num.blue { color: var(--blue); }
+.roi-desc {
+  font-size: 0.8rem;
+  color: var(--ink4);
+  line-height: 1.45;
+}
+.roi-banner {
+  background: var(--ink);
+  border-radius: var(--r2);
+  padding: 36px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  color: var(--white);
+  box-shadow: var(--shadow-l);
+}
+.roi-banner-left h4 {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.roi-banner-left p {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,.5);
+  line-height: 1.55;
+  max-width: 500px;
+}
+.roi-banner-right { text-align: right; flex-shrink: 0; }
+.roi-big {
+  font-family: var(--serif);
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #34D399, #6EE7B7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+.roi-big-sub {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  color: rgba(255,255,255,.4);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* ── VOLUME ── */
+.volume-section { padding: 80px 0; }
+.vol-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.vol-card {
+  background: var(--white);
+  border: 1px solid var(--ink6);
+  border-radius: var(--r2);
+  padding: 28px;
+  box-shadow: var(--shadow-s);
+}
+.vol-card h4 {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.vol-card .vol-desc {
+  font-size: 0.78rem;
+  color: var(--ink4);
+  margin-bottom: 18px;
+}
+.vol-header {
+  display: grid;
+  grid-template-columns: 1fr repeat(3, 80px);
+  gap: 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--ink6);
+  margin-bottom: 4px;
+}
+.vol-header span {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: right;
+}
+.vh-1 { color: var(--blue); }
+.vh-2 { color: var(--violet); }
+.vh-3 { color: var(--amber); }
+.vol-row {
+  display: grid;
+  grid-template-columns: 1fr repeat(3, 80px);
+  gap: 0;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(0,0,0,.03);
+  font-size: 0.84rem;
+}
+.vol-row:last-child { border-bottom: none; }
+.vol-row .vol-label { color: var(--ink3); }
+.vol-row .vol-val {
+  text-align: right;
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+.vv-1 { color: var(--blue); }
+.vv-2 { color: var(--violet); }
+.vv-3 { color: var(--amber); }
+
+/* ── SETUP ── */
+.setup-section { padding: 0 0 80px; }
+.setup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.setup-card {
+  background: var(--white);
+  border: 1px solid var(--ink6);
+  border-radius: var(--r2);
+  padding: 28px;
+  box-shadow: var(--shadow-s);
+}
+.setup-card h4 {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+.setup-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 0.82rem;
+  color: var(--ink3);
+  line-height: 1.5;
+}
+.setup-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+.sd-green { background: var(--green); }
+.sd-blue { background: var(--blue); }
+
+/* ── FOOTER ── */
+.footer-wrap {
+  padding: 32px 0;
+  border-top: 1px solid var(--ink6);
+}
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-brand {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.footer-note {
+  font-size: 0.7rem;
+  color: var(--ink5);
+  font-style: italic;
+}
+
+/* ── REVEAL ── */
+.rv {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1);
+}
+.rv.on { opacity: 1; transform: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 860px) {
+  .hero { padding: 60px 24px 50px; }
+  .container { padding: 0 20px; }
+  .nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .promo-strip { grid-template-columns: 1fr; }
+  .mod-grid { grid-template-columns: 1fr; }
+  .roi-stats { grid-template-columns: 1fr; }
+  .vol-grid { grid-template-columns: 1fr; }
+  .setup-grid { grid-template-columns: 1fr; }
+  .roi-banner { flex-direction: column; text-align: center; }
+  .roi-banner-right { text-align: center; }
+  .m-body-3col { grid-template-columns: 1fr; }
+  .footer-inner { flex-direction: column; gap: 8px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">Cockpit <span>Avicap</span></div>
+    <div class="nav-links">
+      <a class="nav-link" href="#tarifs">Tarifs</a>
+      <a class="nav-link" href="#comparaison">Comparaison</a>
+      <a class="nav-link" href="#modules">Modules</a>
+      <a class="nav-link" href="#roi">ROI</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Offre commerciale · Confidentiel · Mars 2026</div>
+    <h1>Le cockpit<br>qui <em>accélère</em><br>votre réseau</h1>
+    <p class="hero-desc">Plateforme complète pour courtiers en crédit immobilier. Analyse IA, automatisation, portail client, intégration CiFacil & O2S — en 3 niveaux.</p>
+    <div class="hero-tags">
+      <span class="hero-tag t-blue">Essentiel <strong>29 €</strong>/mois</span>
+      <span class="hero-tag t-violet">Pro <strong>49 €</strong>/mois</span>
+      <span class="hero-tag t-amber">Premium <strong>89 €</strong>/mois</span>
+      <span class="hero-tag">Déploiement <strong>sept. 2026</strong></span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRICING ═══ -->
+<section class="pricing-section container" id="tarifs">
+  <div class="sh rv">
+    <div class="sh-label">Tarifs</div>
+    <div class="sh-title">Trois niveaux,<br><em>un seul objectif</em></div>
+    <div class="sh-desc">Abonnement mensuel par siège, HT. Chaque niveau inclut le précédent.</div>
+  </div>
+
+  <!-- Toggle -->
+  <div class="toggle-bar rv">
+    <span class="toggle-label active" id="lbl-m">Mensuel</span>
+    <div class="toggle-track" id="toggle" onclick="togglePricing()">
+      <div class="toggle-thumb"></div>
+    </div>
+    <span class="toggle-label" id="lbl-a">Annuel</span>
+    <span class="toggle-save">2 mois offerts</span>
+  </div>
+
+  <!-- Cards -->
+  <div class="pricing-grid rv">
+
+    <!-- ESSENTIEL -->
+    <div class="p-card">
+      <div class="p-tier t1">Essentiel</div>
+      <div class="p-name">Cockpit Essentiel</div>
+      <div class="p-price-block">
+        <div class="p-price c1" data-m="29" data-a="24"><span class="pv">29</span><sup>€</sup></div>
+        <div class="p-unit">par siège / mois HT</div>
+        <div class="p-annual-info"><span class="old">348 €/an</span> → 290 €/an</div>
+      </div>
+      <div class="p-divider"></div>
+      <ul class="p-features">
+        <li><span class="dot dot-yes">✓</span>CRM & suivi de dossiers</li>
+        <li><span class="dot dot-lim">~</span>Analyse documentaire IA <strong>(limité)</strong></li>
+        <li><span class="dot dot-yes">✓</span>Scénarios financiers</li>
+        <li><span class="dot dot-yes">✓</span>Multi-tenant réseau</li>
+        <li><span class="dot dot-yes">✓</span>Marque blanche</li>
+        <li><span class="dot dot-yes">✓</span>Support email</li>
+        <li class="off"><span class="dot dot-no">–</span>Scoring & comparaison</li>
+        <li class="off"><span class="dot dot-no">–</span>Relances automatiques</li>
+      </ul>
+    </div>
+
+    <!-- PRO -->
+    <div class="p-card best">
+      <div class="p-tier t2">Pro</div>
+      <div class="p-name">Cockpit Pro</div>
+      <div class="p-price-block">
+        <div class="p-price c2" data-m="49" data-a="41"><span class="pv">49</span><sup>€</sup></div>
+        <div class="p-unit">par siège / mois HT</div>
+        <div class="p-annual-info"><span class="old">588 €/an</span> → 490 €/an</div>
+      </div>
+      <div class="p-divider"></div>
+      <ul class="p-features">
+        <li><span class="dot dot-yes">✓</span><strong>Tout l'Essentiel</strong></li>
+        <li><span class="dot dot-yes">✓</span>Analyse IA <strong>illimitée</strong></li>
+        <li><span class="dot dot-yes">✓</span>Scoring & comparaison d'offres</li>
+        <li><span class="dot dot-yes">✓</span>Relances email / SMS auto</li>
+        <li><span class="dot dot-yes">✓</span>Portail dépôt client B2B</li>
+        <li><span class="dot dot-yes">✓</span>Espace client B2C</li>
+        <li><span class="dot dot-yes">✓</span>Plugins CiFacil / O2S</li>
+        <li><span class="dot dot-yes">✓</span>Support prioritaire</li>
+      </ul>
+    </div>
+
+    <!-- PREMIUM -->
+    <div class="p-card">
+      <div class="p-tier t3">Premium</div>
+      <div class="p-name">Cockpit Premium</div>
+      <div class="p-price-block">
+        <div class="p-price c3" data-m="89" data-a="74"><span class="pv">89</span><sup>€</sup></div>
+        <div class="p-unit">par siège / mois HT</div>
+        <div class="p-annual-info"><span class="old">1 068 €/an</span> → 890 €/an</div>
+      </div>
+      <div class="p-divider"></div>
+      <ul class="p-features">
+        <li><span class="dot dot-yes">✓</span><strong>Tout le Pro</strong></li>
+        <li><span class="dot dot-yes">✓</span>Relances via Gmail / Outlook</li>
+        <li><span class="dot dot-yes">✓</span><strong>Facturation électronique</strong> Pennylane</li>
+        <li><span class="dot dot-yes">✓</span>Support dédié</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Promos -->
+  <div class="promo-strip rv">
+    <div class="promo">
+      <div class="promo-ico green">🎁</div>
+      <div class="promo-body">
+        <h4>Paiement annuel — 2 mois offerts</h4>
+        <p>Engagez-vous à l'année et payez 10 mois au lieu de 12. Réduction effective de 16,7 % sur l'abonnement.</p>
+        <span class="promo-chip green">−16,7 % · 2 mois offerts</span>
+      </div>
+    </div>
+    <div class="promo">
+      <div class="promo-ico blue">🏢</div>
+      <div class="promo-body">
+        <h4>Réseau 10+ sièges — remise volume</h4>
+        <p>−10 % appliqué dès le 1er siège pour tout réseau de 10 sièges et plus. Cumulable avec le paiement annuel.</p>
+        <span class="promo-chip blue">−10 % · Dès le 1er siège</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COMPARAISON ═══ -->
+<section class="comparison-section container" id="comparaison">
+  <div class="sh rv">
+    <div class="sh-label">Comparaison</div>
+    <div class="sh-title">Fonctionnalité<br><em>par fonctionnalité</em></div>
+  </div>
+  <div class="comp-wrap rv">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Fonctionnalité</th>
+          <th>Essentiel · 29 €</th>
+          <th>Pro · 49 €</th>
+          <th>Premium · 89 €</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>CRM & dossiers</td><td><span class="c-yes">✓</span></td><td><span class="c-yes">✓</span></td><td><span class="c-yes">✓</span></td></tr>
+        <tr><td>Analyse documentaire IA</td><td><span class="c-lim">Limité</span></td><td><span class="c-yes">✓</span></td><td><span class="c-yes">✓</span></td></tr>
+        <tr><td>Scénarios financiers</td><td><span class="c-yes">✓</span></td><td><span class="c-yes">✓</span></td><td><span class="c-yes">✓</span></td></tr>
+        <tr><td>Multi-tenant & Marque blanche</td><td><span class="c-yes">✓</span></td><td><span class="c-yes">✓</span></td><td><span class="c-yes">✓</span></td></tr>
+        <tr><td>Scoring & comparaison d'offres</td><td><span class="c-no">✗</span></td><td><span class="c-yes">✓</span></td><td><span class="c-yes">✓</span></td></tr>
+        <tr><td>Relances email / SMS auto</td><td><span class="c-no">✗</span></td><td><span class="c-yes">✓</span></td><td><span class="c-yes">✓</span></td></tr>
+        <tr><td>Portail dépôt client B2B</td><td><span class="c-no">✗</span></td><td><span class="c-yes">✓</span></td><td><span class="c-yes">✓</span></td></tr>
+        <tr><td>Espace client B2C</td><td><span class="c-no">✗</span></td><td><span class="c-yes">✓</span></td><td><span class="c-yes">✓</span></td></tr>
+        <tr><td>Plugins CiFacil / O2S</td><td><span class="c-no">✗</span></td><td><span class="c-yes">✓</span></td><td><span class="c-yes">✓</span></td></tr>
+        <tr><td>Relances Gmail / Outlook natif</td><td><span class="c-no">✗</span></td><td><span class="c-no">✗</span></td><td><span class="c-yes">✓</span></td></tr>
+        <tr><td>Facturation Pennylane</td><td><span class="c-no">✗</span></td><td><span class="c-no">✗</span></td><td><span class="c-yes">✓</span></td></tr>
+        <tr><td>Support</td><td><span class="c-txt">Email</span></td><td><span class="c-txt">Prioritaire</span></td><td><span class="c-txt">Dédié</span></td></tr>
+        <tr class="comp-special"><td>Détection opportunités O2S</td><td colspan="3" style="text-align:center;">Module à part · hors abonnement · sur devis après audit</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ MODULES ═══ -->
+<section class="modules-section container" id="modules">
+  <div class="sh rv">
+    <div class="sh-label">Modules</div>
+    <div class="sh-title">Chaque module<br><em>en détail</em></div>
+    <div class="sh-desc">Ce que fait chaque brique, ce qu'elle remplace, et le gain estimé.</div>
+  </div>
+
+  <!-- ESSENTIEL -->
+  <div class="tier-group rv">
+    <div class="tier-bar">
+      <div class="tier-pip pip-1"></div>
+      <h3>Essentiel — 29 €/mois</h3>
+      <span class="tier-sub">Les fondamentaux pour structurer l'activité</span>
+    </div>
+    <div class="mod-grid">
+      <div class="m-card"><div class="m-head"><div class="m-ico i1">📁</div><div class="m-meta"><div class="m-title">CRM & Dossiers</div><div class="m-sub">Gestion centralisée de tous les dossiers du réseau</div></div></div><div class="m-body"><ul><li>Création et suivi des dossiers de financement</li><li>Vue kanban par statut (Nouveau → En cours → Financé)</li><li>Historique complet de chaque dossier et client</li><li>Tableau de bord courtier avec KPIs</li></ul></div></div>
+      <div class="m-card"><div class="m-head"><div class="m-ico i1">🔍</div><div class="m-meta"><div class="m-title">Analyse documentaire</div><div class="m-sub">Lecture et extraction IA — volume limité en Essentiel</div></div></div><div class="m-body"><ul><li>Classification automatique des documents déposés</li><li>Extraction des données clés (revenus, charges, crédits)</li><li>Renommage et organisation automatique</li><li>Volume d'analyses limité par mois</li></ul></div><div class="m-foot">Gain : <strong>25–35 min / dossier</strong> · Illimité à partir du Pro</div></div>
+      <div class="m-card"><div class="m-head"><div class="m-ico i1">📊</div><div class="m-meta"><div class="m-title">Scénarios financiers</div><div class="m-sub">Simulation crédit rapide au premier contact</div></div></div><div class="m-body"><ul><li>Enveloppe de financement indicative en secondes</li><li>Calcul de capacité d'emprunt simplifié</li><li>Idéal primo-accédants, sans CiFacil complet</li></ul></div><div class="m-foot">Impact : <strong>premier contact 3× plus rapide</strong></div></div>
+      <div class="m-card"><div class="m-head"><div class="m-ico i1">🌐</div><div class="m-meta"><div class="m-title">Multi-tenant & Marque blanche</div><div class="m-sub">Un seul outil pour tout le réseau, à votre image</div></div></div><div class="m-body"><ul><li>Tous les courtiers sur un espace admin unique</li><li>Logo, couleurs et domaine personnalisés</li><li>Rôles : courtier, responsable région, admin</li></ul></div></div>
+    </div>
+  </div>
+
+  <!-- PRO -->
+  <div class="tier-group rv">
+    <div class="tier-bar">
+      <div class="tier-pip pip-2"></div>
+      <h3>Pro — 49 €/mois</h3>
+      <span class="tier-sub">Automatisation complète du parcours</span>
+    </div>
+    <div class="mod-grid">
+      <div class="m-card"><div class="m-head"><div class="m-ico i2">🔍</div><div class="m-meta"><div class="m-title">Analyse IA illimitée</div><div class="m-sub">Aucun plafond, détection d'anomalies avancée</div></div></div><div class="m-body"><ul><li>Volume d'analyses sans limite</li><li>Traitement prioritaire des documents</li><li>Détection découvert récurrent, revenu irrégulier</li></ul></div></div>
+      <div class="m-card"><div class="m-head"><div class="m-ico i2">⚡</div><div class="m-meta"><div class="m-title">Scoring & comparaison</div><div class="m-sub">Évaluation auto et comparaison des offres bancaires</div></div></div><div class="m-body"><ul><li>Score de faisabilité automatique</li><li>Comparaison des offres selon le profil</li><li>Recommandation de la meilleure offre</li></ul></div></div>
+      <div class="m-card"><div class="m-head"><div class="m-ico i2">📬</div><div class="m-meta"><div class="m-title">Relances automatiques</div><div class="m-sub">Email & SMS déclenchés par statut dossier</div></div></div><div class="m-body"><ul><li>Envoi auto selon l'avancement du dossier</li><li>Relance docs manquants, signatures en attente</li><li>Séquences paramétrées avec le réseau</li></ul></div><div class="m-foot">Gain : <strong>20–30 min / jour</strong></div></div>
+      <div class="m-card"><div class="m-head"><div class="m-ico i2">📁</div><div class="m-meta"><div class="m-title">Portail dépôt B2B</div><div class="m-sub">Collecte de documents côté client, zéro friction</div></div></div><div class="m-body"><ul><li>Lien sécurisé unique par client</li><li>Dépôt depuis smartphone, aucun compte requis</li><li>Relance auto si dépôt incomplet</li></ul></div><div class="m-foot">Gain : <strong>15–20 min / dossier</strong></div></div>
+      <div class="m-card"><div class="m-head"><div class="m-ico i2">👤</div><div class="m-meta"><div class="m-title">Espace client B2C</div><div class="m-sub">Le client suit son dossier en temps réel</div></div></div><div class="m-body"><ul><li>Statut du dossier en temps réel</li><li>Notifications à chaque étape clé</li><li>Contact direct avec le courtier</li></ul></div></div>
+      <div class="m-card"><div class="m-head"><div class="m-ico i2">🔗</div><div class="m-meta"><div class="m-title">Plugins CiFacil / O2S</div><div class="m-sub">Zéro double saisie, données remontées automatiquement</div></div></div><div class="m-body"><ul><li>Connexion API CiFacil directe</li><li>Passerelle O2S gestion patrimoniale</li><li>Dashboard admin unifié réseau</li></ul></div><div class="m-foot">Gain : <strong>10–15 min / dossier</strong> · API CiFacil requise</div></div>
+    </div>
+  </div>
+
+  <!-- PREMIUM -->
+  <div class="tier-group rv">
+    <div class="tier-bar">
+      <div class="tier-pip pip-3"></div>
+      <h3>Premium — 89 €/mois</h3>
+      <span class="tier-sub">Automatisation avancée & facturation électronique</span>
+    </div>
+    <div class="mod-grid">
+      <div class="m-card"><div class="m-head"><div class="m-ico i3">✉️</div><div class="m-meta"><div class="m-title">Relances Gmail / Outlook</div><div class="m-sub">Les relances partent depuis la boîte du courtier</div></div></div><div class="m-body"><ul><li>Emails envoyés depuis la boîte personnelle du courtier</li><li>Taux d'ouverture et réponse significativement supérieurs</li><li>Historique visible dans la boîte mail du courtier</li></ul></div></div>
+      <div class="m-card"><div class="m-head"><div class="m-ico i3">🧾</div><div class="m-meta"><div class="m-title">Facturation Pennylane</div><div class="m-sub">Du dossier financé à la facture envoyée — sans intervention</div></div></div><div class="m-body"><ul><li>Facture générée et envoyée auto à la clôture</li><li>Suivi du statut de paiement en temps réel</li><li>Conformité facturation électronique 2026</li></ul></div><div class="m-foot">Impact : <strong>poste facturation libéré</strong></div></div>
+    </div>
+  </div>
+
+  <!-- MODULE À PART -->
+  <div class="tier-group rv">
+    <div class="tier-bar">
+      <div class="tier-pip pip-4"></div>
+      <h3>Module à part — Sur devis</h3>
+      <span class="tier-sub">Détection d'opportunités placement · Hors abonnement</span>
+    </div>
+    <div class="mod-grid full">
+      <div class="m-card" style="border-color:var(--green-border);">
+        <div class="m-head"><div class="m-ico i4">📈</div><div class="m-meta"><div class="m-title">Cycle de vie client & détection O2S</div><div class="m-sub">Vos 20 000 familles clientes deviennent une base d'opportunités actives</div></div></div>
+        <div class="m-body-3col">
+          <div>
+            <div class="col-title">Ce que ça fait</div>
+            <ul><li>Surveillance de la base clients existante</li><li>Alerte automatique à l'équipe patrimoniale</li><li>Passerelle Cockpit ↔ O2S</li><li>Proposition de RDV patrimonial automatique</li></ul>
+          </div>
+          <div>
+            <div class="col-title">Ce que ça remplace</div>
+            <ul><li>Base de 20 000 clients dormante</li><li>Coordination manuelle crédit / patrimoine</li><li>Opportunités manquées faute de suivi</li></ul>
+          </div>
+          <div>
+            <div class="col-title">Contrôle humain</div>
+            <ul><li>L'équipe patrimoine valide chaque opportunité</li><li>Aucune préconisation sans conseiller humain</li></ul>
+          </div>
+        </div>
+        <div class="m-foot" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+          <span>Impact : <strong>CA récurrent sur base existante</strong> sans prospection à froid</span>
+          <span style="color:var(--ink5);font-style:italic;">Audit requis avec Grégory + Cyril · Passerelle O2S à configurer</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ROI ═══ -->
+<section class="roi-section container" id="roi">
+  <div class="sh rv">
+    <div class="sh-label">Retour sur investissement</div>
+    <div class="sh-title">Un seul dossier de plus<br><em>couvre 51 mois</em></div>
+    <div class="sh-desc">Estimations basées sur les données des échanges de mars 2026.</div>
+  </div>
+  <div class="roi-stats rv">
+    <div class="roi-stat">
+      <div class="roi-num green">−45 min</div>
+      <div class="roi-desc">Temps gagné par dossier<br>(de ~60 min à ~15 min)</div>
+    </div>
+    <div class="roi-stat">
+      <div class="roi-num blue">+2 dossiers</div>
+      <div class="roi-desc">Supplémentaires par courtier<br>et par mois</div>
+    </div>
+    <div class="roi-stat">
+      <div class="roi-num green">+500 K€</div>
+      <div class="roi-desc">CA additionnel mensuel<br>réseau de 100 courtiers</div>
+    </div>
+  </div>
+  <div class="roi-banner rv">
+    <div class="roi-banner-left">
+      <h4>Amorti en quelques mois</h4>
+      <p>Un courtier qui fait 1 dossier supplémentaire génère 2 500 € de CA — soit 51 mois d'abonnement Pro couverts. Le coût de Cockpit ne représente que 1 % du CA additionnel réseau.</p>
+    </div>
+    <div class="roi-banner-right">
+      <div class="roi-big">~3–4 mois</div>
+      <div class="roi-big-sub">Amortissement complet</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ VOLUME ═══ -->
+<section class="volume-section container">
+  <div class="sh rv">
+    <div class="sh-label">Projections</div>
+    <div class="sh-title">Montants mensuels<br><em>par réseau</em></div>
+  </div>
+  <div class="vol-grid rv">
+    <div class="vol-card">
+      <h4>Tarif standard</h4>
+      <div class="vol-desc">Montants mensuels HT, hors remise.</div>
+      <div class="vol-header">
+        <span></span>
+        <span class="vh-1">Ess.</span>
+        <span class="vh-2">Pro</span>
+        <span class="vh-3">Prem.</span>
+      </div>
+      <div class="vol-row"><span class="vol-label">50 sièges</span><span class="vol-val vv-1">1 450 €</span><span class="vol-val vv-2">2 450 €</span><span class="vol-val vv-3">4 450 €</span></div>
+      <div class="vol-row"><span class="vol-label">100 sièges</span><span class="vol-val vv-1">2 900 €</span><span class="vol-val vv-2">4 900 €</span><span class="vol-val vv-3">8 900 €</span></div>
+      <div class="vol-row"><span class="vol-label">150 sièges</span><span class="vol-val vv-1">4 350 €</span><span class="vol-val vv-2">7 350 €</span><span class="vol-val vv-3">13 350 €</span></div>
+    </div>
+    <div class="vol-card" style="border-color:var(--green-border);">
+      <h4>Avec remise réseau 10+</h4>
+      <div class="vol-desc">−10 % appliqué dès le 1er siège.</div>
+      <div class="vol-header">
+        <span></span>
+        <span class="vh-1">Ess.</span>
+        <span class="vh-2">Pro</span>
+        <span class="vh-3">Prem.</span>
+      </div>
+      <div class="vol-row"><span class="vol-label">50 sièges</span><span class="vol-val vv-1">1 305 €</span><span class="vol-val vv-2">2 205 €</span><span class="vol-val vv-3">4 005 €</span></div>
+      <div class="vol-row"><span class="vol-label">100 sièges</span><span class="vol-val vv-1">2 610 €</span><span class="vol-val vv-2">4 410 €</span><span class="vol-val vv-3">8 010 €</span></div>
+      <div class="vol-row"><span class="vol-label">150 sièges</span><span class="vol-val vv-1">3 915 €</span><span class="vol-val vv-2">6 615 €</span><span class="vol-val vv-3">12 015 €</span></div>
+    </div>
+  </div>
+  <p class="rv" style="font-size:0.73rem;color:var(--ink5);margin-top:10px;font-style:italic;">Les remises annuelles (2 mois offerts) et volume (−10 % réseau 10+) sont cumulables.</p>
+</section>
+
+<!-- ═══ SETUP ═══ -->
+<section class="setup-section container">
+  <div class="sh rv">
+    <div class="sh-label">Déploiement</div>
+    <div class="sh-title">Configuration<br><em>simple et guidée</em></div>
+    <div class="sh-desc">La plupart des équipes sont autonomes en moins d'une demi-journée.</div>
+  </div>
+  <div class="setup-grid rv">
+    <div class="setup-card">
+      <h4>En autonomie</h4>
+      <div class="setup-item"><span class="setup-dot sd-green"></span>Création des comptes utilisateurs</div>
+      <div class="setup-item"><span class="setup-dot sd-green"></span>Configuration des rôles et droits d'accès</div>
+      <div class="setup-item"><span class="setup-dot sd-green"></span>Paramétrage des séquences de relance</div>
+      <div class="setup-item"><span class="setup-dot sd-green"></span>Personnalisation des modèles de messages</div>
+    </div>
+    <div class="setup-card" style="border-color:var(--blue-border);">
+      <h4>Accompagnement ADAI — Sur devis</h4>
+      <div class="setup-item"><span class="setup-dot sd-blue"></span>Connexion API CiFacil & droits admin</div>
+      <div class="setup-item"><span class="setup-dot sd-blue"></span>Onboarding & formation utilisateurs</div>
+      <div class="setup-item"><span class="setup-dot sd-blue"></span>Paramétrage sur vos process métier</div>
+      <div class="setup-item"><span class="setup-dot sd-blue"></span>Suivi de déploiement réseau</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer-wrap">
+  <div class="footer-inner">
+    <span class="footer-brand">ADAI · Création & Automation</span>
+    <span class="footer-note">Document confidentiel · Avicap · Mars 2026</span>
+  </div>
+</div>
+
+<script>
+// Progress bar
+const prog = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const p = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+  prog.style.transform = `scaleX(${Math.min(p, 1)})`;
+});
+
+// Scroll reveals
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.06 });
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+// Pricing toggle
+let isAnnual = false;
+function togglePricing() {
+  isAnnual = !isAnnual;
+  document.getElementById('toggle').classList.toggle('on', isAnnual);
+  document.getElementById('lbl-m').classList.toggle('active', !isAnnual);
+  document.getElementById('lbl-a').classList.toggle('active', isAnnual);
+  document.body.classList.toggle('annual', isAnnual);
+  document.querySelectorAll('.p-price').forEach(el => {
+    const val = isAnnual ? el.dataset.a : el.dataset.m;
+    el.querySelector('.pv').textContent = val;
+  });
+}
+</script>
+</body>
+</html>
