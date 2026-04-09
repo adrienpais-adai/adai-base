@@ -1,0 +1,2043 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cockpit MRB — Maquette</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --red: #C8102E;
+    --red-dark: #9E0A22;
+    --red-light: #e63950;
+    --grey: #8A8F9A;
+    --grey-light: #B8BCC8;
+    --steel: #D0D4DC;
+    --bg: #0E1117;
+    --bg2: #161B24;
+    --bg3: #1E2535;
+    --bg4: #252D3E;
+    --border: rgba(255,255,255,0.07);
+    --text: #E8ECF4;
+    --text-muted: #6B7280;
+    --green: #22C55E;
+    --orange: #F59E0B;
+    --blue: #3B82F6;
+    --font-display: 'Rajdhani', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    font-size: 13px;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: 220px;
+    min-width: 220px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    z-index: 10;
+  }
+
+  .logo-zone {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #0E1117;
+  }
+
+  .logo-zone img {
+    height: 48px;
+    width: auto;
+    background: #fff;
+    border-radius: 6px;
+    padding: 4px 8px;
+  }
+
+  .logo-badge {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--red);
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+  .logo-badge span {
+    display: block;
+    color: var(--text-muted);
+    font-size: 9px;
+    letter-spacing: 1px;
+    font-weight: 400;
+  }
+
+  .nav-section {
+    padding: 10px 0;
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .nav-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 10px 18px 6px;
+    font-weight: 600;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 18px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.15s;
+    color: var(--grey-light);
+    font-size: 13px;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .nav-item:hover { background: rgba(255,255,255,0.04); color: var(--text); }
+  .nav-item.active {
+    background: rgba(200,16,46,0.12);
+    border-left-color: var(--red);
+    color: #fff;
+    font-weight: 500;
+  }
+
+  .nav-item .icon {
+    width: 16px;
+    text-align: center;
+    font-size: 14px;
+    opacity: 0.7;
+  }
+  .nav-item.active .icon { opacity: 1; }
+
+  .nav-badge {
+    margin-left: auto;
+    background: var(--red);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 18px;
+    text-align: center;
+  }
+  .nav-badge.orange { background: var(--orange); }
+  .nav-badge.green { background: var(--green); }
+
+  .sidebar-footer {
+    padding: 14px 18px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .avatar {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--red-dark);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-size: 13px; font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .user-info { flex: 1; overflow: hidden; }
+  .user-name { font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .user-role { font-size: 10px; color: var(--text-muted); }
+
+  /* ── MAIN ── */
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  .topbar {
+    height: 52px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 16px;
+    background: var(--bg2);
+    flex-shrink: 0;
+  }
+
+  .page-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #fff;
+    flex: 1;
+  }
+
+  .topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: var(--font-body);
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+  }
+
+  .btn-primary { background: var(--red); color: #fff; }
+  .btn-primary:hover { background: var(--red-light); }
+  .btn-ghost { background: transparent; color: var(--grey-light); border: 1px solid var(--border); }
+  .btn-ghost:hover { background: var(--bg3); color: var(--text); }
+  .btn-sm { padding: 5px 10px; font-size: 11px; }
+
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+  }
+
+  /* ── PAGE SECTIONS ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+  }
+
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--text);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ── KPI ROW ── */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .kpi {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .kpi::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .kpi.red::before { background: var(--red); }
+  .kpi.green::before { background: var(--green); }
+  .kpi.orange::before { background: var(--orange); }
+  .kpi.blue::before { background: var(--blue); }
+  .kpi.grey::before { background: var(--grey); }
+
+  .kpi-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .kpi-value {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .kpi-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .kpi-trend {
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .kpi-trend.up { color: var(--green); }
+  .kpi-trend.down { color: var(--red); }
+
+  /* ── GRID ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .grid-60-40 { display: grid; grid-template-columns: 60fr 40fr; gap: 16px; margin-bottom: 16px; }
+
+  /* ── TABLE ── */
+  .table-wrap { overflow-x: auto; }
+
+  table { width: 100%; border-collapse: collapse; }
+
+  th {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 12px;
+    color: var(--text);
+    vertical-align: middle;
+  }
+
+  tr:hover td { background: rgba(255,255,255,0.02); }
+  tr:last-child td { border-bottom: none; }
+
+  /* ── STATUS BADGES ── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  .badge-green { background: rgba(34,197,94,0.15); color: #22C55E; }
+  .badge-orange { background: rgba(245,158,11,0.15); color: #F59E0B; }
+  .badge-red { background: rgba(200,16,46,0.15); color: #e84060; }
+  .badge-blue { background: rgba(59,130,246,0.15); color: #3B82F6; }
+  .badge-grey { background: rgba(107,114,128,0.15); color: #9CA3AF; }
+
+  /* ── PROGRESS BAR ── */
+  .progress-wrap { background: var(--bg3); border-radius: 4px; height: 6px; overflow: hidden; }
+  .progress-bar { height: 100%; border-radius: 4px; transition: width 0.3s; }
+  .progress-red { background: var(--red); }
+  .progress-green { background: var(--green); }
+  .progress-orange { background: var(--orange); }
+  .progress-blue { background: var(--blue); }
+
+  /* ── FIABILITY INDEX ── */
+  .fiab {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+  }
+  .fiab-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+
+  /* ── DETAIL VIEW ── */
+  .detail-header {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .detail-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .detail-meta {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .meta-item strong { color: var(--text); }
+
+  /* ── DOCUMENT ANALYTIQUE ── */
+  .doc-line {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+
+  .doc-line-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--bg3);
+    cursor: pointer;
+  }
+
+  .doc-line-header:hover { background: var(--bg4); }
+
+  .line-num {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--red);
+    min-width: 36px;
+    background: rgba(200,16,46,0.12);
+    padding: 3px 6px;
+    border-radius: 4px;
+    text-align: center;
+  }
+
+  .line-desc {
+    flex: 1;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .line-unit { font-size: 11px; color: var(--text-muted); min-width: 50px; text-align: center; }
+
+  .doc-line-body {
+    padding: 14px 16px;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    display: none;
+  }
+  .doc-line-body.open { display: block; }
+
+  .annotation {
+    background: rgba(59,130,246,0.08);
+    border-left: 3px solid var(--blue);
+    padding: 8px 12px;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 8px;
+    font-size: 11px;
+    color: #93C5FD;
+    line-height: 1.5;
+  }
+
+  .risk-flag {
+    background: rgba(200,16,46,0.08);
+    border-left: 3px solid var(--red);
+    padding: 8px 12px;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 8px;
+    font-size: 11px;
+    color: #FDA4AF;
+    line-height: 1.5;
+  }
+
+  .doc-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--blue);
+    background: rgba(59,130,246,0.1);
+    padding: 3px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-right: 6px;
+    margin-top: 4px;
+  }
+
+  .doc-link:hover { background: rgba(59,130,246,0.2); }
+
+  /* ── CHIFFRAGE PANEL ── */
+  .price-guard {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .price-box {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-align: center;
+  }
+
+  .price-box-label {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+
+  .price-box-value {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .price-box-unit {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .price-min .price-box-value { color: var(--green); }
+  .price-moy .price-box-value { color: var(--orange); }
+  .price-max .price-box-value { color: var(--red); }
+
+  .sub-decomp {
+    margin-top: 12px;
+  }
+
+  .sub-decomp-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .sub-decomp-row:last-child { border-bottom: none; }
+
+  .sub-label { flex: 1; font-size: 12px; color: var(--grey-light); }
+
+  .sub-price {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    min-width: 80px;
+    text-align: right;
+  }
+
+  .sub-input {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 8px;
+    width: 80px;
+    text-align: right;
+  }
+
+  .sub-input:focus { outline: none; border-color: var(--red); }
+
+  /* ── DB PAGE ── */
+  .db-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 14px;
+  }
+
+  .db-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .db-title {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .db-meta {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .db-stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .db-stat {
+    background: var(--bg3);
+    border-radius: 6px;
+    padding: 10px 12px;
+    text-align: center;
+  }
+
+  .db-stat-val {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .db-stat-lbl {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* ── ADMIN PAGE ── */
+  .role-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .role-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .role-info { flex: 1; }
+  .role-name { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 2px; }
+  .role-desc { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+
+  .perm-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 8px;
+  }
+
+  .perm {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+
+  .perm-yes { background: rgba(34,197,94,0.12); color: #22C55E; }
+  .perm-no { background: rgba(107,114,128,0.12); color: #6B7280; text-decoration: line-through; }
+
+  /* ── NOTIF DOT ── */
+  .notif-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--red);
+    display: inline-block;
+    margin-left: 4px;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ── WATERMARK ── */
+  .watermark {
+    position: fixed;
+    bottom: 16px;
+    right: 20px;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    opacity: 0.5;
+    font-family: var(--font-display);
+    text-transform: uppercase;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* ── EMPTY STATE ── */
+  .empty {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+  }
+
+  .section-sep { height: 16px; }
+
+  /* ── TABS ── */
+  .tab-row {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 18px;
+  }
+
+  .tab {
+    padding: 10px 18px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+  }
+
+  .tab:hover { color: var(--text); }
+  .tab.active { color: #fff; border-bottom-color: var(--red); }
+
+  /* ── SEARCH BAR ── */
+  .search-bar {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 12px;
+    color: var(--text);
+    font-size: 12px;
+    font-family: var(--font-body);
+    width: 220px;
+  }
+
+  .search-bar:focus { outline: none; border-color: var(--red); }
+  .search-bar::placeholder { color: var(--text-muted); }
+
+  /* row actions */
+  .row-action {
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    background: transparent;
+    transition: all 0.15s;
+    font-family: var(--font-body);
+    margin-right: 4px;
+  }
+
+  .row-action:hover { background: var(--bg4); color: var(--text); }
+  .row-action.primary { border-color: var(--red); color: var(--red); }
+  .row-action.primary:hover { background: rgba(200,16,46,0.1); }
+
+  .inline-alert {
+    background: rgba(245,158,11,0.08);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 12px;
+    color: #FCD34D;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .toggle {
+    width: 32px; height: 18px;
+    background: var(--bg3);
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+
+  .toggle::after {
+    content: '';
+    position: absolute;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    top: 2px; left: 2px;
+    transition: all 0.2s;
+  }
+
+  .toggle.on { background: rgba(200,16,46,0.3); border-color: var(--red); }
+  .toggle.on::after { left: 16px; background: var(--red); }
+
+</style>
+</head>
+<body>
+
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="logo-zone">
+    <img src="data:image/jpeg;base64,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" alt="MRB" />
+    <div class="logo-badge">
+      COCKPIT IA
+      <span>Maquette v1.0</span>
+    </div>
+  </div>
+
+  <nav class="nav-section">
+    <div class="nav-label">Principal</div>
+    <div class="nav-item active" onclick="showPage('dashboard')">
+      <span class="icon">⬛</span> Dashboard
+    </div>
+    <div class="nav-item" onclick="showPage('ao-list')">
+      <span class="icon">📁</span> Appels d'offres
+      <span class="nav-badge">8</span>
+    </div>
+    <div class="nav-item" onclick="showPage('ao-detail')">
+      <span class="icon">📄</span> Dossier analytique
+    </div>
+
+    <div class="nav-label">Chiffrage</div>
+    <div class="nav-item" onclick="showPage('chiffrage')">
+      <span class="icon">🧮</span> Aide au chiffrage
+      <span class="nav-badge orange">3</span>
+    </div>
+    <div class="nav-item" onclick="showPage('assistant')">
+      <span class="icon">🤖</span> Assistant IA
+    </div>
+    <div class="nav-item" onclick="showPage('recherche')">
+      <span class="icon">🔍</span> Moteur de recherche
+    </div>
+
+    <div class="nav-label">Administration</div>
+    <div class="nav-item" onclick="showPage('admin')">
+      <span class="icon">⚙️</span> Accès & utilisateurs
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="avatar">M</div>
+    <div class="user-info">
+      <div class="user-name">Maxime Serre</div>
+      <div class="user-role">Chiffreur</div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- TOPBAR (dynamic) -->
+  <div class="topbar">
+    <div class="page-title" id="page-title">Dashboard</div>
+    <div class="topbar-actions" id="topbar-actions">
+      <input class="search-bar" placeholder="🔍  Rechercher un dossier…">
+      <button class="btn btn-primary" onclick="showPage('ao-list')">+ Nouveau dossier</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ═══════════════════════════════════════════════════════
+         PAGE 1 — DASHBOARD
+    ════════════════════════════════════════════════════════ -->
+    <div class="page active" id="page-dashboard">
+
+      <div class="inline-alert">
+        <span>⚠️</span>
+        <span><strong>3 synthèses en attente de validation</strong> — Chantier Dupont, Mairie Pontcharra, Résidence Les Pins. <a href="#" onclick="showPage('ao-list')" style="color:#FCD34D;text-decoration:underline;cursor:pointer;">Voir les dossiers →</a></span>
+        <span style="margin-left:auto;flex-shrink:0"><button class="btn btn-sm" style="background:#B45309;color:#fff;border:none;cursor:pointer;" onclick="showPage('ao-list')">▶ Lancer l'analyse</button></span>
+      </div>
+
+      <div class="kpi-row" style="grid-template-columns: 1fr 1fr; max-width: 480px;">
+        <div class="kpi red">
+          <div class="kpi-label">AO en cours</div>
+          <div class="kpi-value">8</div>
+          <div class="kpi-sub kpi-trend up">↑ 2 ce mois</div>
+        </div>
+        <div class="kpi orange">
+          <div class="kpi-label">À valider</div>
+          <div class="kpi-value">3</div>
+          <div class="kpi-sub">Synthèses IA prêtes</div>
+        </div>
+      </div>
+
+      <div class="grid-60-40">
+        <div class="card">
+          <div class="card-title">📁 Dossiers récents</div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Chantier</th>
+                  <th>Type</th>
+                  <th>Statut</th>
+                  <th>Date limite</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="showPage('ao-detail')" style="cursor:pointer">
+                  <td><strong>Mairie de Pontcharra</strong></td>
+                  <td>Rénovation</td>
+                  <td><span class="badge badge-orange">⏳ À valider</span></td>
+                  <td>14 avr. 2026</td>
+                  <td><button class="row-action primary">Ouvrir</button></td>
+                </tr>
+                <tr>
+                  <td><strong>Chantier Dupont</strong></td>
+                  <td>Neuf</td>
+                  <td><span class="badge badge-orange">⏳ À valider</span></td>
+                  <td>18 avr. 2026</td>
+                  <td><button class="row-action primary" onclick="showPage('ao-detail')">Ouvrir</button></td>
+                </tr>
+                <tr>
+                  <td><strong>Résidence Les Pins</strong></td>
+                  <td>Rénovation</td>
+                  <td><span class="badge badge-orange">⏳ À valider</span></td>
+                  <td>22 avr. 2026</td>
+                  <td><button class="row-action primary" onclick="showPage('ao-detail')">Ouvrir</button></td>
+                </tr>
+                <tr>
+                  <td><strong>Lycée Berthollet</strong></td>
+                  <td>Extension</td>
+                  <td><span class="badge badge-blue">🔍 En cours d'analyse</span></td>
+                  <td>28 avr. 2026</td>
+                  <td><button class="row-action">Voir</button></td>
+                </tr>
+                <tr>
+                  <td><strong>Immeuble Gaillard</strong></td>
+                  <td>Rénovation</td>
+                  <td><span class="badge badge-green">✅ Chiffré</span></td>
+                  <td>05 mai 2026</td>
+                  <td><button class="row-action">Voir</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">📊 Pipeline AO</div>
+          <div style="margin-bottom:12px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:11px;color:var(--text-muted)">Classé dans SharePoint</span><span style="font-size:11px;color:#fff">8</span></div>
+            <div class="progress-wrap"><div class="progress-bar progress-grey" style="width:100%;background:var(--text-muted)"></div></div>
+          </div>
+          <div style="margin-bottom:12px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:11px;color:var(--text-muted)">Analyse IA en cours</span><span style="font-size:11px;color:#fff">1</span></div>
+            <div class="progress-wrap"><div class="progress-bar progress-blue" style="width:12%"></div></div>
+          </div>
+          <div style="margin-bottom:12px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:11px;color:var(--text-muted)">Synthèse générée — à valider</span><span style="font-size:11px;color:#fff">3</span></div>
+            <div class="progress-wrap"><div class="progress-bar progress-orange" style="width:37%"></div></div>
+          </div>
+          <div style="margin-bottom:12px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:11px;color:var(--text-muted)">Chiffrage en cours</span><span style="font-size:11px;color:#fff">2</span></div>
+            <div class="progress-wrap"><div class="progress-bar progress-red" style="width:25%"></div></div>
+          </div>
+          <div style="margin-bottom:0">
+            <div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:11px;color:var(--text-muted)">Remis</span><span style="font-size:11px;color:#fff">2</span></div>
+            <div class="progress-wrap"><div class="progress-bar progress-green" style="width:25%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">🔄 Synchronisation SharePoint</div>
+          <table>
+            <thead><tr><th>Dossier</th><th>Dernière synchro</th><th>Statut</th></tr></thead>
+            <tbody>
+              <tr><td>AO / DCE / 2026</td><td>Aujourd'hui 08:14</td><td><span class="badge badge-green">✅ OK</span></td></tr>
+              <tr><td>Réponses AO / PDF</td><td>Hier 17:42</td><td><span class="badge badge-green">✅ OK</span></td></tr>
+              <tr><td>Base prix — Excel</td><td>28 mars 2026</td><td><span class="badge badge-orange">⚠️ Vérifier</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <div class="card-title">🗄️ État des bases de données</div>
+          <table>
+            <thead><tr><th>Base</th><th>Entrées</th><th>Mise à jour</th></tr></thead>
+            <tbody>
+              <tr><td>Base 1 — Prix vendus (PDF)</td><td><strong>124</strong></td><td><span class="badge badge-green">✅ À jour</span></td></tr>
+              <tr><td>Base 2 — Sous-décompositions</td><td><strong>89</strong></td><td><span class="badge badge-orange">⚠️ En cours</span></td></tr>
+              <tr><td>Base 3 — Prix unitaires</td><td><strong>134</strong></td><td><span class="badge badge-grey">○ Non démarrée</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         PAGE 2 — LISTE AO
+    ════════════════════════════════════════════════════════ -->
+    <div class="page" id="page-ao-list">
+      <div class="tab-row" id="ao-tabs">
+        <div class="tab active" onclick="filterAO('all', this)">Tous (8)</div>
+        <div class="tab" onclick="filterAO('valider', this)">À valider (3)</div>
+        <div class="tab" onclick="filterAO('chiffrage', this)">En chiffrage (2)</div>
+        <div class="tab" onclick="filterAO('remis', this)">Remis (3)</div>
+      </div>
+
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Chantier</th>
+                <th>Maître d'ouvrage</th>
+                <th>Type</th>
+                <th>Date limite</th>
+                <th>Statut</th>
+                <th>Visé par</th>
+                <th>Fiabilité</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-status="valider">
+                <td><strong>Mairie de Pontcharra</strong></td>
+                <td>Mairie Pontcharra</td>
+                <td>Rénovation</td>
+                <td>28 mars 2026</td>
+                <td>14 avr. 2026</td>
+                <td><span class="badge badge-orange">Chiffré à valider</span></td>
+                <td><span style="font-size:11px;color:var(--text-muted)">—</span></td>
+                <td><div class="fiab"><div class="fiab-dot" style="background:var(--green)"></div><div class="fiab-dot" style="background:var(--green)"></div><div class="fiab-dot" style="background:var(--orange)"></div> <span style="font-size:10px;color:var(--text-muted)">Moyen</span></div></td>
+                <td>
+                  <button class="row-action primary" onclick="showPage('ao-detail')">Ouvrir</button>
+                  <button class="row-action" onclick="showPage('chiffrage')">Chiffrer</button>
+                </td>
+              </tr>
+              <tr data-status="valider">
+                <td><strong>Chantier Dupont</strong></td>
+                <td>SCI Dupont Frères</td>
+                <td>Neuf</td>
+                <td>29 mars 2026</td>
+                <td>18 avr. 2026</td>
+                <td><span class="badge badge-orange">À valider</span></td>
+                <td><div class="fiab"><div class="fiab-dot" style="background:var(--green)"></div><div class="fiab-dot" style="background:var(--green)"></div><div class="fiab-dot" style="background:var(--green)"></div> <span style="font-size:10px;color:var(--text-muted)">Élevé</span></div></td>
+                <td><button class="row-action primary" onclick="showPage('ao-detail')">Ouvrir</button></td>
+              </tr>
+              <tr data-status="valider">
+                <td><strong>Résidence Les Pins</strong></td>
+                <td>Promoteur Alpin</td>
+                <td>Rénovation</td>
+                <td>30 mars 2026</td>
+                <td>22 avr. 2026</td>
+                <td><span class="badge badge-orange">À valider</span></td>
+                <td><div class="fiab"><div class="fiab-dot" style="background:var(--green)"></div><div class="fiab-dot" style="background:var(--orange)"></div><div class="fiab-dot" style="background:var(--text-muted)"></div> <span style="font-size:10px;color:var(--text-muted)">Faible</span></div></td>
+                <td><button class="row-action primary" onclick="showPage('ao-detail')">Ouvrir</button></td>
+              </tr>
+              <tr data-status="analyse">
+                <td><strong>Lycée Berthollet</strong></td>
+                <td>Région AuRA</td>
+                <td>Extension</td>
+                <td>30 mars 2026</td>
+                <td>28 avr. 2026</td>
+                <td><span class="badge badge-blue">🔄 Analyse…</span></td>
+                <td>—</td>
+                <td><button class="row-action primary" onclick="this.textContent='⏳ En cours…'">▶ Lancer l'analyse</button></td>
+              </tr>
+              <tr data-status="chiffrage">
+                <td><strong>Immeuble Gaillard</strong></td>
+                <td>Gaillard & Fils</td>
+                <td>Rénovation</td>
+                <td>15 mars 2026</td>
+                <td>05 mai 2026</td>
+                <td><span class="badge badge-green">✅ Visé — prêt</span></td>
+                <td><span style="font-size:11px;color:var(--green);font-weight:600">✓ Joffrey</span></td>
+                <td><div class="fiab"><div class="fiab-dot" style="background:var(--green)"></div><div class="fiab-dot" style="background:var(--green)"></div><div class="fiab-dot" style="background:var(--green)"></div> <span style="font-size:10px;color:var(--text-muted)">Élevé</span></div></td>
+                <td><button class="row-action" onclick="showPage('chiffrage')">Chiffrage</button></td>
+              </tr>
+              <tr data-status="remis">
+                <td><strong>Hôtel Annecy Centre</strong></td>
+                <td>SARL H&C</td>
+                <td>Réhabilitation</td>
+                <td>10 mars 2026</td>
+                <td>30 avr. 2026</td>
+                <td><span class="badge badge-red">⚡ Remis</span></td>
+                <td><div class="fiab"><div class="fiab-dot" style="background:var(--green)"></div><div class="fiab-dot" style="background:var(--green)"></div><div class="fiab-dot" style="background:var(--green)"></div></div></td>
+                <td><button class="row-action">Archiver</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         PAGE 3 — DÉTAIL DOSSIER + DOCUMENT ANALYTIQUE
+    ════════════════════════════════════════════════════════ -->
+    <div class="page" id="page-ao-detail">
+
+      <div class="detail-header">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between">
+          <div>
+            <div class="detail-title">Mairie de Pontcharra — Rénovation bâtiment B</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px">Dossier classé le 28 mars 2026 · Analyse IA terminée le 30 mars 2026</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-shrink:0">
+            <button class="btn btn-ghost btn-sm">📥 Exporter Word</button>
+            <button class="btn btn-primary btn-sm" onclick="showPage('chiffrage')">🧮 Lancer le chiffrage →</button>
+          </div>
+        </div>
+        <div class="detail-meta">
+          <div class="meta-item">📅 <strong>Date limite :</strong> 14 avril 2026</div>
+          <div class="meta-item">🏗️ <strong>Type :</strong> Rénovation</div>
+          <div class="meta-item">📍 <strong>Localisation :</strong> Pontcharra (38)</div>
+          <div class="meta-item">📄 <strong>Pièces :</strong> CCTP · DPGF · AE · RC · 12 plans</div>
+          <div class="meta-item">
+            <span class="badge badge-orange">⚠️ 2 points à risque signalés</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="inline-alert">
+        <span>⚠️</span>
+        <span><strong>Zones incertaines détectées :</strong> Section 4.3 (accès chantier) et Section 7.1 (contrainte façade classée) — informations à vérifier manuellement avant chiffrage.</span>
+      </div>
+
+      <div class="tab-row">
+        <div class="tab active" onclick="switchDetailTab('analytique', this)">Document analytique IA</div>
+        <div class="tab" onclick="switchDetailTab('assistant', this)">🤖 Assistant IA</div>
+        <div class="tab" onclick="switchDetailTab('pieces', this)">Pièces sources</div>
+        <div class="tab" onclick="switchDetailTab('notes', this)">Notes équipe</div>
+      </div>
+      <div id="detail-tab-pieces" style="display:none">
+        <div class="card">
+          <div class="card-title">📂 Pièces sources du DCE</div>
+          <table>
+            <thead><tr><th>Document</th><th>Type</th><th>Pages</th><th>Statut IA</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td><strong>CCTP_Pontcharra_Bat-B.pdf</strong></td><td>CCTP</td><td>48 p.</td><td><span class="badge badge-green">✅ Analysé</span></td><td><button class="row-action">Ouvrir</button></td></tr>
+              <tr><td><strong>DPGF_Pontcharra_v2.xlsx</strong></td><td>DPGF</td><td>12 p.</td><td><span class="badge badge-green">✅ Analysé</span></td><td><button class="row-action">Ouvrir</button></td></tr>
+              <tr><td><strong>AE_Pontcharra.pdf</strong></td><td>Acte d'Engagement</td><td>6 p.</td><td><span class="badge badge-green">✅ Analysé</span></td><td><button class="row-action">Ouvrir</button></td></tr>
+              <tr><td><strong>RC_Pontcharra.pdf</strong></td><td>Règlement consultation</td><td>9 p.</td><td><span class="badge badge-green">✅ Analysé</span></td><td><button class="row-action">Ouvrir</button></td></tr>
+              <tr><td><strong>Plan_masse_A0.pdf</strong></td><td>Plan</td><td>1 p.</td><td><span class="badge badge-green">✅ Analysé</span></td><td><button class="row-action">Ouvrir</button></td></tr>
+              <tr><td><strong>Plan_R+1_demolition.pdf</strong></td><td>Plan</td><td>1 p.</td><td><span class="badge badge-green">✅ Analysé</span></td><td><button class="row-action">Ouvrir</button></td></tr>
+              <tr><td><strong>Plan_facade_Est.pdf</strong></td><td>Plan</td><td>1 p.</td><td><span class="badge badge-orange">⚠️ Incertain</span></td><td><button class="row-action">Ouvrir</button></td></tr>
+              <tr><td><strong>Plan_menuiseries.pdf</strong></td><td>Plan</td><td>2 p.</td><td><span class="badge badge-green">✅ Analysé</span></td><td><button class="row-action">Ouvrir</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div id="detail-tab-notes" style="display:none">
+        <div class="card">
+          <div class="card-title">📝 Notes équipe</div>
+          <div style="margin-bottom:16px">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="background:var(--bg3);border-radius:8px;padding:12px 14px">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                  <div class="avatar" style="width:24px;height:24px;font-size:10px">M</div>
+                  <strong style="font-size:12px">Maxime Serre</strong>
+                  <span style="font-size:11px;color:var(--text-muted)">— 30 mars 2026, 14h22</span>
+                </div>
+                <div style="font-size:12px;color:var(--grey-light)">Vérifier le point ABF sur la façade Est avant de chiffrer l'ITE. J'ai contacté le MO, réponse attendue cette semaine.</div>
+              </div>
+              <div style="background:var(--bg3);border-radius:8px;padding:12px 14px">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                  <div class="avatar" style="width:24px;height:24px;font-size:10px;background:#1E3A5F">G</div>
+                  <strong style="font-size:12px">Geoffrey Courtis</strong>
+                  <span style="font-size:11px;color:var(--text-muted)">— 29 mars 2026, 09h05</span>
+                </div>
+                <div style="font-size:12px;color:var(--grey-light)">Dossier prioritaire — client stratégique. Date limite ferme le 14/04, pas de report possible.</div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <input style="flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 12px;color:var(--text);font-size:12px;font-family:var(--font-body)" placeholder="Ajouter une note…" />
+            <button class="btn btn-primary btn-sm">Envoyer</button>
+          </div>
+        </div>
+      </div>
+      <div id="detail-tab-assistant" style="display:none">
+        <div class="card">
+          <div class="card-title">🤖 Assistant IA — Mairie de Pontcharra</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:14px">Interagissez avec les points identifiés par l'IA. Validez, annotez ou posez une question sur le dossier. Le document Word est mis à jour automatiquement.</div>
+          <div style="background:var(--bg3);border-radius:8px;padding:14px;margin-bottom:12px;min-height:220px;display:flex;flex-direction:column;gap:10px;" id="chat-messages">
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <div style="width:28px;height:28px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">🤖</div>
+              <div style="background:var(--bg4);border-radius:0 8px 8px 8px;padding:10px 12px;font-size:12px;color:var(--grey-light);max-width:80%">Bonjour Maxime. J'ai identifié <strong style="color:#FDA4AF">2 points à risque</strong> sur ce dossier :<br><br>① Section 4.3 — contrainte d'accès au R+2 non détaillée dans le CCTP<br>② Section 7.1 — façade possiblement classée (ABF), impact potentiel sur l'ITE<br><br>Souhaitez-vous que je creuse l'un de ces points ?</div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;justify-content:flex-end">
+              <div style="background:rgba(200,16,46,0.15);border-radius:8px 0 8px 8px;padding:10px 12px;font-size:12px;color:var(--text);max-width:80%">Oui, dis m'en plus sur le point ABF façade Est</div>
+              <div style="width:28px;height:28px;border-radius:50%;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;color:var(--red)">M</div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <div style="width:28px;height:28px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">🤖</div>
+              <div style="background:var(--bg4);border-radius:0 8px 8px 8px;padding:10px 12px;font-size:12px;color:var(--grey-light);max-width:80%">Le RC Art. 7.1 mentionne que le bâtiment B est identifié comme <strong style="color:#FCD34D">patrimoine local</strong>. Cela implique potentiellement :<br><br>• Validation ABF (Architecte des Bâtiments de France) requise avant travaux de façade<br>• Contraintes sur l'aspect final de l'ITE (couleur, texture, épaisseur)<br>• Délai supplémentaire estimé : 2 à 4 semaines pour l'instruction<br><br>Je recommande de <strong>clarifier ce point avec le MO avant de chiffrer l'ITE</strong>. Voulez-vous que j'ajoute cette annotation dans le document Word ?</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;margin-top:4px">
+            <input id="chat-input" style="flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 12px;color:var(--text);font-size:12px;font-family:var(--font-body)" placeholder="Posez une question sur le dossier…" onkeydown="if(event.key==='Enter')sendChat()" />
+            <button class="btn btn-primary btn-sm" onclick="sendChat()">Envoyer</button>
+            <button class="btn btn-ghost btn-sm" onclick="addAnnotation()">📝 Annoter le Word</button>
+          </div>
+          <div id="annotation-confirm" style="display:none;margin-top:8px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);border-radius:6px;padding:8px 12px;font-size:11px;color:#86EFAC">
+            ✅ Annotation ajoutée au document Word — Section 7.1 mise à jour.
+          </div>
+        </div>
+      </div>
+      <div id="detail-tab-analytique">
+        <!-- WORD PREVIEW CONTAINER -->
+        <div style="background:#f0f0f0;border-radius:10px;padding:16px;margin-bottom:4px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <div style="font-size:11px;color:#666;font-weight:600;letter-spacing:1px;text-transform:uppercase">Prévisualisation — Document analytique Word</div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-ghost btn-sm" style="background:#fff;color:#333;border-color:#ccc;font-size:11px">🔍 Zoom</button>
+              <button class="btn btn-sm" style="background:#1E3A5F;color:#fff;font-size:11px">📥 Exporter Word</button>
+            </div>
+          </div>
+
+          <!-- WORD PAGE SIMULATION -->
+          <div style="background:#fff;max-width:720px;margin:0 auto;padding:48px 52px;font-family:Calibri,Arial,sans-serif;font-size:11pt;color:#111;box-shadow:0 2px 12px rgba(0,0,0,0.15);border-radius:3px;line-height:1.5">
+
+            <!-- Word header -->
+            <div style="border-bottom:3px solid #1E3A5F;padding-bottom:12px;margin-bottom:20px">
+              <div style="font-size:16pt;font-weight:700;color:#1E3A5F;margin-bottom:4px">DOCUMENT ANALYTIQUE — DCE</div>
+              <div style="font-size:13pt;font-weight:600;color:#E8630A">Mairie de Pontcharra — Rénovation bâtiment B</div>
+              <div style="display:flex;gap:20px;margin-top:8px;font-size:9pt;color:#666">
+                <span>Généré par l'IA ADAI le 30/03/2026</span>
+                <span>|</span>
+                <span>Documents analysés : 12</span>
+                <span>|</span>
+                <span style="color:#C8102E;font-weight:600">⚠ 2 points à risque</span>
+              </div>
+            </div>
+
+            <!-- SYNTHÈSE GÉNÉRALE -->
+            <div style="background:#EEF3FA;border-left:4px solid #1E3A5F;padding:12px 16px;margin-bottom:20px;border-radius:0 6px 6px 0">
+              <div style="font-size:10pt;font-weight:700;color:#1E3A5F;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px">Synthèse générale</div>
+              <div style="font-size:10pt;color:#333;line-height:1.6">Marché de rénovation du bâtiment B de la Mairie de Pontcharra (38530). Travaux comprenant démolition intérieure, maçonnerie, isolation thermique par l'extérieur (ITE) et menuiseries. Délai d'exécution : <strong>16 semaines</strong> à compter de l'OS. Période prévisionnelle : mai à septembre 2026. Accès chantier par rue principale, livraisons autorisées 7h–18h. Zone habitée — contraintes sonores applicables.</div>
+            </div>
+
+            <!-- POINTS À RISQUE -->
+            <div style="background:#FFF0F0;border-left:4px solid #C8102E;padding:12px 16px;margin-bottom:20px;border-radius:0 6px 6px 0">
+              <div style="font-size:10pt;font-weight:700;color:#C8102E;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">⚠ Points à risque identifiés</div>
+              <div style="font-size:10pt;color:#333;margin-bottom:6px"><strong>① Section 7.1 — Contrainte ABF façade Est</strong><br>Le RC Art. 7.1 identifie le bâtiment B comme patrimoine local. Validation ABF potentiellement requise avant travaux ITE. Impact estimé : +2 à 4 semaines de délai. <span style="color:#C8102E;font-weight:600">→ Clarifier avec le MO avant chiffrage.</span></div>
+              <div style="font-size:10pt;color:#333"><strong>② Section 4.3 — Accès au R+2 non détaillé</strong><br>Le CCTP Art. 4.3 mentionne des contraintes d'accès non précisées. PGC non fourni dans ce DCE. <span style="color:#C8102E;font-weight:600">→ Demander précisions au MO.</span></div>
+            </div>
+
+            <!-- SECTION 1.1 -->
+            <div style="font-size:12pt;font-weight:700;color:#1E3A5F;border-bottom:1px solid #ddd;padding-bottom:4px;margin-bottom:10px">1.1 — Installation de chantier</div>
+            <div style="font-size:10pt;color:#666;margin-bottom:4px;font-style:italic">Source : RC Art. 3.2 · Plan masse p.3</div>
+            <table style="width:100%;border-collapse:collapse;margin-bottom:14px;font-size:10pt">
+              <tr style="background:#f5f5f5"><td style="padding:6px 8px;font-weight:600;width:40%;border:1px solid #ddd">Délai d'exécution</td><td style="padding:6px 8px;border:1px solid #ddd">16 semaines à compter de l'OS</td></tr>
+              <tr><td style="padding:6px 8px;font-weight:600;border:1px solid #ddd">Période</td><td style="padding:6px 8px;border:1px solid #ddd">Mai – Septembre 2026</td></tr>
+              <tr style="background:#f5f5f5"><td style="padding:6px 8px;font-weight:600;border:1px solid #ddd">Accès</td><td style="padding:6px 8px;border:1px solid #ddd">Rue principale — livraisons 7h/18h — aire de stockage Nord ~200 m²</td></tr>
+              <tr><td style="padding:6px 8px;font-weight:600;border:1px solid #ddd">Base vie</td><td style="padding:6px 8px;border:1px solid #ddd">À prévoir côté nord — surface disponible confirmée par le MO</td></tr>
+            </table>
+
+            <!-- SECTION 2.1 -->
+            <div style="font-size:12pt;font-weight:700;color:#1E3A5F;border-bottom:1px solid #ddd;padding-bottom:4px;margin-bottom:10px">2.1 — Démolition cloisons intérieures</div>
+            <div style="font-size:10pt;color:#666;margin-bottom:4px;font-style:italic">Source : CCTP Art. 2.1 · Plan R+1 démolition</div>
+            <table style="width:100%;border-collapse:collapse;margin-bottom:6px;font-size:10pt">
+              <tr style="background:#f5f5f5"><td style="padding:6px 8px;font-weight:600;width:40%;border:1px solid #ddd">Périmètre</td><td style="padding:6px 8px;border:1px solid #ddd">R+1 et R+2 uniquement — RDC exclu (AE Art. 2.4)</td></tr>
+              <tr><td style="padding:6px 8px;font-weight:600;border:1px solid #ddd">Surface DPGF</td><td style="padding:6px 8px;border:1px solid #ddd">480 m² (CCTP Art. 2.1.3)</td></tr>
+              <tr style="background:#fff8dc"><td style="padding:6px 8px;font-weight:600;border:1px solid #ddd;color:#B45309">⚠ Incohérence</td><td style="padding:6px 8px;border:1px solid #ddd;color:#B45309">Plan R+1 semble indiquer ~380 m² — vérification recommandée avant chiffrage</td></tr>
+              <tr><td style="padding:6px 8px;font-weight:600;border:1px solid #ddd">Évacuation</td><td style="padding:6px 8px;border:1px solid #ddd">Déchets inertes — benne titulaire — rotation 2×/semaine min.</td></tr>
+            </table>
+            <div style="font-size:9pt;color:#1E3A5F;background:#EEF3FA;padding:6px 10px;border-radius:4px;margin-bottom:14px">🔗 <a style="color:#1E3A5F;text-decoration:none;font-weight:600">Plan R+1 — démolition</a> &nbsp;·&nbsp; <a style="color:#1E3A5F;text-decoration:none;font-weight:600">CCTP Art. 2.1</a></div>
+
+            <!-- SECTION 5.1 avec point à risque -->
+            <div style="font-size:12pt;font-weight:700;color:#C8102E;border-bottom:1px solid #ddd;padding-bottom:4px;margin-bottom:10px">5.1 — Isolation thermique par l'extérieur ⚠</div>
+            <div style="font-size:10pt;color:#666;margin-bottom:4px;font-style:italic">Source : CCTP Art. 5.1 · RC Art. 7.1 · Façade Est</div>
+            <div style="background:#FFF0F0;border:1px solid #ffcccc;padding:8px 12px;border-radius:4px;margin-bottom:8px;font-size:10pt;color:#C8102E"><strong>Point à risque :</strong> Façade identifiée comme patrimoine local (RC Art. 7.1). Validation ABF potentiellement requise. Impact sur délai et coût ITE.</div>
+            <table style="width:100%;border-collapse:collapse;margin-bottom:6px;font-size:10pt">
+              <tr style="background:#f5f5f5"><td style="padding:6px 8px;font-weight:600;width:40%;border:1px solid #ddd">Système</td><td style="padding:6px 8px;border:1px solid #ddd">ITE laine de roche 120mm — R ≥ 3.7 m².K/W</td></tr>
+              <tr><td style="padding:6px 8px;font-weight:600;border:1px solid #ddd">Finition</td><td style="padding:6px 8px;border:1px solid #ddd">Enduit grain fin — teinte RAL à valider MO</td></tr>
+              <tr style="background:#f5f5f5"><td style="padding:6px 8px;font-weight:600;border:1px solid #ddd">Performance</td><td style="padding:6px 8px;border:1px solid #ddd">Conforme RE2020</td></tr>
+            </table>
+
+            <!-- Zone incertaine -->
+            <div style="background:#FFFBEB;border:1px solid #FCD34D;padding:8px 12px;border-radius:4px;margin-bottom:20px;font-size:10pt;color:#92400E">
+              <strong>Zone incertaine :</strong> Information à vérifier — contrainte façade classée non confirmée dans le DCE. Contacter le MO pour clarification.
+            </div>
+
+            <!-- Pied de page Word -->
+            <div style="border-top:1px solid #ddd;padding-top:10px;margin-top:20px;display:flex;justify-content:space-between;font-size:8pt;color:#999">
+              <span>Document généré par ADAI Cockpit IA · Mairie de Pontcharra · 30/03/2026</span>
+              <span>Page 1 / 8</span>
+            </div>
+          </div>
+        </div>
+
+      <!-- DOC LINES -->
+      <div class="doc-line">
+        <div class="doc-line-header" onclick="toggleLine(this)">
+          <div class="line-num">1.1</div>
+          <div class="line-desc">Installation de chantier — Base vie, clôtures, signalétique</div>
+          <div class="line-unit">Forfait</div>
+          <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+            <span class="badge badge-green">✅ Complet</span>
+            <span style="font-size:14px;color:var(--text-muted)">▼</span>
+          </div>
+        </div>
+        <div class="doc-line-body open">
+          <div class="annotation">📋 <strong>Planning :</strong> Délai d'exécution 16 semaines à compter de l'OS. Période d'intervention : mai à septembre 2026. Pas de contrainte saisonnière identifiée.</div>
+          <div class="annotation">📋 <strong>Accès :</strong> Accès chantier par rue principale, livraisons autorisées 7h–18h. Aire de stockage disponible côté nord du bâtiment (environ 200 m²).</div>
+          <div style="margin-top:8px">
+            <a class="doc-link">📐 Plan masse — p.3</a>
+            <a class="doc-link">📄 RC — Art. 3.2</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-line">
+        <div class="doc-line-header" onclick="toggleLine(this)">
+          <div class="line-num">2.1</div>
+          <div class="line-desc">Démolition — Cloisons intérieures béton, sol carrelage, faux-plafonds</div>
+          <div class="line-unit">m²</div>
+          <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+            <span class="badge badge-green">✅ Complet</span>
+            <span style="font-size:14px;color:var(--text-muted)">▼</span>
+          </div>
+        </div>
+        <div class="doc-line-body">
+          <div class="annotation">📋 <strong>Périmètre :</strong> R+1 et R+2 uniquement. RDC exclu de la démolition selon AE Art. 2.4. Surface totale estimée à 480 m² (CCTP Art. 2.1.3).</div>
+          <div class="annotation">📋 <strong>Évacuation :</strong> Déchets inertes à évacuer en déchetterie agréée. Benne fournie par le titulaire. Fréquence de rotation à prévoir 2×/semaine minimum.</div>
+          <div style="margin-top:8px">
+            <a class="doc-link">📐 Plan R+1 — démolition</a>
+            <a class="doc-link">📄 CCTP — Art. 2.1</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-line">
+        <div class="doc-line-header" onclick="toggleLine(this)">
+          <div class="line-num">3.2</div>
+          <div class="line-desc">Maçonnerie — Murs en agglo 20cm, chaînages béton armé</div>
+          <div class="line-unit">m²</div>
+          <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+            <span class="badge badge-orange">⚠️ À vérifier</span>
+            <span style="font-size:14px;color:var(--text-muted)">▼</span>
+          </div>
+        </div>
+        <div class="doc-line-body">
+          <div class="annotation">📋 <strong>Quantités :</strong> DPGF mentionne 320 m² de murs agglo. Le plan R+1 semble indiquer une surface supérieure (~380 m²) — vérification recommandée.</div>
+          <div class="risk-flag">⚠️ <strong>Zone incertaine — accès chantier :</strong> Le CCTP Art. 4.3 mentionne des contraintes d'accès au R+2 non détaillées. PGC non fourni dans le DCE. Clarification à demander au MO avant chiffrage.</div>
+          <div style="margin-top:8px">
+            <a class="doc-link">📐 Plan R+1 coupe AA</a>
+            <a class="doc-link">📄 CCTP — Art. 3.2 et 4.3</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-line">
+        <div class="doc-line-header" onclick="toggleLine(this)">
+          <div class="line-num">5.1</div>
+          <div class="line-desc">Isolation thermique — ITE façade, laine de roche 120mm</div>
+          <div class="line-unit">m²</div>
+          <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+            <span class="badge badge-red">⚡ Point à risque</span>
+            <span style="font-size:14px;color:var(--text-muted)">▼</span>
+          </div>
+        </div>
+        <div class="doc-line-body">
+          <div class="risk-flag">⚠️ <strong>Contrainte réglementaire :</strong> Façade du bâtiment B identifiée comme patrimoine local dans le RC Art. 7.1. Contrainte architecturale sur l'aspect final de l'ITE — validation ABF potentiellement requise. Impact sur délai et coût.</div>
+          <div class="annotation">📋 <strong>Performance requise :</strong> Résistance thermique R ≥ 3.7 m².K/W. Système ITE conforme RE2020. Finissage enduit à grain fin, teinte RAL à soumettre à validation MO.</div>
+          <div style="margin-top:8px">
+            <a class="doc-link">📄 RC — Art. 7.1</a>
+            <a class="doc-link">📐 Façade Est — détail</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-line">
+        <div class="doc-line-header" onclick="toggleLine(this)">
+          <div class="line-num">7.3</div>
+          <div class="line-desc">Menuiseries extérieures — Fenêtres PVC double vitrage, volets roulants</div>
+          <div class="line-unit">U</div>
+          <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+            <span class="badge badge-green">✅ Complet</span>
+            <span style="font-size:14px;color:var(--text-muted)">▼</span>
+          </div>
+        </div>
+        <div class="doc-line-body">
+          <div class="annotation">📋 <strong>Quantités :</strong> 24 fenêtres type T1 (90×120), 8 baies type T2 (140×210). Volets roulants électriques sur toutes les ouvertures.</div>
+          <div class="annotation">📋 <strong>Performance :</strong> Uw ≤ 1.3 W/m².K, facteur solaire Sw ≤ 0.36. Couleur profils : blanc RAL 9016.</div>
+          <div style="margin-top:8px">
+            <a class="doc-link">📄 CCTP — Art. 7.3</a>
+            <a class="doc-link">📐 Plans menuiseries</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      </div><!-- /detail-tab-analytique -->
+    <!-- ═══════════════════════════════════════════════════════
+         PAGE 4 — AIDE AU CHIFFRAGE
+    ════════════════════════════════════════════════════════ -->
+    <div class="page" id="page-chiffrage">
+
+      <div class="detail-header" style="margin-bottom:16px">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <div class="detail-title">Chiffrage — Mairie de Pontcharra</div>
+            <div style="font-size:12px;color:var(--text-muted)">DPGF · 12 postes · Sous-décomposition active</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-ghost btn-sm">📥 Export Excel</button>
+            <button class="btn btn-ghost btn-sm" onclick="toggleVueGlobale()">📊 Vue globale DPGF</button>
+            <button class="btn btn-primary btn-sm" onclick="this.textContent='✅ Envoyé pour validation'">✅ Valider le chiffrage</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VUE GLOBALE DPGF (hidden by default) -->
+      <div id="vue-globale-panel" style="display:none;margin-bottom:16px">
+        <div class="card" style="border:1px solid rgba(59,130,246,0.3)">
+          <div class="card-title" style="color:var(--blue)">📊 Vue globale DPGF — Mairie de Pontcharra</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px">Tous les postes du devis · Marge MRB 35% appliquée · Coût J/H 380 €</div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>N°</th>
+                  <th>Désignation</th>
+                  <th>Unité</th>
+                  <th>Qté</th>
+                  <th>Prix unitaire HT</th>
+                  <th>Total MO</th>
+                  <th>Total mat.</th>
+                  <th>Total HT</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>1.1</td><td>Installation de chantier</td><td>Fft</td><td>1</td><td style="text-align:right">4 200 €</td><td style="text-align:right;color:#93C5FD">1 800 €</td><td style="text-align:right;color:#FCD34D">2 400 €</td><td style="text-align:right;font-weight:600">4 200 €</td><td><span class="badge badge-green">✅</span></td></tr>
+                <tr style="background:rgba(255,255,255,0.02)"><td>2.1</td><td>Démolition cloisons intérieures</td><td>m²</td><td>480</td><td style="text-align:right">74 €</td><td style="text-align:right;color:#93C5FD">25 920 €</td><td style="text-align:right;color:#FCD34D">9 600 €</td><td style="text-align:right;font-weight:600">35 520 €</td><td><span class="badge badge-green">✅</span></td></tr>
+                <tr><td>3.2</td><td>Maçonnerie murs agglo 20cm</td><td>m²</td><td>320</td><td style="text-align:right">89 €</td><td style="text-align:right;color:#93C5FD">14 400 €</td><td style="text-align:right;color:#FCD34D">14 080 €</td><td style="text-align:right;font-weight:600">28 480 €</td><td><span class="badge badge-orange">En cours</span></td></tr>
+                <tr style="background:rgba(255,255,255,0.02)"><td>5.1</td><td>ITE laine de roche 120mm</td><td>m²</td><td>280</td><td style="text-align:right">—</td><td style="text-align:right;color:var(--text-muted)">—</td><td style="text-align:right;color:var(--text-muted)">—</td><td style="text-align:right;color:var(--orange)">À chiffrer</td><td><span class="badge badge-orange">⚠️</span></td></tr>
+                <tr><td>7.3</td><td>Fenêtres PVC double vitrage</td><td>U</td><td>24</td><td style="text-align:right">445 €</td><td style="text-align:right;color:#93C5FD">3 840 €</td><td style="text-align:right;color:#FCD34D">6 840 €</td><td style="text-align:right;font-weight:600">10 680 €</td><td><span class="badge badge-green">✅</span></td></tr>
+                <tr style="background:rgba(255,255,255,0.02)"><td colspan="7" style="text-align:right;font-weight:700;color:var(--text-muted)">Sous-total postes chiffrés</td><td style="text-align:right;font-weight:700;color:#fff">78 880 €</td><td></td></tr>
+                <tr style="background:rgba(200,16,46,0.06)"><td colspan="7" style="text-align:right;font-weight:700;color:var(--red)">Postes restants à chiffrer (4)</td><td style="text-align:right;font-weight:700;color:var(--red)">—</td><td></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px">
+            <div style="background:var(--bg3);border-radius:6px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Total MO</div><div style="font-family:var(--font-display);font-size:18px;font-weight:700;color:#93C5FD">45 960 €</div></div>
+            <div style="background:var(--bg3);border-radius:6px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Total matériel</div><div style="font-family:var(--font-display);font-size:18px;font-weight:700;color:#FCD34D">32 920 €</div></div>
+            <div style="background:var(--bg3);border-radius:6px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Marge appliquée</div><div style="font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--green)">35%</div></div>
+            <div style="background:rgba(200,16,46,0.1);border-radius:6px;padding:10px;text-align:center;border:1px solid rgba(200,16,46,0.3)"><div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Total chiffré HT</div><div style="font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--red)">78 880 €</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PARAMÈTRES MARGES -->
+      <div class="card" style="margin-bottom:16px;border:1px solid rgba(232,99,10,0.3)">
+        <div class="card-title" style="color:var(--orange)">⚙️ Paramètres chantier — Marges & Coût J/H</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px">
+          <div>
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Coût journée homme</div>
+            <div style="display:flex;align-items:center;gap:6px"><input class="sub-input" style="width:70px" value="380" type="number" oninput="updateTotals()"> <span style="font-size:11px;color:var(--text-muted)">€/jour</span></div>
+          </div>
+          <div>
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Marge MRB</div>
+            <div style="display:flex;align-items:center;gap:6px"><input class="sub-input" style="width:60px" value="35" type="number" oninput="updateTotals()"> <span style="font-size:11px;color:var(--text-muted)">%</span></div>
+          </div>
+          <div>
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Marge sous-traitant</div>
+            <div style="display:flex;align-items:center;gap:6px"><input class="sub-input" style="width:60px" value="15" type="number"> <span style="font-size:11px;color:var(--text-muted)">%</span></div>
+          </div>
+          <div>
+            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Marge co-traitant</div>
+            <div style="display:flex;align-items:center;gap:6px"><input class="sub-input" style="width:60px" value="10" type="number"> <span style="font-size:11px;color:var(--text-muted)">%</span></div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted)">→ Toute modification se propage automatiquement sur l'ensemble du devis.</div>
+      </div>
+
+      <div class="grid-60-40" style="margin-bottom:16px">
+        <!-- Ligne DPGF -->
+        <div class="card">
+          <div class="card-title">🧱 2.1 — Démolition cloisons intérieures</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:14px">Quantité DPGF : <strong style="color:#fff">480 m²</strong> · Unité : m² · Source : CCTP Art. 2.1</div>
+
+          <div class="sub-decomp">
+            <div class="sub-decomp-row">
+              <div class="sub-label">👷 Main d'œuvre (h/m²)</div>
+              <input class="sub-input" value="1.2" type="number" step="0.1">
+              <div class="sub-price" style="color:var(--text-muted);font-size:11px">× 45 €/h</div>
+              <div class="sub-price">= 54 €/m²</div>
+            </div>
+            <div class="sub-decomp-row">
+              <div class="sub-label">🚛 Évacuation déchets inertes</div>
+              <input class="sub-input" value="12" type="number">
+              <div class="sub-price" style="color:var(--text-muted);font-size:11px">€/m²</div>
+              <div class="sub-price">= 12 €/m²</div>
+            </div>
+            <div class="sub-decomp-row">
+              <div class="sub-label">🔧 Matériel (benne, outils)</div>
+              <input class="sub-input" value="8" type="number">
+              <div class="sub-price" style="color:var(--text-muted);font-size:11px">€/m²</div>
+              <div class="sub-price">= 8 €/m²</div>
+            </div>
+            <div class="sub-decomp-row" style="border-top:1px solid var(--border);padding-top:10px;margin-top:4px">
+              <div class="sub-label" style="font-weight:600;color:#fff">TOTAL sous-décomposé</div>
+              <div style="flex:1"></div>
+              <div class="sub-price" style="color:var(--red);font-size:18px">74 €/m²</div>
+            </div>
+            <!-- Totaux par catégorie -->
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.04)">
+              <div style="background:var(--bg3);border-radius:6px;padding:8px 10px;text-align:center">
+                <div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Total MO</div>
+                <div style="font-family:var(--font-display);font-size:15px;font-weight:700;color:#93C5FD">25 920 €</div>
+              </div>
+              <div style="background:var(--bg3);border-radius:6px;padding:8px 10px;text-align:center">
+                <div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Total déchets</div>
+                <div style="font-family:var(--font-display);font-size:15px;font-weight:700;color:#86EFAC">5 760 €</div>
+              </div>
+              <div style="background:var(--bg3);border-radius:6px;padding:8px 10px;text-align:center">
+                <div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Total matériel</div>
+                <div style="font-family:var(--font-display);font-size:15px;font-weight:700;color:#FCD34D">3 840 €</div>
+              </div>
+            </div>
+            <div style="margin-top:8px;display:flex;gap:8px">
+              <button class="btn btn-ghost btn-sm" style="font-size:10px">+ Ajouter main d'œuvre</button>
+              <button class="btn btn-ghost btn-sm" style="font-size:10px">+ Ajouter déchet</button>
+              <button class="btn btn-ghost btn-sm" style="font-size:10px">+ Ajouter matériel</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Garde-fou -->
+        <div>
+          <div class="card" style="margin-bottom:12px">
+            <div class="card-title">🛡️ Garde-fou — Références prix</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px">Démolition cloisons · Base 2 (89 entrées)</div>
+            <div class="price-guard">
+              <div class="price-box price-min">
+                <div class="price-box-label">Min vendu</div>
+                <div class="price-box-value">52 €</div>
+                <div class="price-box-unit">/ m²</div>
+              </div>
+              <div class="price-box price-moy">
+                <div class="price-box-label">Moyen</div>
+                <div class="price-box-value">71 €</div>
+                <div class="price-box-unit">/ m²</div>
+              </div>
+              <div class="price-box price-max">
+                <div class="price-box-label">Max vendu</div>
+                <div class="price-box-value">98 €</div>
+                <div class="price-box-unit">/ m²</div>
+              </div>
+            </div>
+            <div style="margin-top:12px;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:6px;padding:8px 10px;font-size:11px;color:#86EFAC">
+              ✅ Votre prix (74 €/m²) est dans la fourchette — cohérent avec l'historique.
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom:12px;border:1px solid rgba(59,130,246,0.2);background:rgba(59,130,246,0.04)">
+            <div class="card-title" style="color:var(--blue)">♻️ Réutilisation inter-postes</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px">Ce type d'article existe déjà dans ce dossier. Reprendre la décomposition ?</div>
+            <div style="background:var(--bg3);border-radius:6px;padding:10px;margin-bottom:10px;font-size:12px">
+              <div style="font-weight:600;color:#fff;margin-bottom:4px">Démolition cloisons — Partie 1 (déjà chiffré)</div>
+              <div style="color:var(--text-muted);font-size:11px">74 €/m² · MO 54€ + Évacuation 12€ + Matériel 8€</div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-primary btn-sm" onclick="this.closest('.card').style.display='none'">✅ Reprendre cette décomposition</button>
+              <button class="btn btn-ghost btn-sm" onclick="this.closest('.card').style.display='none'">Ignorer</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">📊 Récap DPGF</div>
+            <table>
+              <tbody>
+                <tr><td style="color:var(--text-muted)">Postes chiffrés</td><td style="text-align:right"><strong>8 / 12</strong></td></tr>
+                <tr><td style="color:var(--text-muted)">Montant chiffré</td><td style="text-align:right"><strong style="color:var(--green)">84 250 €</strong></td></tr>
+                <tr><td style="color:var(--text-muted)">Postes restants</td><td style="text-align:right"><strong style="color:var(--orange)">4</strong></td></tr>
+                <tr><td style="color:var(--text-muted)">Marge prév.</td><td style="text-align:right"><strong>12.4%</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:16px;border:1px solid rgba(34,197,94,0.3);background:rgba(34,197,94,0.04)">
+        <div class="card-title" style="color:#22C55E">🗄️ Alimenter les bases de données</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px">Ce chiffrage peut enrichir vos bases de données historiques. Choisissez ce que vous souhaitez intégrer — les données spécifiques à ce chantier peuvent fausser les prix généraux.</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div>
+              <div style="font-size:12px;font-weight:500">Intégrer ce chiffrage dans Base 1 (prix vendus)</div>
+              <div style="font-size:11px;color:var(--text-muted)">Prix final par ligne DPGF → enrichit le garde-fou min/moyen/max</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div>
+              <div style="font-size:12px;font-weight:500">Intégrer les sous-décompositions dans Base 2</div>
+              <div style="font-size:11px;color:var(--text-muted)">Attention : chantier avec contraintes spécifiques (accès, localisation)</div>
+            </div>
+            <div class="toggle" onclick="this.classList.toggle('on')"></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-primary" onclick="this.textContent='✅ Bases mises à jour';this.style.background='#22C55E'">Confirmer l'alimentation</button>
+          <button class="btn btn-ghost btn-sm">Ignorer pour ce chiffrage</button>
+        </div>
+      </div>
+
+      <!-- WORKFLOW VISER LE DEVIS -->
+      <div class="card" style="margin-top:16px;border:1px solid rgba(34,197,94,0.4);background:rgba(34,197,94,0.04)">
+        <div class="card-title" style="color:#22C55E">✍️ Validation finale — Viser le devis</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px">Le devis est chiffré et les bases alimentées. Il doit être visé avant envoi au maître d'ouvrage.</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+          <div style="display:flex;align-items:center;gap:12px;background:var(--bg3);border-radius:8px;padding:10px 14px">
+            <div style="width:28px;height:28px;border-radius:50%;background:rgba(34,197,94,0.2);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">✅</div>
+            <div style="flex:1"><div style="font-size:12px;font-weight:500">Chiffrage complété</div><div style="font-size:11px;color:var(--text-muted)">par Maxime Serre — 09/04/2026 10:42</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;background:var(--bg3);border-radius:8px;padding:10px 14px;border:1px solid rgba(245,158,11,0.3)">
+            <div style="width:28px;height:28px;border-radius:50%;background:rgba(245,158,11,0.2);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">⏳</div>
+            <div style="flex:1"><div style="font-size:12px;font-weight:500;color:var(--orange)">En attente de relecture / visa</div><div style="font-size:11px;color:var(--text-muted)">Conducteur de travaux ou Administrateur</div></div>
+            <select style="background:var(--bg4);border:1px solid var(--border);border-radius:4px;color:var(--text);padding:5px 8px;font-size:11px">
+              <option>Assigner à…</option>
+              <option>Joffrey Courtis</option>
+              <option>Nathanaël Gosselin</option>
+              <option>Tom</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-primary" style="background:#22C55E" onclick="document.getElementById('visa-confirm').style.display='block';this.style.display='none'">✍️ Viser ce devis</button>
+          <button class="btn btn-ghost btn-sm">📤 Envoyer pour relecture</button>
+        </div>
+        <div id="visa-confirm" style="display:none;margin-top:10px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:6px;padding:10px 14px;font-size:12px;color:#86EFAC">
+          ✅ Devis visé par <strong>Joffrey Courtis</strong> — 09/04/2026 11:15 · Statut mis à jour : <strong>Visé — prêt à envoyer</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         PAGE 5 — BASES DE DONNÉES
+    ════════════════════════════════════════════════════════ -->
+    <div class="page" id="page-bases">
+
+      <!-- BASE 1 -->
+      <div class="db-card">
+        <div class="db-header">
+          <div>
+            <div class="db-title">📁 Base 1 — Prix vendus HT (PDF réponses AO)</div>
+            <div class="db-meta">Dernière mise à jour : 28 mars 2026 · Auto-alimentée à chaque nouvelle réponse AO classée</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-ghost btn-sm">+ Ajouter PDF</button>
+            <span class="badge badge-green">✅ Active</span>
+          </div>
+        </div>
+        <div class="db-stat-row">
+          <div class="db-stat"><div class="db-stat-val">124</div><div class="db-stat-lbl">PDF indexés</div></div>
+          <div class="db-stat"><div class="db-stat-val">1 847</div><div class="db-stat-lbl">Lignes DPGF</div></div>
+          <div class="db-stat"><div class="db-stat-val">2022–2026</div><div class="db-stat-lbl">Période couverte</div></div>
+        </div>
+        <div class="progress-wrap"><div class="progress-bar progress-green" style="width:78%"></div></div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Couverture estimée : 78% des types de postes courants</div>
+      </div>
+
+      <!-- BASE 2 -->
+      <div class="db-card">
+        <div class="db-header">
+          <div>
+            <div class="db-title">📊 Base 2 — Sous-décompositions des prix (Excel)</div>
+            <div class="db-meta">En cours de construction · Responsable : Maxime Serre · Auto-alimentée après chaque chiffrage validé</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-ghost btn-sm">📤 Mettre à jour</button>
+            <span class="badge badge-orange">⚙️ En cours</span>
+          </div>
+        </div>
+        <div class="db-stat-row">
+          <div class="db-stat"><div class="db-stat-val">89</div><div class="db-stat-lbl">Postes renseignés</div></div>
+          <div class="db-stat"><div class="db-stat-val">34</div><div class="db-stat-lbl">Postes restants</div></div>
+          <div class="db-stat"><div class="db-stat-val">72%</div><div class="db-stat-lbl">Complétude</div></div>
+        </div>
+        <div class="progress-wrap"><div class="progress-bar progress-orange" style="width:72%"></div></div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:4px">72% des postes courants couverts</div>
+
+        <div style="margin-top:14px">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:1px">Mise à jour d'un prix unitaire</div>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <select style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);padding:6px 10px;font-size:12px;flex:1;min-width:160px">
+              <option>Béton — prix m³</option>
+              <option>Agglo 20cm — m²</option>
+              <option>Main d'œuvre maçonnerie — h</option>
+            </select>
+            <input style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);padding:6px 10px;font-size:12px;width:100px" value="142 €/m³" />
+            <button class="btn btn-primary btn-sm">Appliquer + propager</button>
+            <span style="font-size:11px;color:var(--text-muted)">→ Impact sur 23 sous-décompositions</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BASE 3 -->
+      <div class="db-card">
+        <div class="db-header">
+          <div>
+            <div class="db-title">📐 Base 3 — Prix unitaires par ouvrage</div>
+            <div class="db-meta">Phase suivante · Démolition, Maçonnerie, Charpente, Couverture, Isolation…</div>
+          </div>
+          <span class="badge badge-grey">○ Non démarrée</span>
+        </div>
+        <div class="db-stat-row">
+          <div class="db-stat"><div class="db-stat-val" style="color:var(--text-muted)">—</div><div class="db-stat-lbl">Ouvrages</div></div>
+          <div class="db-stat"><div class="db-stat-val" style="color:var(--text-muted)">—</div><div class="db-stat-lbl">Prix unitaires</div></div>
+          <div class="db-stat"><div class="db-stat-val" style="color:var(--text-muted)">Phase 3</div><div class="db-stat-lbl">Démarrage prévu</div></div>
+        </div>
+        <div class="progress-wrap"><div class="progress-bar" style="width:0;background:var(--text-muted)"></div></div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Sera alimentée automatiquement depuis Base 2 après suffisamment d'entrées</div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         PAGE 6 — ASSISTANT IA (standalone)
+    ════════════════════════════════════════════════════════ -->
+    <div class="page" id="page-assistant">
+      <div class="grid-60-40" style="margin-bottom:16px">
+        <div class="card" style="height:fit-content">
+          <div class="card-title">🤖 Assistant IA — Sélectionnez un dossier</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px">L'assistant est contextuel à un dossier AO. Sélectionnez un dossier pour commencer.</div>
+          <table>
+            <thead><tr><th>Dossier</th><th>Points IA</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><strong>Mairie de Pontcharra</strong></td><td><span class="badge badge-red">2 risques</span></td><td><button class="row-action primary" onclick="showPage('ao-detail');setTimeout(()=>switchDetailTab('assistant',document.querySelectorAll('.tab-row .tab')[1]),100)">Ouvrir</button></td></tr>
+              <tr><td><strong>Chantier Dupont</strong></td><td><span class="badge badge-orange">1 incertitude</span></td><td><button class="row-action primary" onclick="showPage('ao-detail')">Ouvrir</button></td></tr>
+              <tr><td><strong>Résidence Les Pins</strong></td><td><span class="badge badge-orange">3 incertitudes</span></td><td><button class="row-action primary" onclick="showPage('ao-detail')">Ouvrir</button></td></tr>
+              <tr><td><strong>Immeuble Gaillard</strong></td><td><span class="badge badge-green">✅ Validé</span></td><td><button class="row-action">Voir</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <div class="card-title">📊 Statistiques IA</div>
+          <table>
+            <tbody>
+              <tr><td style="color:var(--text-muted)">Points à risque ouverts</td><td style="text-align:right"><strong style="color:var(--red)">6</strong></td></tr>
+              <tr><td style="color:var(--text-muted)">Zones incertaines</td><td style="text-align:right"><strong style="color:var(--orange)">4</strong></td></tr>
+              <tr><td style="color:var(--text-muted)">Annotations validées</td><td style="text-align:right"><strong style="color:var(--green)">12</strong></td></tr>
+              <tr><td style="color:var(--text-muted)">Documents Word mis à jour</td><td style="text-align:right"><strong>3</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         PAGE 7 — MOTEUR DE RECHERCHE ARTICLES
+    ════════════════════════════════════════════════════════ -->
+    <div class="page" id="page-recherche">
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">🔍 Moteur de recherche — Articles & Prix</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:14px">Consultez les fourchettes de prix de vos bases historiques, hors contexte chantier.</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+          <input class="search-bar" style="flex:2;min-width:200px" placeholder="🔍  Rechercher un article, ouvrage, matériau…" oninput="filterArticles(this.value)" />
+          <select style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:7px 12px;color:var(--text);font-size:12px;flex:1;min-width:140px">
+            <option>Tous les types</option>
+            <option>Démolition</option>
+            <option>Maçonnerie</option>
+            <option>Isolation</option>
+            <option>Menuiseries</option>
+            <option>Charpente</option>
+            <option>Couverture</option>
+          </select>
+          <select style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:7px 12px;color:var(--text);font-size:12px;flex:1;min-width:120px">
+            <option>Toutes périodes</option>
+            <option>2025–2026</option>
+            <option>2024–2025</option>
+            <option>2023–2024</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table id="articles-table">
+            <thead>
+              <tr>
+                <th>Article</th>
+                <th>Type</th>
+                <th>Unité</th>
+                <th>Prix min</th>
+                <th>Prix moyen</th>
+                <th>Prix max</th>
+                <th>Nb références</th>
+                <th>Mise à jour</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-article="démolition cloisons"><td><strong>Démolition cloisons béton</strong></td><td><span class="badge badge-grey">Démolition</span></td><td>m²</td><td style="color:var(--green);font-weight:600">52 €</td><td style="color:var(--orange);font-weight:600">71 €</td><td style="color:var(--red);font-weight:600">98 €</td><td>24 réf.</td><td>08/04/2026</td></tr>
+              <tr data-article="mur agglo maçonnerie"><td><strong>Mur en agglo 20cm</strong></td><td><span class="badge badge-grey">Maçonnerie</span></td><td>m²</td><td style="color:var(--green);font-weight:600">68 €</td><td style="color:var(--orange);font-weight:600">89 €</td><td style="color:var(--red);font-weight:600">124 €</td><td>31 réf.</td><td>07/04/2026</td></tr>
+              <tr data-article="ite isolation façade"><td><strong>ITE laine de roche 120mm</strong></td><td><span class="badge badge-grey">Isolation</span></td><td>m²</td><td style="color:var(--green);font-weight:600">85 €</td><td style="color:var(--orange);font-weight:600">112 €</td><td style="color:var(--red);font-weight:600">158 €</td><td>18 réf.</td><td>05/04/2026</td></tr>
+              <tr data-article="fenêtre pvc menuiserie"><td><strong>Fenêtre PVC double vitrage T1</strong></td><td><span class="badge badge-grey">Menuiseries</span></td><td>U</td><td style="color:var(--green);font-weight:600">320 €</td><td style="color:var(--orange);font-weight:600">445 €</td><td style="color:var(--red);font-weight:600">620 €</td><td>42 réf.</td><td>09/04/2026</td></tr>
+              <tr data-article="chape béton sol"><td><strong>Chape béton 6cm</strong></td><td><span class="badge badge-grey">Maçonnerie</span></td><td>m²</td><td style="color:var(--green);font-weight:600">28 €</td><td style="color:var(--orange);font-weight:600">38 €</td><td style="color:var(--red);font-weight:600">52 €</td><td>29 réf.</td><td>06/04/2026</td></tr>
+              <tr data-article="enduit façade finition"><td><strong>Enduit de façade grain fin</strong></td><td><span class="badge badge-grey">Isolation</span></td><td>m²</td><td style="color:var(--green);font-weight:600">22 €</td><td style="color:var(--orange);font-weight:600">31 €</td><td style="color:var(--red);font-weight:600">46 €</td><td>37 réf.</td><td>04/04/2026</td></tr>
+              <tr data-article="installation chantier base vie"><td><strong>Installation de chantier — base vie</strong></td><td><span class="badge badge-grey">Démolition</span></td><td>Fft</td><td style="color:var(--green);font-weight:600">2 800 €</td><td style="color:var(--orange);font-weight:600">4 200 €</td><td style="color:var(--red);font-weight:600">7 500 €</td><td>15 réf.</td><td>01/04/2026</td></tr>
+              <tr data-article="main oeuvre maçon"><td><strong>Main d'œuvre maçon qualifié</strong></td><td><span class="badge badge-grey">Maçonnerie</span></td><td>h</td><td style="color:var(--green);font-weight:600">38 €</td><td style="color:var(--orange);font-weight:600">45 €</td><td style="color:var(--red);font-weight:600">58 €</td><td>89 réf.</td><td>09/04/2026</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         PAGE 6 — ADMINISTRATION
+    ════════════════════════════════════════════════════════ -->
+    <div class="page" id="page-admin">
+
+      <div class="grid-2" style="margin-bottom:0">
+        <div>
+          <div class="card" style="margin-bottom:14px">
+            <div class="card-title">👥 Utilisateurs actifs</div>
+            <table>
+              <thead><tr><th>Nom</th><th>Rôle</th><th>Dernière connexion</th><th>Statut</th></tr></thead>
+              <tbody>
+                <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="avatar" style="width:24px;height:24px;font-size:10px">M</div>Maxime Serre</div></td><td>Chiffreur</td><td>Aujourd'hui</td><td><span class="badge badge-green">Actif</span></td></tr>
+                <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="avatar" style="width:24px;height:24px;font-size:10px;background:#1E3A5F">G</div>Geoffrey Courtis</div></td><td>Admin</td><td>Hier</td><td><span class="badge badge-green">Actif</span></td></tr>
+                <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="avatar" style="width:24px;height:24px;font-size:10px;background:#555">N</div>Nathanaël Gosselin</div></td><td>Direction</td><td>25 mars</td><td><span class="badge badge-grey">Inactif</span></td></tr>
+              </tbody>
+            </table>
+            <div style="margin-top:10px">
+              <button class="btn btn-ghost btn-sm">+ Ajouter un utilisateur</button>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card" style="margin-bottom:14px">
+            <div class="card-title">⚙️ Paramètres système</div>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <div>
+                  <div style="font-size:12px;font-weight:500">Notifications email</div>
+                  <div style="font-size:11px;color:var(--text-muted)">Alertes quand une synthèse IA est prête</div>
+                </div>
+                <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <div>
+                  <div style="font-size:12px;font-weight:500">Auto-alimentation des bases</div>
+                  <div style="font-size:11px;color:var(--text-muted)">Mise à jour auto à chaque nouveau dossier traité</div>
+                </div>
+                <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <div>
+                  <div style="font-size:12px;font-weight:500">Validation humaine obligatoire</div>
+                  <div style="font-size:11px;color:var(--text-muted)">Avant toute action définitive (chiffrage, export)</div>
+                </div>
+                <div class="toggle on"></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <div>
+                  <div style="font-size:12px;font-weight:500">Mode test (sandbox)</div>
+                  <div style="font-size:11px;color:var(--text-muted)">Analyses IA sans impact sur les bases</div>
+                </div>
+                <div class="toggle" onclick="this.classList.toggle('on')"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.5px;color:var(--text);margin-bottom:12px">🔐 Droits par profil</div>
+
+      <div class="role-card">
+        <div class="role-icon" style="background:rgba(34,197,94,0.15)">🛡️</div>
+        <div class="role-info">
+          <div class="role-name">Administrateur</div>
+          <div style="font-size:11px;color:var(--orange);margin-bottom:4px;font-weight:500">Joffrey Courtis · Nathanaël Gosselin</div>
+          <div class="role-desc">Accès complet à toutes les fonctions : AO, dossiers analytiques, chiffrage, bases de données, mise à jour des prix, assistant IA, paramètres système et gestion des utilisateurs.</div>
+          <div class="perm-list">
+            <span class="perm perm-yes">✅ Voir & ouvrir tous les dossiers AO</span>
+            <span class="perm perm-yes">✅ Lancer l'analyse IA</span>
+            <span class="perm perm-yes">✅ Chiffrage dans l'application</span>
+            <span class="perm perm-yes">✅ Assistant IA intégré</span>
+            <span class="perm perm-yes">✅ Modifier prix & sous-décompositions</span>
+            <span class="perm perm-yes">✅ Alimenter les bases de données</span>
+            <span class="perm perm-yes">✅ Moteur de recherche articles</span>
+            <span class="perm perm-yes">✅ Gérer utilisateurs & rôles</span>
+            <span class="perm perm-yes">✅ Paramètres système & logs</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="role-card">
+        <div class="role-icon" style="background:rgba(59,130,246,0.15)">🏗️</div>
+        <div class="role-info">
+          <div class="role-name">Conducteur de travaux</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">Jusqu'à 3 utilisateurs à terme</div>
+          <div class="role-desc">Accès en consultation uniquement : prix de référence, sous-décompositions et historique des chiffrages. Pas de modification des bases ni d'accès aux documents analytiques complets.</div>
+          <div class="perm-list">
+            <span class="perm perm-yes">✅ Moteur de recherche articles</span>
+            <span class="perm perm-yes">✅ Consulter prix & fourchettes</span>
+            <span class="perm perm-yes">✅ Voir historique chiffrages</span>
+            <span class="perm perm-no">❌ Modifier bases de données</span>
+            <span class="perm perm-no">❌ Lancer analyse IA</span>
+            <span class="perm perm-no">❌ Ouvrir dossier analytique complet</span>
+            <span class="perm perm-no">❌ Gérer utilisateurs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</main>
+
+<div class="watermark">MRB × ADAI — Maquette v1.0 — Confidentiel</div>
+
+<script>
+const pages = {
+  'dashboard':  { title: 'Dashboard', actions: '<input class="search-bar" placeholder="🔍  Rechercher un dossier…"><button class="btn btn-primary" onclick="showPage(\'ao-list\')">+ Nouveau dossier</button>' },
+  'ao-list':    { title: 'Appels d\'offres', actions: '<input class="search-bar" placeholder="🔍  Rechercher…"><button class="btn btn-ghost btn-sm">Filtrer</button><button class="btn btn-primary" onclick="showPage(\'ao-detail\')">+ Nouveau dossier</button>' },
+  'ao-detail':  { title: 'Dossier — Mairie de Pontcharra', actions: '<button class="btn btn-ghost btn-sm" onclick="showPage(\'ao-list\')">← Retour liste</button><button class="btn btn-primary" onclick="showPage(\'chiffrage\')">🧮 Chiffrer →</button>' },
+  'chiffrage':  { title: 'Aide au chiffrage', actions: '<button class="btn btn-ghost btn-sm" onclick="showPage(\'ao-detail\')">← Retour dossier</button><button class="btn btn-primary">✅ Valider</button>' },
+  'assistant':  { title: 'Assistant IA', actions: '<button class="btn btn-ghost btn-sm">📊 Statistiques</button>' },
+  'recherche':  { title: 'Moteur de recherche articles', actions: '<input class="search-bar" placeholder="🔍  Rechercher un article…"><button class="btn btn-primary">+ Ajouter article</button>' },
+  'admin':      { title: 'Accès & utilisateurs', actions: '<button class="btn btn-ghost btn-sm">📋 Voir les logs</button><button class="btn btn-primary">+ Ajouter utilisateur</button>' },
+};
+
+function showPage(id) {
+  // hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+  // show target
+  document.getElementById('page-' + id).classList.add('active');
+
+  // update nav
+  const navMap = {
+    'dashboard': 0, 'ao-list': 1, 'ao-detail': 2,
+    'chiffrage': 3, 'assistant': 4, 'recherche': 5, 'admin': 6
+  };
+  const navItems = document.querySelectorAll('.nav-item');
+  const idx = navMap[id];
+  if (idx !== undefined) navItems[idx].classList.add('active');
+
+  // update topbar
+  const cfg = pages[id];
+  document.getElementById('page-title').textContent = cfg.title;
+  document.getElementById('topbar-actions').innerHTML = cfg.actions;
+
+  // scroll to top
+  document.querySelector('.content').scrollTop = 0;
+}
+
+function filterAO(status, el) {
+  // update tabs
+  document.querySelectorAll('#ao-tabs .tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  // filter rows
+  const rows = document.querySelectorAll('#page-ao-list tbody tr');
+  rows.forEach(row => {
+    const s = row.dataset.status || '';
+    if (status === 'all') { row.style.display = ''; return; }
+    if (status === 'valider') row.style.display = s === 'valider' ? '' : 'none';
+    else if (status === 'chiffrage') row.style.display = s === 'chiffrage' ? '' : 'none';
+    else if (status === 'remis') row.style.display = s === 'remis' ? '' : 'none';
+    else row.style.display = '';
+  });
+}
+
+function switchDetailTab(tab, el) {
+  // update tab active state
+  el.closest('.tab-row').querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  // show/hide panels
+  const panels = ['analytique', 'assistant', 'pieces', 'notes'];
+  panels.forEach(p => {
+    const el2 = document.getElementById('detail-tab-' + p);
+    if (el2) el2.style.display = p === tab ? '' : 'none';
+  });
+}
+
+function toggleVueGlobale() {
+  const panel = document.getElementById('vue-globale-panel');
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
+
+function filterArticles(query) {
+  const rows = document.querySelectorAll('#articles-table tbody tr');
+  const q = query.toLowerCase();
+  rows.forEach(row => {
+    const text = (row.dataset.article || '') + row.innerText.toLowerCase();
+    row.style.display = text.includes(q) ? '' : 'none';
+  });
+}
+
+function sendChat() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  const msgs = document.getElementById('chat-messages');
+  msgs.innerHTML += `<div style="display:flex;gap:10px;align-items:flex-start;justify-content:flex-end"><div style="background:rgba(200,16,46,0.15);border-radius:8px 0 8px 8px;padding:10px 12px;font-size:12px;color:var(--text);max-width:80%">${msg}</div><div style="width:28px;height:28px;border-radius:50%;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;color:var(--red)">M</div></div>`;
+  input.value = '';
+  setTimeout(() => {
+    msgs.innerHTML += `<div style="display:flex;gap:10px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">🤖</div><div style="background:var(--bg4);border-radius:0 8px 8px 8px;padding:10px 12px;font-size:12px;color:var(--grey-light);max-width:80%">Je recherche dans les documents du dossier… Je vous reviens avec une analyse détaillée dans quelques secondes.</div></div>`;
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 800);
+}
+
+function addAnnotation() {
+  document.getElementById('annotation-confirm').style.display = 'block';
+  setTimeout(() => document.getElementById('annotation-confirm').style.display = 'none', 3000);
+}
+
+function toggleLine(header) {
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('span:last-child');
+  if (body.classList.contains('open')) {
+    body.classList.remove('open');
+    if (arrow) arrow.textContent = '▼';
+  } else {
+    body.classList.add('open');
+    if (arrow) arrow.textContent = '▲';
+  }
+}
+</script>
+</body>
+</html>
