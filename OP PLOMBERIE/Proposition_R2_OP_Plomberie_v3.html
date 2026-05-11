@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADAI × OP Plomberie — Proposition Commerciale R2 v3</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:#FFFFFF; --off:#F8F9FB; --off2:#EFF1F5;
+  --ink:#0D1117; --ink2:#1E2533; --ink3:#3A4254;
+  --muted:#6B7280; --muted2:#9CA3AF;
+  --border:#E4E7EE;
+  --ab:#1B7FD4; --ao:#E8852A;
+  --logo:linear-gradient(90deg,#1B7FD4 0%,#3A9FE8 35%,#E8852A 100%);
+  --adai:linear-gradient(100deg,#1B7FD4 0%,#7B5EA7 48%,#E8852A 78%,#D4A017 100%);
+  --green:#16A34A; --green-bg:#F0FDF4; --green-b:#BBF7D0;
+  --red:#DC2626;   --red-bg:#FEF2F2;   --red-b:#FECACA;
+  --amber:#D97706; --amber-bg:#FFFBEB; --amber-b:#FDE68A;
+  --shadow-xs:0 1px 3px rgba(13,17,23,.07),0 1px 2px rgba(13,17,23,.04);
+  --shadow-sm:0 4px 12px rgba(13,17,23,.07);
+  --r:8px; --r2:12px;
+  --sb:210px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Calibri','Inter',sans-serif;background:var(--off);color:var(--ink);line-height:1.6;font-size:16px;display:flex;min-height:100vh;justify-content:center;}
+
+/* ── SIDEBAR ──────────────────────────── */
+#sb{
+  position:fixed;top:0;left:0;width:var(--sb);height:100vh;
+  background:var(--white);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow-y:auto;z-index:100;
+}
+.sb-top{padding:14px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.sb-logo-wrap{display:flex;align-items:baseline;gap:0;}
+.sb-logo-ad{font-weight:800;font-size:1.25rem;color:#1B7FD4;line-height:1;letter-spacing:-.5px;}
+.sb-logo-ai{font-weight:800;font-size:1.25rem;color:#E8852A;line-height:1;letter-spacing:-.5px;}
+.sb-logo-sub{font-size:.42rem;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted2);display:block;margin-top:1px;}
+.sb-meta{padding:9px 18px;border-bottom:1px solid var(--border);background:var(--off);}
+.sb-client{font-weight:700;font-size:.78rem;color:var(--ink);margin-bottom:1px;}
+.sb-date{font-size:.63rem;color:var(--muted);}
+.sb-nav{padding:4px 0 12px;flex:1;}
+.sb-group{font-size:.48rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);padding:10px 18px 2px;}
+.sb-link{
+  display:flex;align-items:center;gap:7px;padding:6px 18px;
+  width:100%;background:none;border:none;cursor:pointer;
+  color:var(--muted);font-size:.72rem;font-weight:400;
+  font-family:'Calibri','Inter',sans-serif;text-align:left;
+  border-left:2px solid transparent;transition:all .15s;
+}
+.sb-link:hover{color:var(--ink2);background:var(--off);}
+.sb-link.active{color:var(--ab);border-left-color:var(--ab);background:rgba(27,127,212,.05);font-weight:600;}
+.sb-num{font-size:.54rem;color:var(--muted2);min-width:13px;}
+.sb-link.active .sb-num{color:var(--ab);}
+
+/* ── PROGRESS ─────────────────────────── */
+#prog{position:fixed;top:0;left:var(--sb);right:0;height:3px;background:var(--adai);transform-origin:left;transform:scaleX(0);z-index:200;}
+
+/* ── MAIN ─────────────────────────────── */
+#main{margin-left:var(--sb);flex:1;}
+
+/* ── COVER ────────────────────────────── */
+#cover{background:var(--ink2);padding:28px 44px 24px;position:relative;overflow:hidden;}
+#cover::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 80% 20%,rgba(123,94,167,.22) 0%,transparent 55%),
+             radial-gradient(ellipse at 10% 90%,rgba(27,127,212,.12) 0%,transparent 50%);}
+.cover-in{position:relative;}
+.cover-eye{display:inline-flex;align-items:center;gap:7px;font-size:.56rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:8px;}
+.cover-eye::before{content:'';width:14px;height:2px;background:var(--adai);border-radius:2px;}
+.cover-h1{font-size:1.75rem;font-weight:700;color:var(--white);line-height:1.1;margin-bottom:4px;}
+.cover-h1 em{font-style:italic;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.cover-sub{font-size:.8rem;color:rgba(255,255,255,.4);margin-bottom:14px;}
+.cover-pills{display:flex;flex-wrap:wrap;gap:5px;}
+.pill{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.55);font-size:.66rem;padding:2px 9px;border-radius:20px;}
+.pill strong{color:var(--white);}
+
+/* ── CONTENT ──────────────────────────── */
+.content{padding:0 44px 52px;max-width:900px;margin:0 auto;}
+
+/* ── SECTION ──────────────────────────── */
+.section{padding-top:30px;}
+.s-eye{font-size:.54rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--ab);margin-bottom:3px;display:flex;align-items:center;gap:7px;}
+.s-eye::before{content:'';width:14px;height:2px;background:var(--adai);border-radius:2px;}
+.s-h{font-weight:700;font-size:1.25rem;color:var(--ink);padding-bottom:7px;border-bottom:1px solid var(--border);margin-bottom:10px;}
+.s-h em{font-style:italic;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+/* ── KPI ROW ──────────────────────────── */
+.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.kpi{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:13px 15px;position:relative;overflow:hidden;box-shadow:var(--shadow-xs);}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--adai);}
+.kpi-val{font-size:1.4rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:2px;}
+.kpi-label{font-size:.58rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+.kpi-sub{font-size:.63rem;color:var(--muted2);margin-top:1px;}
+
+/* ── CALLOUT ──────────────────────────── */
+.callout{border-radius:var(--r2);padding:10px 14px;margin-bottom:8px;border-left:3px solid;font-size:.89rem;line-height:1.55;color:var(--ink3);}
+.callout-blue{background:rgba(27,127,212,.05);border-color:var(--ab);}
+.callout-amber{background:var(--amber-bg);border-color:var(--amber);}
+.callout-green{background:var(--green-bg);border-color:var(--green);}
+.callout strong{color:var(--ink);font-weight:600;}
+
+/* ── BADGES ───────────────────────────── */
+.badge{display:inline-block;font-size:.55rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:4px;white-space:nowrap;}
+.badge-red   {background:var(--red-bg);  color:var(--red);  border:1px solid var(--red-b);}
+.badge-amber {background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-b);}
+.badge-blue  {background:rgba(27,127,212,.1);color:var(--ab);border:1px solid rgba(27,127,212,.2);}
+.badge-green {background:var(--green-bg);color:var(--green);border:1px solid var(--green-b);}
+.badge-gray  {background:var(--off2);color:var(--muted);border:1px solid var(--border);}
+.badge-reco  {background:var(--adai);color:white;border:none;font-weight:700;}
+
+/* ── TABLES ───────────────────────────── */
+.tbl{border-radius:var(--r2);overflow:hidden;border:1px solid var(--border);margin:8px 0;box-shadow:var(--shadow-xs);}
+table{width:100%;border-collapse:collapse;background:var(--white);font-size:.88rem;}
+thead th{background:var(--ink2);color:var(--white);font-size:.54rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:8px 12px;text-align:left;}
+tbody tr{border-bottom:1px solid var(--border);}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:nth-child(even) td{background:var(--off);}
+tbody tr:hover td{background:rgba(27,127,212,.03);}
+td{padding:8px 12px;vertical-align:middle;color:var(--ink3);line-height:1.3;}
+td.fw{font-weight:600;color:var(--ink2);}
+td.gain{color:var(--green);font-weight:700;}
+td.delay{color:var(--muted);font-size:.72rem;}
+td.amount{font-weight:700;color:var(--ink);text-align:right;font-size:.95rem;}
+td.amount-reco{font-weight:700;text-align:right;font-size:.95rem;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.total{background:var(--ink2)!important;color:var(--white)!important;font-weight:700;}
+.total-amount{background:var(--ink2)!important;color:var(--white)!important;font-weight:800;font-size:1.05rem;text-align:right;}
+
+/* ── TWO COL ──────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0;}
+
+/* ── LIST CARD ────────────────────────── */
+.lcard{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:11px 14px;box-shadow:var(--shadow-xs);}
+.lcard-title{font-size:.55rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;}
+.lcard ul{list-style:none;}
+.lcard li{display:flex;align-items:flex-start;gap:6px;padding:4px 0;border-bottom:1px solid var(--border);font-size:.86rem;color:var(--ink3);line-height:1.3;}
+.lcard li:last-child{border-bottom:none;}
+.dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.dot-r{background:var(--red);}
+.dot-g{background:var(--green);}
+.dot-b{background:var(--ab);}
+.dot-o{background:var(--ao);}
+.lcard li strong{color:var(--ink2);font-weight:600;}
+
+/* ── MODULE CARD ──────────────────────── */
+.mcard{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);margin-bottom:10px;}
+.mcard-head{padding:11px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--off);gap:10px;flex-wrap:wrap;}
+.mcard-id{display:flex;align-items:center;gap:8px;}
+.mcard-num{width:30px;height:30px;border-radius:8px;background:var(--adai);color:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.78rem;flex-shrink:0;}
+.mcard-name{font-weight:700;font-size:.95rem;color:var(--ink);}
+.mcard-name-sub{font-size:.66rem;color:var(--muted);font-weight:500;letter-spacing:.5px;}
+.mcard-price{font-weight:800;font-size:1.05rem;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.mcard-body{padding:10px 16px;}
+.mcard-desc{font-size:.85rem;color:var(--ink3);line-height:1.5;margin-bottom:8px;}
+.mcard-options{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px;}
+.opt{border:1px solid var(--border);border-radius:var(--r);padding:8px 11px;background:var(--off);position:relative;}
+.opt-reco{border-color:var(--ab);background:rgba(27,127,212,.04);}
+.opt-reco::before{content:'★ Recommandé';position:absolute;top:-7px;right:8px;background:var(--adai);color:white;font-size:.5rem;font-weight:700;letter-spacing:.8px;padding:2px 7px;border-radius:10px;}
+.opt-title{font-weight:700;font-size:.78rem;color:var(--ink);margin-bottom:3px;}
+.opt-meta{font-size:.7rem;color:var(--muted);line-height:1.35;}
+.opt-meta strong{color:var(--ink2);}
+
+/* ── ROADMAP ──────────────────────────── */
+.roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0;}
+.phase{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);}
+.phase-stripe{height:2px;background:var(--adai);}
+.phase-bd{padding:11px 13px;}
+.phase-num{font-size:.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ab);margin-bottom:1px;}
+.phase-name{font-size:.92rem;font-weight:700;color:var(--ink);margin-bottom:1px;}
+.phase-period{font-size:.74rem;color:var(--muted);padding-bottom:7px;margin-bottom:7px;border-bottom:1px solid var(--border);}
+.phase-item{display:flex;align-items:flex-start;gap:5px;font-size:.81rem;color:var(--ink3);padding:3px 0;line-height:1.3;}
+.phase-item::before{content:'→';color:var(--ao);font-weight:700;flex-shrink:0;font-size:.68rem;}
+
+/* ── SCOPE COMBOS ─────────────────────── */
+.scope-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0;}
+.scope{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);position:relative;}
+.scope-reco{border:2px solid var(--ab);}
+.scope-reco-tag{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--adai);color:white;font-size:.5rem;font-weight:700;letter-spacing:1.2px;padding:3px 9px;border-radius:10px;white-space:nowrap;}
+.scope-head{padding:10px 14px;background:var(--off);border-bottom:1px solid var(--border);text-align:center;}
+.scope-name{font-weight:700;font-size:.95rem;color:var(--ink);}
+.scope-sub{font-size:.63rem;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.6px;}
+.scope-body{padding:10px 14px;}
+.scope-mods{font-size:.74rem;color:var(--muted);text-align:center;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:8px;}
+.scope-prices{display:flex;flex-direction:column;gap:6px;}
+.scope-line{display:flex;justify-content:space-between;align-items:baseline;}
+.scope-lbl{font-size:.64rem;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;}
+.scope-val{font-weight:800;font-size:1.05rem;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.scope-val-mo{font-size:.78rem;font-weight:700;color:var(--ink2);}
+
+/* ── NEXT STEPS ───────────────────────── */
+.rdv{background:var(--ink2);border-radius:var(--r2);padding:13px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:8px;flex-wrap:wrap;}
+.rdv-ll{font-size:.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:2px;}
+.rdv-lv{font-size:1rem;font-weight:700;color:var(--white);}
+.rdv-rl{font-size:.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:2px;text-align:right;}
+.rdv-rv{font-size:.76rem;font-weight:600;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:right;}
+
+.next-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.ncard{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);}
+.ncard-head{padding:8px 13px;background:var(--off);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;}
+.ncard-title{font-size:.56rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink2);}
+.ncard-body{padding:8px 13px;}
+.ncard-item{display:flex;align-items:flex-start;gap:6px;padding:4px 0;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--ink3);line-height:1.3;}
+.ncard-item:last-child{border-bottom:none;}
+.ncard-item::before{content:'→';color:var(--ab);font-weight:700;flex-shrink:0;font-size:.68rem;margin-top:2px;}
+
+/* ── PRINCIPLES (synthèse) ──────────── */
+.principles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0;}
+.principle{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:10px 13px;box-shadow:var(--shadow-xs);position:relative;}
+.principle::before{content:'';position:absolute;top:0;left:0;width:32px;height:2px;background:var(--adai);border-radius:2px;}
+.principle-num{font-size:.55rem;font-weight:700;letter-spacing:1.5px;color:var(--ab);margin-bottom:4px;}
+.principle-title{font-size:.85rem;font-weight:700;color:var(--ink);margin-bottom:3px;line-height:1.25;}
+.principle-desc{font-size:.74rem;color:var(--ink3);line-height:1.4;}
+
+/* ── ARCHITECTURE FLOW ──────────────── */
+.arch-flow{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin:10px 0 14px;}
+.arch-col{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);}
+.arch-col-head{padding:7px 11px;background:var(--ink2);color:var(--white);font-size:.55rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
+.arch-col-body{padding:8px 11px;display:flex;flex-direction:column;gap:5px;}
+.arch-item{background:var(--off);border:1px solid var(--border);border-radius:var(--r);padding:6px 8px;}
+.arch-item-name{font-size:.74rem;font-weight:700;color:var(--ink);margin-bottom:2px;}
+.arch-item-desc{font-size:.62rem;color:var(--muted);line-height:1.3;}
+
+/* ── ARCH STEPS ─────────────────────── */
+.arch-steps{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:11px 14px;margin:8px 0;box-shadow:var(--shadow-xs);}
+.arch-steps-title{font-size:.55rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ab);margin-bottom:8px;}
+.arch-step{display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);font-size:.82rem;color:var(--ink3);line-height:1.3;}
+.arch-step:last-child{border-bottom:none;}
+.arch-step-n{width:20px;height:20px;border-radius:5px;background:var(--adai);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.6rem;flex-shrink:0;margin-top:1px;}
+.arch-step strong{color:var(--ink);font-weight:600;}
+
+/* ── STACK GRID ─────────────────────── */
+.stack-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0;}
+.stack-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:11px 13px;box-shadow:var(--shadow-xs);position:relative;overflow:hidden;}
+.stack-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--adai);}
+.stack-cat{font-size:.5rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.stack-tool{font-size:.95rem;font-weight:700;color:var(--ink);line-height:1.1;margin-bottom:4px;}
+.stack-why{font-size:.73rem;color:var(--ink3);line-height:1.4;margin-bottom:6px;}
+.stack-alt{font-size:.62rem;color:var(--muted);padding-top:5px;border-top:1px solid var(--border);}
+.stack-alt strong{color:var(--red);font-weight:600;}
+
+/* ── RISKS ──────────────────────────── */
+.risk{display:grid;grid-template-columns:90px 1fr;gap:10px;background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:11px 14px;margin:6px 0;box-shadow:var(--shadow-xs);align-items:start;}
+.risk-level{display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:var(--r);padding:6px;text-align:center;}
+.risk-level-tag{font-size:.55rem;font-weight:700;letter-spacing:1px;color:var(--white);}
+.risk-leve  {background:var(--green);}
+.risk-moy   {background:var(--amber);}
+.risk-eleve {background:var(--red);}
+.risk-info  {background:var(--ab);}
+.risk-body{}
+.risk-title{font-size:.88rem;font-weight:700;color:var(--ink);margin-bottom:3px;line-height:1.3;}
+.risk-desc{font-size:.78rem;color:var(--ink3);line-height:1.45;margin-bottom:4px;}
+.risk-action{font-size:.72rem;color:var(--ab);font-weight:600;line-height:1.35;}
+.risk-action::before{content:'→ ';}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:10px 0;align-items:stretch;}
+.flow-step{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:9px 8px;text-align:center;position:relative;box-shadow:var(--shadow-xs);}
+.flow-step:not(:last-child)::after{content:'→';position:absolute;right:-8px;top:50%;transform:translateY(-50%);color:var(--ao);font-weight:800;font-size:.85rem;z-index:1;}
+.flow-ico{font-size:1.1rem;margin-bottom:3px;}
+.flow-title{font-weight:700;font-size:.7rem;color:var(--ink);line-height:1.25;margin-bottom:2px;}
+.flow-sub{font-size:.6rem;color:var(--muted);line-height:1.2;}
+
+/* ── FOOTER ───────────────────────────── */
+.doc-footer{margin-top:48px;padding:13px 0 4px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.footer-brand{font-weight:700;font-size:.72rem;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.footer-conf{font-size:.66rem;color:var(--muted);font-style:italic;}
+
+/* ── ROI SECTION ────────────────────── */
+.roi-base{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:12px 14px;margin:8px 0;box-shadow:var(--shadow-xs);display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.roi-base-side{}
+.roi-base-lbl{font-size:.55rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.roi-base-val{font-size:1.5rem;font-weight:800;line-height:1;margin-bottom:3px;}
+.roi-base-val-gain{background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.roi-base-detail{font-size:.74rem;color:var(--ink3);line-height:1.4;}
+.roi-base-detail strong{color:var(--ink);}
+
+/* ── ROI SCENARIO CARDS ─────────────── */
+.roi-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0;}
+.roi-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);position:relative;}
+.roi-card-reco{border:2px solid var(--ab);}
+.roi-card-tag{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--adai);color:white;font-size:.5rem;font-weight:700;letter-spacing:1.2px;padding:3px 9px;border-radius:10px;white-space:nowrap;z-index:2;}
+.roi-card-head{padding:10px 14px;background:var(--ink2);color:white;text-align:center;}
+.roi-card-name{font-size:.95rem;font-weight:700;line-height:1.1;}
+.roi-card-sub{font-size:.62rem;opacity:.7;margin-top:2px;letter-spacing:.4px;}
+.roi-card-body{padding:11px 14px;}
+.roi-line{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-bottom:1px solid var(--border);font-size:.76rem;}
+.roi-line:last-of-type{border-bottom:none;}
+.roi-line-lbl{color:var(--muted);}
+.roi-line-val{font-weight:700;color:var(--ink2);}
+.roi-line-val-red{color:var(--red);}
+.roi-line-val-green{color:var(--green);}
+.roi-line-net{padding-top:7px;border-top:2px solid var(--ink2)!important;font-size:.85rem;}
+.roi-line-net .roi-line-lbl{color:var(--ink);font-weight:700;text-transform:uppercase;font-size:.56rem;letter-spacing:1px;}
+.roi-line-net .roi-line-val{font-size:1rem;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.roi-break{margin-top:10px;padding:9px 11px;background:var(--bg-green);border-radius:var(--r);text-align:center;background:rgba(22,163,74,.08);border:1px solid var(--green-b);}
+.roi-break-big{font-size:1.45rem;font-weight:800;color:var(--green);line-height:1;}
+.roi-break-lbl{font-size:.55rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:3px;}
+.roi-totals{margin-top:6px;padding-top:8px;border-top:1px solid var(--border);}
+.roi-totals .roi-line{padding:3px 0;border-bottom:none;font-size:.71rem;}
+.roi-totals-title{font-size:.5rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px;text-align:center;}
+
+/* ── FADE ─────────────────────────────── */
+.fade{opacity:0;transform:translateY(10px);transition:opacity .3s ease,transform .3s ease;}
+.fade.on{opacity:1;transform:none;}
+
+@media(max-width:860px){
+  body{display:block;}
+  #sb{position:relative;width:100%;height:auto;}
+  #main{margin-left:0;}
+  .content{padding:0 18px 48px;}
+  #cover{padding:28px 18px;}
+  .kpi-row,.two,.roadmap,.next-grid,.scope-grid,.mcard-options,.principles,.stack-grid,.arch-flow,.roi-base,.roi-cards{grid-template-columns:1fr;}
+  .flow{grid-template-columns:1fr;}
+  .flow-step:not(:last-child)::after{content:'↓';right:50%;top:auto;bottom:-12px;transform:translateX(50%);}
+  .rdv{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+
+<!-- ── SIDEBAR ──────────────────────────────── -->
+<aside id="sb">
+  <div class="sb-top">
+    <div>
+      <div class="sb-logo-wrap">
+        <span class="sb-logo-ad">AD</span><span class="sb-logo-ai">AI</span>
+      </div>
+      <span class="sb-logo-sub">Création & Automation</span>
+    </div>
+  </div>
+  <div class="sb-meta">
+    <div class="sb-client">OP Plomberie</div>
+    <div class="sb-date">Proposition R2 · 11 mai 2026 · v3</div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-group">Vue d'ensemble</div>
+    <button class="sb-link active" onclick="go(this,'s0')"><span class="sb-num">00</span>Synthèse</button>
+    <button class="sb-link" onclick="go(this,'s1')"><span class="sb-num">01</span>Process cible</button>
+    <div class="sb-group">Modules</div>
+    <button class="sb-link" onclick="go(this,'s2')"><span class="sb-num">02</span>M1 · Captation appel</button>
+    <button class="sb-link" onclick="go(this,'s3')"><span class="sb-num">03</span>M2 · Intégration InterFast</button>
+    <button class="sb-link" onclick="go(this,'s4')"><span class="sb-num">04</span>M3 · Centralisation mails</button>
+    <button class="sb-link" onclick="go(this,'s5')"><span class="sb-num">05</span>M4 · Dossiers RGE</button>
+    <div class="sb-group">Sous le capot</div>
+    <button class="sb-link" onclick="go(this,'s6')"><span class="sb-num">06</span>Architecture & flux</button>
+    <div class="sb-group">Investissement</div>
+    <button class="sb-link" onclick="go(this,'s7')"><span class="sb-num">07</span>Tarifs à la carte</button>
+    <button class="sb-link" onclick="go(this,'s8')"><span class="sb-num">08</span>Calcul de votre ROI</button>
+    <button class="sb-link" onclick="go(this,'s9')"><span class="sb-num">09</span>Roadmap & next steps</button>
+  </nav>
+</aside>
+
+<!-- ── MAIN ─────────────────────────────────── -->
+<main id="main">
+
+  <div id="cover">
+    <div class="cover-in">
+      <div class="cover-eye">Proposition Commerciale R2</div>
+      <h1 class="cover-h1">Solution ADAI — <em>OP Plomberie</em></h1>
+      <div class="cover-sub">De l'appel téléphonique à la fiche client InterFast · 5 mai 2026</div>
+      <div class="cover-pills">
+        <span class="pill">Présentée par <strong>Adrien Pais · ADAI</strong></span>
+        <span class="pill">Objectif <strong>+10h libérées / mois</strong></span>
+        <span class="pill">Recap client en <strong>&lt; 3 min</strong></span>
+        <span class="pill">Hébergement <strong>UE · RGPD</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- 00 · SYNTHÈSE -->
+    <div class="section fade" id="s0">
+      <div class="s-eye">One-pager exécutif</div>
+      <h2 class="s-h"><em>Synthèse</em> & Proposition</h2>
+
+      <div class="callout callout-blue">
+        Suite à l'audit du 21 avril, ADAI propose une solution modulaire d'automatisation construite autour de votre flux téléphonique. Chaque module est livrable indépendamment — vous choisissez votre point de départ et faites évoluer la solution à votre rythme.
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi">
+          <div class="kpi-val">~10h</div>
+          <div class="kpi-label">Libérées / mois</div>
+          <div class="kpi-sub">Recaps + saisie InterFast</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-val">&lt; 3 min</div>
+          <div class="kpi-label">Délai recap client</div>
+          <div class="kpi-sub">Après chaque appel</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-val">6–8 sem.</div>
+          <div class="kpi-label">Livraison MVP</div>
+          <div class="kpi-sub">Scope recommandé</div>
+        </div>
+      </div>
+
+      <div class="two">
+        <div class="lcard">
+          <div class="lcard-title" style="color:var(--ab);">Ce que la solution fait pour vous</div>
+          <ul>
+            <li><div class="dot dot-b"></div><span><strong>Capte</strong> automatiquement chaque appel pro entrant ou sortant</span></li>
+            <li><div class="dot dot-b"></div><span><strong>Transcrit</strong> et structure les informations client + chantier</span></li>
+            <li><div class="dot dot-b"></div><span><strong>Génère</strong> les 3 brouillons (client, Marie, fournisseurs) en moins de 3 min</span></li>
+            <li><div class="dot dot-b"></div><span><strong>Crée</strong> la fiche client + pré-chiffrage directement dans InterFast</span></li>
+          </ul>
+        </div>
+        <div class="lcard">
+          <div class="lcard-title" style="color:var(--green);">Bénéfices pour OP Plomberie</div>
+          <ul>
+            <li><div class="dot dot-g"></div><span><strong>Temps libéré :</strong> 2h30/semaine = 10h/mois pour Pierre & Marie</span></li>
+            <li><div class="dot dot-g"></div><span><strong>Réactivité client :</strong> recap envoyé avant que le client ait raccroché son téléphone</span></li>
+            <li><div class="dot dot-g"></div><span><strong>Fiabilité :</strong> plus aucune coordonnée à ressaisir, zéro oubli</span></li>
+            <li><div class="dot dot-g"></div><span><strong>Préparation au million :</strong> capacité à absorber +30% de volume sans embaucher</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 style="font-size:.95rem;font-weight:700;color:var(--ink);margin:18px 0 8px;">6 engagements qui structurent notre proposition</h3>
+
+      <div class="principles">
+        <div class="principle">
+          <div class="principle-num">01</div>
+          <div class="principle-title">Vous démarrez où vous voulez</div>
+          <div class="principle-desc">Chaque module est livrable seul. Vous activez ce qui a le plus d'impact pour vous, sans vous engager sur l'ensemble.</div>
+        </div>
+        <div class="principle">
+          <div class="principle-num">02</div>
+          <div class="principle-title">Vos données restent en France</div>
+          <div class="principle-desc">Hébergement souverain à Paris. Aucune donnée client ne quitte le sol européen. RGPD natif.</div>
+        </div>
+        <div class="principle">
+          <div class="principle-num">03</div>
+          <div class="principle-title">Aucun outil tiers imposé</div>
+          <div class="principle-desc">Stack open-source auto-hébergée. Vous n'êtes prisonnier d'aucun abonnement SaaS supplémentaire qui pourrait monter au fil des années.</div>
+        </div>
+        <div class="principle">
+          <div class="principle-num">04</div>
+          <div class="principle-title">L'humain garde la main</div>
+          <div class="principle-desc">Chaque mail généré passe par votre validation avant envoi. L'IA prépare, vous décidez. Pas d'envoi automatique non contrôlé.</div>
+        </div>
+        <div class="principle">
+          <div class="principle-num">05</div>
+          <div class="principle-title">MVP d'abord, suite ensuite</div>
+          <div class="principle-desc">Le module M1 est livré et validé en premier. Vous voyez la valeur réelle avant d'engager les modules suivants.</div>
+        </div>
+        <div class="principle">
+          <div class="principle-num">06</div>
+          <div class="principle-title">Tarif maintenance prévisible</div>
+          <div class="principle-desc">Forfait mensuel fixe tout compris : tokens IA, monitoring, corrections, mises à jour. Aucune facture surprise.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 01 · PROCESS CIBLE -->
+    <div class="section fade" id="s1">
+      <div class="s-eye">Vision globale</div>
+      <h2 class="s-h"><em>1.</em> Process Cible — Vue d'ensemble</h2>
+
+      <div class="callout callout-blue">
+        Le flux est entièrement orchestré par <strong>n8n</strong> (auto-hébergé en France, RGPD). L'IA capte, transcrit, rédige — vous validez et envoyez. À chaque étape, vous gardez la main.
+      </div>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-ico">📞</div>
+          <div class="flow-title">Appel pro</div>
+          <div class="flow-sub">Pierre / Marie</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-ico">🎙</div>
+          <div class="flow-title">Captation</div>
+          <div class="flow-sub">Auto / déclenchée</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-ico">🤖</div>
+          <div class="flow-title">IA</div>
+          <div class="flow-sub">Transcript + analyse</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-ico">✉️</div>
+          <div class="flow-title">3 brouillons</div>
+          <div class="flow-sub">Validation humaine</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-ico">🏢</div>
+          <div class="flow-title">InterFast</div>
+          <div class="flow-sub">Fiche + devis</div>
+        </div>
+      </div>
+
+      <div class="two" style="margin-top:10px;">
+        <div class="callout callout-green" style="margin:0;">
+          <strong>Validation humaine systématique —</strong> Aucun mail n'est envoyé sans votre relecture. L'IA prépare, vous décidez.
+        </div>
+        <div class="callout callout-amber" style="margin:0;">
+          <strong>Hébergement souverain —</strong> Tout tourne sur Scaleway (Paris). Vos données ne quittent jamais le sol européen. Audio supprimé après transcription.
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 · MODULE M1 -->
+    <div class="section fade" id="s2">
+      <div class="s-eye">Module fondateur · MVP</div>
+      <h2 class="s-h"><em>2.</em> M1 — Captation appel & génération des 3 recaps</h2>
+
+      <div class="mcard">
+        <div class="mcard-head">
+          <div class="mcard-id">
+            <div class="mcard-num">M1</div>
+            <div>
+              <div class="mcard-name">Captation + Transcription + 3 recaps mails</div>
+              <div class="mcard-name-sub">Le cœur du système · Apporte à lui seul les 10h/mois</div>
+            </div>
+          </div>
+          <div class="mcard-price">3 600 € TTC</div>
+        </div>
+        <div class="mcard-body">
+          <div class="mcard-desc">
+            À chaque appel pro, le système capte la conversation, transcrit la voix en texte avec une IA spécialisée français, et génère automatiquement <strong>3 brouillons mail</strong> en moins de 3 minutes : un récap au client, une demande de pré-montage à Marie, une ou plusieurs demandes aux fournisseurs. Vous relisez, vous envoyez.
+          </div>
+
+          <div style="font-size:.66rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin:10px 0 4px;">2 options de captation au choix</div>
+
+          <div class="mcard-options">
+            <div class="opt opt-reco">
+              <div class="opt-title">Option A — Softphone (Aircall ou Ringover)</div>
+              <div class="opt-meta">
+                Tous vos appels (entrants & sortants) sont captés <strong>automatiquement</strong>, sans aucune action de votre part. Idéal pour ne rater aucun appel et garder une image pro.<br>
+                <strong>Avantage :</strong> zéro friction, zéro oubli<br>
+                <strong>À prévoir :</strong> abonnement softphone (~30€/user/mois)
+              </div>
+            </div>
+            <div class="opt">
+              <div class="opt-title">Option B — Bot Telegram dédié</div>
+              <div class="opt-meta">
+                Après chaque appel, vous envoyez un message vocal de 2-3 min sur un bot Telegram dédié. L'IA prend le relais.<br>
+                <strong>Avantage :</strong> aucun changement d'opérateur, démarrage immédiat<br>
+                <strong>À prévoir :</strong> prendre le réflexe du vocal après appel
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout-blue" style="margin-top:10px;margin-bottom:0;">
+            <strong>Notre recommandation —</strong> L'<strong>Option A (softphone)</strong> est le plus aligné avec votre objectif du million. Zéro friction, zéro perte d'information, image pro renforcée. Le coût d'automation est identique aux deux options — la différence se joue uniquement sur l'expérience quotidienne.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 · MODULE M2 -->
+    <div class="section fade" id="s3">
+      <div class="s-eye">Module charnière</div>
+      <h2 class="s-h"><em>3.</em> M2 — Intégration au CRM InterFast</h2>
+
+      <div class="mcard">
+        <div class="mcard-head">
+          <div class="mcard-id">
+            <div class="mcard-num">M2</div>
+            <div>
+              <div class="mcard-name">Création auto fiche client + pré-chiffrage</div>
+              <div class="mcard-name-sub">Plus aucune ressaisie · InterFast à jour en temps réel</div>
+            </div>
+          </div>
+          <div class="mcard-price">à partir de 1 200 € TTC</div>
+        </div>
+        <div class="mcard-body">
+          <div class="mcard-desc">
+            Les informations extraites de l'appel (coordonnées, type de chantier, éléments techniques) remontent <strong>automatiquement dans InterFast</strong> : création de la fiche client, du contact, de l'adresse chantier, et pré-remplissage du devis. Plus de double saisie, plus d'oubli.
+          </div>
+
+          <div style="font-size:.66rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin:10px 0 4px;">2 approches techniques possibles</div>
+
+          <div class="mcard-options">
+            <div class="opt opt-reco">
+              <div class="opt-title">Approche A — Connecteur MCP (recommandée)</div>
+              <div class="opt-meta">
+                Technologie de dernière génération créée par Anthropic (Claude). L'IA dialogue directement avec InterFast en langage naturel, <strong>sans intégration sur mesure</strong>.<br>
+                <strong>Avantage :</strong> maintenance auto-adaptative, évolutif, futur-proof<br>
+                <strong>Pré-requis :</strong> abonnement InterFast supérieur à valider<br>
+                <strong>Prix :</strong> <strong>1 200 € TTC</strong>
+              </div>
+            </div>
+            <div class="opt">
+              <div class="opt-title">Approche B — API REST (plan B)</div>
+              <div class="opt-meta">
+                Intégration classique via les endpoints documentés InterFast (clients, contacts, devis). Solution éprouvée si MCP non disponible.<br>
+                <strong>Avantage :</strong> compatible avec l'abonnement actuel<br>
+                <strong>Limitation :</strong> chantiers via workaround (le devis sert de conteneur)<br>
+                <strong>Prix :</strong> 2 400 € TTC
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout-blue" style="margin-top:10px;margin-bottom:0;">
+            <strong>Notre recommandation —</strong> Démarrer par une <strong>démo MCP avec InterFast</strong> pour valider la fiabilité, puis avancer sur cette approche. Le MCP simplifie drastiquement la maintenance long terme et ouvre la porte à des évolutions futures sans re-développement (RGE, planning, factures…).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 · MODULE M3 -->
+    <div class="section fade" id="s4">
+      <div class="s-eye">Module confort</div>
+      <h2 class="s-h"><em>4.</em> M3 — Centralisation des mails clients</h2>
+
+      <div class="mcard">
+        <div class="mcard-head">
+          <div class="mcard-id">
+            <div class="mcard-num">M3</div>
+            <div>
+              <div class="mcard-name">Rattachement automatique des mails au dossier</div>
+              <div class="mcard-name-sub">Plus jamais de fil de dossier perdu</div>
+            </div>
+          </div>
+          <div class="mcard-price">1 500 € TTC</div>
+        </div>
+        <div class="mcard-body">
+          <div class="mcard-desc">
+            Quand un client ouvre un nouveau mail au lieu de répondre au fil existant, le système identifie le bon dossier et rattache automatiquement le message dans InterFast. Vous gardez une vue unifiée et chronologique de tous les échanges (appels + mails) par dossier client, sur les <strong>2 boîtes Gmail</strong> (Pierre + Marie).
+          </div>
+
+          <div class="callout callout-amber" style="margin-top:10px;margin-bottom:0;">
+            <strong>Pré-requis —</strong> Module M2 (Intégration InterFast) requis : c'est dans InterFast que les mails sont rattachés au bon dossier.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 · MODULE M4 -->
+    <div class="section fade" id="s5">
+      <div class="s-eye">Module à cadrer</div>
+      <h2 class="s-h"><em>5.</em> M4 — Automatisation des dossiers RGE</h2>
+
+      <div class="mcard">
+        <div class="mcard-head">
+          <div class="mcard-id">
+            <div class="mcard-num">M4</div>
+            <div>
+              <div class="mcard-name">Pré-remplissage automatique des dossiers Effy</div>
+              <div class="mcard-name-sub">Notes de déperdition · CalepiPAC · CalepiBOIS</div>
+            </div>
+          </div>
+          <div class="mcard-price">À cadrer ensemble</div>
+        </div>
+        <div class="mcard-body">
+          <div class="mcard-desc">
+            Pré-remplissage automatique des dossiers RGE de Marie depuis les données client InterFast. Les notes de déperdition, les dossiers CalepiPAC et CalepiBOIS sont initialisés automatiquement, classés par année, prêts à être finalisés et déposés.
+          </div>
+
+          <div class="callout callout-amber" style="margin-top:10px;margin-bottom:8px;">
+            <strong>Pourquoi pas de prix ferme aujourd'hui —</strong> Le périmètre exact dépend de plusieurs éléments que nous souhaitons cadrer <strong>avec Marie</strong> aujourd'hui pour vous proposer un chiffrage juste et sans mauvaise surprise.
+          </div>
+
+          <div style="font-size:.66rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin:10px 0 4px;">5 questions à clarifier avec Marie aujourd'hui</div>
+
+          <div class="lcard" style="border:none;background:var(--off);box-shadow:none;padding:8px 12px;">
+            <ul>
+              <li><div class="dot dot-o"></div><span><strong>Format des templates Effy</strong> — PDF à remplir, fichier Excel, formulaire en ligne ?</span></li>
+              <li><div class="dot dot-o"></div><span><strong>Exemple de dossier RGE complet</strong> — pour comprendre le parcours de A à Z</span></li>
+              <li><div class="dot dot-o"></div><span><strong>Volumétrie mensuelle</strong> — combien de dossiers RGE traités par mois ?</span></li>
+              <li><div class="dot dot-o"></div><span><strong>Mode de dépôt Effy</strong> — portail web, mail, API ?</span></li>
+              <li><div class="dot dot-o"></div><span><strong>Répartition Pierre / Marie</strong> — qui remplit quoi aujourd'hui ?</span></li>
+            </ul>
+          </div>
+
+          <div class="callout callout-blue" style="margin-top:10px;margin-bottom:0;">
+            <strong>Engagement ADAI —</strong> Une fois ces 5 points clarifiés, nous revenons vers vous sous 5 jours ouvrés avec un chiffrage ferme. Fourchette indicative : <strong>1 600 € à 2 800 € TTC</strong>.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 · ARCHITECTURE & STACK -->
+    <div class="section fade" id="s6">
+      <div class="s-eye">Sous le capot</div>
+      <h2 class="s-h"><em>6.</em> Architecture & <em>flux</em></h2>
+
+      <div class="callout callout-blue">
+        Voici concrètement ce que nous installons pour vous. Chaque brique est <strong>justifiée et documentée</strong> — nous n'avons pas choisi par hasard, et nous vous expliquons pourquoi avant tout engagement.
+      </div>
+
+      <h3 style="font-size:.95rem;font-weight:700;color:var(--ink);margin:14px 0 6px;">Le flux complet, étape par étape</h3>
+
+      <div class="arch-flow">
+        <div class="arch-col">
+          <div class="arch-col-head">Entrée</div>
+          <div class="arch-col-body">
+            <div class="arch-item">
+              <div class="arch-item-name">📞 Appel pro</div>
+              <div class="arch-item-desc">Pierre / Marie · Aircall ou Telegram</div>
+            </div>
+            <div class="arch-item">
+              <div class="arch-item-name">🎙 Captation audio</div>
+              <div class="arch-item-desc">Upload HTTPS sécurisé vers webhook</div>
+            </div>
+            <div class="arch-item">
+              <div class="arch-item-name">🔑 Clés d'accès</div>
+              <div class="arch-item-desc">Gmail OAuth · InterFast API key</div>
+            </div>
+          </div>
+        </div>
+        <div class="arch-col">
+          <div class="arch-col-head">Orchestration</div>
+          <div class="arch-col-body">
+            <div class="arch-item">
+              <div class="arch-item-name">⚙️ n8n</div>
+              <div class="arch-item-desc">Auto-hébergé Scaleway Paris · RGPD</div>
+            </div>
+            <div class="arch-item">
+              <div class="arch-item-name">🗄 PostgreSQL</div>
+              <div class="arch-item-desc">Journalisation appels + alerting</div>
+            </div>
+          </div>
+        </div>
+        <div class="arch-col">
+          <div class="arch-col-head">Intelligence</div>
+          <div class="arch-col-body">
+            <div class="arch-item">
+              <div class="arch-item-name">🔊 Whisper v3 (Groq)</div>
+              <div class="arch-item-desc">Transcription FR · &lt; 30 sec / appel</div>
+            </div>
+            <div class="arch-item">
+              <div class="arch-item-name">🤖 Claude Haiku 3.5</div>
+              <div class="arch-item-desc">Génère les 3 brouillons en français</div>
+            </div>
+            <div class="arch-item">
+              <div class="arch-item-name">✅ Budibase</div>
+              <div class="arch-item-desc">Interface simple de validation</div>
+            </div>
+          </div>
+        </div>
+        <div class="arch-col">
+          <div class="arch-col-head">Sorties</div>
+          <div class="arch-col-body">
+            <div class="arch-item">
+              <div class="arch-item-name">✉️ Brouillons Gmail</div>
+              <div class="arch-item-desc">Client · Marie · Fournisseurs</div>
+            </div>
+            <div class="arch-item">
+              <div class="arch-item-name">🏢 InterFast CRM</div>
+              <div class="arch-item-desc">Fiche client + contact + adresse</div>
+            </div>
+            <div class="arch-item">
+              <div class="arch-item-name">📄 InterFast Devis</div>
+              <div class="arch-item-desc">Pré-chiffrage initialisé auto</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-steps">
+        <div class="arch-steps-title">Le détail du traitement (M1 + M2)</div>
+        <div class="arch-step"><div class="arch-step-n">1</div><div>Vous parlez avec votre client (Aircall capte automatiquement, ou vous envoyez un vocal Telegram après)</div></div>
+        <div class="arch-step"><div class="arch-step-n">2</div><div>L'audio est uploadé en HTTPS sécurisé vers notre orchestrateur n8n hébergé à Paris</div></div>
+        <div class="arch-step"><div class="arch-step-n">3</div><div>Whisper transcrit l'appel en français en moins de 30 secondes</div></div>
+        <div class="arch-step"><div class="arch-step-n">4</div><div>n8n extrait les informations clés : nom, téléphone, type de chantier, actions à mener</div></div>
+        <div class="arch-step"><div class="arch-step-n">5</div><div>Claude Haiku génère <strong>3 brouillons mail</strong> rédigés professionnellement en français</div></div>
+        <div class="arch-step"><div class="arch-step-n">6</div><div>Vous recevez une notification Budibase pour valider, éditer ou refuser chaque brouillon</div></div>
+        <div class="arch-step"><div class="arch-step-n">7</div><div>Si nouveau client : création automatique de la fiche dans InterFast (avec déduplication préalable)</div></div>
+        <div class="arch-step"><div class="arch-step-n">8</div><div>Création automatique du devis InterFast avec les éléments de pré-chiffrage extraits</div></div>
+        <div class="arch-step"><div class="arch-step-n">9</div><div>Log de l'appel tracé dans l'historique InterFast (entité "Activité")</div></div>
+        <div class="arch-step"><div class="arch-step-n">10</div><div>L'audio est <strong>supprimé immédiatement</strong> après transcription (RGPD by design)</div></div>
+      </div>
+    </div>
+
+    <!-- 07 · TARIFS -->
+    <div class="section fade" id="s7">
+      <div class="s-eye">Investissement</div>
+      <h2 class="s-h"><em>7.</em> Tarifs <em>à la carte</em></h2>
+
+      <div class="callout callout-blue">
+        Chaque module est <strong>indépendant</strong>. Vous démarrez avec ce qui a le plus d'impact, vous activez les autres à votre rythme. Aucun engagement de scope au-delà de ce que vous décidez.
+      </div>
+
+      <div class="tbl">
+        <table>
+          <thead>
+            <tr>
+              <th>Module</th>
+              <th style="text-align:center">Délai</th>
+              <th style="text-align:right">Investissement initial</th>
+              <th style="text-align:right">Maintenance / mois</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="fw">M1 — Captation appel + 3 recaps
+                <span class="td-sub">Option softphone (recommandée) ou Telegram</span>
+              </td>
+              <td style="text-align:center">3 sem.</td>
+              <td class="amount-reco">3 600 € TTC</td>
+              <td class="amount">130 €</td>
+            </tr>
+            <tr>
+              <td class="fw">M2 — Intégration InterFast — MCP
+                <span class="td-sub">Recommandé · upgrade Pro → Business InterFast requis</span>
+              </td>
+              <td style="text-align:center">1 sem.</td>
+              <td class="amount-reco">1 200 € TTC</td>
+              <td class="amount">+85 €</td>
+            </tr>
+            <tr>
+              <td class="fw">M2 — Intégration InterFast — API REST
+                <span class="td-sub">Plan B si MCP non disponible</span>
+              </td>
+              <td style="text-align:center">2 sem.</td>
+              <td class="amount">2 400 € TTC</td>
+              <td class="amount">+85 €</td>
+            </tr>
+            <tr>
+              <td class="fw">M3 — Centralisation mails clients
+                <span class="td-sub">Pré-requis : M2</span>
+              </td>
+              <td style="text-align:center">1 sem.</td>
+              <td class="amount">1 500 € TTC</td>
+              <td class="amount">+90 €</td>
+            </tr>
+            <tr>
+              <td class="fw">M4 — Dossiers RGE
+                <span class="td-sub">Pré-requis : M2 · Chiffrage après cadrage avec Marie</span>
+              </td>
+              <td style="text-align:center">2-3 sem.</td>
+              <td class="amount" style="color:var(--muted);font-style:italic;">À cadrer</td>
+              <td class="amount">+130 €</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-green" style="margin-top:10px;">
+        <strong>Ce que comprend la maintenance mensuelle —</strong> Tokens IA (transcription Whisper + génération Claude) · Hébergement Scaleway Paris · Monitoring 24/7 · Corrections d'anomalies sous 48h · Mises à jour des moteurs IA · Évolutions mineures incluses · Aucune facture surprise. <strong>Tarifs affichés : avec engagement 12 mois (−15%).</strong> Sans engagement, ajouter 18% au montant.
+      </div>
+
+      <h3 style="font-size:1rem;font-weight:700;color:var(--ink);margin:18px 0 8px;">3 scénarios selon votre point de départ</h3>
+
+      <div class="scope-grid">
+        <div class="scope">
+          <div class="scope-head">
+            <div class="scope-name">Démarrage</div>
+            <div class="scope-sub">M1 seul</div>
+          </div>
+          <div class="scope-body">
+            <div class="scope-mods">M1 (MVP autonome)</div>
+            <div class="scope-prices">
+              <div class="scope-line"><span class="scope-lbl">Initial</span><span class="scope-val">3 600 € TTC</span></div>
+              <div class="scope-line"><span class="scope-lbl">Maintenance</span><span class="scope-val-mo">130 € / mois</span></div>
+              <div style="font-size:.58rem;color:var(--muted);font-weight:600;text-align:right;letter-spacing:.3px;margin-top:2px;">avec engagement 12 mois</div>
+            </div>
+          </div>
+        </div>
+        <div class="scope scope-reco">
+          <div class="scope-reco-tag">★ Recommandé</div>
+          <div class="scope-head">
+            <div class="scope-name">Essentiel</div>
+            <div class="scope-sub">M1 + M2 (MCP)</div>
+          </div>
+          <div class="scope-body">
+            <div class="scope-mods">Captation + remontée InterFast</div>
+            <div class="scope-prices">
+              <div class="scope-line"><span class="scope-lbl">Initial</span><span class="scope-val">4 800 € TTC</span></div>
+              <div class="scope-line"><span class="scope-lbl">Maintenance</span><span class="scope-val-mo">215 € / mois</span></div>
+              <div style="font-size:.58rem;color:var(--green);font-weight:700;text-align:right;letter-spacing:.3px;margin-top:2px;">avec engagement 12 mois</div>
+            </div>
+          </div>
+        </div>
+        <div class="scope">
+          <div class="scope-head">
+            <div class="scope-name">Évolué</div>
+            <div class="scope-sub">M1 + M2 + M3</div>
+          </div>
+          <div class="scope-body">
+            <div class="scope-mods">+ centralisation mails</div>
+            <div class="scope-prices">
+              <div class="scope-line"><span class="scope-lbl">Initial</span><span class="scope-val">6 300 € TTC</span></div>
+              <div class="scope-line"><span class="scope-lbl">Maintenance</span><span class="scope-val-mo">305 € / mois</span></div>
+              <div style="font-size:.58rem;color:var(--muted);font-weight:600;text-align:right;letter-spacing:.3px;margin-top:2px;">avec engagement 12 mois</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" style="margin-top:10px;">
+        <strong>L'avantage de cette structure modulaire —</strong> Vous démarrez sur M1 seul à 130 €/mois pour mesurer la valeur, puis vous activez M2, M3 (et M4 plus tard avec Marie) à votre rythme. La maintenance s'ajuste automatiquement à votre scope réel. Aucune mauvaise surprise budgétaire.
+      </div>
+
+      <div class="callout callout-amber" style="margin-top:10px;">
+        <strong>Modalités —</strong> 50% à la commande · 50% à la livraison. Maintenance facturée mensuellement à partir de la mise en production, selon le scope retenu (130 € / 215 € / 305 €). <strong>Tarifs affichés avec engagement 12 mois (−15%)</strong> ; sans engagement, ajouter 18% au montant. Reconductible à l'année.
+      </div>
+    </div>
+
+    <!-- 08 · CALCUL ROI -->
+    <div class="section fade" id="s8">
+      <div class="s-eye">Retour sur investissement</div>
+      <h2 class="s-h"><em>8.</em> Calcul de votre <em>ROI</em></h2>
+
+      <div class="callout callout-blue">
+        Mettons les chiffres sur la table, scénario par scénario. <strong>Le break-even, c'est le mois à partir duquel la solution s'est entièrement remboursée et commence à vous rapporter net.</strong> Les hypothèses proviennent de notre échange du 11 mai.
+      </div>
+
+      <h3 style="font-size:.95rem;font-weight:700;color:var(--ink);margin:14px 0 6px;">L'hypothèse de valeur (la même pour les 3 scénarios)</h3>
+
+      <div class="roi-base">
+        <div class="roi-base-side">
+          <div class="roi-base-lbl">Temps libéré par mois</div>
+          <div class="roi-base-val">10h</div>
+          <div class="roi-base-detail">Récupérées sur les recaps post-appel, la saisie InterFast, les relances fournisseurs. Vous me l'avez confirmé au R2.</div>
+        </div>
+        <div class="roi-base-side">
+          <div class="roi-base-lbl">Valeur horaire dirigeant</div>
+          <div class="roi-base-val roi-base-val-gain">800 € / mois</div>
+          <div class="roi-base-detail">10h × <strong>80 €/h</strong> de valeur (votre estimation). Temps réinvesti sur l'acquisition, les partenariats, le recrutement.</div>
+        </div>
+      </div>
+
+      <h3 style="font-size:.95rem;font-weight:700;color:var(--ink);margin:18px 0 6px;">Break-even par scénario</h3>
+
+      <div class="roi-cards">
+
+        <!-- DÉMARRAGE M1 -->
+        <div class="roi-card">
+          <div class="roi-card-head">
+            <div class="roi-card-name">Démarrage</div>
+            <div class="roi-card-sub">M1 seul</div>
+          </div>
+          <div class="roi-card-body">
+            <div class="roi-line"><span class="roi-line-lbl">Investissement initial</span><span class="roi-line-val roi-line-val-red">3 600 €</span></div>
+            <div class="roi-line"><span class="roi-line-lbl">Maintenance / mois</span><span class="roi-line-val roi-line-val-red">130 €</span></div>
+            <div class="roi-line"><span class="roi-line-lbl">Gain / mois</span><span class="roi-line-val roi-line-val-green">+800 €</span></div>
+            <div class="roi-line roi-line-net"><span class="roi-line-lbl">Net mensuel</span><span class="roi-line-val">+670 €</span></div>
+            <div class="roi-break">
+              <div class="roi-break-big">5,4 mois</div>
+              <div class="roi-break-lbl">Break-even atteint</div>
+            </div>
+            <div class="roi-totals">
+              <div class="roi-totals-title">Bénéfice net cumulé</div>
+              <div class="roi-line"><span class="roi-line-lbl">à 12 mois</span><span class="roi-line-val roi-line-val-green">+4 440 €</span></div>
+              <div class="roi-line"><span class="roi-line-lbl">à 24 mois</span><span class="roi-line-val roi-line-val-green">+12 480 €</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ESSENTIEL M1+M2 -->
+        <div class="roi-card roi-card-reco">
+          <div class="roi-card-tag">★ Recommandé</div>
+          <div class="roi-card-head">
+            <div class="roi-card-name">Essentiel</div>
+            <div class="roi-card-sub">M1 + M2 (MCP)</div>
+          </div>
+          <div class="roi-card-body">
+            <div class="roi-line"><span class="roi-line-lbl">Investissement initial</span><span class="roi-line-val roi-line-val-red">4 800 €</span></div>
+            <div class="roi-line"><span class="roi-line-lbl">Maintenance / mois</span><span class="roi-line-val roi-line-val-red">215 €</span></div>
+            <div class="roi-line"><span class="roi-line-lbl">Gain / mois</span><span class="roi-line-val roi-line-val-green">+800 €</span></div>
+            <div class="roi-line roi-line-net"><span class="roi-line-lbl">Net mensuel</span><span class="roi-line-val">+585 €</span></div>
+            <div class="roi-break">
+              <div class="roi-break-big">8,2 mois</div>
+              <div class="roi-break-lbl">Break-even atteint</div>
+            </div>
+            <div class="roi-totals">
+              <div class="roi-totals-title">Bénéfice net cumulé</div>
+              <div class="roi-line"><span class="roi-line-lbl">à 12 mois</span><span class="roi-line-val roi-line-val-green">+2 220 €</span></div>
+              <div class="roi-line"><span class="roi-line-lbl">à 24 mois</span><span class="roi-line-val roi-line-val-green">+9 240 €</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ÉVOLUÉ M1+M2+M3 -->
+        <div class="roi-card">
+          <div class="roi-card-head">
+            <div class="roi-card-name">Évolué</div>
+            <div class="roi-card-sub">M1 + M2 + M3</div>
+          </div>
+          <div class="roi-card-body">
+            <div class="roi-line"><span class="roi-line-lbl">Investissement initial</span><span class="roi-line-val roi-line-val-red">6 300 €</span></div>
+            <div class="roi-line"><span class="roi-line-lbl">Maintenance / mois</span><span class="roi-line-val roi-line-val-red">305 €</span></div>
+            <div class="roi-line"><span class="roi-line-lbl">Gain / mois</span><span class="roi-line-val roi-line-val-green">+800 €</span></div>
+            <div class="roi-line roi-line-net"><span class="roi-line-lbl">Net mensuel</span><span class="roi-line-val">+495 €</span></div>
+            <div class="roi-break">
+              <div class="roi-break-big">12,7 mois</div>
+              <div class="roi-break-lbl">Break-even atteint</div>
+            </div>
+            <div class="roi-totals">
+              <div class="roi-totals-title">Bénéfice net cumulé</div>
+              <div class="roi-line"><span class="roi-line-lbl">à 12 mois</span><span class="roi-line-val" style="color:var(--amber);">−360 €</span></div>
+              <div class="roi-line"><span class="roi-line-lbl">à 24 mois</span><span class="roi-line-val roi-line-val-green">+5 580 €</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="callout callout-green" style="margin-top:10px;">
+        <strong>La lecture du tableau —</strong> Plus vous prenez de modules, plus le break-even s'éloigne (logique : plus d'investissement initial à amortir). Mais à 24 mois, les écarts se resserrent fortement car la maintenance reste contenue. <strong>Le scénario "Démarrage M1 seul" est de loin le plus rentable à court terme</strong> — c'est notre recommandation si vous voulez valider la mécanique avant d'aller plus loin.
+      </div>
+
+      <h3 style="font-size:.95rem;font-weight:700;color:var(--ink);margin:18px 0 8px;">Au-delà des chiffres purs</h3>
+
+      <div class="two">
+        <div class="lcard">
+          <div class="lcard-title" style="color:var(--ab);">Gains quantifiables non comptés ci-dessus</div>
+          <ul>
+            <li><div class="dot dot-b"></div><span><strong>Réactivité client :</strong> recap envoyé en &lt; 3 min après l'appel = effet "wow" et fidélisation</span></li>
+            <li><div class="dot dot-b"></div><span><strong>Taux de signature :</strong> les plus réactifs gagnent en général le devis (+30 à 40% selon les études)</span></li>
+            <li><div class="dot dot-b"></div><span><strong>Capacité d'absorption :</strong> +30% de volume sans embaucher</span></li>
+            <li><div class="dot dot-b"></div><span><strong>+1 chantier sur 3 mois</strong> peut suffire à doubler le ROI réel</span></li>
+          </ul>
+        </div>
+        <div class="lcard">
+          <div class="lcard-title" style="color:var(--green);">Gains qualitatifs</div>
+          <ul>
+            <li><div class="dot dot-g"></div><span><strong>Charge mentale en moins</strong> sur les recaps post-appel</span></li>
+            <li><div class="dot dot-g"></div><span><strong>Zéro oubli d'info</strong> entre l'appel et le devis</span></li>
+            <li><div class="dot dot-g"></div><span><strong>Soutien à Marie</strong> qui n'aura plus à relancer les fournisseurs manuellement</span></li>
+            <li><div class="dot dot-g"></div><span><strong>Préparation du million :</strong> capacité opérationnelle au rendez-vous</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" style="margin-top:10px;">
+        <strong>Notre recommandation honnête —</strong> Démarrez sur M1 seul. Vous mesurez le gain réel sur 2-3 mois (le break-even tombe à 5,4 mois), vous validez la mécanique chez vous, puis vous activez M2 et M3 progressivement quand vous êtes convaincu. La maintenance s'ajuste automatiquement, et l'investissement initial restant s'étale.
+      </div>
+    </div>
+
+    <!-- 09 · ROADMAP & NEXT STEPS -->
+    <div class="section fade" id="s9">
+      <div class="s-eye">Planification & prochaines étapes</div>
+      <h2 class="s-h"><em>9.</em> Roadmap & Next Steps</h2>
+
+      <div class="roadmap">
+        <div class="phase">
+          <div class="phase-stripe"></div>
+          <div class="phase-bd">
+            <div class="phase-num">Semaine 1-2</div>
+            <div class="phase-name">Cadrage</div>
+            <div class="phase-period">Démarrage projet</div>
+            <div class="phase-item">Validation choix softphone vs Telegram</div>
+            <div class="phase-item">Démo MCP avec InterFast</div>
+            <div class="phase-item">Cadrage M4 finalisé avec Marie</div>
+            <div class="phase-item">Récupération des accès & API keys</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-stripe"></div>
+          <div class="phase-bd">
+            <div class="phase-num">Semaine 3-6</div>
+            <div class="phase-name">Build MVP</div>
+            <div class="phase-period">Développement M1 + M2</div>
+            <div class="phase-item">Construction sur instances ADAI</div>
+            <div class="phase-item">Tests qualité audio terrain avec Pierre</div>
+            <div class="phase-item">Calibration des templates de recap</div>
+            <div class="phase-item">Démo MVP complet</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-stripe"></div>
+          <div class="phase-bd">
+            <div class="phase-num">Semaine 7-8</div>
+            <div class="phase-name">Mise en prod</div>
+            <div class="phase-period">Migration & onboarding</div>
+            <div class="phase-item">Migration sur l'environnement OP Plomberie</div>
+            <div class="phase-item">Formation Pierre & Marie (1h)</div>
+            <div class="phase-item">Suivi rapproché 2 semaines</div>
+            <div class="phase-item">Activation maintenance mensuelle</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rdv" style="margin-top:14px;">
+        <div>
+          <div class="rdv-ll">Prochain point de décision</div>
+          <div class="rdv-lv">Jeudi 2 juillet 2026 · 9h30</div>
+        </div>
+        <div>
+          <div class="rdv-rl">Validité de l'offre</div>
+          <div class="rdv-rv">Jusqu'au 2 juillet 2026</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="doc-footer">
+      <span class="footer-brand">ADAI — Création & Automation</span>
+      <span class="footer-conf">Document confidentiel · OP Plomberie · Mai 2026</span>
+    </div>
+
+  </div>
+</main>
+
+<script>
+const prog = document.getElementById('prog');
+window.addEventListener('scroll', () => {
+  prog.style.transform = `scaleX(${window.scrollY / (document.body.scrollHeight - window.innerHeight)})`;
+});
+
+function go(btn, id) {
+  document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id)?.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+const ids = ['s0','s1','s2','s3','s4','s5','s6','s7','s8','s9'];
+const links = document.querySelectorAll('.sb-link');
+window.addEventListener('scroll', () => {
+  let cur = 0;
+  ids.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - 100) cur = i;
+  });
+  links.forEach((l, i) => l.classList.toggle('active', i === cur));
+});
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); } });
+}, { threshold: 0.06 });
+document.querySelectorAll('.fade').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
