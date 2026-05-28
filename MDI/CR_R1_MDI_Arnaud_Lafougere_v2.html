@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADAI × MDI — Rapport d'Audit R1</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:#FFFFFF; --off:#F8F9FB; --off2:#EFF1F5;
+  --ink:#0D1117; --ink2:#1E2533; --ink3:#3A4254;
+  --muted:#6B7280; --muted2:#9CA3AF;
+  --border:#E4E7EE;
+  --ab:#1B7FD4; --ao:#E8852A;
+  --logo:linear-gradient(90deg,#1B7FD4 0%,#3A9FE8 35%,#E8852A 100%);
+  --adai:linear-gradient(100deg,#1B7FD4 0%,#7B5EA7 48%,#E8852A 78%,#D4A017 100%);
+  --green:#16A34A; --green-bg:#F0FDF4; --green-b:#BBF7D0;
+  --red:#DC2626;   --red-bg:#FEF2F2;   --red-b:#FECACA;
+  --amber:#D97706; --amber-bg:#FFFBEB; --amber-b:#FDE68A;
+  --shadow-xs:0 1px 3px rgba(13,17,23,.07),0 1px 2px rgba(13,17,23,.04);
+  --shadow-sm:0 4px 12px rgba(13,17,23,.07);
+  --r:8px; --r2:12px;
+  --sb:210px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Calibri','Inter',sans-serif;background:var(--off);color:var(--ink);line-height:1.6;font-size:16px;display:flex;min-height:100vh;justify-content:center;}
+
+/* ── SIDEBAR ──────────────────────────── */
+#sb{
+  position:fixed;top:0;left:0;width:var(--sb);height:100vh;
+  background:var(--white);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow-y:auto;z-index:100;
+}
+.sb-top{padding:14px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.sb-logo-wrap{display:flex;align-items:baseline;gap:0;}
+.sb-logo-ad{font-weight:800;font-size:1.25rem;color:#1B7FD4;line-height:1;letter-spacing:-.5px;}
+.sb-logo-ai{font-weight:800;font-size:1.25rem;color:#E8852A;line-height:1;letter-spacing:-.5px;}
+.sb-logo-sub{font-size:.42rem;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted2);display:block;margin-top:1px;}
+.sb-meta{padding:9px 18px;border-bottom:1px solid var(--border);background:var(--off);}
+.sb-client{font-weight:700;font-size:.78rem;color:var(--ink);margin-bottom:1px;}
+.sb-date{font-size:.63rem;color:var(--muted);}
+.sb-nav{padding:4px 0 12px;flex:1;}
+.sb-group{font-size:.48rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);padding:10px 18px 2px;}
+.sb-link{
+  display:flex;align-items:center;gap:7px;padding:6px 18px;
+  width:100%;background:none;border:none;cursor:pointer;
+  color:var(--muted);font-size:.72rem;font-weight:400;
+  font-family:'Calibri','Inter',sans-serif;text-align:left;
+  border-left:2px solid transparent;transition:all .15s;
+}
+.sb-link:hover{color:var(--ink2);background:var(--off);}
+.sb-link.active{color:var(--ab);border-left-color:var(--ab);background:rgba(27,127,212,.05);font-weight:600;}
+.sb-num{font-size:.54rem;color:var(--muted2);min-width:13px;}
+.sb-link.active .sb-num{color:var(--ab);}
+
+/* ── PROGRESS ─────────────────────────── */
+#prog{position:fixed;top:0;left:var(--sb);right:0;height:3px;background:var(--adai);transform-origin:left;transform:scaleX(0);z-index:200;}
+
+/* ── MAIN ─────────────────────────────── */
+#main{margin-left:var(--sb);flex:1;}
+
+/* ── COVER ────────────────────────────── */
+#cover{background:var(--ink2);padding:28px 44px 24px;position:relative;overflow:hidden;}
+#cover::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 80% 20%,rgba(123,94,167,.22) 0%,transparent 55%),
+             radial-gradient(ellipse at 10% 90%,rgba(27,127,212,.12) 0%,transparent 50%);}
+.cover-in{position:relative;}
+.cover-eye{display:inline-flex;align-items:center;gap:7px;font-size:.56rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:8px;}
+.cover-eye::before{content:'';width:14px;height:2px;background:var(--adai);border-radius:2px;}
+.cover-h1{font-size:1.75rem;font-weight:700;color:var(--white);line-height:1.1;margin-bottom:4px;}
+.cover-h1 em{font-style:italic;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.cover-sub{font-size:.8rem;color:rgba(255,255,255,.4);margin-bottom:14px;}
+.cover-pills{display:flex;flex-wrap:wrap;gap:5px;}
+.pill{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.55);font-size:.66rem;padding:2px 9px;border-radius:20px;}
+.pill strong{color:var(--white);}
+
+/* ── CONTENT ──────────────────────────── */
+.content{padding:0 44px 52px;max-width:900px;margin:0 auto;}
+
+/* ── SECTION ──────────────────────────── */
+.section{padding-top:30px;}
+.s-eye{font-size:.54rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--ab);margin-bottom:3px;display:flex;align-items:center;gap:7px;}
+.s-eye::before{content:'';width:14px;height:2px;background:var(--adai);border-radius:2px;}
+.s-h{font-weight:700;font-size:1.25rem;color:var(--ink);padding-bottom:7px;border-bottom:1px solid var(--border);margin-bottom:10px;}
+.s-h em{font-style:italic;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+/* ── KPI ROW ──────────────────────────── */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
+.kpi{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:13px 15px;position:relative;overflow:hidden;box-shadow:var(--shadow-xs);}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--adai);}
+.kpi-val{font-size:1.4rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:2px;}
+.kpi-label{font-size:.58rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+.kpi-sub{font-size:.63rem;color:var(--muted2);margin-top:1px;}
+
+/* ── CALLOUT ──────────────────────────── */
+.callout{border-radius:var(--r2);padding:10px 14px;margin-bottom:8px;border-left:3px solid;font-size:.89rem;line-height:1.55;color:var(--ink3);}
+.callout-blue{background:rgba(27,127,212,.05);border-color:var(--ab);}
+.callout-amber{background:var(--amber-bg);border-color:var(--amber);}
+.callout-green{background:var(--green-bg);border-color:var(--green);}
+.callout-red{background:var(--red-bg);border-color:var(--red);}
+.callout strong{color:var(--ink);font-weight:600;}
+
+/* ── BADGES ───────────────────────────── */
+.badge{display:inline-block;font-size:.55rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:4px;white-space:nowrap;}
+.badge-red   {background:var(--red-bg);  color:var(--red);  border:1px solid var(--red-b);}
+.badge-amber {background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-b);}
+.badge-blue  {background:rgba(27,127,212,.1);color:var(--ab);border:1px solid rgba(27,127,212,.2);}
+.badge-green {background:var(--green-bg);color:var(--green);border:1px solid var(--green-b);}
+.badge-gray  {background:var(--off2);color:var(--muted);border:1px solid var(--border);}
+
+/* ── TABLES ───────────────────────────── */
+.tbl{border-radius:var(--r2);overflow:hidden;border:1px solid var(--border);margin:8px 0;box-shadow:var(--shadow-xs);}
+table{width:100%;border-collapse:collapse;background:var(--white);font-size:.88rem;}
+thead th{background:var(--ink2);color:var(--white);font-size:.54rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:8px 12px;text-align:left;}
+tbody tr{border-bottom:1px solid var(--border);}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:nth-child(even) td{background:var(--off);}
+tbody tr:hover td{background:rgba(27,127,212,.03);}
+td{padding:8px 12px;vertical-align:middle;color:var(--ink3);line-height:1.3;}
+td.fw{font-weight:600;color:var(--ink2);}
+td.gain{color:var(--green);font-weight:700;}
+td.delay{color:var(--muted);font-size:.72rem;}
+td.imp-b{color:var(--red);font-weight:600;}
+td.imp-m{color:var(--ab);font-weight:600;}
+td.imp-a{color:var(--green);font-weight:700;}
+.td-sub{font-size:.68rem;color:var(--muted);font-weight:400;display:block;margin-top:1px;}
+
+/* ── TWO COL ──────────────────────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0;}
+
+/* ── LIST CARD ────────────────────────── */
+.lcard{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:11px 14px;box-shadow:var(--shadow-xs);}
+.lcard-title{font-size:.55rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;}
+.lcard ul{list-style:none;}
+.lcard li{display:flex;align-items:flex-start;gap:6px;padding:4px 0;border-bottom:1px solid var(--border);font-size:.86rem;color:var(--ink3);line-height:1.3;}
+.lcard li:last-child{border-bottom:none;}
+.dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.dot-r{background:var(--red);}
+.dot-g{background:var(--green);}
+.dot-b{background:var(--ab);}
+.dot-o{background:var(--ao);}
+.lcard li strong{color:var(--ink2);font-weight:600;}
+.lcard li.label-item{display:flex;align-items:flex-start;gap:6px;}
+.lcard li.label-item .label-content{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:flex-start;flex:1;}
+.lcard li.label-item .label-content strong{white-space:nowrap;}
+
+/* ── ROI BOX ──────────────────────────── */
+.roi-box{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:14px 16px;box-shadow:var(--shadow-xs);margin:8px 0;}
+.roi-title{font-size:.55rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ab);margin-bottom:10px;}
+.roi-row{display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--border);font-size:.86rem;color:var(--ink3);}
+.roi-row:last-child{border-bottom:none;}
+.roi-arrow{color:var(--ao);font-weight:700;flex-shrink:0;font-size:.75rem;margin-top:2px;}
+.roi-val{font-weight:700;color:var(--green);white-space:nowrap;margin-left:auto;padding-left:12px;}
+
+/* ── SOP STEPS ────────────────────────── */
+.sop-steps{margin:10px 0;display:flex;flex-direction:column;}
+.sop-step{display:flex;gap:10px;padding-bottom:12px;position:relative;}
+.sop-step:last-child{padding-bottom:0;}
+.sop-step::before{content:'';position:absolute;left:12px;top:27px;bottom:0;width:2px;background:var(--border);}
+.sop-step:last-child::before{display:none;}
+.step-n{width:26px;height:26px;border-radius:50%;background:var(--adai);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.72rem;flex-shrink:0;position:relative;z-index:1;}
+.step-b{flex:1;padding-top:3px;}
+.step-title{font-weight:700;font-size:.89rem;color:var(--ink);margin-bottom:4px;}
+.step-list{list-style:none;}
+.step-list li{display:flex;align-items:flex-start;gap:6px;font-size:.83rem;color:var(--ink3);padding:3px 0;border-bottom:1px solid var(--border);line-height:1.3;}
+.step-list li:last-child{border-bottom:none;}
+.step-list li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;font-size:.65rem;margin-top:2px;}
+
+.sop-result{background:var(--green-bg);border:1px solid var(--green-b);border-radius:var(--r2);padding:10px 14px;display:flex;align-items:center;margin-top:6px;}
+.sr-item{flex:1;text-align:center;padding:0 8px;}
+.sr-item+.sr-item{border-left:1px solid var(--green-b);}
+.sr-val{font-size:.95rem;font-weight:700;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+.sr-lab{font-size:.58rem;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.4px;}
+
+/* ── STARS ────────────────────────────── */
+.stars{color:var(--ab);letter-spacing:1px;font-size:.82rem;}
+.stars-off{color:var(--border);font-size:.82rem;}
+
+/* ── ROADMAP ──────────────────────────── */
+.roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0;}
+.phase{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);}
+.phase-stripe{height:2px;background:var(--adai);}
+.phase-bd{padding:11px 13px;}
+.phase-num{font-size:.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ab);margin-bottom:1px;}
+.phase-name{font-size:.92rem;font-weight:700;color:var(--ink);margin-bottom:1px;}
+.phase-period{font-size:.74rem;color:var(--muted);padding-bottom:7px;margin-bottom:7px;border-bottom:1px solid var(--border);}
+.phase-item{display:flex;align-items:flex-start;gap:5px;font-size:.81rem;color:var(--ink3);padding:3px 0;line-height:1.3;}
+.phase-item::before{content:'→';color:var(--ao);font-weight:700;flex-shrink:0;font-size:.68rem;}
+
+/* ── NEXT STEPS ───────────────────────── */
+.rdv{background:var(--ink2);border-radius:var(--r2);padding:13px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:8px;flex-wrap:wrap;}
+.rdv-ll{font-size:.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:2px;}
+.rdv-lv{font-size:1rem;font-weight:700;color:var(--white);}
+.rdv-rl{font-size:.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:2px;text-align:right;}
+.rdv-rv{font-size:.76rem;font-weight:600;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:right;}
+
+.next-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.ncard{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:var(--shadow-xs);}
+.ncard-head{padding:8px 13px;background:var(--off);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;}
+.ncard-title{font-size:.56rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink2);}
+.ncard-body{padding:8px 13px;}
+.ncard-item{display:flex;align-items:flex-start;gap:6px;padding:4px 0;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--ink3);line-height:1.3;}
+.ncard-item:last-child{border-bottom:none;}
+.ncard-item::before{content:'→';color:var(--ab);font-weight:700;flex-shrink:0;font-size:.68rem;margin-top:2px;}
+
+/* ── FOOTER ───────────────────────────── */
+.doc-footer{margin-top:48px;padding:13px 0 4px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.footer-brand{font-weight:700;font-size:.72rem;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.footer-conf{font-size:.66rem;color:var(--muted);font-style:italic;}
+
+/* ── FADE ─────────────────────────────── */
+.fade{opacity:0;transform:translateY(10px);transition:opacity .3s ease,transform .3s ease;}
+.fade.on{opacity:1;transform:none;}
+
+@media(max-width:860px){
+  body{display:block;}
+  #sb{position:relative;width:100%;height:auto;}
+  #main{margin-left:0;}
+  .content{padding:0 18px 48px;}
+  #cover{padding:28px 18px;}
+  .kpi-row,.two,.roadmap,.next-grid{grid-template-columns:1fr;}
+  .sop-result{flex-wrap:wrap;}
+  .rdv{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+
+<!-- ── SIDEBAR ──────────────────────────────── -->
+<aside id="sb">
+  <div class="sb-top">
+    <div>
+      <div class="sb-logo-wrap">
+        <span class="sb-logo-ad">AD</span><span class="sb-logo-ai">AI</span>
+      </div>
+      <span class="sb-logo-sub">Création & Automation</span>
+    </div>
+  </div>
+  <div class="sb-meta">
+    <div class="sb-client">MDI — Arnaud Lafougère</div>
+    <div class="sb-date">Rapport d'Audit R1 · 28 mai 2026</div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-group">Vue d'ensemble</div>
+    <button class="sb-link active" onclick="go(this,'s0')"><span class="sb-num">00</span>Synthèse</button>
+    <div class="sb-group">Audit</div>
+    <button class="sb-link" onclick="go(this,'s1')"><span class="sb-num">01</span>Diagnostic terrain</button>
+    <button class="sb-link" onclick="go(this,'s2')"><span class="sb-num">02</span>Cartographie process</button>
+    <button class="sb-link" onclick="go(this,'s3')"><span class="sb-num">03</span>Scoring & priorisation</button>
+    <div class="sb-group">Valeur & projection</div>
+    <button class="sb-link" onclick="go(this,'s4')"><span class="sb-num">04</span>SOP cible</button>
+    <button class="sb-link" onclick="go(this,'s5')"><span class="sb-num">05</span>ROI projeté</button>
+    <button class="sb-link" onclick="go(this,'s6')"><span class="sb-num">06</span>Roadmap</button>
+    <button class="sb-link" onclick="go(this,'s7')"><span class="sb-num">07</span>Next steps</button>
+  </nav>
+</aside>
+
+<!-- ── MAIN ─────────────────────────────────── -->
+<main id="main">
+
+  <div id="cover">
+    <div class="cover-in">
+      <div class="cover-eye">Rapport d'Audit R1</div>
+      <h1 class="cover-h1">Audit IA — <em>MDI</em></h1>
+      <div class="cover-sub">Plan d'automatisation · 28 mai 2026</div>
+      <div class="cover-pills">
+        <span class="pill">Réalisé par <strong>Adrien Pais · ADAI</strong></span>
+        <span class="pill">Activité <strong>Asset Management & Conseil Immobilier</strong></span>
+        <span class="pill">Structure <strong>Solo — dirigeant</strong></span>
+        <span class="pill">Stack <strong>Microsoft 365 · Penny Lane · OneDrive</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- 00 · SYNTHÈSE -->
+    <div class="section fade" id="s0">
+      <div class="s-eye">One-pager exécutif</div>
+      <h2 class="s-h"><em>Synthèse</em> & Décisions Prioritaires</h2>
+
+      <div class="callout callout-blue">
+        MDI repose sur un modèle à forte valeur ajoutée conseil — structuration de patrimoine, dossiers de financement, accompagnement de dirigeants. Mais <strong>2 à 3 jours par mois</strong> sont absorbés par des tâches sans valeur : saisie manuelle dans Penny Lane, mise en forme documentaire laborieuse, allers-retours de validation évitables. L'automatisation ciblée de ces deux flux libère du temps directement reversable en prospection — et construit un ROI positif en moins de 6 mois.
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi">
+          <div class="kpi-val">2–3 j</div>
+          <div class="kpi-label">perdus / mois</div>
+          <div class="kpi-sub">sur tâches sans valeur identifiées</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-val">~1 j</div>
+          <div class="kpi-label">récupéré / mois</div>
+          <div class="kpi-sub">gain net estimé après automatisation</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-val">&lt; 6 mois</div>
+          <div class="kpi-label">ROI cible</div>
+          <div class="kpi-sub">retour sur investissement projeté</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-val">3 flux</div>
+          <div class="kpi-label">automatisables</div>
+          <div class="kpi-sub">identifiés lors du R1</div>
+        </div>
+      </div>
+
+      <div class="two">
+        <div class="lcard">
+          <div class="lcard-title" style="color:var(--ab);">Décisions Prioritaires</div>
+          <ul>
+            <li><div class="dot dot-o"></div>Automatiser la collecte de documents clients et leur injection dans Penny Lane (zéro saisie manuelle)</li>
+            <li><div class="dot dot-o"></div>Extraire automatiquement les données des documents entrants et pré-remplir la mise en forme des dossiers de financement</li>
+            <li><div class="dot dot-o"></div>Mettre en place un outil de dépôt en ligne pour le service taxes foncières — génération automatique du courrier type</li>
+          </ul>
+        </div>
+        <div class="lcard">
+          <div class="lcard-title" style="color:var(--green);">Impact Attendu</div>
+          <ul>
+            <li><div class="dot dot-g"></div><strong>Temps libéré :</strong> suppression des saisies manuelles répétitives dans Penny Lane</li>
+            <li><div class="dot dot-g"></div>Dossiers de financement : de 2–3 jours à 1,5 jour — soit 1 jour/mois reversé en prospection</li>
+            <li><div class="dot dot-g"></div>Nouveau service taxes foncières opérationnel en ligne, sans charge administrative supplémentaire</li>
+            <li><div class="dot dot-g"></div>Effet boule de neige : 1 jour récupéré = 2 clients supplémentaires possibles/mois</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 01 · DIAGNOSTIC -->
+    <div class="section fade" id="s1">
+      <div class="s-eye">Diagnostic terrain · 28 mai 2026</div>
+      <h2 class="s-h"><em>1.</em> Diagnostic Terrain</h2>
+
+      <div class="two">
+        <div>
+          <div class="lcard" style="margin-bottom:8px;">
+            <div class="lcard-title" style="color:var(--ab);">Organisation & Activité</div>
+            <ul>
+              <li><div class="dot dot-b"></div>Structure solo — Arnaud Lafougère, dirigeant de MDI Reim</li>
+              <li><div class="dot dot-b"></div>Activité : accompagnement de dirigeants et investisseurs dans la structuration et l'optimisation de leur parc immobilier</li>
+              <li><div class="dot dot-b"></div>Missions variées : tableaux de bord patrimoniaux, avis de valeur, dossiers de financement, suivi de projets, gestion administrative de clients</li>
+              <li><div class="dot dot-b"></div>Phase de démarrage d'activité — en croissance, vigilance sur les investissements</li>
+            </ul>
+          </div>
+          <div class="lcard">
+            <div class="lcard-title" style="color:var(--ab);">Maturité Numérique</div>
+            <ul>
+              <li class="label-item"><div class="dot dot-b"></div><div class="label-content"><strong>Stack :</strong><span>Microsoft 365, OneDrive, SharePoint (en place mais sous-exploité), Penny Lane (comptabilité), PowerPoint</span></div></li>
+              <li class="label-item"><div class="dot dot-b"></div><div class="label-content"><strong>IA :</strong><span>Usage ponctuel de NotebookLM pour synthèse de documents — pas de workflow structuré</span></div></li>
+              <li class="label-item"><div class="dot dot-b"></div><div class="label-content"><strong>Automatisation :</strong><span>Inexistante — tout en manuel. Tentatives DIY (macros) sans solution suffisamment aboutie</span></div></li>
+            </ul>
+          </div>
+        </div>
+        <div class="lcard">
+          <div class="lcard-title" style="color:var(--red);">Pain Points Majeurs</div>
+          <ul>
+            <li class="label-item"><div class="dot dot-r"></div><div class="label-content"><strong>Collecte docs clients :</strong><span>Réception par mail ou connexion manuelle aux comptes tiers des clients (EDF, etc.) avec leurs accès — 100 % manuel</span></div></li>
+            <li class="label-item"><div class="dot dot-r"></div><div class="label-content"><strong>Saisie Penny Lane :</strong><span>Chaque document saisi, classé et rapproché manuellement de l'opération comptable correspondante</span></div></li>
+            <li class="label-item"><div class="dot dot-r"></div><div class="label-content"><strong>Dossiers financement :</strong><span>Documents hétérogènes (Excel, PDF, plans, photos) réinsérés manuellement dans une présentation PowerPoint — copier-coller fastidieux, carte, emplacement, données locataires...</span></div></li>
+            <li class="label-item"><div class="dot dot-r"></div><div class="label-content"><strong>Validation & envoi :</strong><span>Allers-retours de validation client (modifications, recalibrage) avant transmission finale — non structurés</span></div></li>
+            <li class="label-item"><div class="dot dot-r"></div><div class="label-content"><strong>Taxes foncières :</strong><span>Traitement manuel des demandes client — pas d'outil de dépôt en ligne ni de génération automatisée du courrier type</span></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 · CARTOGRAPHIE -->
+    <div class="section fade" id="s2">
+      <div class="s-eye">Analyse des processus</div>
+      <h2 class="s-h"><em>2.</em> Cartographie Process</h2>
+      <div class="tbl">
+        <table>
+          <thead>
+            <tr><th>Processus</th><th>Fréquence</th><th>Outils actuels</th><th>Temps estimé</th><th>Frictions identifiées</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="fw">Collecte documents clients
+                <span class="td-sub">Gestion administrative → Penny Lane</span>
+              </td>
+              <td>Mensuel · récurrent</td>
+              <td>Mail entrant, accès comptes tiers, Penny Lane</td>
+              <td class="imp-b">Non mesuré — chronophage</td>
+              <td>Connexion manuelle aux comptes clients (EDF...), saisie doc par doc, rapprochement comptable à la main, édition factures à la main</td>
+            </tr>
+            <tr>
+              <td class="fw">Dossiers de financement
+                <span class="td-sub">Analyse + mise en forme + envoi client</span>
+              </td>
+              <td>~1 fois / mois</td>
+              <td>Excel, PDF, photos, PowerPoint, OneDrive, mail</td>
+              <td class="imp-b">2 à 3 jours / dossier</td>
+              <td>Documents hétérogènes ouverts un à un — données réinsérées manuellement dans PPT. Conversion PDF, renommage, email + allers-retours clients</td>
+            </tr>
+            <tr>
+              <td class="fw">Avis de valeur
+                <span class="td-sub">Valorisation de bien immobilier</span>
+              </td>
+              <td>Ponctuel</td>
+              <td>Données marché, Excel, PowerPoint</td>
+              <td class="imp-m">Variable</td>
+              <td>Mise en forme manuelle similaire au dossier de financement — automatisation partielle possible. Outils tiers existants sur ce segment (non prioritaire)</td>
+            </tr>
+            <tr>
+              <td class="fw">Service taxes foncières
+                <span class="td-sub">Réception demande → courrier cadastre</span>
+              </td>
+              <td>À mettre en place</td>
+              <td>Mail, aucun outil web actuellement</td>
+              <td class="imp-b">Traitement manuel aujourd'hui</td>
+              <td>Pas de formulaire de dépôt en ligne — avis donné sous 48–72h mais sans outil structuré. Génération du courrier type 100 % manuelle</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 03 · SCORING -->
+    <div class="section fade" id="s3">
+      <div class="s-eye">Scoring & priorisation</div>
+      <h2 class="s-h"><em>3.</em> Scoring & Priorisation</h2>
+      <div class="tbl">
+        <table>
+          <thead>
+            <tr><th>Opportunité d'automatisation</th><th style="text-align:center">Score</th><th>Priorité</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="fw">Collecte documents clients + injection automatique Penny Lane</td>
+              <td style="text-align:center"><span class="stars">★★★★★★★★★★</span> <span style="font-size:.7rem;color:var(--muted);">10/10</span></td>
+              <td><span class="badge badge-red">#1 Immédiat</span></td>
+            </tr>
+            <tr>
+              <td class="fw">Extraction de données documentaires + pré-remplissage dossier financement (PPT automatisé)</td>
+              <td style="text-align:center"><span class="stars">★★★★★★★★★</span><span class="stars-off">★</span> <span style="font-size:.7rem;color:var(--muted);">9/10</span></td>
+              <td><span class="badge badge-red">#2 Rapproché</span></td>
+            </tr>
+            <tr>
+              <td class="fw">Outil web taxes foncières — dépôt en ligne + génération courrier type cadastre</td>
+              <td style="text-align:center"><span class="stars">★★★★★★★</span><span class="stars-off">★★★</span> <span style="font-size:.7rem;color:var(--muted);">7/10</span></td>
+              <td><span class="badge badge-amber">#3 Court terme</span></td>
+            </tr>
+            <tr>
+              <td class="fw">Automatisation de la conversion PDF + renommage + envoi email dossier</td>
+              <td style="text-align:center"><span class="stars">★★★★★★</span><span class="stars-off">★★★★</span> <span style="font-size:.7rem;color:var(--muted);">6/10</span></td>
+              <td><span class="badge badge-blue">Structurant</span></td>
+            </tr>
+            <tr>
+              <td class="fw">Automatisation des avis de valeur</td>
+              <td style="text-align:center"><span class="stars">★★★★</span><span class="stars-off">★★★★★★</span> <span style="font-size:.7rem;color:var(--muted);">4/10</span></td>
+              <td><span class="badge badge-gray">Différé</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 04 · SOP -->
+    <div class="section fade" id="s4">
+      <div class="s-eye">Procédure opérationnelle cible</div>
+      <h2 class="s-h"><em>4.</em> SOP — Process Cibles Recommandés</h2>
+
+      <div class="callout callout-blue">
+        <strong>Process Admin Clients Automatisé</strong> — Du document reçu à la facture Penny Lane, sans saisie manuelle.
+      </div>
+
+      <div class="sop-steps">
+        <div class="sop-step">
+          <div class="step-n">1</div>
+          <div class="step-b">
+            <div class="step-title">Réception & centralisation des documents clients</div>
+            <ul class="step-list">
+              <li>Le client dépose ses documents via un espace dédié (portail web) ou les envoie par mail</li>
+              <li>Un agent IA surveille la boîte mail et classe automatiquement les pièces reçues par client et par catégorie</li>
+              <li>Conversion automatique en PDF si nécessaire + renommage normalisé</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sop-step">
+          <div class="step-n">2</div>
+          <div class="step-b">
+            <div class="step-title">Injection automatique dans Penny Lane</div>
+            <ul class="step-list">
+              <li>Documents rattachés à la fiche client correspondante dans Penny Lane</li>
+              <li>Lecture des données clés + rapprochement avec les articles existants (déjà créés dans Penny Lane)</li>
+              <li>Pré-remplissage de la facture — validation humaine en un clic avant envoi</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" style="margin-top:12px;">
+        <strong>Process Dossier de Financement Automatisé</strong> — Des documents bruts à la présentation finalisée prête à envoyer.
+      </div>
+
+      <div class="sop-steps">
+        <div class="sop-step">
+          <div class="step-n">1</div>
+          <div class="step-b">
+            <div class="step-title">Extraction intelligente des données documentaires</div>
+            <ul class="step-list">
+              <li>Lecture automatique des documents entrants : Excel, PDF, plans, photos, données locataires, informations bien</li>
+              <li>Extraction des champs clés selon la trame connue (adresse, localisation, loyers, locataires, échangeur autoroute...)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sop-step">
+          <div class="step-n">2</div>
+          <div class="step-b">
+            <div class="step-title">Génération automatique de la présentation PowerPoint</div>
+            <ul class="step-list">
+              <li>Injection des données extraites dans le template PPT existant — zéro copier-coller manuel</li>
+              <li>Carte et emplacement intégrés automatiquement si données géographiques disponibles</li>
+              <li>Conversion PDF + renommage automatique + préparation de l'email de transmission</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sop-step">
+          <div class="step-n">3</div>
+          <div class="step-b">
+            <div class="step-title">Validation & envoi en un clic</div>
+            <ul class="step-list">
+              <li>Arnaud relit et valide le dossier — intervention sur les données sensibles si nécessaire</li>
+              <li>Envoi au client directement depuis l'outil, avec suivi de la validation et des allers-retours</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="sop-result">
+        <div class="sr-item"><div class="sr-val">~1,5 j</div><div class="sr-lab">dossier financement cible</div></div>
+        <div class="sr-item"><div class="sr-val">0 saisie</div><div class="sr-lab">manuelle Penny Lane</div></div>
+        <div class="sr-item"><div class="sr-val">~1 j</div><div class="sr-lab">récupéré / mois</div></div>
+        <div class="sr-item"><div class="sr-val">&lt; 6 mois</div><div class="sr-lab">retour sur invest.</div></div>
+      </div>
+    </div>
+
+    <!-- 05 · ROI -->
+    <div class="section fade" id="s5">
+      <div class="s-eye">Valeur & projection financière</div>
+      <h2 class="s-h"><em>5.</em> ROI Projeté</h2>
+
+      <div class="callout callout-green">
+        <strong>La logique est simple :</strong> chaque heure récupérée sur l'administratif est une heure disponible pour prospecter, signer, et facturer. Sur une activité en démarrage, l'effet est immédiat et cumulatif.
+      </div>
+
+      <div class="roi-box">
+        <div class="roi-title">Calcul de projection — base conservatrice</div>
+        <div class="roi-row">
+          <span class="roi-arrow">→</span>
+          <span>Temps actuel sur process 1 (admin Penny Lane) + process 2 (dossier financement)</span>
+          <span class="roi-val" style="color:var(--red);">~2,5 jours/mois</span>
+        </div>
+        <div class="roi-row">
+          <span class="roi-arrow">→</span>
+          <span>Temps estimé après automatisation des deux process</span>
+          <span class="roi-val" style="color:var(--ab);">~1,5 jour/mois</span>
+        </div>
+        <div class="roi-row">
+          <span class="roi-arrow">→</span>
+          <span>Gain net mensuel — temps reversé disponible</span>
+          <span class="roi-val">~1 jour (~10–12h)</span>
+        </div>
+        <div class="roi-row">
+          <span class="roi-arrow">→</span>
+          <span>Valorisation de ce temps à 50 €/h (base basse pour un dirigeant)</span>
+          <span class="roi-val">600 €/mois économisés</span>
+        </div>
+        <div class="roi-row">
+          <span class="roi-arrow">→</span>
+          <span>Si ce jour est utilisé en prospection (taux de conversion 20–30%) : 2 clients supplémentaires possibles/mois</span>
+          <span class="roi-val">+6 000 €/mois potentiels</span>
+        </div>
+      </div>
+
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Indicateur</th><th>Aujourd'hui</th><th>À 3 mois</th><th>À 6 mois</th></tr></thead>
+          <tbody>
+            <tr><td class="fw">Temps traitement dossier financement</td><td class="imp-b">2–3 jours</td><td class="imp-m">~1,5 jour</td><td class="imp-a">~1 jour</td></tr>
+            <tr><td class="fw">Saisie documents → Penny Lane</td><td class="imp-b">100 % manuelle</td><td class="imp-m">Semi-automatisée</td><td class="imp-a">Automatique</td></tr>
+            <tr><td class="fw">Mise en forme PPT dossier</td><td class="imp-b">Copier-coller manuel</td><td class="imp-m">Semi-auto (trame)</td><td class="imp-a">Génération auto</td></tr>
+            <tr><td class="fw">Service taxes foncières</td><td class="imp-b">Traitement manuel</td><td class="imp-m">Formulaire en ligne</td><td class="imp-a">Courrier auto généré</td></tr>
+            <tr><td class="fw">Temps disponible pour prospection</td><td class="imp-b">Réduit par l'admin</td><td class="imp-m">+0,5 j/mois</td><td class="imp-a">+1 j/mois</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-amber">
+        <strong>Point de vigilance :</strong> le ROI est réel uniquement si le temps récupéré est activement utilisé en prospection ou en production facturable. L'automatisation crée le levier — l'exploitation du temps libéré détermine l'ampleur du retour.
+      </div>
+    </div>
+
+    <!-- 06 · ROADMAP -->
+    <div class="section fade" id="s6">
+      <div class="s-eye">Planification</div>
+      <h2 class="s-h"><em>6.</em> Roadmap d'Automatisation</h2>
+      <div class="roadmap">
+        <div class="phase">
+          <div class="phase-stripe"></div>
+          <div class="phase-bd">
+            <div class="phase-num">Quick Wins</div>
+            <div class="phase-name">0–3 mois</div>
+            <div class="phase-period">Priorité immédiate</div>
+            <div class="phase-item">Agent IA de collecte mail → classement automatique des documents clients</div>
+            <div class="phase-item">Injection automatique dans Penny Lane — zéro saisie manuelle</div>
+            <div class="phase-item">Conversion PDF + renommage normalisé des pièces reçues</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-stripe"></div>
+          <div class="phase-bd">
+            <div class="phase-num">Structurant</div>
+            <div class="phase-name">3–6 mois</div>
+            <div class="phase-period">Consolidation</div>
+            <div class="phase-item">Extraction intelligente des données documentaires → pré-remplissage PPT dossier financement</div>
+            <div class="phase-item">Outil web taxes foncières — formulaire de dépôt + génération courrier type</div>
+            <div class="phase-item">Workflow de validation et envoi en un clic depuis OneDrive</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-stripe"></div>
+          <div class="phase-bd">
+            <div class="phase-num">À différer</div>
+            <div class="phase-name">6 mois+</div>
+            <div class="phase-period">Complexité élevée</div>
+            <div class="phase-item">Automatisation des avis de valeur (segment couvert par outils tiers — à évaluer)</div>
+            <div class="phase-item">Tableaux de bord patrimoniaux automatisés — consolidation multi-sources</div>
+            <div class="phase-item">Suivi de projet immobilier assisté — alertes et jalons automatiques</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 07 · NEXT STEPS -->
+    <div class="section fade" id="s7">
+      <div class="s-eye">Prochaines étapes</div>
+      <h2 class="s-h"><em>7.</em> Next Steps</h2>
+
+      <div class="rdv">
+        <div>
+          <div class="rdv-ll">Rendez-vous R2 — Audit approfondi</div>
+          <div class="rdv-lv">Jeudi 4 juin 2026 · 11h00</div>
+        </div>
+        <div>
+          <div class="rdv-rl">Invitation envoyée à</div>
+          <div class="rdv-rv">al@mdireim.fr</div>
+        </div>
+      </div>
+
+      <div class="next-grid">
+        <div class="ncard">
+          <div class="ncard-head"><span style="font-size:.85rem;">🏢</span><span class="ncard-title">MDI — Avant le R2</span></div>
+          <div class="ncard-body">
+            <div class="ncard-item">Mettre de côté un exemple de dossier de financement anonymisé (données en entrée + présentation PPT de sortie)</div>
+            <div class="ncard-item">Vérifier la version Penny Lane utilisée et l'accessibilité des données en export</div>
+            <div class="ncard-item">Lister les clients pour lesquels la gestion administrative est active (volume de documents/mois)</div>
+          </div>
+        </div>
+        <div class="ncard">
+          <div class="ncard-head">
+            <span style="font-size:.85rem;background:var(--adai);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:800;line-height:1;">A</span>
+            <span class="ncard-title">ADAI — Préparation R2</span>
+          </div>
+          <div class="ncard-body">
+            <div class="ncard-item">Cartographier en détail les deux process prioritaires et préparer la grille d'audit technique</div>
+            <div class="ncard-item">Étudier la connectivité Penny Lane (API, exports, webhooks) pour chiffrer la solution admin</div>
+            <div class="ncard-item">Préparer une présentation modulaire avec estimation de coût et ROI par module</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="doc-footer">
+      <span class="footer-brand">ADAI — Création & Automation</span>
+      <span class="footer-conf">Document confidentiel · MDI — Arnaud Lafougère · Mai 2026</span>
+    </div>
+
+  </div>
+</main>
+
+<script>
+const prog = document.getElementById('prog');
+window.addEventListener('scroll', () => {
+  prog.style.transform = `scaleX(${window.scrollY / (document.body.scrollHeight - window.innerHeight)})`;
+});
+
+function go(btn, id) {
+  document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id)?.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+const ids = ['s0','s1','s2','s3','s4','s5','s6','s7'];
+const links = document.querySelectorAll('.sb-link');
+window.addEventListener('scroll', () => {
+  let cur = 0;
+  ids.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - 100) cur = i;
+  });
+  links.forEach((l, i) => l.classList.toggle('active', i === cur));
+});
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); } });
+}, { threshold: 0.06 });
+document.querySelectorAll('.fade').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
